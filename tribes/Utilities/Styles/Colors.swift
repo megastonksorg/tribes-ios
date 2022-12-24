@@ -12,10 +12,10 @@ public extension Color {
 }
 
 public extension Color.app {
-	static let background: Color = Color.black
+	static let background: Color = Color(uiColor: UIColor(hex: "1F0602"))
 	static let black: Color = Color(uiColor: UIColor(hex: "0D1114"))
-	static let green: Color = Color(uiColor: UIColor(hex: "3AD77E"))
-	static let darkGreen: Color = Color(uiColor: UIColor(hex: "4BBD20"))
+	static let brown: Color = Color(uiColor: UIColor(hex: "B04A2B"))
+	static let darkBrown: Color = Color(uiColor: UIColor(hex: "1F0602"))
 	static let red: Color = Color(uiColor: UIColor(hex: "D73A3A"))
 	static let card: Color = Color(uiColor: UIColor(hex: "232328"))
 	static let cardStroke: Color = Color(uiColor: UIColor(hex: "3E3E3E"))

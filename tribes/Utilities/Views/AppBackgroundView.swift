@@ -13,7 +13,7 @@ struct AppBackgroundView: View {
 			.overlay(LinearGradient.black)
 			.overlay(
 				Circle()
-					.fill(Color.app.green)
+					.fill(Color.app.brown)
 					.frame(size: SizeConstants.backgroundCircle)
 					.blur(radius: 80)
 			)

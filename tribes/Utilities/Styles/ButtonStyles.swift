@@ -43,7 +43,7 @@ struct ExpandedButtonStyle: ButtonStyle {
 			} else {
 				if isEnabled {
 					shape()
-						.fill(Color.app.green)
+						.fill(Color.app.brown)
 				} else {
 					invertedButtonStyleView()
 				}

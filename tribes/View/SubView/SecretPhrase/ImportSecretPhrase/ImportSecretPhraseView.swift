@@ -65,7 +65,7 @@ struct ImportSecretPhraseView: View {
 						.background {
 							if isWordReal {
 								RoundedRectangle(cornerRadius: cornerRadius)
-									.fill(Color.app.green)
+									.fill(Color.app.brown)
 									.frame(size: frame)
 							}
 							else {

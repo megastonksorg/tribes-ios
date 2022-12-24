@@ -40,7 +40,7 @@ struct MnemonicWordView: View {
 				.overlay(
 					RoundedRectangle(cornerRadius: cornerRadius)
 						.stroke(
-							word!.isSelected ? Color.app.green : Color.white.opacity(0.6),
+							word!.isSelected ? Color.app.brown : Color.white.opacity(0.6),
 							style: StrokeStyle(
 								lineWidth: 1,
 								lineCap: .round,
@@ -68,7 +68,7 @@ struct MnemonicWordView: View {
 					}
 					else {
 						RoundedRectangle(cornerRadius: cornerRadius)
-							.fill(Color.app.green)
+							.fill(Color.app.brown)
 							.frame(size: size)
 					}
 				}

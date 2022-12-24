@@ -21,7 +21,7 @@ struct SlidingButtonView: View {
 		
 		var colorTheme: Color {
 			switch self {
-			case .yea: return Color.app.green
+			case .yea: return Color.app.brown
 			case .nay: return Color.app.red
 			}
 		}
