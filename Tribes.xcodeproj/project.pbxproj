@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D029D81E2957548400EA4C07 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D029D81D2957548400EA4C07 /* AppView.swift */; };
 		D030D28129573E9A0011128F /* TribesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030D28029573E9A0011128F /* TribesApp.swift */; };
-		D030D28329573E9A0011128F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030D28229573E9A0011128F /* ContentView.swift */; };
 		D030D28529573E9B0011128F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D030D28429573E9B0011128F /* Assets.xcassets */; };
 		D030D28829573E9B0011128F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D030D28729573E9B0011128F /* Preview Assets.xcassets */; };
 		D030D290295744A80011128F /* IdentifiedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = D030D28F295744A80011128F /* IdentifiedCollections */; };
@@ -77,9 +77,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D029D81D2957548400EA4C07 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		D030D27D29573E9A0011128F /* Tribes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tribes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D030D28029573E9A0011128F /* TribesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TribesApp.swift; sourceTree = "<group>"; };
-		D030D28229573E9A0011128F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D030D28429573E9B0011128F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D030D28729573E9B0011128F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		D030D298295745970011128F /* AppRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
@@ -184,9 +184,9 @@
 				D030D3002957460B0011128F /* View */,
 				D030D2972957457D0011128F /* ViewModel */,
 				D030D28029573E9A0011128F /* TribesApp.swift */,
-				D030D28229573E9A0011128F /* ContentView.swift */,
 				D030D28429573E9B0011128F /* Assets.xcassets */,
 				D030D28629573E9B0011128F /* Preview Content */,
+				D029D81D2957548400EA4C07 /* AppView.swift */,
 			);
 			path = Tribes;
 			sourceTree = "<group>";
@@ -504,7 +504,6 @@
 				D030D2D1295745E90011128F /* String+Extension.swift in Sources */,
 				D030D2AC295745C20011128F /* PasteboardClient.swift in Sources */,
 				D030D2E7295745E90011128F /* TextFieldBackgroundView.swift in Sources */,
-				D030D28329573E9A0011128F /* ContentView.swift in Sources */,
 				D030D2FD295745F90011128F /* Authenticate.swift in Sources */,
 				D030D2F7295745F90011128F /* MnemonicWord.swift in Sources */,
 				D030D28129573E9A0011128F /* TribesApp.swift in Sources */,
@@ -512,6 +511,7 @@
 				D030D2FF295745F90011128F /* Wallet.swift in Sources */,
 				D030D2A9295745C20011128F /* APPUrlRequest.swift in Sources */,
 				D030D2D6295745E90011128F /* View+Overlay.swift in Sources */,
+				D029D81E2957548400EA4C07 /* AppView.swift in Sources */,
 				D030D29A295745970011128F /* AppRouter.swift in Sources */,
 				D030D3182957460B0011128F /* VerifySecretPhraseView.swift in Sources */,
 				D030D2FC295745F90011128F /* Register.swift in Sources */,
