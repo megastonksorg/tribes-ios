@@ -8,24 +8,43 @@
 import WalletCore
 import SwiftKeychainWrapper
 
-class WalletClient {
-	
+struct SignedMessage {
+	let signature: String
+	let address: String
+}
+
+protocol WalletClientProtocol {
 	typealias WalletClientError = AppError.WalletError
 	
-	struct SignedMessage {
-		let signature: String
-		let address: String
-	}
+	func generateNewWallet() -> Result<HDWallet, WalletClientError>
+	func getAddress(_ hdWallet: HDWallet) -> String
+	func getMnemonic() -> Result<String, WalletClientError>
+	func importWallet(mnemonic: String) -> Result<HDWallet, WalletClientError>
+	func saveMnemonic(mnemonic: String)
+	func signMessage(message: String) -> Result<SignedMessage, WalletClientError>
+	func verifyMnemonic(mnemonic: String) -> Result<String, WalletClientError>
+}
+
+class WalletClient: WalletClientProtocol {
+	static let shared = WalletClient()
 	
 	private let passPhrase: String = ""
 	private let coinType: WalletCore.CoinType = .ethereum
-	
-	static let shared = WalletClient()
 	
 	func generateNewWallet() -> Result<HDWallet, WalletClientError> {
 		guard let wallet = HDWallet(strength: 128, passphrase: passPhrase)
 		else { return .failure(.couldNotGenerateWallet) }
 		return .success(wallet)
+	}
+	
+	func getAddress(_ hdWallet: HDWallet) -> String {
+		return hdWallet.getAddressForCoin(coin: coinType)
+	}
+	
+	func getMnemonic() -> Result<String, WalletClientError> {
+		guard let mnemonic: String = KeychainWrapper.standard.string(forKey: .mnemonic)
+		else { return .failure(.errorRetrievingMnemonic) }
+		return .success(mnemonic)
 	}
 	
 	func importWallet(mnemonic: String) -> Result<HDWallet, WalletClientError> {
@@ -36,28 +55,6 @@ class WalletClient {
 	
 	func saveMnemonic(mnemonic: String) {
 		KeychainWrapper.standard.set(mnemonic, forKey: KeychainWrapper.Key.mnemonic.rawValue)
-	}
-	
-	func getMnemonic() -> Result<String, WalletClientError> {
-		guard let mnemonic: String = KeychainWrapper.standard.string(forKey: .mnemonic)
-		else { return .failure(.errorRetrievingMnemonic) }
-		return .success(mnemonic)
-	}
-	
-	func verifyMnemonic(mnemonic: String) -> Result<String, WalletClientError> {
-		switch self.getMnemonic() {
-			case .success(let savedMnemonic):
-				if mnemonic == savedMnemonic {
-					guard case .success(let wallet) = self.importWallet(mnemonic: mnemonic) else { return .failure(.couldNotVerifyMnemonic) }
-					
-					return .success(wallet.getAddressForCoin(coin: coinType))
-				}
-				else {
-					return .failure(.couldNotVerifyMnemonic)
-				}
-			case .failure(let error):
-				return .failure(error)
-		}
 	}
 	
 	func signMessage(message: String) -> Result<SignedMessage, WalletClientError> {
@@ -81,7 +78,19 @@ class WalletClient {
 		return .success(SignedMessage(signature: signature.hexString, address: address))
 	}
 	
-	func getAddress(_ hdWallet: HDWallet) -> String {
-		return hdWallet.getAddressForCoin(coin: coinType)
+	func verifyMnemonic(mnemonic: String) -> Result<String, WalletClientError> {
+		switch self.getMnemonic() {
+			case .success(let savedMnemonic):
+				if mnemonic == savedMnemonic {
+					guard case .success(let wallet) = self.importWallet(mnemonic: mnemonic) else { return .failure(.couldNotVerifyMnemonic) }
+					
+					return .success(wallet.getAddressForCoin(coin: coinType))
+				}
+				else {
+					return .failure(.couldNotVerifyMnemonic)
+				}
+			case .failure(let error):
+				return .failure(error)
+		}
 	}
 }
