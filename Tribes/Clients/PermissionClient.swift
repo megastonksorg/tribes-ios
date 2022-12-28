@@ -8,50 +8,51 @@
 import AVFoundation
 import Foundation
 
-struct PermissionClient {
-	@frozen enum PermissionState {
-		case undetermined, allowed, denied
-	}
-	
-	//Recording Permission
-	var checkRecordPermission: () -> PermissionState
-	var requestRecordPermission: () async -> PermissionState
-	
-	//Camera Permission
-	var checkCameraPermission: () -> PermissionState
-	var requestCameraPermission: () async -> PermissionState
+@frozen enum PermissionState {
+	case undetermined, allowed, denied
 }
 
-extension PermissionClient {
-	static var live: PermissionClient {
-		PermissionClient(
-			checkRecordPermission: {
-				switch AVAudioSession.sharedInstance().recordPermission {
-				case .undetermined: return .undetermined
-				case .denied: return .denied
-				case .granted: return .allowed
-				@unknown default: return .undetermined
-				}
-			},
-			requestRecordPermission: {
-				await withCheckedContinuation { continuation in
-					AVAudioSession.sharedInstance().requestRecordPermission { granted in
-						continuation.resume(returning: granted ? .allowed : .denied)
-					}
-				}
-			},
-			checkCameraPermission: {
-				switch AVCaptureDevice.authorizationStatus(for: .video) {
-				case .authorized: return .allowed
-				case .denied, .restricted: return .denied
-				case .notDetermined: return .undetermined
-				@unknown default: return .undetermined
-				}
-			},
-			requestCameraPermission: {
-				let permissionGranted = await AVCaptureDevice.requestAccess(for: .video)
-				return permissionGranted ? .allowed : .denied
+protocol PermissionClientProtocol {
+	//Recording Permission
+	func checkRecordPermission() -> PermissionState
+	func requestRecordPermission() async -> PermissionState
+	
+	//Camera Permission
+	func checkCameraPermission() -> PermissionState
+	func requestCameraPermission() async -> PermissionState
+}
+
+class PermissionClient: PermissionClientProtocol {
+	static var shared = PermissionClient()
+	
+	func checkRecordPermission() -> PermissionState {
+		switch AVAudioSession.sharedInstance().recordPermission {
+		case .undetermined: return .undetermined
+		case .denied: return .denied
+		case .granted: return .allowed
+		@unknown default: return .undetermined
+		}
+	}
+	
+	func requestRecordPermission() async -> PermissionState {
+		await withCheckedContinuation { continuation in
+			AVAudioSession.sharedInstance().requestRecordPermission { granted in
+				continuation.resume(returning: granted ? .allowed : .denied)
 			}
-		)
+		}
+	}
+	
+	func checkCameraPermission() -> PermissionState {
+		switch AVCaptureDevice.authorizationStatus(for: .video) {
+		case .authorized: return .allowed
+		case .denied, .restricted: return .denied
+		case .notDetermined: return .undetermined
+		@unknown default: return .undetermined
+		}
+	}
+	
+	func requestCameraPermission() async -> PermissionState {
+		let permissionGranted = await AVCaptureDevice.requestAccess(for: .video)
+		return permissionGranted ? .allowed : .denied
 	}
 }
