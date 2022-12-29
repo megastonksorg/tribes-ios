@@ -21,7 +21,9 @@ class CaptureClient: CaptureClientProtocol {
 		case configurationFailed
 	}
 	
-	private let captureDevice: AVCaptureDevice?
+	private var captureDevice: AVCaptureDevice?
+	private var captureDeviceInput: AVCaptureDeviceInput?
+	private let capturePhotoOutput: AVCapturePhotoOutput
 	private let captureSession: AVCaptureSession
 	
 	private var hasAddedIO: Bool
@@ -47,6 +49,7 @@ class CaptureClient: CaptureClientProtocol {
 				return nil
 			}
 		}()
+		self.capturePhotoOutput = AVCapturePhotoOutput()
 		self.captureSession = AVCaptureSession()
 		
 		self.hasAddedIO = false
@@ -59,25 +62,45 @@ class CaptureClient: CaptureClientProtocol {
 		case .allowed:
 			break
 		case .undetermined, .denied:
-			setupResult = .notAuthorized
+			self.setupResult = .notAuthorized
 			return
 		}
 		
 		//Add Input to Capture Session
-		
-	}
-	
-	private func addInput() throws {
 		do {
-			guard let captureDevice = self.captureDevice else { return }
-			captureSession.beginConfiguration()
-			captureSession.sessionPreset = .photo
-		} catch {
-			
+			try addInput()
+			try addOutput()
+			captureSession.commitConfiguration()
+		} catch  {
+			captureSession.commitConfiguration()
+			self.setupResult = .configurationFailed
+			print("Camera Setup Failed: \(error.localizedDescription)")
 		}
 	}
 	
-	private func addOutput() {
+	private func addInput() throws {
+		guard let captureDevice = self.captureDevice else {
+			throw AppError.CaptureClientError.noCaptureDevice
+		}
+		captureSession.beginConfiguration()
+		captureSession.sessionPreset = .photo
 		
+		let captureDeviceInput = try AVCaptureDeviceInput(device: captureDevice)
+		
+		if captureSession.canAddInput(captureDeviceInput) {
+			captureSession.addInput(captureDeviceInput)
+			self.captureDeviceInput = captureDeviceInput
+		} else {
+			throw AppError.CaptureClientError.couldNotAddVideoInput
+		}
+	}
+	
+	private func addOutput() throws {
+		//Add photo output
+		if captureSession.canAddOutput(capturePhotoOutput) {
+			captureSession.addOutput(capturePhotoOutput)
+		} else {
+			throw AppError.CaptureClientError.couldNotAddPhotoOutput
+		}
 	}
 }
