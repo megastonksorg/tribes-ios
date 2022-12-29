@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D0158076295CAE390087545A /* PermissionClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0158075295CAE390087545A /* PermissionClient.swift */; };
+		D0158079295D14880087545A /* CaptureClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0158078295D14880087545A /* CaptureClient.swift */; };
 		D029D81E2957548400EA4C07 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D029D81D2957548400EA4C07 /* AppView.swift */; };
 		D030D28129573E9A0011128F /* TribesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030D28029573E9A0011128F /* TribesApp.swift */; };
 		D030D28529573E9B0011128F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D030D28429573E9B0011128F /* Assets.xcassets */; };
@@ -79,6 +80,7 @@
 
 /* Begin PBXFileReference section */
 		D0158075295CAE390087545A /* PermissionClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionClient.swift; sourceTree = "<group>"; };
+		D0158078295D14880087545A /* CaptureClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureClient.swift; sourceTree = "<group>"; };
 		D029D81D2957548400EA4C07 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		D030D27D29573E9A0011128F /* Tribes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tribes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D030D28029573E9A0011128F /* TribesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TribesApp.swift; sourceTree = "<group>"; };
@@ -218,6 +220,7 @@
 				D030D2A5295745C20011128F /* PasteboardClient.swift */,
 				D0158075295CAE390087545A /* PermissionClient.swift */,
 				D030D2A3295745C20011128F /* WalletClient.swift */,
+				D0158078295D14880087545A /* CaptureClient.swift */,
 			);
 			path = Clients;
 			sourceTree = "<group>";
@@ -507,6 +510,7 @@
 				D030D2A9295745C20011128F /* APPUrlRequest.swift in Sources */,
 				D030D2D6295745E90011128F /* View+Overlay.swift in Sources */,
 				D029D81E2957548400EA4C07 /* AppView.swift in Sources */,
+				D0158079295D14880087545A /* CaptureClient.swift in Sources */,
 				D030D29A295745970011128F /* AppRouter.swift in Sources */,
 				D030D3182957460B0011128F /* VerifySecretPhraseView.swift in Sources */,
 				D030D2FC295745F90011128F /* Register.swift in Sources */,

@@ -9,6 +9,22 @@ import Foundation
 
 enum AppError: Error {
 	
+	enum APIClientError: Error {
+		case invalidURL
+		case httpError(statusCode: Int, data: Data)
+		case decodingError
+		case rawError(String)
+		
+		var title: String { "API Error" }
+	}
+	
+	enum CaptureClientError: Error {
+		case couldNotAddInput
+		case noCaptureDevice
+		
+		var title: String { "Capture Error" }
+	}
+	
 	enum WalletError: Error {
 		case couldNotGenerateWallet
 		case couldNotImportWallet
@@ -20,16 +36,53 @@ enum AppError: Error {
 		var title: String { "Wallet Error" }
 	}
 	
-	enum APIClientError: Error {
-		case invalidURL
-		case httpError(statusCode: Int, data: Data)
-		case decodingError
-		case rawError(String)
-		var title: String { "API Error" }
-	}
-	
-	case walletError(WalletError)
 	case apiClientError(APIClientError)
+	case captureClientError(CaptureClientError)
+	case walletError(WalletError)
+}
+
+extension AppError.APIClientError: LocalizedError {
+	var errorDescription: String? {
+		switch self {
+			case .invalidURL:
+				return NSLocalizedString(
+					"Request URL could not be formed or is Invalid",
+					comment: "Invalid Url"
+				)
+			case let .httpError(statusCode: statusCode, data: data):
+				return NSLocalizedString(
+					"Error \(statusCode) Processing Request: \(String(decoding: data, as: UTF8.self))",
+					comment: "HTTP Error"
+				)
+			case .decodingError:
+				return NSLocalizedString(
+					"Error Decoding Object: Please try that again",
+					comment: "Decoder Error"
+				)
+			case .rawError(let error):
+				return NSLocalizedString(
+					"\(error)",
+					comment: "Raw Error"
+				)
+		}
+	}
+}
+
+extension AppError.CaptureClientError: LocalizedError {
+	var errorDescription: String? {
+		switch self {
+		case .couldNotAddInput:
+			return NSLocalizedString(
+				"Input device could not be added to the capture session",
+				comment: "Could not add input"
+			)
+		case .noCaptureDevice:
+			return NSLocalizedString(
+				"Could not find a capture device",
+				comment: "No Capture Device"
+			)
+		}
+	}
 }
 
 extension AppError.WalletError: LocalizedError {
@@ -64,33 +117,6 @@ extension AppError.WalletError: LocalizedError {
 				return NSLocalizedString(
 					"Error encountered while retrieving mnemonic",
 					comment: "Error Retrieving Mnemonic"
-				)
-		}
-	}
-}
-
-extension AppError.APIClientError: LocalizedError {
-	var errorDescription: String? {
-		switch self {
-			case .invalidURL:
-				return NSLocalizedString(
-					"Request URL could not be formed or is Invalid",
-					comment: "Invalid Url"
-				)
-			case let .httpError(statusCode: statusCode, data: data):
-				return NSLocalizedString(
-					"Error \(statusCode) Processing Request: \(String(decoding: data, as: UTF8.self))",
-					comment: "HTTP Error"
-				)
-			case .decodingError:
-				return NSLocalizedString(
-					"Error Decoding Object: Please try that again",
-					comment: "Decoder Error"
-				)
-			case .rawError(let error):
-				return NSLocalizedString(
-					"\(error)",
-					comment: "Raw Error"
 				)
 		}
 	}
