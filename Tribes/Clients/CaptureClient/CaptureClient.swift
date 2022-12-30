@@ -12,6 +12,8 @@ import UIKit
 
 protocol CaptureClientProtocol {
 	var captureValuePublisher: AnyPublisher<CaptureValue, Never> { get }
+	func startCaptureSession()
+	func stopCaptureSession()
 }
 
 class CaptureClient: NSObject, CaptureClientProtocol, AVCaptureVideoDataOutputSampleBufferDelegate {
@@ -88,12 +90,6 @@ class CaptureClient: NSObject, CaptureClientProtocol, AVCaptureVideoDataOutputSa
 			try addInput()
 			try addOutput()
 			captureSession.commitConfiguration()
-			
-			sessionQueue.async {
-				self.captureSession.startRunning()
-				print(self.captureSession.isRunning)
-			}
-			
 		} catch {
 			captureSession.commitConfiguration()
 			self.setupResult = .configurationFailed
@@ -154,6 +150,18 @@ class CaptureClient: NSObject, CaptureClientProtocol, AVCaptureVideoDataOutputSa
 			captureSession.addConnection(dataConnection)
 		} else {
 			throw AppError.CaptureClientError.couldNotAddDataConnection
+		}
+	}
+	
+	func startCaptureSession() {
+		sessionQueue.async {
+			self.captureSession.startRunning()
+		}
+	}
+	
+	func stopCaptureSession() {
+		sessionQueue.async {
+			self.captureSession.stopRunning()
 		}
 	}
 	
