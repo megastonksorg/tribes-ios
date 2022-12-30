@@ -6,14 +6,17 @@
 //
 
 import AVFoundation
+import Combine
 import Foundation
+import UIKit
 
 protocol CaptureClientProtocol {
-	
+	var captureValuePublisher: AnyPublisher<CaptureValue, Never> { get }
 }
 
-class CaptureClient: CaptureClientProtocol {
+class CaptureClient: NSObject, CaptureClientProtocol, AVCaptureVideoDataOutputSampleBufferDelegate {
 	private let sessionQueue = DispatchQueue(label: "com.strikingFinancial.tribes.capture.sessionQueue", qos: .userInteractive)
+	private let dataOutputQueue = DispatchQueue(label: "com.strikingFinancial.tribes.capture.DataOutputQueue", qos: .userInteractive)
 	
 	private enum SessionSetupResult {
 		case success
@@ -24,12 +27,21 @@ class CaptureClient: CaptureClientProtocol {
 	private var captureDevice: AVCaptureDevice?
 	private var captureDeviceInput: AVCaptureDeviceInput?
 	private let capturePhotoOutput: AVCapturePhotoOutput
+	private var captureVideoDataOutput: AVCaptureVideoDataOutput?
 	private let captureSession: AVCaptureSession
+	private let captureValueSubject = PassthroughSubject<CaptureValue, Never>()
 	
 	private var hasAddedIO: Bool
 	private var setupResult: SessionSetupResult
 	
-	init() {
+	//MARK: Computed properties
+	var captureValuePublisher: AnyPublisher<CaptureValue, Never> {
+		return captureValueSubject
+			.subscribe(on: sessionQueue)
+			.eraseToAnyPublisher()
+	}
+	
+	override init() {
 		self.captureDevice = {
 			if let tripleCameraDevice = AVCaptureDevice.default(.builtInTripleCamera, for: .video, position: .back) {
 				return tripleCameraDevice
@@ -54,6 +66,10 @@ class CaptureClient: CaptureClientProtocol {
 		
 		self.hasAddedIO = false
 		self.setupResult = .success
+		
+		super.init()
+		
+		setUp()
 	}
 	
 	private func setUp() {
@@ -68,10 +84,17 @@ class CaptureClient: CaptureClientProtocol {
 		
 		//Add Input to Capture Session
 		do {
+			captureSession.beginConfiguration()
 			try addInput()
 			try addOutput()
 			captureSession.commitConfiguration()
-		} catch  {
+			
+			sessionQueue.async {
+				self.captureSession.startRunning()
+				print(self.captureSession.isRunning)
+			}
+			
+		} catch {
 			captureSession.commitConfiguration()
 			self.setupResult = .configurationFailed
 			print("Camera Setup Failed: \(error.localizedDescription)")
@@ -82,13 +105,13 @@ class CaptureClient: CaptureClientProtocol {
 		guard let captureDevice = self.captureDevice else {
 			throw AppError.CaptureClientError.noCaptureDevice
 		}
-		captureSession.beginConfiguration()
-		captureSession.sessionPreset = .photo
+		captureSession.automaticallyConfiguresApplicationAudioSession = false
+		captureSession.sessionPreset = .hd1920x1080
 		
 		let captureDeviceInput = try AVCaptureDeviceInput(device: captureDevice)
 		
 		if captureSession.canAddInput(captureDeviceInput) {
-			captureSession.addInput(captureDeviceInput)
+			captureSession.addInputWithNoConnections(captureDeviceInput)
 			self.captureDeviceInput = captureDeviceInput
 		} else {
 			throw AppError.CaptureClientError.couldNotAddVideoInput
@@ -102,5 +125,40 @@ class CaptureClient: CaptureClientProtocol {
 		} else {
 			throw AppError.CaptureClientError.couldNotAddPhotoOutput
 		}
+		self.captureVideoDataOutput?.setSampleBufferDelegate(nil, queue: nil)
+
+		//Add video output
+		let videoDataOutput = AVCaptureVideoDataOutput()
+		videoDataOutput.setSampleBufferDelegate(self, queue: self.dataOutputQueue)
+		videoDataOutput.alwaysDiscardsLateVideoFrames = true
+		self.captureVideoDataOutput = videoDataOutput
+
+		guard let captureVideoDataOutput = self.captureVideoDataOutput,
+			  captureSession.canAddOutput(captureVideoDataOutput) else {
+			throw AppError.CaptureClientError.couldNotAddVideoOutput
+		}
+		captureSession.addOutputWithNoConnections(captureVideoDataOutput)
+		
+		//Add connection
+		guard let ports = captureDeviceInput?.ports else { throw AppError.CaptureClientError.couldNotAddPorts }
+		
+		let dataConnection = AVCaptureConnection(inputPorts: ports, output: captureVideoDataOutput)
+		if dataConnection.isVideoOrientationSupported {
+			dataConnection.videoOrientation = .portrait
+		}
+		if dataConnection.isVideoMirroringSupported {
+			dataConnection.isVideoMirrored = false
+		}
+
+		if captureSession.canAddConnection(dataConnection) {
+			captureSession.addConnection(dataConnection)
+		} else {
+			throw AppError.CaptureClientError.couldNotAddDataConnection
+		}
+	}
+	
+	// MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
+	func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+		captureValueSubject.send(.previewImageBuffer(sampleBuffer))
 	}
 }

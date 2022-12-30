@@ -15,14 +15,16 @@ struct AppView: View {
 	init() { NavBarTheme.setup() }
 	
 	var body: some View {
-		switch appState.appMode {
-			case .welcome(let welcomePageViewModel):
-				WelcomePageView(viewModel: welcomePageViewModel)
-					.environmentObject(appRouter)
-			case .authentication(let authenticationViewModel):
-				AuthenticateView(viewModel: authenticationViewModel)
-			case .loggedIn:
-				EmptyView()
+		Group {
+			switch appState.appMode {
+				case .welcome(let welcomePageViewModel):
+					WelcomePageView(viewModel: welcomePageViewModel)
+						.environmentObject(appRouter)
+				case .authentication(let authenticationViewModel):
+					AuthenticateView(viewModel: authenticationViewModel)
+				case .loggedIn:
+					EmptyView()
+			}
 		}
 	}
 }

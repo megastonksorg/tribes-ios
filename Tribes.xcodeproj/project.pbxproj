@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		D0158076295CAE390087545A /* PermissionClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0158075295CAE390087545A /* PermissionClient.swift */; };
 		D0158079295D14880087545A /* CaptureClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0158078295D14880087545A /* CaptureClient.swift */; };
+		D015807C295E039E0087545A /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D015807B295E039E0087545A /* CameraView.swift */; };
+		D015807E295E057F0087545A /* CMSampleBuffer+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = D015807D295E057F0087545A /* CMSampleBuffer+Image.swift */; };
+		D0158080295E08570087545A /* CameraVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D015807F295E08570087545A /* CameraVM.swift */; };
 		D029D81E2957548400EA4C07 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D029D81D2957548400EA4C07 /* AppView.swift */; };
 		D030D28129573E9A0011128F /* TribesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030D28029573E9A0011128F /* TribesApp.swift */; };
 		D030D28529573E9B0011128F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D030D28429573E9B0011128F /* Assets.xcassets */; };
@@ -75,12 +78,16 @@
 		D030D31E2957460B0011128F /* AuthenticateVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030D3112957460B0011128F /* AuthenticateVM.swift */; };
 		D030D31F2957460B0011128F /* ProfileSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030D3132957460B0011128F /* ProfileSettingsView.swift */; };
 		D030D3202957460B0011128F /* ProfileSettingsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030D3142957460B0011128F /* ProfileSettingsVM.swift */; };
+		D0D2668F295F717100A94183 /* CaptureClient+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D2668E295F717100A94183 /* CaptureClient+Utilities.swift */; };
 		D0F7E13A29574A330053B21D /* SwiftProtobuf in Frameworks */ = {isa = PBXBuildFile; productRef = D0F7E13929574A330053B21D /* SwiftProtobuf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		D0158075295CAE390087545A /* PermissionClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionClient.swift; sourceTree = "<group>"; };
 		D0158078295D14880087545A /* CaptureClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureClient.swift; sourceTree = "<group>"; };
+		D015807B295E039E0087545A /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
+		D015807D295E057F0087545A /* CMSampleBuffer+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CMSampleBuffer+Image.swift"; sourceTree = "<group>"; };
+		D015807F295E08570087545A /* CameraVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraVM.swift; sourceTree = "<group>"; };
 		D029D81D2957548400EA4C07 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		D030D27D29573E9A0011128F /* Tribes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tribes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D030D28029573E9A0011128F /* TribesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TribesApp.swift; sourceTree = "<group>"; };
@@ -145,6 +152,7 @@
 		D030D3112957460B0011128F /* AuthenticateVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticateVM.swift; sourceTree = "<group>"; };
 		D030D3132957460B0011128F /* ProfileSettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileSettingsView.swift; sourceTree = "<group>"; };
 		D030D3142957460B0011128F /* ProfileSettingsVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileSettingsVM.swift; sourceTree = "<group>"; };
+		D0D2668E295F717100A94183 /* CaptureClient+Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CaptureClient+Utilities.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,6 +170,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D015807A295E03810087545A /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				D015807B295E039E0087545A /* CameraView.swift */,
+				D015807F295E08570087545A /* CameraVM.swift */,
+			);
+			path = Camera;
+			sourceTree = "<group>";
+		};
 		D030D27429573E9A0011128F = {
 			isa = PBXGroup;
 			children = (
@@ -215,12 +232,12 @@
 		D030D29C295745C20011128F /* Clients */ = {
 			isa = PBXGroup;
 			children = (
+				D0D2668D295F715500A94183 /* CaptureClient */,
 				D030D29D295745C20011128F /* APIClient */,
 				D030D2A4295745C20011128F /* FeedbackClient.swift */,
 				D030D2A5295745C20011128F /* PasteboardClient.swift */,
 				D0158075295CAE390087545A /* PermissionClient.swift */,
 				D030D2A3295745C20011128F /* WalletClient.swift */,
-				D0158078295D14880087545A /* CaptureClient.swift */,
 			);
 			path = Clients;
 			sourceTree = "<group>";
@@ -269,6 +286,7 @@
 				D030D2B8295745E90011128F /* View+Overlay.swift */,
 				D030D2B9295745E90011128F /* View+Frame.swift */,
 				D030D2BA295745E90011128F /* Notification+Name.swift */,
+				D015807D295E057F0087545A /* CMSampleBuffer+Image.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -339,6 +357,7 @@
 		D030D3002957460B0011128F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				D015807A295E03810087545A /* Camera */,
 				D030D3122957460B0011128F /* Profile */,
 				D030D30F2957460B0011128F /* AuthenticateView */,
 				D030D3052957460B0011128F /* SecretPhrase */,
@@ -416,6 +435,15 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D0D2668D295F715500A94183 /* CaptureClient */ = {
+			isa = PBXGroup;
+			children = (
+				D0158078295D14880087545A /* CaptureClient.swift */,
+				D0D2668E295F717100A94183 /* CaptureClient+Utilities.swift */,
+			);
+			path = CaptureClient;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -504,6 +532,7 @@
 				D030D2E7295745E90011128F /* TextFieldBackgroundView.swift in Sources */,
 				D030D2FD295745F90011128F /* Authenticate.swift in Sources */,
 				D030D2F7295745F90011128F /* MnemonicWord.swift in Sources */,
+				D0D2668F295F717100A94183 /* CaptureClient+Utilities.swift in Sources */,
 				D030D28129573E9A0011128F /* TribesApp.swift in Sources */,
 				D030D2A8295745C20011128F /* URLSession+Validation.swift in Sources */,
 				D030D2FF295745F90011128F /* Wallet.swift in Sources */,
@@ -512,8 +541,10 @@
 				D029D81E2957548400EA4C07 /* AppView.swift in Sources */,
 				D0158079295D14880087545A /* CaptureClient.swift in Sources */,
 				D030D29A295745970011128F /* AppRouter.swift in Sources */,
+				D0158080295E08570087545A /* CameraVM.swift in Sources */,
 				D030D3182957460B0011128F /* VerifySecretPhraseView.swift in Sources */,
 				D030D2FC295745F90011128F /* Register.swift in Sources */,
+				D015807C295E039E0087545A /* CameraView.swift in Sources */,
 				D030D2DB295745E90011128F /* CornerRadiusStyle.swift in Sources */,
 				D030D2E0295745E90011128F /* TextFieldView.swift in Sources */,
 				D030D2CE295745E90011128F /* Data+Hex.swift in Sources */,
@@ -562,6 +593,7 @@
 				D030D2CF295745E90011128F /* KeychainWrapper+Keys.swift in Sources */,
 				D030D31A2957460B0011128F /* NewSecretPhraseVM.swift in Sources */,
 				D030D2E1295745E90011128F /* AppToolBar.swift in Sources */,
+				D015807E295E057F0087545A /* CMSampleBuffer+Image.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

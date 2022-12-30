@@ -19,8 +19,11 @@ enum AppError: Error {
 	}
 	
 	enum CaptureClientError: Error {
+		case couldNotAddDataConnection
 		case couldNotAddPhotoOutput
+		case couldNotAddPorts
 		case couldNotAddVideoInput
+		case couldNotAddVideoOutput
 		case noCaptureDevice
 		
 		var title: String { "Capture Error" }
@@ -72,15 +75,30 @@ extension AppError.APIClientError: LocalizedError {
 extension AppError.CaptureClientError: LocalizedError {
 	var errorDescription: String? {
 		switch self {
+		case .couldNotAddDataConnection:
+			return NSLocalizedString(
+				"Data Connection could not be added to the capture session",
+				comment: "Could not add data connection"
+			)
 		case .couldNotAddPhotoOutput:
 			return NSLocalizedString(
 				"Photo output could not be added to the capture session",
 				comment: "Could not add output"
 			)
+		case .couldNotAddPorts:
+			return NSLocalizedString(
+				"Ports could not be added to the capture session",
+				comment: "Could not add ports"
+			)
 		case .couldNotAddVideoInput:
 			return NSLocalizedString(
 				"Video input device could not be added to the capture session",
 				comment: "Could not add input"
+			)
+		case .couldNotAddVideoOutput:
+			return NSLocalizedString(
+				"Video output could not be added to the capture session",
+				comment: "Could not add output"
 			)
 		case .noCaptureDevice:
 			return NSLocalizedString(
