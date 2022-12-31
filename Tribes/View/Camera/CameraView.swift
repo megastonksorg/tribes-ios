@@ -22,14 +22,26 @@ struct CameraView: View {
 				Image(uiImage: image)
 					.resizable()
 					.aspectRatio(contentMode: .fill)
-					.ignoresSafeArea()
 			} else {
-				Color.red
+				Color.gray
+					.blur(radius: 60)
+					.overlay(isShown: true) {
+						VStack {
+							Text("Camera Paused")
+								.foregroundColor(.white)
+							Button(action: {}) {
+								Text("Resume")
+									.font(.callout)
+									.foregroundColor(.white)
+									.padding(6)
+									.padding(.horizontal, 2)
+									.background(.ultraThinMaterial)
+									.cornerRadius(10, corners: .allCorners)
+							}
+						}
+					}
 			}
 		}
-		.overlay(
-			Button(action: { print("TAPPED") }, label: { Text("Tap Me") })
-		)
 	}
 }
 

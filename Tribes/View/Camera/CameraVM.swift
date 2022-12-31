@@ -17,6 +17,10 @@ extension CameraView {
 		
 		@Published var previewImage: UIImage?
 		
+		var cameraMode: CaptureClient.CaptureMode {
+			captureClient.captureMode
+		}
+		
 		init() {
 			captureClient.captureValuePublisher
 				.receive(on: DispatchQueue.main)
