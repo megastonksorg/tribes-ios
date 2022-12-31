@@ -59,7 +59,7 @@ struct CameraView: View {
 				
 				Spacer()
 				
-				Button(action: {}) {
+				Button(action: { viewModel.captureClient.capture() }) {
 					ZStack {
 						Circle()
 							.fill(Color.white)

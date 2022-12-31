@@ -12,13 +12,14 @@ import UIKit
 
 protocol CaptureClientProtocol {
 	var captureValuePublisher: AnyPublisher<CaptureClient.CaptureValue, Never> { get }
+	func capture()
 	func resumeCaptureSession()
 	func startCaptureSession()
 	func stopCaptureSession()
 	func toggleCamera()
 }
 
-class CaptureClient: NSObject, CaptureClientProtocol, AVCaptureVideoDataOutputSampleBufferDelegate {
+class CaptureClient: NSObject, CaptureClientProtocol, AVCaptureVideoDataOutputSampleBufferDelegate, AVCapturePhotoCaptureDelegate {
 	private let sessionQueue = DispatchQueue(label: "com.strikingFinancial.tribes.capture.sessionQueue", qos: .userInteractive)
 	private let dataOutputQueue = DispatchQueue(label: "com.strikingFinancial.tribes.capture.DataOutputQueue", qos: .userInteractive)
 	
@@ -46,6 +47,10 @@ class CaptureClient: NSObject, CaptureClientProtocol, AVCaptureVideoDataOutputSa
 			return nil
 		}
 	}()
+	
+	private var capturePhotoSettings: AVCapturePhotoSettings {
+		AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
+	}
 	
 	private var captureDevice: AVCaptureDevice?
 	private var captureDeviceInput: AVCaptureDeviceInput?
@@ -224,6 +229,15 @@ class CaptureClient: NSObject, CaptureClientProtocol, AVCaptureVideoDataOutputSa
 		resumeCaptureSession()
 	}
 	
+	public func capture() {
+		#if !targetEnvironment(simulator)
+		capturePhotoOutput.capturePhoto(
+			with: capturePhotoSettings,
+			delegate: self
+		)
+		#endif
+	}
+	
 	func resumeCaptureSession() {
 		if self.isSessionRunning {
 			self.stopCaptureSession()
@@ -264,5 +278,31 @@ class CaptureClient: NSObject, CaptureClientProtocol, AVCaptureVideoDataOutputSa
 	// MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
 	func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
 		captureValueSubject.send(.previewImageBuffer(sampleBuffer))
+	}
+	
+	// MARK: - AVCapturePhotoCaptureDelegate
+	func photoOutput(
+		_ output: AVCapturePhotoOutput,
+		didFinishProcessingPhoto photo: AVCapturePhoto,
+		error: Error?
+	) {
+		guard let position = output.connections.first?.inputPorts.first?.sourceDevicePosition else { return }
+		
+		guard
+			let image = photo.fileDataRepresentation().flatMap(UIImage.init),
+			let cgImage = image.cgImage
+		else { return }
+
+		var captured: UIImage
+		
+		func flippedImage(_ image: CGImage) -> UIImage {
+			let ciImage = CIImage(cgImage: image).oriented(forExifOrientation: 6)
+			let flippedImage = ciImage.transformed(by: CGAffineTransform(scaleX: -1, y: 1))
+			return .init(cgImage: CaptureClient.context.createCGImage(flippedImage, from: flippedImage.extent)!)
+		}
+		
+		captured = position == .front ? flippedImage(cgImage) : image
+		
+		captureValueSubject.send(.image(captured))
 	}
 }
