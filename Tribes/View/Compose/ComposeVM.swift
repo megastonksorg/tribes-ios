@@ -21,9 +21,9 @@ extension ComposeView {
 		
 		init() {
 			cameraVM.$capturedImage
-				.sink(receiveValue: { image in
+				.sink(receiveValue: { [weak self] image in
 					guard let image = image else { return }
-					self.draftVM.setContent(image: image)
+					self?.draftVM.setContent(image: image)
 				})
 				.store(in: &cancellables)
 			
@@ -33,14 +33,14 @@ extension ComposeView {
 		private func addObservers() {
 			cameraVM
 				.objectWillChange
-				.sink(receiveValue: {
-					self.objectWillChange.send()
+				.sink(receiveValue: { [weak self] in
+					self?.objectWillChange.send()
 				})
 				.store(in: &cancellables)
 			draftVM
 				.objectWillChange
-				.sink(receiveValue: {
-					self.objectWillChange.send()
+				.sink(receiveValue: { [weak self] in
+					self?.objectWillChange.send()
 				})
 				.store(in: &cancellables)
 		}

@@ -20,9 +20,9 @@ struct ContentView: View {
 			Image(uiImage: viewModel.image)
 				.resizable()
 				.scaledToFill()
-				.ignoresSafeArea()
 				.frame(size: proxy.size)
 		}
+		.ignoresSafeArea()
 	}
 }
 
