@@ -70,6 +70,11 @@ struct CameraView: View {
 					}
 				}
 			}
+			.background(
+				Color.clear
+					.contentShape(Rectangle())
+					.onTapGesture(count: 2, perform: { viewModel.captureClient.toggleCamera() })
+			)
 		}
 		.onAppear { viewModel.captureClient.startCaptureSession() }
 		.onDisappear { viewModel.captureClient.stopCaptureSession() }

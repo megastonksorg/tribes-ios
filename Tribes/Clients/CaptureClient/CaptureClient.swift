@@ -15,11 +15,37 @@ protocol CaptureClientProtocol {
 	func resumeCaptureSession()
 	func startCaptureSession()
 	func stopCaptureSession()
+	func toggleCamera()
 }
 
 class CaptureClient: NSObject, CaptureClientProtocol, AVCaptureVideoDataOutputSampleBufferDelegate {
 	private let sessionQueue = DispatchQueue(label: "com.strikingFinancial.tribes.capture.sessionQueue", qos: .userInteractive)
 	private let dataOutputQueue = DispatchQueue(label: "com.strikingFinancial.tribes.capture.DataOutputQueue", qos: .userInteractive)
+	
+	private let frontDevice: AVCaptureDevice? = {
+		if let frontCameraDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) {
+			return frontCameraDevice
+		} else {
+			return nil
+		}
+	}()
+	
+	private let backDevice: AVCaptureDevice? = {
+		if let tripleCameraDevice = AVCaptureDevice.default(.builtInTripleCamera, for: .video, position: .back) {
+			return tripleCameraDevice
+		}
+		else if let dualCameraDevice = AVCaptureDevice.default(.builtInDualCamera, for: .video, position: .back) {
+			return dualCameraDevice
+		} else if let dualWideCameraDevice = AVCaptureDevice.default(.builtInDualWideCamera, for: .video, position: .back) {
+			// If a rear dual camera is not available, default to the rear dual wide camera.
+			return dualWideCameraDevice
+		} else if let backCameraDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) {
+			// If a rear dual wide camera is not available, default to the rear wide angle camera.
+			return backCameraDevice
+		} else {
+			return nil
+		}
+	}()
 	
 	private var captureDevice: AVCaptureDevice?
 	private var captureDeviceInput: AVCaptureDeviceInput?
@@ -40,25 +66,7 @@ class CaptureClient: NSObject, CaptureClientProtocol, AVCaptureVideoDataOutputSa
 	}
 	
 	override init() {
-		self.captureDevice = {
-			if let tripleCameraDevice = AVCaptureDevice.default(.builtInTripleCamera, for: .video, position: .back) {
-				return tripleCameraDevice
-			}
-			else if let dualCameraDevice = AVCaptureDevice.default(.builtInDualCamera, for: .video, position: .back) {
-				return dualCameraDevice
-			} else if let dualWideCameraDevice = AVCaptureDevice.default(.builtInDualWideCamera, for: .video, position: .back) {
-				// If a rear dual camera is not available, default to the rear dual wide camera.
-				return dualWideCameraDevice
-			} else if let backCameraDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) {
-				// If a rear dual wide camera is not available, default to the rear wide angle camera.
-				return backCameraDevice
-			} else if let frontCameraDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) {
-				// If the rear wide angle camera isn't available, default to the front wide angle camera.
-				return frontCameraDevice
-			} else {
-				return nil
-			}
-		}()
+		self.captureDevice = backDevice
 		
 		super.init()
 		
@@ -134,7 +142,7 @@ class CaptureClient: NSObject, CaptureClientProtocol, AVCaptureVideoDataOutputSa
 			dataConnection.videoOrientation = .portrait
 		}
 		if dataConnection.isVideoMirroringSupported {
-			dataConnection.isVideoMirrored = false
+			dataConnection.isVideoMirrored = captureDevice?.position == .front
 		}
 
 		if captureSession.canAddConnection(dataConnection) {
@@ -181,6 +189,15 @@ class CaptureClient: NSObject, CaptureClientProtocol, AVCaptureVideoDataOutputSa
 	private func flushBuffer() {
 		captureValueSubject.send(.previewImageBuffer(nil))
 	}
+	
+	private func removeSessionIO() {
+		sessionQueue.async {
+			self.captureSession.inputs.forEach(self.captureSession.removeInput)
+			self.captureSession.outputs.forEach(self.captureSession.removeOutput)
+			self.captureSession.connections.forEach(self.captureSession.removeConnection)
+		}
+	}
+	
 	// MARK: - Notifications
 	
 	@objc private func captureSessionRuntimeError(_ notification: Notification) {
@@ -229,6 +246,19 @@ class CaptureClient: NSObject, CaptureClientProtocol, AVCaptureVideoDataOutputSa
 			self.captureSession.stopRunning()
 			self.isSessionRunning = self.captureSession.isRunning
 		}
+	}
+	
+	func toggleCamera() {
+		guard let currentDevicePosition = self.captureDevice?.position,
+			  let oppositeDevice: AVCaptureDevice = currentDevicePosition == .back ? frontDevice : backDevice
+		else { return }
+		
+		self.captureSession.beginConfiguration()
+		removeSessionIO()
+		self.captureDevice = oppositeDevice
+		try? addInput()
+		try? addOutput()
+		self.captureSession.commitConfiguration()
 	}
 	
 	// MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
