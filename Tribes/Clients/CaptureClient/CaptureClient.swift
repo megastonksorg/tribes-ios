@@ -11,7 +11,8 @@ import Foundation
 import UIKit
 
 protocol CaptureClientProtocol {
-	var captureValuePublisher: AnyPublisher<CaptureValue, Never> { get }
+	var captureValuePublisher: AnyPublisher<CaptureClient.CaptureValue, Never> { get }
+	func resumeCaptureSession()
 	func startCaptureSession()
 	func stopCaptureSession()
 }
@@ -20,21 +21,16 @@ class CaptureClient: NSObject, CaptureClientProtocol, AVCaptureVideoDataOutputSa
 	private let sessionQueue = DispatchQueue(label: "com.strikingFinancial.tribes.capture.sessionQueue", qos: .userInteractive)
 	private let dataOutputQueue = DispatchQueue(label: "com.strikingFinancial.tribes.capture.DataOutputQueue", qos: .userInteractive)
 	
-	private enum SessionSetupResult {
-		case success
-		case notAuthorized
-		case configurationFailed
-	}
-	
 	private var captureDevice: AVCaptureDevice?
 	private var captureDeviceInput: AVCaptureDeviceInput?
-	private let capturePhotoOutput: AVCapturePhotoOutput
+	private let capturePhotoOutput: AVCapturePhotoOutput = AVCapturePhotoOutput()
 	private var captureVideoDataOutput: AVCaptureVideoDataOutput?
-	private let captureSession: AVCaptureSession
+	private let captureSession: AVCaptureSession = AVCaptureSession()
 	private let captureValueSubject = PassthroughSubject<CaptureValue, Never>()
+	private var isSessionRunning: Bool = false
 	
-	private var hasAddedIO: Bool
-	private var setupResult: SessionSetupResult
+	var captureMode: CaptureMode = .imageAndVideo
+	var setupResult: SessionSetupResult = .success
 	
 	//MARK: Computed properties
 	var captureValuePublisher: AnyPublisher<CaptureValue, Never> {
@@ -63,11 +59,6 @@ class CaptureClient: NSObject, CaptureClientProtocol, AVCaptureVideoDataOutputSa
 				return nil
 			}
 		}()
-		self.capturePhotoOutput = AVCapturePhotoOutput()
-		self.captureSession = AVCaptureSession()
-		
-		self.hasAddedIO = false
-		self.setupResult = .success
 		
 		super.init()
 		
@@ -84,7 +75,7 @@ class CaptureClient: NSObject, CaptureClientProtocol, AVCaptureVideoDataOutputSa
 			return
 		}
 		
-		//Add Input to Capture Session
+		//Add Input and Output to Capture Session
 		do {
 			captureSession.beginConfiguration()
 			try addInput()
@@ -153,15 +144,94 @@ class CaptureClient: NSObject, CaptureClientProtocol, AVCaptureVideoDataOutputSa
 		}
 	}
 	
+	private func addObservers() {
+		NotificationCenter.default.addObserver(
+			self,
+			selector: #selector(captureSessionRuntimeError),
+			name: .AVCaptureSessionRuntimeError,
+			object: nil
+		)
+		
+		NotificationCenter.default.addObserver(
+			self,
+			selector: #selector(captureSessionInterrupted),
+			name: .AVCaptureSessionWasInterrupted,
+			object: nil
+		)
+		
+		NotificationCenter.default.addObserver(
+			self,
+			selector: #selector(captureSessionInterruptionEnded),
+			name: .AVCaptureSessionInterruptionEnded,
+			object: nil
+		)
+		
+		NotificationCenter
+			.default
+			.addObserver(
+				forName: UIApplication.didEnterBackgroundNotification,
+				object: nil,
+				queue: .main,
+				using: { [weak self] _ in
+					self?.flushBuffer()
+				}
+			)
+	}
+	
+	private func flushBuffer() {
+		captureValueSubject.send(.previewImageBuffer(nil))
+	}
+	// MARK: - Notifications
+	
+	@objc private func captureSessionRuntimeError(_ notification: Notification) {
+		stopCaptureSession()
+		flushBuffer()
+		self.captureMode = .none
+	}
+	
+	@objc private func captureSessionInterrupted(_ notification: NSNotification) {
+		guard
+			let reasonKey = notification.userInfo?[AVCaptureSessionInterruptionReasonKey] as? Int,
+			let reason = AVCaptureSession.InterruptionReason(rawValue: reasonKey)
+		else { return }
+		
+		switch reason {
+		case .audioDeviceInUseByAnotherClient:
+			self.captureMode = .image
+		default:
+			self.captureMode = .none
+		}
+	}
+	
+	@objc private func captureSessionInterruptionEnded(_ notification: NSNotification) {
+		resumeCaptureSession()
+	}
+	
+	func resumeCaptureSession() {
+		if self.isSessionRunning {
+			self.stopCaptureSession()
+			self.flushBuffer()
+			self.setUp()
+			self.startCaptureSession()
+			self.captureMode = .imageAndVideo
+		}
+	}
+	
 	func startCaptureSession() {
 		sessionQueue.async {
 			self.captureSession.startRunning()
+			if self.captureSession.isRunning {
+				self.isSessionRunning = true
+			}
 		}
 	}
 	
 	func stopCaptureSession() {
 		sessionQueue.async {
 			self.captureSession.stopRunning()
+			if !self.captureSession.isRunning {
+				self.isSessionRunning = false
+			}
 		}
 	}
 	

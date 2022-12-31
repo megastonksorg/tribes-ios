@@ -9,9 +9,21 @@ import AVFoundation
 import Foundation
 import UIKit
 
-enum CaptureValue {
-	case previewImageBuffer(CMSampleBuffer?)
-	case image(Int64, UIImage)
+extension CaptureClient {
+	enum CaptureValue {
+		case previewImageBuffer(CMSampleBuffer?)
+		case image(Int64, UIImage)
+	}
+	enum CaptureMode {
+		case image
+		case imageAndVideo
+		case none
+	}
+	enum SessionSetupResult {
+		case success
+		case notAuthorized
+		case configurationFailed
+	}
 }
 
 extension CaptureClient {
