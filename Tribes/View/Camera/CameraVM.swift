@@ -40,5 +40,10 @@ extension CameraView {
 				})
 				.store(in: &cancellables)
 		}
+		
+		func toggleFlash() {
+			self.captureClient.toggleFlash()
+			FeedbackClient.shared.light()
+		}
 	}
 }
