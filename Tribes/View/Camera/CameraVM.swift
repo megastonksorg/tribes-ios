@@ -29,13 +29,13 @@ extension CameraView {
 		init() {
 			captureClient.captureValuePublisher
 				.receive(on: DispatchQueue.main)
-				.sink(receiveValue: { captureValue in
+				.sink(receiveValue: { [weak self] captureValue in
 					switch captureValue {
 					case .image(let image):
-						self.capturedImage = image
+						self?.capturedImage = image
 					case .previewImageBuffer(let sampleBuffer):
 						guard let image = sampleBuffer?.image() else { return }
-						self.previewImage = image
+						self?.previewImage = image
 					}
 				})
 				.store(in: &cancellables)
