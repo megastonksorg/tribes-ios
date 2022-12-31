@@ -12,7 +12,7 @@ import UIKit
 extension CaptureClient {
 	enum CaptureValue {
 		case previewImageBuffer(CMSampleBuffer?)
-		case image(Int64, UIImage)
+		case image(UIImage)
 	}
 	enum CaptureMode {
 		case image

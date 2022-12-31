@@ -15,6 +15,7 @@ extension CameraView {
 		let captureClient: CaptureClient = CaptureClient()
 		var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 		
+		@Published var capturedImage: UIImage?
 		@Published var previewImage: UIImage?
 		
 		var cameraMode: CaptureClient.CaptureMode {
@@ -26,7 +27,8 @@ extension CameraView {
 				.receive(on: DispatchQueue.main)
 				.sink(receiveValue: { captureValue in
 					switch captureValue {
-					case .image: return
+					case .image(let image):
+						self.capturedImage = image
 					case .previewImageBuffer(let sampleBuffer):
 						guard let image = sampleBuffer?.image() else { return }
 						self.previewImage = image
