@@ -25,7 +25,7 @@ struct CameraView: View {
 			} else {
 				Color.gray
 					.blur(radius: 60)
-					.overlay(isShown: true) {
+					.overlay(isShown: viewModel.cameraMode == .none) {
 						VStack {
 							Text("Camera Paused")
 								.foregroundColor(.white)
@@ -42,6 +42,8 @@ struct CameraView: View {
 					}
 			}
 		}
+		.onAppear { viewModel.captureClient.startCaptureSession() }
+		.onDisappear { viewModel.captureClient.stopCaptureSession() }
 	}
 }
 
