@@ -14,7 +14,7 @@ extension CMSampleBuffer {
 		guard let imageBuffer = CMSampleBufferGetImageBuffer(self) else { return .none }
 		let ciimage = CIImage(cvImageBuffer: imageBuffer)
 
-		let targetExtent = AVMakeRect(aspectRatio: CGSize.init(width: 1080, height: 1920), insideRect: ciimage.extent)
+		let targetExtent = AVMakeRect(aspectRatio: SizeConstants.imagePixelSize, insideRect: ciimage.extent)
 
 		guard let image = CaptureClient.context.createCGImage( ciimage, from: targetExtent) else { return nil }
 		return UIImage(cgImage: image)
