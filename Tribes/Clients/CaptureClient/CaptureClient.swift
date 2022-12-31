@@ -17,6 +17,7 @@ protocol CaptureClientProtocol {
 	func startCaptureSession()
 	func stopCaptureSession()
 	func toggleCamera()
+	func toggleFlash()
 }
 
 class CaptureClient: NSObject, CaptureClientProtocol, AVCaptureVideoDataOutputSampleBufferDelegate, AVCapturePhotoCaptureDelegate {
@@ -49,7 +50,9 @@ class CaptureClient: NSObject, CaptureClientProtocol, AVCaptureVideoDataOutputSa
 	}()
 	
 	private var capturePhotoSettings: AVCapturePhotoSettings {
-		AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
+		let photoSettings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
+		photoSettings.flashMode = captureFlashMode
+		return photoSettings
 	}
 	
 	private var captureDevice: AVCaptureDevice?
@@ -60,6 +63,7 @@ class CaptureClient: NSObject, CaptureClientProtocol, AVCaptureVideoDataOutputSa
 	private let captureValueSubject = PassthroughSubject<CaptureValue, Never>()
 	private var isSessionRunning: Bool = false
 	
+	var captureFlashMode: AVCaptureDevice.FlashMode = .off
 	var captureMode: CaptureMode = .imageAndVideo
 	var setupResult: SessionSetupResult = .success
 	
@@ -273,6 +277,11 @@ class CaptureClient: NSObject, CaptureClientProtocol, AVCaptureVideoDataOutputSa
 		try? addInput()
 		try? addOutput()
 		self.captureSession.commitConfiguration()
+	}
+	
+	func toggleFlash() {
+		let currentFlashMode = self.captureFlashMode
+		self.captureFlashMode = currentFlashMode == .on ? .off : .on
 	}
 	
 	// MARK: - AVCaptureVideoDataOutputSampleBufferDelegate

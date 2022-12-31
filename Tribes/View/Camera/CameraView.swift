@@ -48,8 +48,8 @@ struct CameraView: View {
 		.overlay {
 			VStack {
 				HStack {
-					Button(action: {}) {
-						Image(systemName: "bolt.fill")
+					Button(action: { viewModel.captureClient.toggleFlash() }) {
+						Image(systemName: viewModel.isFlashOn ? "bolt.fill" : "bolt.slash.fill")
 							.font(.title)
 							.foregroundColor(.white)
 							.padding(.leading, 20)

@@ -22,6 +22,10 @@ extension CameraView {
 			captureClient.captureMode
 		}
 		
+		var isFlashOn: Bool {
+			captureClient.captureFlashMode == .on
+		}
+		
 		init() {
 			captureClient.captureValuePublisher
 				.receive(on: DispatchQueue.main)
