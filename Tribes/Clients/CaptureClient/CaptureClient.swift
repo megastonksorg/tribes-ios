@@ -220,18 +220,14 @@ class CaptureClient: NSObject, CaptureClientProtocol, AVCaptureVideoDataOutputSa
 	func startCaptureSession() {
 		sessionQueue.async {
 			self.captureSession.startRunning()
-			if self.captureSession.isRunning {
-				self.isSessionRunning = true
-			}
+			self.isSessionRunning = self.captureSession.isRunning
 		}
 	}
 	
 	func stopCaptureSession() {
 		sessionQueue.async {
 			self.captureSession.stopRunning()
-			if !self.captureSession.isRunning {
-				self.isSessionRunning = false
-			}
+			self.isSessionRunning = self.captureSession.isRunning
 		}
 	}
 	
