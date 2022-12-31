@@ -16,10 +16,13 @@ struct ContentView: View {
 	}
 	
 	var body: some View {
-		Image(uiImage: viewModel.image)
-			.resizable()
-			.scaledToFill()
-			.clipped()
+		GeometryReader { proxy in
+			Image(uiImage: viewModel.image)
+				.resizable()
+				.scaledToFill()
+				.ignoresSafeArea()
+				.frame(size: proxy.size)
+		}
 	}
 }
 

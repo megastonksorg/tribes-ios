@@ -17,6 +17,13 @@ struct DraftView: View {
 	var body: some View {
 		if let contentVM = viewModel.contentVM {
 			ContentView(viewModel: contentVM)
+				.overlay(alignment: .topTrailing) {
+					Button(action: { viewModel.resetContent() }) {
+						Image(systemName: "xmark")
+							.font(.title)
+							.foregroundColor(.white)
+					}
+				}
 		}
 	}
 }

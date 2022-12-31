@@ -15,5 +15,9 @@ extension DraftView {
 		func setContent(image: UIImage) {
 			self.contentVM = ContentView.ViewModel(image: image)
 		}
+		
+		func resetContent() {
+			self.contentVM = nil
+		}
 	}
 }
