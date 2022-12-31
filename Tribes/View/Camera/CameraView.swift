@@ -23,8 +23,7 @@ struct CameraView: View {
 					.resizable()
 					.aspectRatio(contentMode: .fill)
 			} else {
-				Color.gray
-					.blur(radius: 60)
+				Color.black
 					.overlay(isShown: viewModel.cameraMode == .none) {
 						VStack {
 							Text("Camera Paused")
@@ -42,6 +41,28 @@ struct CameraView: View {
 					}
 			}
 		}
+		.overlay {
+			VStack {
+				Spacer()
+				
+				HStack {
+					Spacer()
+					Button(action: {}) {
+						ZStack {
+							Circle()
+								.fill(Color.white)
+								.frame(dimension: 75)
+							Circle()
+								.fill(Color.white.opacity(0.3))
+								.frame(dimension: 85)
+						}
+					}
+					Spacer()
+				}
+			}
+			.padding(.bottom, 40)
+		}
+		.ignoresSafeArea()
 		.onAppear { viewModel.captureClient.startCaptureSession() }
 		.onDisappear { viewModel.captureClient.stopCaptureSession() }
 	}
