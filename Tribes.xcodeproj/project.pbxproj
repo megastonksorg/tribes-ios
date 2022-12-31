@@ -85,6 +85,7 @@
 		D0D2669929600BC500A94183 /* DraftVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D2669829600BC500A94183 /* DraftVM.swift */; };
 		D0D2669C296010D600A94183 /* ContentVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D2669B296010D600A94183 /* ContentVM.swift */; };
 		D0D2669E296010E000A94183 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D2669D296010E000A94183 /* ContentView.swift */; };
+		D0D266A02960C8D400A94183 /* CaptureLoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D2669F2960C8D400A94183 /* CaptureLoadingIndicator.swift */; };
 		D0F7E13A29574A330053B21D /* SwiftProtobuf in Frameworks */ = {isa = PBXBuildFile; productRef = D0F7E13929574A330053B21D /* SwiftProtobuf */; };
 /* End PBXBuildFile section */
 
@@ -165,6 +166,7 @@
 		D0D2669829600BC500A94183 /* DraftVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraftVM.swift; sourceTree = "<group>"; };
 		D0D2669B296010D600A94183 /* ContentVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentVM.swift; sourceTree = "<group>"; };
 		D0D2669D296010E000A94183 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		D0D2669F2960C8D400A94183 /* CaptureLoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureLoadingIndicator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -329,6 +331,7 @@
 				D030D2CA295745E90011128F /* AppProgressView.swift */,
 				D030D2CB295745E90011128F /* TextFieldBackgroundView.swift */,
 				D030D2CC295745E90011128F /* ImagePlaceHolderView.swift */,
+				D0D2669F2960C8D400A94183 /* CaptureLoadingIndicator.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -625,6 +628,7 @@
 				D030D2DF295745E90011128F /* MnemonicWordView.swift in Sources */,
 				D030D2FB295745F90011128F /* ResponseTypes.swift in Sources */,
 				D030D2A7295745C20011128F /* HttpMethod.swift in Sources */,
+				D0D266A02960C8D400A94183 /* CaptureLoadingIndicator.swift in Sources */,
 				D030D2DE295745E90011128F /* TermsAndConditionsView.swift in Sources */,
 				D0D2669E296010E000A94183 /* ContentView.swift in Sources */,
 				D030D31B2957460B0011128F /* ImportSecretPhraseVM.swift in Sources */,

@@ -54,6 +54,7 @@ struct CameraView: View {
 							.foregroundColor(.white)
 							.padding(.leading, 20)
 					}
+					
 					Spacer()
 				}
 				
@@ -68,6 +69,11 @@ struct CameraView: View {
 							.fill(Color.white.opacity(0.3))
 							.frame(dimension: 85)
 					}
+				}
+				.disabled(viewModel.isCapturingImage)
+				.overlay(isShown: viewModel.isCapturingImage) {
+					CaptureLoadingIndicator()
+						.frame(dimension: 40)
 				}
 			}
 			.background(

@@ -65,6 +65,7 @@ class CaptureClient: NSObject, CaptureClientProtocol, AVCaptureVideoDataOutputSa
 	
 	var captureFlashMode: AVCaptureDevice.FlashMode = .off
 	var captureMode: CaptureMode = .imageAndVideo
+	var isCapturingImage: Bool = false
 	var setupResult: SessionSetupResult = .success
 	
 	//MARK: Computed properties
@@ -235,6 +236,7 @@ class CaptureClient: NSObject, CaptureClientProtocol, AVCaptureVideoDataOutputSa
 	
 	public func capture() {
 		#if !targetEnvironment(simulator)
+		self.isCapturingImage = true
 		capturePhotoOutput.capturePhoto(
 			with: capturePhotoSettings,
 			delegate: self
@@ -313,5 +315,6 @@ class CaptureClient: NSObject, CaptureClientProtocol, AVCaptureVideoDataOutputSa
 		captured = position == .front ? flippedImage(cgImage) : image
 		
 		captureValueSubject.send(.image(captured))
+		self.isCapturingImage = false
 	}
 }
