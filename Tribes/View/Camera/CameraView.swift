@@ -17,52 +17,60 @@ struct CameraView: View {
 	}
 	
 	var body: some View {
-		Group {
-			if let image = viewModel.previewImage {
-				Image(uiImage: image)
-					.resizable()
-					.aspectRatio(contentMode: .fill)
-			} else {
-				Color.black
-					.overlay(isShown: viewModel.cameraMode == .none) {
-						VStack {
-							Text("Camera Paused")
-								.foregroundColor(.white)
-							Button(action: {}) {
-								Text("Resume")
-									.font(.callout)
+		GeometryReader { proxy in
+			Group {
+				if let image = viewModel.previewImage {
+					Image(uiImage: image)
+						.resizable()
+						.scaledToFill()
+				} else {
+					Color.black
+						.overlay(isShown: viewModel.cameraMode == .none) {
+							VStack {
+								Text("Camera Paused")
 									.foregroundColor(.white)
-									.padding(6)
-									.padding(.horizontal, 2)
-									.background(.ultraThinMaterial)
-									.cornerRadius(10, corners: .allCorners)
+								Button(action: {}) {
+									Text("Resume")
+										.font(.callout)
+										.foregroundColor(.white)
+										.padding(6)
+										.padding(.horizontal, 2)
+										.background(.ultraThinMaterial)
+										.cornerRadius(10, corners: .allCorners)
+								}
 							}
 						}
-					}
+				}
 			}
+			.frame(size: proxy.size)
 		}
+		.ignoresSafeArea()
 		.overlay {
 			VStack {
-				Spacer()
-				
 				HStack {
-					Spacer()
 					Button(action: {}) {
-						ZStack {
-							Circle()
-								.fill(Color.white)
-								.frame(dimension: 75)
-							Circle()
-								.fill(Color.white.opacity(0.3))
-								.frame(dimension: 85)
-						}
+						Image(systemName: "bolt.fill")
+							.font(.title)
+							.foregroundColor(.white)
+							.padding(.leading, 20)
 					}
 					Spacer()
 				}
+				
+				Spacer()
+				
+				Button(action: {}) {
+					ZStack {
+						Circle()
+							.fill(Color.white)
+							.frame(dimension: 75)
+						Circle()
+							.fill(Color.white.opacity(0.3))
+							.frame(dimension: 85)
+					}
+				}
 			}
-			.padding(.bottom, 40)
 		}
-		.ignoresSafeArea()
 		.onAppear { viewModel.captureClient.startCaptureSession() }
 		.onDisappear { viewModel.captureClient.stopCaptureSession() }
 	}
