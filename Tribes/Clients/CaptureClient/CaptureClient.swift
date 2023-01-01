@@ -33,10 +33,7 @@ class CaptureClient: NSObject, CaptureClientProtocol, AVCaptureVideoDataOutputSa
 	}()
 	
 	private let backDevice: AVCaptureDevice? = {
-		if let tripleCameraDevice = AVCaptureDevice.default(.builtInTripleCamera, for: .video, position: .back) {
-			return tripleCameraDevice
-		}
-		else if let dualCameraDevice = AVCaptureDevice.default(.builtInDualCamera, for: .video, position: .back) {
+		if let dualCameraDevice = AVCaptureDevice.default(.builtInDualCamera, for: .video, position: .back) {
 			return dualCameraDevice
 		} else if let dualWideCameraDevice = AVCaptureDevice.default(.builtInDualWideCamera, for: .video, position: .back) {
 			// If a rear dual camera is not available, default to the rear dual wide camera.
