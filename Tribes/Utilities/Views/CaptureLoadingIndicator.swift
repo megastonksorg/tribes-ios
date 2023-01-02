@@ -23,7 +23,7 @@ struct CaptureLoadingIndicator: View {
 	}
 }
 
-struct LoadingIndicator_Previews: PreviewProvider {
+struct CaptureLoadingIndicator_Previews: PreviewProvider {
 	static var previews: some View {
 		VStack {
 			CaptureLoadingIndicator()
