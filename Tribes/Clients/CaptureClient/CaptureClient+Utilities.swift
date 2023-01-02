@@ -13,6 +13,7 @@ extension CaptureClient {
 	enum CaptureValue {
 		case previewImageBuffer(CMSampleBuffer?)
 		case image(UIImage)
+		case video(URL)
 	}
 	enum CaptureMode {
 		case image

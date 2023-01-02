@@ -16,11 +16,13 @@ protocol CaptureClientProtocol {
 	func resumeCaptureSession()
 	func startCaptureSession()
 	func stopCaptureSession()
+	func startVideoRecording()
+	func stopVideoRecording()
 	func toggleCamera()
 	func toggleFlash()
 }
 
-class CaptureClient: NSObject, CaptureClientProtocol, AVCaptureVideoDataOutputSampleBufferDelegate, AVCapturePhotoCaptureDelegate {
+class CaptureClient: NSObject, CaptureClientProtocol, AVCaptureVideoDataOutputSampleBufferDelegate, AVCapturePhotoCaptureDelegate, AVCaptureFileOutputRecordingDelegate {
 	private let sessionQueue = DispatchQueue(label: "com.strikingFinancial.tribes.capture.sessionQueue", qos: .userInteractive)
 	private let dataOutputQueue = DispatchQueue(label: "com.strikingFinancial.tribes.capture.DataOutputQueue", qos: .userInteractive)
 	
@@ -50,6 +52,18 @@ class CaptureClient: NSObject, CaptureClientProtocol, AVCaptureVideoDataOutputSa
 		let photoSettings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
 		photoSettings.flashMode = captureFlashMode
 		return photoSettings
+	}
+	
+	private var captureMovieFileOutput: AVCaptureMovieFileOutput {
+		let movieFileOutput = AVCaptureMovieFileOutput()
+		let movieFileOutputConnection = movieFileOutput.connection(with: .video)
+		
+		let availableVideoCodecTypes = movieFileOutput.availableVideoCodecTypes
+		
+		if availableVideoCodecTypes.contains(.h264) {
+			movieFileOutput.setOutputSettings([AVVideoCodecKey: AVVideoCodecType.h264], for: movieFileOutputConnection!)
+		}
+		return movieFileOutput
 	}
 	
 	private var captureDevice: AVCaptureDevice?
@@ -265,6 +279,22 @@ class CaptureClient: NSObject, CaptureClientProtocol, AVCaptureVideoDataOutputSa
 		}
 	}
 	
+	func startVideoRecording() {
+		sessionQueue.async {
+			if !self.captureMovieFileOutput.isRecording {
+				let outputFileName = UUID().uuidString
+				let outputFilePath = (NSTemporaryDirectory() as NSString).appendingPathComponent((outputFileName as NSString).appendingPathExtension("mp4")!)
+				self.captureMovieFileOutput.startRecording(to: URL(fileURLWithPath: outputFilePath), recordingDelegate: self)
+			}
+		}
+	}
+	
+	func stopVideoRecording() {
+		sessionQueue.async {
+			self.captureMovieFileOutput.stopRecording()
+		}
+	}
+	
 	func toggleCamera() {
 		guard let currentDevicePosition = self.captureDevice?.position,
 			  let oppositeDevice: AVCaptureDevice = currentDevicePosition == .back ? frontDevice : backDevice
@@ -313,5 +343,10 @@ class CaptureClient: NSObject, CaptureClientProtocol, AVCaptureVideoDataOutputSa
 		
 		captureValueSubject.send(.image(captured))
 		self.isCapturingImage = false
+	}
+	
+	// MARK: - AVCaptureFileOutputRecordingDelegate
+	func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
+		captureValueSubject.send(.video(outputFileURL))
 	}
 }
