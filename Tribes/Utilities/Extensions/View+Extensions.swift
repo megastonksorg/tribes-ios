@@ -11,4 +11,8 @@ extension View {
 	func banner(data: Binding<BannerData?>) -> some View {
 		self.modifier(BannerViewModifier(data: data))
 	}
+	
+	func visible(_ isVisible: Bool) -> some View {
+		opacity(isVisible ? 1 : 0)
+	}
 }
