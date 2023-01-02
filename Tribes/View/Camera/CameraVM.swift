@@ -16,6 +16,7 @@ extension CameraView {
 		var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 		
 		@Published var capturedImage: UIImage?
+		@Published var capturedVideo: URL?
 		@Published var previewImage: UIImage?
 		
 		var cameraMode: CaptureClient.CaptureMode {
@@ -40,6 +41,8 @@ extension CameraView {
 					case .previewImageBuffer(let sampleBuffer):
 						guard let image = sampleBuffer?.image() else { return }
 						self?.previewImage = image
+					case .video(let url):
+						self?.capturedVideo = url
 					}
 				})
 				.store(in: &cancellables)
