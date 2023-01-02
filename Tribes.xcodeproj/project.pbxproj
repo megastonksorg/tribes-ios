@@ -499,8 +499,8 @@
 		D0D266A32963464600A94183 /* VideoPlayer */ = {
 			isa = PBXGroup;
 			children = (
-				D0D266A42963466200A94183 /* PlayerView.swift */,
 				D0D266A12963459800A94183 /* VideoPlayerView.swift */,
+				D0D266A42963466200A94183 /* PlayerView.swift */,
 			);
 			path = VideoPlayer;
 			sourceTree = "<group>";

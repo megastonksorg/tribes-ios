@@ -43,7 +43,6 @@ struct VideoPlayerView: View {
 			Color.clear
 				.preference(key: PlaybackProgressKey.self, value: playbackProgress)
 		}
-		
 	}
 }
 
@@ -52,7 +51,6 @@ struct VideoPlayerView_Previews: PreviewProvider {
 		VideoPlayerView(
 			url: URL(string: "https://kingsleyokeke.blob.core.windows.net/megastonksvideo/MegaStonks.mp4")!
 		)
-		.ignoresSafeArea()
 	}
 }
 
