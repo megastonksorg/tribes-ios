@@ -185,8 +185,10 @@ class AVPlayerView: UIView {
 	}
 	
 	private func handlePlaybackProgressTime(_ time: CMTime) {
-		guard let duration = player.currentItem?.asset.duration else { return }
-		progress = Float(time.seconds / duration.seconds)
+		Task {
+			guard let duration = try? await player.currentItem?.asset.load(.duration) else { return }
+			progress = Float(time.seconds / duration.seconds)
+		}
 	}
 	
 	private func removePeriodicTimeObserver() {
