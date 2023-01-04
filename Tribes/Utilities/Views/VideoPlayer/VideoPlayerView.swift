@@ -29,7 +29,7 @@ struct VideoPlayerView: View {
 		ZStack {
 			PlayerView(
 				url: url,
-				isPlaying: false,
+				isPlaying: true,
 				isMuted: false,
 				shouldShowThumbnail: $shouldShowThumbnail,
 				onPlaybackProgressChange: { progress in playbackProgress = progress }

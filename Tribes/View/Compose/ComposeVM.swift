@@ -27,6 +27,13 @@ extension ComposeView {
 				})
 				.store(in: &cancellables)
 			
+			cameraVM.$capturedVideo
+				.sink(receiveValue: { [weak self] url in
+					guard let url = url else { return }
+					self?.draftVM.setTeaContent(content: .video(url))
+				})
+				.store(in: &cancellables)
+			
 			addObservers()
 		}
 		
