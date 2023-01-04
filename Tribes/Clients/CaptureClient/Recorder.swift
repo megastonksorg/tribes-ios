@@ -40,10 +40,8 @@ final class Recorder {
 	func startVideoRecording(videoSettings: [String :Any]?) {
 		let fileName = UUID().uuidString + ".mp4"
 		let fileUrl = FileManager.default.temporaryDirectory.appending(path: fileName)
-		guard
-			let writer = try? AVAssetWriter(outputURL: fileUrl, fileType: .mp4),
-			var videoSettings = videoSettings
-		else { return }
+		
+		guard let writer = try? AVAssetWriter(outputURL: fileUrl, fileType: .mp4) else { return }
 		
 		writer.shouldOptimizeForNetworkUse = true
 		
