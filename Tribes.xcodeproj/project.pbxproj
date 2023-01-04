@@ -89,6 +89,7 @@
 		D0D266A22963459800A94183 /* VideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D266A12963459800A94183 /* VideoPlayerView.swift */; };
 		D0D266A52963466200A94183 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D266A42963466200A94183 /* PlayerView.swift */; };
 		D0D266A7296513D300A94183 /* TeaContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D266A6296513D300A94183 /* TeaContent.swift */; };
+		D0D266A9296524AC00A94183 /* Recorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D266A8296524AC00A94183 /* Recorder.swift */; };
 		D0F7E13A29574A330053B21D /* SwiftProtobuf in Frameworks */ = {isa = PBXBuildFile; productRef = D0F7E13929574A330053B21D /* SwiftProtobuf */; };
 /* End PBXBuildFile section */
 
@@ -173,6 +174,7 @@
 		D0D266A12963459800A94183 /* VideoPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerView.swift; sourceTree = "<group>"; };
 		D0D266A42963466200A94183 /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
 		D0D266A6296513D300A94183 /* TeaContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeaContent.swift; sourceTree = "<group>"; };
+		D0D266A8296524AC00A94183 /* Recorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recorder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -468,6 +470,7 @@
 			children = (
 				D0158078295D14880087545A /* CaptureClient.swift */,
 				D0D2668E295F717100A94183 /* CaptureClient+Utilities.swift */,
+				D0D266A8296524AC00A94183 /* Recorder.swift */,
 			);
 			path = CaptureClient;
 			sourceTree = "<group>";
@@ -604,6 +607,7 @@
 				D0158079295D14880087545A /* CaptureClient.swift in Sources */,
 				D030D29A295745970011128F /* AppRouter.swift in Sources */,
 				D0158080295E08570087545A /* CameraVM.swift in Sources */,
+				D0D266A9296524AC00A94183 /* Recorder.swift in Sources */,
 				D030D3182957460B0011128F /* VerifySecretPhraseView.swift in Sources */,
 				D030D2FC295745F90011128F /* Register.swift in Sources */,
 				D015807C295E039E0087545A /* CameraView.swift in Sources */,

@@ -29,6 +29,12 @@ enum AppError: Error {
 		var title: String { "Capture Error" }
 	}
 	
+	enum RecorderError: Error {
+		case cancelled
+		case failedToGenerateVideo
+		case invalidState
+	}
+	
 	enum WalletError: Error {
 		case couldNotGenerateWallet
 		case couldNotImportWallet
@@ -42,6 +48,7 @@ enum AppError: Error {
 	
 	case apiClientError(APIClientError)
 	case captureClientError(CaptureClientError)
+	case recorderError(RecorderError)
 	case walletError(WalletError)
 }
 
@@ -104,6 +111,28 @@ extension AppError.CaptureClientError: LocalizedError {
 			return NSLocalizedString(
 				"Could not find a capture device",
 				comment: "No Capture Device"
+			)
+		}
+	}
+}
+
+extension AppError.RecorderError {
+	var errorDescription: String? {
+		switch self {
+		case .cancelled:
+			return NSLocalizedString(
+				"Asset writer operation was cancelled",
+				comment: "Operation Cancelled"
+			)
+		case .failedToGenerateVideo:
+			return NSLocalizedString(
+				"Asset writer failed to generate video file",
+				comment: "Failed Video Generation"
+			)
+		case .invalidState:
+			return NSLocalizedString(
+				"Asset writer is in an invalid state",
+				comment: "Invalid State"
 			)
 		}
 	}
