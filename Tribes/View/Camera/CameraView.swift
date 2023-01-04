@@ -12,6 +12,8 @@ struct CameraView: View {
 	
 	@StateObject var viewModel: ViewModel
 	
+	@GestureState var isShutterButtonPressed = false
+	
 	init(viewModel: CameraView.ViewModel) {
 		self._viewModel = StateObject(wrappedValue: viewModel)
 	}
@@ -60,21 +62,23 @@ struct CameraView: View {
 				
 				Spacer()
 				
-				Button(action: { viewModel.captureClient.capture() }) {
-					ZStack {
-						Circle()
-							.fill(Color.white)
-							.frame(dimension: 75)
-						Circle()
-							.fill(Color.white.opacity(0.3))
-							.frame(dimension: 85)
+				captureButton()
+					.gesture(
+						DragGesture(minimumDistance: 0)
+							.updating($isShutterButtonPressed) { _, isShutterButtonPressed, _ in
+								isShutterButtonPressed = true
+							}
+							.onChanged { value in
+								//Update Zoom factor
+							}
+					)
+					.onChange(of: isShutterButtonPressed) { _ in
+						if isShutterButtonPressed {
+							//viewModel.captureClient.startVideoRecording()
+						} else {
+							//viewModel.captureClient.stopVideoRecording()
+						}
 					}
-				}
-				.disabled(viewModel.isCapturingImage)
-				.overlay(isShown: viewModel.isCapturingImage) {
-					CaptureLoadingIndicator()
-						.frame(dimension: 40)
-				}
 			}
 			.background(
 				Color.clear
@@ -82,8 +86,25 @@ struct CameraView: View {
 					.onTapGesture(count: 2, perform: { viewModel.captureClient.toggleCamera() })
 			)
 		}
-		.onAppear { viewModel.captureClient.startCaptureSession() }
-		.onDisappear { viewModel.captureClient.stopCaptureSession() }
+		.onAppear { viewModel.didAppear() }
+		.onDisappear { viewModel.didDisappear() }
+	}
+	
+	@ViewBuilder
+	func captureButton() -> some View {
+		ZStack {
+			Circle()
+				.fill(Color.white)
+				.frame(dimension: 75)
+			Circle()
+				.fill(Color.white.opacity(0.3))
+				.frame(dimension: 85)
+		}
+		.opacity(isShutterButtonPressed ? 0.5 : 1.0)
+		.overlay(isShown: viewModel.isCapturingImage) {
+			CaptureLoadingIndicator()
+				.frame(dimension: 40)
+		}
 	}
 }
 
