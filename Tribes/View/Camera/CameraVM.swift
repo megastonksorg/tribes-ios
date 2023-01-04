@@ -48,9 +48,24 @@ extension CameraView {
 				.store(in: &cancellables)
 		}
 		
+		func didAppear() {
+			resetCaptureValues()
+			self.captureClient.startCaptureSession()
+		}
+		
+		func didDisappear() {
+			self.captureClient.stopCaptureSession()
+		}
+		
 		func toggleFlash() {
 			self.captureClient.toggleFlash()
 			FeedbackClient.shared.light()
+		}
+		
+		func resetCaptureValues() {
+			self.capturedImage = nil
+			self.capturedVideo = nil
+			self.previewImage = nil
 		}
 	}
 }
