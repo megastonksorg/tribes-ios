@@ -22,9 +22,6 @@ public protocol RecorderDelegate: AnyObject {
 }
 
 public final class Recorder {
-	
-	// MARK: - Properties
-	
 	weak var delegate: RecorderDelegate?
 	
 	private(set) var isRecording = false
@@ -37,62 +34,25 @@ public final class Recorder {
 	private var assetWriterVideoInput: AVAssetWriterInput?
 	private var assetWriterAudioInput: AVAssetWriterInput?
 	
-	private var videoSettings: [String: Any]
-	private var audioSettings: [String: Any]?
-	private var videoTransform: CGAffineTransform
-	
 	private var startTime = Double(0)
 	private var hasReceivedVideoBuffer = false
 	
 	private var lastKnownBufferTimestamp: CMTime?
 	
-	// MARK: - Lifecycle
-	init(
-		audioSettings: [String: Any]?,
-		videoSettings: [String: Any],
-		videoTransform: CGAffineTransform
-	) {
-		self.audioSettings = audioSettings
-		self.videoSettings = videoSettings
-		self.videoTransform = videoTransform
-	}
-	
 	// MARK: - Recording
-	func startRecording(
-		fileURL: URL,
-		fileType: AVFileType,
-		size: CGSize
-	) {
-		guard let writer = try? AVAssetWriter(url: fileURL, fileType: fileType) else { return }
+	func startVideoRecording(videoSettings: [String :Any]?) {
+		let outputFileName = UUID().uuidString
+		let outputFilePath = (NSTemporaryDirectory() as NSString).appendingPathComponent((outputFileName as NSString).appendingPathExtension("mp4")!)
+		guard
+			let fileUrl = URL(string: outputFilePath),
+			let writer = try? AVAssetWriter(url: fileUrl, fileType: .mp4)
+		else { return }
+		
 		writer.shouldOptimizeForNetworkUse = true
-		
-		audioSettings?[AVFormatIDKey] = kAudioFormatMPEG4AAC
-		audioSettings?[AVNumberOfChannelsKey] = 2
-		audioSettings?[AVSampleRateKey] = 44100
-		
-		if let audioSettings = audioSettings {
-			let audioInput = AVAssetWriterInput(mediaType: .audio, outputSettings: audioSettings)
-			audioInput.expectsMediaDataInRealTime = true
-			writer.add(audioInput)
-			assetWriterAudioInput = audioInput
-		}
-		
-		videoSettings[AVVideoCodecKey] = AVVideoCodecType.hevc
-		videoSettings[AVVideoWidthKey] = size.width
-		videoSettings[AVVideoHeightKey] = size.height
-		videoSettings[AVVideoScalingModeKey] = AVVideoScalingModeResizeAspectFill
-		
-		/// Beginning of patch for older devices.
-		/// On older devices such as the iPhone 7 Plus the generated video settings from the system give us defaults outside of the HEVC encoder. We receive an H264 entropy key by default which we remove here and replace the profile level key with one that the HEVC encoder expects. Without the change and removal of the property below the app crashes with uncaught exceptions.
-		var compressionProperties = videoSettings[AVVideoCompressionPropertiesKey] as? [String: Any]
-		compressionProperties?[AVVideoProfileLevelKey] = kVTProfileLevel_HEVC_Main_AutoLevel
-		compressionProperties?[AVVideoH264EntropyModeKey] = nil
-		if let compressionProperties { videoSettings[AVVideoCompressionPropertiesKey] = compressionProperties }
-		/// End of patch for older devices.
 		
 		let videoInput = AVAssetWriterInput(mediaType: .video, outputSettings: videoSettings)
 		videoInput.expectsMediaDataInRealTime = true
-		videoInput.transform = videoTransform
+		
 		writer.add(videoInput)
 		assetWriterVideoInput = videoInput
 		
@@ -168,6 +128,4 @@ public final class Recorder {
 		else { return }
 		input.append(sampleBuffer)
 	}
-	
 }
-
