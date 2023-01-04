@@ -329,6 +329,9 @@ class CaptureClient:
 	
 	// MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
 	func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+		if let recorder = recorder, recorder.isRecording {
+			recorder.recordVideo(sampleBuffer: sampleBuffer)
+		}
 		captureValueSubject.send(.previewImageBuffer(sampleBuffer))
 	}
 	

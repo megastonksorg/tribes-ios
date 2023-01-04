@@ -38,17 +38,14 @@ final class Recorder {
 	
 	// MARK: - Recording
 	func startVideoRecording(videoSettings: [String :Any]?) {
-		let outputFileName = UUID().uuidString
-		let outputFilePath = (NSTemporaryDirectory() as NSString).appendingPathComponent((outputFileName as NSString).appendingPathExtension("mp4")!)
+		let fileName = UUID().uuidString + ".mp4"
+		let fileUrl = FileManager.default.temporaryDirectory.appending(path: fileName)
 		guard
-			let fileUrl = URL(string: outputFilePath),
-			var videoSettings = videoSettings,
-			let writer = try? AVAssetWriter(url: fileUrl, fileType: .mp4)
+			let writer = try? AVAssetWriter(outputURL: fileUrl, fileType: .mp4),
+			var videoSettings = videoSettings
 		else { return }
 		
 		writer.shouldOptimizeForNetworkUse = true
-		
-		videoSettings[AVVideoCodecKey] = AVVideoCodecType.h264
 		
 		let videoInput = AVAssetWriterInput(mediaType: .video, outputSettings: videoSettings)
 		videoInput.expectsMediaDataInRealTime = true
