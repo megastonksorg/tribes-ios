@@ -16,14 +16,14 @@ extension ComposeView {
 		@Published var draftVM: DraftView.ViewModel = DraftView.ViewModel()
 		
 		var hasContentBeenCaptured: Bool {
-			draftVM.contentVM != nil
+			draftVM.teaContentVM != nil
 		}
 		
 		init() {
 			cameraVM.$capturedImage
 				.sink(receiveValue: { [weak self] image in
 					guard let image = image else { return }
-					self?.draftVM.setContent(image: image)
+					self?.draftVM.setTeaContent(content: .image(image))
 				})
 				.store(in: &cancellables)
 			

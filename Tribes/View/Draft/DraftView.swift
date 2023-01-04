@@ -14,11 +14,12 @@ struct DraftView: View {
 	init(viewModel: ViewModel) {
 		self._viewModel = StateObject(wrappedValue: viewModel)
 	}
+	
 	var body: some View {
-		if let contentVM = viewModel.contentVM {
-			ContentView(viewModel: contentVM)
+		if let teaContentVM = viewModel.teaContentVM {
+			TeaContentView(viewModel: teaContentVM)
 				.overlay(alignment: .topTrailing) {
-					Button(action: { viewModel.resetContent() }) {
+					Button(action: { viewModel.resetTeaContent() }) {
 						Image(systemName: "xmark")
 							.font(.title)
 							.foregroundColor(.white)

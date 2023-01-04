@@ -10,14 +10,14 @@ import UIKit
 
 extension DraftView {
 	@MainActor class ViewModel: ObservableObject {
-		@Published var contentVM: ContentView.ViewModel?
+		@Published var teaContentVM: TeaContentView.ViewModel?
 		
-		func setContent(image: UIImage) {
-			self.contentVM = ContentView.ViewModel(image: image)
+		func setTeaContent(content: TeaContent) {
+			self.teaContentVM = TeaContentView.ViewModel(content: content)
 		}
 		
-		func resetContent() {
-			self.contentVM = nil
+		func resetTeaContent() {
+			self.teaContentVM = nil
 		}
 	}
 }
