@@ -22,7 +22,12 @@ protocol CaptureClientProtocol {
 	func toggleFlash()
 }
 
-class CaptureClient: NSObject, CaptureClientProtocol, AVCaptureVideoDataOutputSampleBufferDelegate, AVCapturePhotoCaptureDelegate, AVCaptureFileOutputRecordingDelegate {
+class CaptureClient:
+	NSObject,
+	CaptureClientProtocol,
+	AVCaptureVideoDataOutputSampleBufferDelegate,
+	AVCapturePhotoCaptureDelegate,
+	RecorderDelegate {
 	private let sessionQueue = DispatchQueue(label: "com.strikingFinancial.tribes.capture.sessionQueue", qos: .userInteractive)
 	private let dataOutputQueue = DispatchQueue(label: "com.strikingFinancial.tribes.capture.DataOutputQueue", qos: .userInteractive)
 	
@@ -54,17 +59,7 @@ class CaptureClient: NSObject, CaptureClientProtocol, AVCaptureVideoDataOutputSa
 		return photoSettings
 	}
 	
-	private var captureMovieFileOutput: AVCaptureMovieFileOutput {
-		let movieFileOutput = AVCaptureMovieFileOutput()
-		let movieFileOutputConnection = movieFileOutput.connection(with: .video)
-		
-		let availableVideoCodecTypes = movieFileOutput.availableVideoCodecTypes
-		
-		if availableVideoCodecTypes.contains(.h264) {
-			movieFileOutput.setOutputSettings([AVVideoCodecKey: AVVideoCodecType.h264], for: movieFileOutputConnection!)
-		}
-		return movieFileOutput
-	}
+	private var cancellables = Set<AnyCancellable>()
 	
 	private var captureDevice: AVCaptureDevice?
 	private var captureDeviceInput: AVCaptureDeviceInput?
@@ -73,6 +68,7 @@ class CaptureClient: NSObject, CaptureClientProtocol, AVCaptureVideoDataOutputSa
 	private let captureSession: AVCaptureSession = AVCaptureSession()
 	private let captureValueSubject = PassthroughSubject<CaptureValue, Never>()
 	private var isSessionRunning: Bool = false
+	private var recorder: Recorder?
 	
 	var captureFlashMode: AVCaptureDevice.FlashMode = .off
 	var captureMode: CaptureMode = .imageAndVideo
@@ -142,13 +138,13 @@ class CaptureClient: NSObject, CaptureClientProtocol, AVCaptureVideoDataOutputSa
 			throw AppError.CaptureClientError.couldNotAddPhotoOutput
 		}
 		self.captureVideoDataOutput?.setSampleBufferDelegate(nil, queue: nil)
-
+		
 		//Add video output
 		let videoDataOutput = AVCaptureVideoDataOutput()
 		videoDataOutput.setSampleBufferDelegate(self, queue: self.dataOutputQueue)
 		videoDataOutput.alwaysDiscardsLateVideoFrames = true
 		self.captureVideoDataOutput = videoDataOutput
-
+		
 		guard let captureVideoDataOutput = self.captureVideoDataOutput,
 			  captureSession.canAddOutput(captureVideoDataOutput) else {
 			throw AppError.CaptureClientError.couldNotAddVideoOutput
@@ -165,7 +161,7 @@ class CaptureClient: NSObject, CaptureClientProtocol, AVCaptureVideoDataOutputSa
 		if dataConnection.isVideoMirroringSupported {
 			dataConnection.isVideoMirrored = captureDevice?.position == .front
 		}
-
+		
 		if captureSession.canAddConnection(dataConnection) {
 			captureSession.addConnection(dataConnection)
 		} else {
@@ -280,19 +276,37 @@ class CaptureClient: NSObject, CaptureClientProtocol, AVCaptureVideoDataOutputSa
 	}
 	
 	func startVideoRecording() {
-		sessionQueue.async {
-			if !self.captureMovieFileOutput.isRecording {
-				let outputFileName = UUID().uuidString
-				let outputFilePath = (NSTemporaryDirectory() as NSString).appendingPathComponent((outputFileName as NSString).appendingPathExtension("mp4")!)
-				self.captureMovieFileOutput.startRecording(to: URL(fileURLWithPath: outputFilePath), recordingDelegate: self)
+		Task(priority: .userInitiated) {
+			do {
+				guard
+					let captureVideoDataOutput = self.captureVideoDataOutput,
+					let videoSettings = captureVideoDataOutput.recommendedVideoSettingsForAssetWriter(writingTo: .mp4)
+				else {
+					throw AppError.CaptureClientError.failedToGenerateVideoSettings
+				}
+				
+				let new = Recorder()
+				new.startVideoRecording(videoSettings: videoSettings)
+				new.delegate = self
+				self.recorder = new
+			} catch {
+				print("Video Recording Failed Failed: \(error.localizedDescription)")
 			}
 		}
 	}
 	
 	func stopVideoRecording() {
-		sessionQueue.async {
-			self.captureMovieFileOutput.stopRecording()
-		}
+		guard let recorder = self.recorder else { return }
+		
+		recorder
+		.stopRecording()
+		.sink(
+			receiveCompletion: { _ in },
+			receiveValue: { [weak self] url in
+				self?.captureValueSubject.send(.video(url))
+			}
+		)
+		.store(in: &self.cancellables)
 	}
 	
 	func toggleCamera() {
@@ -330,7 +344,7 @@ class CaptureClient: NSObject, CaptureClientProtocol, AVCaptureVideoDataOutputSa
 			let image = photo.fileDataRepresentation().flatMap(UIImage.init),
 			let cgImage = image.cgImage
 		else { return }
-
+		
 		var captured: UIImage
 		
 		func flippedImage(_ image: CGImage) -> UIImage {
@@ -345,8 +359,16 @@ class CaptureClient: NSObject, CaptureClientProtocol, AVCaptureVideoDataOutputSa
 		self.isCapturingImage = false
 	}
 	
-	// MARK: - AVCaptureFileOutputRecordingDelegate
-	func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
-		captureValueSubject.send(.video(outputFileURL))
+	// MARK: - RecorderDelegate
+	func recorderDidBeginRecording(_ recorder: Recorder) {
+		
+	}
+	
+	func recorderDidUpdateRecordingDuration(_ recorder: Recorder, duration: Measurement<UnitDuration>) {
+		
+	}
+	
+	func recorderDidFinishRecording(_ recorder: Recorder) {
+		
 	}
 }

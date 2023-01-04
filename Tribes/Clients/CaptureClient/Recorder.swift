@@ -10,7 +10,7 @@ import Combine
 import Foundation
 import VideoToolbox
 
-public protocol RecorderDelegate: AnyObject {
+protocol RecorderDelegate: AnyObject {
 	/// Fires when we receive the first valid video buffer
 	func recorderDidBeginRecording(_ recorder: Recorder)
 	
@@ -21,14 +21,11 @@ public protocol RecorderDelegate: AnyObject {
 	func recorderDidFinishRecording(_ recorder: Recorder)
 }
 
-public final class Recorder {
+final class Recorder {
 	weak var delegate: RecorderDelegate?
 	
 	private(set) var isRecording = false
-	private(set) var measurement: Measurement<UnitDuration> = .init(
-		value: 0,
-		unit: .seconds
-	)
+	private(set) var measurement: Measurement<UnitDuration> = Measurement<UnitDuration>(value: 0, unit: .seconds)
 	
 	private var assetWriter: AVAssetWriter?
 	private var assetWriterVideoInput: AVAssetWriterInput?
@@ -45,10 +42,13 @@ public final class Recorder {
 		let outputFilePath = (NSTemporaryDirectory() as NSString).appendingPathComponent((outputFileName as NSString).appendingPathExtension("mp4")!)
 		guard
 			let fileUrl = URL(string: outputFilePath),
+			var videoSettings = videoSettings,
 			let writer = try? AVAssetWriter(url: fileUrl, fileType: .mp4)
 		else { return }
 		
 		writer.shouldOptimizeForNetworkUse = true
+		
+		videoSettings[AVVideoCodecKey] = AVVideoCodecType.h264
 		
 		let videoInput = AVAssetWriterInput(mediaType: .video, outputSettings: videoSettings)
 		videoInput.expectsMediaDataInRealTime = true

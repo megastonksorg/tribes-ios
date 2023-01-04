@@ -24,6 +24,7 @@ enum AppError: Error {
 		case couldNotAddPorts
 		case couldNotAddVideoInput
 		case couldNotAddVideoOutput
+		case failedToGenerateVideoSettings
 		case noCaptureDevice
 		
 		var title: String { "Capture Error" }
@@ -106,6 +107,11 @@ extension AppError.CaptureClientError: LocalizedError {
 			return NSLocalizedString(
 				"Video output could not be added to the capture session",
 				comment: "Could not add output"
+			)
+		case .failedToGenerateVideoSettings:
+			return NSLocalizedString(
+				"Video settings could not be retrieved from the output",
+				comment: "Failed To Get Video Settings"
 			)
 		case .noCaptureDevice:
 			return NSLocalizedString(
