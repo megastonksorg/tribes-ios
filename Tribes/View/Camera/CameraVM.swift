@@ -57,6 +57,23 @@ extension CameraView {
 			self.captureClient.stopCaptureSession()
 		}
 		
+		func didPressShutter() {
+			Task {
+				try await Task.sleep(for: .seconds(0.5))
+				if !self.isCapturingImage && self.capturedImage == nil {
+					self.captureClient.startVideoRecording()
+				}
+			}
+		}
+		
+		func didReleaseShutter() {
+			if captureClient.isRecording {
+				captureClient.stopVideoRecording()
+			} else {
+				captureClient.capture()
+			}
+		}
+		
 		func toggleFlash() {
 			self.captureClient.toggleFlash()
 			FeedbackClient.shared.light()

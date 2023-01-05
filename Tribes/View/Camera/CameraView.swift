@@ -74,9 +74,9 @@ struct CameraView: View {
 					)
 					.onChange(of: isShutterButtonPressed) { _ in
 						if isShutterButtonPressed {
-							//viewModel.captureClient.startVideoRecording()
+							viewModel.didPressShutter()
 						} else {
-							//viewModel.captureClient.stopVideoRecording()
+							viewModel.didReleaseShutter()
 						}
 					}
 			}
