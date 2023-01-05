@@ -12,7 +12,7 @@ import SwiftUI
 extension CameraView {
 	@MainActor class ViewModel: ObservableObject {
 		
-		let captureClient: CaptureClient = CaptureClient()
+		private (set) var captureClient: CaptureClient = CaptureClient()
 		
 		@Published var capturedImage: UIImage?
 		@Published var capturedVideo: URL?
@@ -37,11 +37,19 @@ extension CameraView {
 			captureClient.isRecording
 		}
 		
+		var setUpResult: CaptureClient.SessionSetupResult {
+			captureClient.setupResult
+		}
+		
 		var videoRecordingProgress: Double {
 			captureClient.recorderDuration / SizeConstants.maxVideoRecordingDuration
 		}
 		
 		init() {
+			addObservers()
+		}
+		
+		func addObservers() {
 			captureClient.captureValuePublisher
 				.receive(on: DispatchQueue.main)
 				.sink(receiveValue: { [weak self] captureValue in
@@ -100,6 +108,20 @@ extension CameraView {
 		func toggleFlash() {
 			self.captureClient.toggleFlash()
 			FeedbackClient.shared.light()
+		}
+		
+		func requestCameraAccess() {
+			Task {
+				let cameraPermissionState = await PermissionClient.shared.requestCameraPermission()
+				let audioPermissionState = await PermissionClient.shared.requestRecordPermission()
+				
+				if cameraPermissionState == .allowed && audioPermissionState == .allowed {
+					self.objectWillChange.send()
+					self.captureClient = CaptureClient()
+					self.addObservers()
+					self.didAppear()
+				}
+			}
 		}
 		
 		func resetCaptureValues() {

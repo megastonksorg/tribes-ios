@@ -86,6 +86,35 @@ struct CameraView: View {
 					.contentShape(Rectangle())
 					.onTapGesture(count: 2, perform: { viewModel.captureClient.toggleCamera() })
 			)
+			.overlay(isShown: viewModel.setUpResult == .configurationFailed) {
+				Color.app.darkBrown.opacity(0.8)
+					.ignoresSafeArea()
+					.overlay(
+						VStack {
+							Text("Camera Failed to start")
+								.foregroundColor(.white)
+							Button(action: {}) {
+								Text("Restart")
+									.font(.body)
+									.foregroundColor(.white)
+									.padding(6)
+									.background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 8))
+							}
+						}
+					)
+			}
+			.overlay(isShown: viewModel.setUpResult == .notAuthorized) {
+				Color.app.darkBrown.opacity(0.8)
+					.ignoresSafeArea()
+					.overlay(
+						Button(action: { viewModel.requestCameraAccess() }) {
+							Text("Request camera access to share tea")
+								.foregroundColor(.white)
+								.padding(8)
+								.background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 10))
+						}
+					)
+			}
 		}
 		.onAppear { viewModel.didAppear() }
 		.onDisappear { viewModel.didDisappear() }
