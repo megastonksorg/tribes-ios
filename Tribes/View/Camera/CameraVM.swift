@@ -106,6 +106,12 @@ extension CameraView {
 			self.previewImage = nil
 		}
 		
+		func updateZoomFactor(low: CGFloat, high: CGFloat) {
+			if isRecordingVideo {
+				self.captureClient.updateZoomFactor(low: low, high: high)
+			}
+		}
+		
 		@objc func stopVideoRecordingIfRequiredAndInvalidateTimer() {
 			if self.isRecordingVideo {
 				self.captureClient.stopVideoRecording()

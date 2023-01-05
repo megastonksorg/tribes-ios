@@ -69,7 +69,7 @@ struct CameraView: View {
 								isShutterButtonPressed = true
 							}
 							.onChanged { value in
-								//Update Zoom factor
+								viewModel.updateZoomFactor(low: value.startLocation.y, high: value.location.y)
 							}
 					)
 					.onChange(of: isShutterButtonPressed) { _ in

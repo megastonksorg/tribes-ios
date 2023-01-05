@@ -218,32 +218,6 @@ class CaptureClient:
 		}
 	}
 	
-	// MARK: - Notifications
-	
-	@objc private func captureSessionRuntimeError(_ notification: Notification) {
-		stopCaptureSession()
-		flushBuffer()
-		self.captureMode = .none
-	}
-	
-	@objc private func captureSessionInterrupted(_ notification: NSNotification) {
-		guard
-			let reasonKey = notification.userInfo?[AVCaptureSessionInterruptionReasonKey] as? Int,
-			let reason = AVCaptureSession.InterruptionReason(rawValue: reasonKey)
-		else { return }
-		
-		switch reason {
-		case .audioDeviceInUseByAnotherClient:
-			self.captureMode = .image
-		default:
-			self.captureMode = .none
-		}
-	}
-	
-	@objc private func captureSessionInterruptionEnded(_ notification: NSNotification) {
-		resumeCaptureSession()
-	}
-	
 	public func capture() {
 		#if !targetEnvironment(simulator)
 		self.isCapturingImage = true
@@ -252,6 +226,10 @@ class CaptureClient:
 			delegate: self
 		)
 		#endif
+	}
+	
+	func resetZoomFactor() {
+		updateZoomFactor(low: 1.0, high: 1.0)
 	}
 	
 	func resumeCaptureSession() {
@@ -266,6 +244,7 @@ class CaptureClient:
 	
 	func startCaptureSession() {
 		sessionQueue.async {
+			self.resetZoomFactor()
 			self.captureSession.startRunning()
 			self.isSessionRunning = self.captureSession.isRunning
 		}
@@ -334,6 +313,21 @@ class CaptureClient:
 		self.captureFlashMode = currentFlashMode == .on ? .off : .on
 	}
 	
+	func updateZoomFactor(low: CGFloat, high: CGFloat) {
+		guard let currentDevice = captureDevice else { return }
+		do {
+			try currentDevice.lockForConfiguration()
+			var zoomFactor = (low - high) / 50
+			
+			if (zoomFactor < 1) {
+				zoomFactor = 1
+			}
+			currentDevice.videoZoomFactor = zoomFactor
+			currentDevice.unlockForConfiguration()
+		}
+		catch {	}
+	}
+	
 	// MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
 	func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
 		if let recorder = recorder, recorder.isRecording {
@@ -382,5 +376,31 @@ class CaptureClient:
 		self.isRecording = recorder.isRecording
 		self.recorder = nil
 		self.recorderDuration = 0.0
+		self.resetZoomFactor()
+	}
+	
+	// MARK: - Notifications
+	@objc private func captureSessionRuntimeError(_ notification: Notification) {
+		stopCaptureSession()
+		flushBuffer()
+		self.captureMode = .none
+	}
+	
+	@objc private func captureSessionInterrupted(_ notification: NSNotification) {
+		guard
+			let reasonKey = notification.userInfo?[AVCaptureSessionInterruptionReasonKey] as? Int,
+			let reason = AVCaptureSession.InterruptionReason(rawValue: reasonKey)
+		else { return }
+		
+		switch reason {
+		case .audioDeviceInUseByAnotherClient:
+			self.captureMode = .image
+		default:
+			self.captureMode = .none
+		}
+	}
+	
+	@objc private func captureSessionInterruptionEnded(_ notification: NSNotification) {
+		resumeCaptureSession()
 	}
 }
