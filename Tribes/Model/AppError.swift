@@ -19,6 +19,7 @@ enum AppError: Error {
 	}
 	
 	enum CaptureClientError: Error {
+		case couldNotAddAudioDevice
 		case couldNotAddDataConnection
 		case couldNotAddPhotoOutput
 		case couldNotAddPorts
@@ -83,6 +84,11 @@ extension AppError.APIClientError: LocalizedError {
 extension AppError.CaptureClientError: LocalizedError {
 	var errorDescription: String? {
 		switch self {
+		case .couldNotAddAudioDevice:
+			return NSLocalizedString(
+				"Audio input device could not be added to the capture session",
+				comment: "Could not add audio input"
+			)
 		case .couldNotAddDataConnection:
 			return NSLocalizedString(
 				"Data Connection could not be added to the capture session",

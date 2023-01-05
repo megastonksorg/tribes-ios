@@ -103,6 +103,15 @@ class CaptureClient:
 			return
 		}
 		
+		//Check audio permission before attempting setup
+		switch PermissionClient.shared.checkRecordPermission() {
+		case .allowed:
+			break
+		case .undetermined, .denied:
+			self.setupResult = .notAuthorized
+			return
+		}
+		
 		//Add Input and Output to Capture Session
 		do {
 			captureSession.beginConfiguration()
@@ -125,11 +134,22 @@ class CaptureClient:
 		
 		let captureDeviceInput = try AVCaptureDeviceInput(device: captureDevice)
 		
+		// Add Camera
 		if captureSession.canAddInput(captureDeviceInput) {
 			captureSession.addInputWithNoConnections(captureDeviceInput)
 			self.captureDeviceInput = captureDeviceInput
 		} else {
 			throw AppError.CaptureClientError.couldNotAddVideoInput
+		}
+		
+		//Add Microphone
+		let audioDevice = AVCaptureDevice.default(for: .audio)
+		let audioDeviceInput = try AVCaptureDeviceInput(device: audioDevice!)
+		
+		if captureSession.canAddInput(audioDeviceInput) {
+			captureSession.addInputWithNoConnections(audioDeviceInput)
+		} else {
+			throw AppError.CaptureClientError.couldNotAddAudioDevice
 		}
 	}
 	
