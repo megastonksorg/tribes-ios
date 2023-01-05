@@ -377,5 +377,6 @@ class CaptureClient:
 	
 	func recorderDidFinishRecording(_ recorder: Recorder) {
 		self.isRecording = recorder.isRecording
+		self.recorderDuration = 0.0
 	}
 }

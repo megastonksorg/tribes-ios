@@ -92,19 +92,31 @@ struct CameraView: View {
 	
 	@ViewBuilder
 	func captureButton() -> some View {
-		ZStack {
-			Circle()
-				.fill(Color.white)
-				.frame(dimension: 75)
-			Circle()
-				.fill(Color.white.opacity(0.3))
-				.frame(dimension: 85)
-		}
-		.opacity(isShutterButtonPressed ? 0.5 : 1.0)
-		.overlay(isShown: viewModel.isCapturingImage) {
-			CaptureLoadingIndicator()
-				.frame(dimension: 40)
-		}
+		let isRecordingVideo = viewModel.videoRecordingProgress > 0
+		let color: Color = {
+			return isRecordingVideo ? Color.app.brown : Color.white
+		}()
+		Circle()
+			.fill(color.opacity(0.3))
+			.overlay(
+				Circle()
+					.inset(by: 2)
+					.trim(from: 0, to: viewModel.videoRecordingProgress)
+					.stroke(color, style: StrokeStyle(lineWidth: 6, lineCap: .round))
+					.animation(.linear, value: viewModel.videoRecordingProgress)
+					.rotationEffect(Angle(degrees: -90))
+			)
+			.frame(dimension: 85)
+			.overlay(
+				Circle()
+					.fill(color.opacity(isRecordingVideo ? 0.5 : 1.0))
+					.padding(4)
+			)
+			.opacity(isShutterButtonPressed && !isRecordingVideo ? 0.5 : 1.0)
+			.overlay(isShown: viewModel.isCapturingImage) {
+				CaptureLoadingIndicator()
+					.frame(dimension: 40)
+			}
 	}
 }
 

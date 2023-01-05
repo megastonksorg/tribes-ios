@@ -31,6 +31,14 @@ extension CameraView {
 			captureClient.isCapturingImage
 		}
 		
+		var isRecordingVideo: Bool {
+			captureClient.isRecording
+		}
+		
+		var videoRecordingProgress: Double {
+			captureClient.recorderDuration / SizeConstants.maxVideoRecordingDuration
+		}
+		
 		init() {
 			captureClient.captureValuePublisher
 				.receive(on: DispatchQueue.main)
