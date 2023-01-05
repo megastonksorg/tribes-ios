@@ -25,6 +25,7 @@ protocol CaptureClientProtocol {
 class CaptureClient:
 	NSObject,
 	CaptureClientProtocol,
+	AVCaptureAudioDataOutputSampleBufferDelegate,
 	AVCaptureVideoDataOutputSampleBufferDelegate,
 	AVCapturePhotoCaptureDelegate,
 	RecorderDelegate {
@@ -62,8 +63,10 @@ class CaptureClient:
 	private var cancellables = Set<AnyCancellable>()
 	
 	private var captureDevice: AVCaptureDevice?
-	private var captureDeviceInput: AVCaptureDeviceInput?
+	private var captureVideoDeviceInput: AVCaptureDeviceInput?
+	private var captureAudioDeviceInput: AVCaptureDeviceInput?
 	private let capturePhotoOutput: AVCapturePhotoOutput = AVCapturePhotoOutput()
+	private var captureAudioDataOutput: AVCaptureAudioDataOutput?
 	private var captureVideoDataOutput: AVCaptureVideoDataOutput?
 	private let captureSession: AVCaptureSession = AVCaptureSession()
 	private let captureValueSubject = PassthroughSubject<CaptureValue, Never>()
@@ -115,8 +118,21 @@ class CaptureClient:
 		//Add Input and Output to Capture Session
 		do {
 			captureSession.beginConfiguration()
-			try addInput()
-			try addOutput()
+			try addInputAndOutput()
+		} catch {
+			captureSession.commitConfiguration()
+			self.setupResult = .configurationFailed
+			print("Camera Setup Failed: \(error.localizedDescription)")
+		}
+		
+		//Configure audio session
+		do {
+			try AVAudioSession.sharedInstance()
+				.setCategory(
+					.playAndRecord,
+					options: [.mixWithOthers, .allowBluetoothA2DP, .defaultToSpeaker]
+			)
+			try AVAudioSession.sharedInstance().setAllowHapticsAndSystemSoundsDuringRecording(true)
 			captureSession.commitConfiguration()
 		} catch {
 			captureSession.commitConfiguration()
@@ -125,7 +141,7 @@ class CaptureClient:
 		}
 	}
 	
-	private func addInput() throws {
+	private func addInputAndOutput() throws {
 		guard let captureDevice = self.captureDevice else {
 			throw AppError.CaptureClientError.noCaptureDevice
 		}
@@ -133,36 +149,27 @@ class CaptureClient:
 		captureSession.sessionPreset = .hd1920x1080
 		
 		let captureDeviceInput = try AVCaptureDeviceInput(device: captureDevice)
+		self.captureVideoDeviceInput = captureDeviceInput
+		guard let captureVideoDeviceInput = self.captureVideoDeviceInput
+		else { throw AppError.CaptureClientError.couldNotAddAudioDevice }
 		
-		// Add Camera
-		if captureSession.canAddInput(captureDeviceInput) {
-			captureSession.addInputWithNoConnections(captureDeviceInput)
-			self.captureDeviceInput = captureDeviceInput
+		// Add camera input
+		if captureSession.canAddInput(captureVideoDeviceInput) {
+			captureSession.addInputWithNoConnections(captureVideoDeviceInput)
 		} else {
 			throw AppError.CaptureClientError.couldNotAddVideoInput
 		}
 		
-		//Add Microphone
-		let audioDevice = AVCaptureDevice.default(for: .audio)
-		let audioDeviceInput = try AVCaptureDeviceInput(device: audioDevice!)
-		
-		if captureSession.canAddInput(audioDeviceInput) {
-			captureSession.addInputWithNoConnections(audioDeviceInput)
-		} else {
-			throw AppError.CaptureClientError.couldNotAddAudioDevice
-		}
-	}
-	
-	private func addOutput() throws {
 		//Add photo output
 		if captureSession.canAddOutput(capturePhotoOutput) {
 			captureSession.addOutput(capturePhotoOutput)
 		} else {
 			throw AppError.CaptureClientError.couldNotAddPhotoOutput
 		}
-		self.captureVideoDataOutput?.setSampleBufferDelegate(nil, queue: nil)
 		
 		//Add video output
+		self.captureVideoDataOutput?.setSampleBufferDelegate(nil, queue: nil)
+		
 		let videoDataOutput = AVCaptureVideoDataOutput()
 		videoDataOutput.setSampleBufferDelegate(self, queue: self.dataOutputQueue)
 		videoDataOutput.alwaysDiscardsLateVideoFrames = true
@@ -174,15 +181,13 @@ class CaptureClient:
 		}
 		captureSession.addOutputWithNoConnections(captureVideoDataOutput)
 		
-		//Add connection
-		guard let ports = captureDeviceInput?.ports else { throw AppError.CaptureClientError.couldNotAddPorts }
-		
-		let dataConnection = AVCaptureConnection(inputPorts: ports, output: captureVideoDataOutput)
+		//Add camera connection
+		let dataConnection = AVCaptureConnection(inputPorts: captureVideoDeviceInput.ports, output: captureVideoDataOutput)
 		if dataConnection.isVideoOrientationSupported {
 			dataConnection.videoOrientation = .portrait
 		}
 		if dataConnection.isVideoMirroringSupported {
-			dataConnection.isVideoMirrored = captureDevice?.position == .front
+			dataConnection.isVideoMirrored = captureDevice.position == .front
 		}
 		
 		if captureSession.canAddConnection(dataConnection) {
@@ -190,6 +195,31 @@ class CaptureClient:
 		} else {
 			throw AppError.CaptureClientError.couldNotAddDataConnection
 		}
+		
+		//Add audio input
+		let audioDeviceInput = try AVCaptureDeviceInput(device: AVCaptureDevice.default(for: .audio)!)
+		self.captureAudioDeviceInput = audioDeviceInput
+		guard let captureAudioDeviceInput = self.captureAudioDeviceInput
+		else { throw AppError.CaptureClientError.couldNotAddAudioDevice }
+		
+		if captureSession.canAddInput(captureAudioDeviceInput) {
+			captureSession.addInput(captureAudioDeviceInput)
+		} else {
+			throw AppError.CaptureClientError.couldNotAddAudioDevice
+		}
+		
+		//Add audio output
+		self.captureAudioDataOutput?.setSampleBufferDelegate(nil, queue: nil)
+		
+		let audioDataOutput = AVCaptureAudioDataOutput()
+		audioDataOutput.setSampleBufferDelegate(self, queue: self.dataOutputQueue)
+		self.captureAudioDataOutput = audioDataOutput
+		
+		guard let captureAudioDataOutput = self.captureAudioDataOutput,
+			  captureSession.canAddOutput(captureAudioDataOutput) else {
+			throw AppError.CaptureClientError.couldNotAddAudioOutput
+		}
+		captureSession.addOutput(captureAudioDataOutput)
 	}
 	
 	private func addObservers() {
@@ -298,13 +328,14 @@ class CaptureClient:
 	func startVideoRecording() {
 		Task(priority: .userInitiated) {
 			do {
+				let fileType = SizeConstants.videoFileType
 				guard
 					!self.isRecording,
 					let captureDevice = self.captureDevice,
 					let captureVideoDataOutput = self.captureVideoDataOutput,
-					let videoSettings = captureVideoDataOutput.recommendedVideoSettingsForAssetWriter(writingTo: .mp4)
+					let videoSettings = captureVideoDataOutput.recommendedVideoSettingsForAssetWriter(writingTo: fileType)
 				else {
-					throw AppError.CaptureClientError.failedToGenerateVideoSettings
+					throw AppError.CaptureClientError.failedToGenerateAudioAndVideoSettings
 				}
 				
 				//Use Torch if the flash mode is on
@@ -313,11 +344,11 @@ class CaptureClient:
 				}
 				
 				let new = Recorder()
-				new.startVideoRecording(videoSettings: videoSettings)
+				new.startVideoRecording(videoSettings: videoSettings, fileType: fileType)
 				new.delegate = self
 				self.recorder = new
 			} catch {
-				print("Video Recording Failed Failed: \(error.localizedDescription)")
+				print("Video Recording Failed: \(error.localizedDescription)")
 			}
 		}
 	}
@@ -347,8 +378,7 @@ class CaptureClient:
 		self.captureSession.beginConfiguration()
 		removeSessionIO()
 		self.captureDevice = oppositeDevice
-		try? addInput()
-		try? addOutput()
+		try? addInputAndOutput()
 		self.captureSession.commitConfiguration()
 	}
 	
@@ -375,8 +405,14 @@ class CaptureClient:
 	// MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
 	func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
 		if let recorder = recorder, recorder.isRecording {
-			recorder.recordVideo(sampleBuffer: sampleBuffer)
+			if output == self.captureAudioDataOutput {
+				recorder.recordAudio(sampleBuffer: sampleBuffer)
+			}
+			else { recorder.recordVideo(sampleBuffer: sampleBuffer) }
 		}
+		
+		guard output != self.captureAudioDataOutput else { return }
+		
 		captureValueSubject.send(.previewImageBuffer(sampleBuffer))
 	}
 	

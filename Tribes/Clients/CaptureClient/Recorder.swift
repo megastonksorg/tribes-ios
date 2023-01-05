@@ -37,17 +37,28 @@ final class Recorder {
 	private var lastKnownBufferTimestamp: CMTime?
 	
 	// MARK: - Recording
-	func startVideoRecording(videoSettings: [String :Any]?) {
-		let fileName = UUID().uuidString + ".mp4"
+	func startVideoRecording(videoSettings: [String : Any]?, fileType: AVFileType) {
+		let fileName = UUID().uuidString + (fileType == .mp4 ? ".mp4" : ".null")
 		let fileUrl = FileManager.default.temporaryDirectory.appending(path: fileName)
 		
-		guard let writer = try? AVAssetWriter(outputURL: fileUrl, fileType: .mp4) else { return }
+		guard let writer = try? AVAssetWriter(outputURL: fileUrl, fileType: fileType) else { return }
 		
 		writer.shouldOptimizeForNetworkUse = true
 		
+		//Add audio input
+		let audioSettings = [
+			AVFormatIDKey: kAudioFormatMPEG4AAC,
+			AVNumberOfChannelsKey: 2,
+			AVSampleRateKey: 44100
+		]
+		let audioInput = AVAssetWriterInput(mediaType: .audio, outputSettings: audioSettings)
+		audioInput.expectsMediaDataInRealTime = true
+		writer.add(audioInput)
+		assetWriterAudioInput = audioInput
+		
+		//Add video input
 		let videoInput = AVAssetWriterInput(mediaType: .video, outputSettings: videoSettings)
 		videoInput.expectsMediaDataInRealTime = true
-		
 		writer.add(videoInput)
 		assetWriterVideoInput = videoInput
 		

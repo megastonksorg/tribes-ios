@@ -5,6 +5,7 @@
 //  Created by Kingsley Okeke on 2022-05-15.
 //
 
+import AVFoundation
 import Foundation
 import SwiftUI
 
@@ -12,6 +13,7 @@ struct SizeConstants {
 	static let backgroundCircle: CGSize = CGSize(width: 300, height: 300)
 	static let cardInnerPadding: CGFloat = 4
 	static let cornerRadius: CGFloat = 10
+	static let videoFileType: AVFileType = AVFileType.mp4
 	static let imagePixelSize: CGSize = CGSize(width: 1080, height: 1920)
 	static let maxVideoRecordingDuration: Double = 20
 	static let phraseGridSpacing: CGFloat = 10

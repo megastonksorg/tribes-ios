@@ -20,12 +20,13 @@ enum AppError: Error {
 	
 	enum CaptureClientError: Error {
 		case couldNotAddAudioDevice
+		case couldNotAddAudioOutput
 		case couldNotAddDataConnection
 		case couldNotAddPhotoOutput
-		case couldNotAddPorts
 		case couldNotAddVideoInput
 		case couldNotAddVideoOutput
-		case failedToGenerateVideoSettings
+		case couldNotConfigureAudioSession
+		case failedToGenerateAudioAndVideoSettings
 		case noCaptureDevice
 		
 		var title: String { "Capture Error" }
@@ -89,6 +90,11 @@ extension AppError.CaptureClientError: LocalizedError {
 				"Audio input device could not be added to the capture session",
 				comment: "Could not add audio input"
 			)
+		case .couldNotAddAudioOutput:
+			return NSLocalizedString(
+				"Audio output could not be added to the capture session",
+				comment: "Could not add output"
+			)
 		case .couldNotAddDataConnection:
 			return NSLocalizedString(
 				"Data Connection could not be added to the capture session",
@@ -98,11 +104,6 @@ extension AppError.CaptureClientError: LocalizedError {
 			return NSLocalizedString(
 				"Photo output could not be added to the capture session",
 				comment: "Could not add output"
-			)
-		case .couldNotAddPorts:
-			return NSLocalizedString(
-				"Ports could not be added to the capture session",
-				comment: "Could not add ports"
 			)
 		case .couldNotAddVideoInput:
 			return NSLocalizedString(
@@ -114,10 +115,15 @@ extension AppError.CaptureClientError: LocalizedError {
 				"Video output could not be added to the capture session",
 				comment: "Could not add output"
 			)
-		case .failedToGenerateVideoSettings:
+		case .couldNotConfigureAudioSession:
 			return NSLocalizedString(
-				"Video settings could not be retrieved from the output",
-				comment: "Failed To Get Video Settings"
+				"Audio session could not be configured",
+				comment: "Could not configure audio"
+			)
+		case .failedToGenerateAudioAndVideoSettings:
+			return NSLocalizedString(
+				"Audio and video settings could not be generated from the output",
+				comment: "Failed To Generate audio and video Settings"
 			)
 		case .noCaptureDevice:
 			return NSLocalizedString(
