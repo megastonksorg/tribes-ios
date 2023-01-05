@@ -13,7 +13,7 @@ struct SizeConstants {
 	static let cardInnerPadding: CGFloat = 4
 	static let cornerRadius: CGFloat = 10
 	static let imagePixelSize: CGSize = CGSize(width: 1080, height: 1920)
-	static let maxVideoRecordingDuration: Double = 4
+	static let maxVideoRecordingDuration: Double = 20
 	static let phraseGridSpacing: CGFloat = 10
 	static let phraseGridCount: Int = 3
 	static let profileImageFrame: CGFloat = 150
