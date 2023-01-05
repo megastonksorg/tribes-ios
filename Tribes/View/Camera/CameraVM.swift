@@ -13,11 +13,13 @@ extension CameraView {
 	@MainActor class ViewModel: ObservableObject {
 		
 		let captureClient: CaptureClient = CaptureClient()
-		var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 		
 		@Published var capturedImage: UIImage?
 		@Published var capturedVideo: URL?
 		@Published var previewImage: UIImage?
+		
+		var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
+		var videoRecorderTimer: Timer?
 		
 		var cameraMode: CaptureClient.CaptureMode {
 			captureClient.captureMode
@@ -66,8 +68,18 @@ extension CameraView {
 		}
 		
 		func didPressShutter() {
+			let shutterButtonDelay: Double = SizeConstants.shutterButtonDelay
+			
+			videoRecorderTimer = Timer.scheduledTimer(
+				timeInterval: SizeConstants.maxVideoRecordingDuration + shutterButtonDelay,
+				target: self,
+				selector: #selector(stopVideoRecordingIfRequiredAndInvalidateTimer),
+				userInfo: nil,
+				repeats: false
+			)
+			
 			Task {
-				try await Task.sleep(for: .seconds(0.5))
+				try await Task.sleep(for: .seconds(shutterButtonDelay))
 				if !self.isCapturingImage && self.capturedImage == nil {
 					self.captureClient.startVideoRecording()
 				}
@@ -76,9 +88,10 @@ extension CameraView {
 		
 		func didReleaseShutter() {
 			if captureClient.isRecording {
-				captureClient.stopVideoRecording()
+				stopVideoRecordingIfRequiredAndInvalidateTimer()
 			} else {
 				captureClient.capture()
+				stopVideoRecordingIfRequiredAndInvalidateTimer()
 			}
 		}
 		
@@ -91,6 +104,14 @@ extension CameraView {
 			self.capturedImage = nil
 			self.capturedVideo = nil
 			self.previewImage = nil
+		}
+		
+		@objc func stopVideoRecordingIfRequiredAndInvalidateTimer() {
+			if self.isRecordingVideo {
+				self.captureClient.stopVideoRecording()
+			}
+			videoRecorderTimer?.invalidate()
+			videoRecorderTimer = nil
 		}
 	}
 }

@@ -300,7 +300,10 @@ class CaptureClient:
 	}
 	
 	func stopVideoRecording() {
-		guard let recorder = self.recorder else { return }
+		guard
+			isRecording,
+			let recorder = self.recorder
+		else { return }
 		
 		recorder
 		.stopRecording()
@@ -377,6 +380,7 @@ class CaptureClient:
 	
 	func recorderDidFinishRecording(_ recorder: Recorder) {
 		self.isRecording = recorder.isRecording
+		self.recorder = nil
 		self.recorderDuration = 0.0
 	}
 }
