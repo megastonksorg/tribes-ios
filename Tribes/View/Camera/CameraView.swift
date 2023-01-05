@@ -87,58 +87,54 @@ struct CameraView: View {
 					.onTapGesture(count: 2, perform: { viewModel.captureClient.toggleCamera() })
 			)
 			.overlay(isShown: viewModel.setUpResult == .configurationFailed) {
-				Color.app.darkBrown.opacity(0.8)
-					.ignoresSafeArea()
-					.overlay(
-						VStack {
-							Text("Camera Failed to start")
-								.foregroundColor(.white)
-							Button(action: { viewModel.initializeCaptureClient() }) {
-								Text("Restart")
-									.font(.body)
-									.foregroundColor(.white)
-									.padding(6)
-									.background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 8))
-							}
-						}
-					)
+				VStack {
+					Button(action: { viewModel.initializeCaptureClient() }) {
+						Text("Resume")
+							.font(.body)
+							.foregroundColor(.white)
+							.padding(6)
+							.background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 8))
+					}
+				}
+				.pushOutFrame()
+				.background(Color.gray.opacity(0.8))
 			}
 			.overlay(isShown: !viewModel.isPermissionAllowed) {
-				Color.app.darkBrown.opacity(0.8)
-					.ignoresSafeArea()
-					.overlay {
-						VStack {
-							if viewModel.isPermissionUndetermined {
-								VStack {
-									Text("You need access to your camera and microphone to share tea")
+				VStack {
+					VStack {
+						if viewModel.isPermissionUndetermined {
+							VStack {
+								Text("You need access to your camera and microphone to share tea")
+									.foregroundColor(.white)
+									.multilineTextAlignment(.center)
+								Button(action: { viewModel.requestCameraAccess() }) {
+									Text("Request for access")
+										.font(.footnote)
 										.foregroundColor(.white)
-										.multilineTextAlignment(.center)
-									Button(action: { viewModel.requestCameraAccess() }) {
-										Text("Request for access")
-											.font(.footnote)
-											.foregroundColor(.white)
-											.padding(8)
-											.background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 10))
-									}
+										.padding(8)
+										.background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 10))
 								}
-							} else if viewModel.isPermissionDenied {
-								VStack {
-									Text("You cannot share tea without access to your camera and microphone")
+							}
+						} else if viewModel.isPermissionDenied {
+							VStack {
+								Text("You cannot share tea without access to your camera and microphone")
+									.foregroundColor(.white)
+									.multilineTextAlignment(.center)
+								
+								Button (action: { viewModel.openSystemSettings() }) {
+									Text("Go to settings")
+										.font(.footnote)
 										.foregroundColor(.white)
-										.multilineTextAlignment(.center)
-									
-									Button (action: { viewModel.openSystemSettings() }) {
-										Text("Go to settings")
-											.font(.footnote)
-											.foregroundColor(.white)
-											.padding(8)
-											.background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 10))
-									}
+										.padding(8)
+										.background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 10))
 								}
 							}
 						}
-						.padding(.horizontal, 40)
 					}
+					.padding(.horizontal, 40)
+				}
+				.pushOutFrame()
+				.background(Color.app.darkBrown.opacity(0.8))
 			}
 		}
 		.onAppear { viewModel.didAppear() }
