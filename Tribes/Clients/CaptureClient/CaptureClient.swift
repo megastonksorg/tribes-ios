@@ -252,6 +252,7 @@ class CaptureClient:
 	
 	func stopCaptureSession() {
 		sessionQueue.async {
+			self.stopVideoRecording()
 			self.captureSession.stopRunning()
 			self.isSessionRunning = self.captureSession.isRunning
 		}

@@ -113,9 +113,7 @@ extension CameraView {
 		}
 		
 		@objc func stopVideoRecordingIfRequiredAndInvalidateTimer() {
-			if self.isRecordingVideo {
-				self.captureClient.stopVideoRecording()
-			}
+			self.captureClient.stopVideoRecording()
 			videoRecorderTimer?.invalidate()
 			videoRecorderTimer = nil
 		}
