@@ -105,6 +105,13 @@ extension CameraView {
 			}
 		}
 		
+		func initializeCaptureClient() {
+			self.objectWillChange.send()
+			self.captureClient = CaptureClient()
+			self.addObservers()
+			self.didAppear()
+		}
+		
 		func toggleFlash() {
 			self.captureClient.toggleFlash()
 			FeedbackClient.shared.light()
@@ -116,10 +123,7 @@ extension CameraView {
 				let audioPermissionState = await PermissionClient.shared.requestRecordPermission()
 				
 				if cameraPermissionState == .allowed && audioPermissionState == .allowed {
-					self.objectWillChange.send()
-					self.captureClient = CaptureClient()
-					self.addObservers()
-					self.didAppear()
+					initializeCaptureClient()
 				}
 			}
 		}

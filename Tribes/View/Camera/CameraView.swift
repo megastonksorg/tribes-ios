@@ -93,7 +93,7 @@ struct CameraView: View {
 						VStack {
 							Text("Camera Failed to start")
 								.foregroundColor(.white)
-							Button(action: {}) {
+							Button(action: { viewModel.initializeCaptureClient() }) {
 								Text("Restart")
 									.font(.body)
 									.foregroundColor(.white)
