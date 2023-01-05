@@ -68,12 +68,15 @@ class CaptureClient:
 	private let captureSession: AVCaptureSession = AVCaptureSession()
 	private let captureValueSubject = PassthroughSubject<CaptureValue, Never>()
 	private var isSessionRunning: Bool = false
+	
 	private var recorder: Recorder?
 	
 	var captureFlashMode: AVCaptureDevice.FlashMode = .off
 	var captureMode: CaptureMode = .imageAndVideo
 	var isCapturingImage: Bool = false
+	var isRecording: Bool = false
 	var setupResult: SessionSetupResult = .success
+	var recorderDuration: Double = 0
 	
 	//MARK: Computed properties
 	var captureValuePublisher: AnyPublisher<CaptureValue, Never> {
@@ -279,6 +282,7 @@ class CaptureClient:
 		Task(priority: .userInitiated) {
 			do {
 				guard
+					!isRecording,
 					let captureVideoDataOutput = self.captureVideoDataOutput,
 					let videoSettings = captureVideoDataOutput.recommendedVideoSettingsForAssetWriter(writingTo: .mp4)
 				else {
@@ -364,14 +368,14 @@ class CaptureClient:
 	
 	// MARK: - RecorderDelegate
 	func recorderDidBeginRecording(_ recorder: Recorder) {
-		
+		self.isRecording = recorder.isRecording
 	}
 	
 	func recorderDidUpdateRecordingDuration(_ recorder: Recorder, duration: Measurement<UnitDuration>) {
-		
+		recorderDuration = recorder.measurement.value
 	}
 	
 	func recorderDidFinishRecording(_ recorder: Recorder) {
-		
+		self.isRecording = recorder.isRecording
 	}
 }
