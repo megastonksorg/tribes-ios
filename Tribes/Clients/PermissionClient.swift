@@ -7,6 +7,7 @@
 
 import AVFoundation
 import Foundation
+import UIKit
 
 @frozen enum PermissionState {
 	case undetermined, allowed, denied
@@ -20,6 +21,9 @@ protocol PermissionClientProtocol {
 	//Camera Permission
 	func checkCameraPermission() -> PermissionState
 	func requestCameraPermission() async -> PermissionState
+	
+	//Open System Settings
+	func openSystemSettings() async
 }
 
 class PermissionClient: PermissionClientProtocol {
@@ -54,5 +58,13 @@ class PermissionClient: PermissionClientProtocol {
 	func requestCameraPermission() async -> PermissionState {
 		let permissionGranted = await AVCaptureDevice.requestAccess(for: .video)
 		return permissionGranted ? .allowed : .denied
+	}
+	
+	func openSystemSettings() {
+		DispatchQueue.main.async {
+			Task {
+				await UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+			}
+		}
 	}
 }

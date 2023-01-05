@@ -103,17 +103,42 @@ struct CameraView: View {
 						}
 					)
 			}
-			.overlay(isShown: viewModel.setUpResult == .notAuthorized) {
+			.overlay(isShown: !viewModel.isPermissionAllowed) {
 				Color.app.darkBrown.opacity(0.8)
 					.ignoresSafeArea()
-					.overlay(
-						Button(action: { viewModel.requestCameraAccess() }) {
-							Text("Request camera access to share tea")
-								.foregroundColor(.white)
-								.padding(8)
-								.background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 10))
+					.overlay {
+						VStack {
+							if viewModel.isPermissionUndetermined {
+								VStack {
+									Text("You need access to your camera and microphone to share tea")
+										.foregroundColor(.white)
+										.multilineTextAlignment(.center)
+									Button(action: { viewModel.requestCameraAccess() }) {
+										Text("Request for access")
+											.font(.footnote)
+											.foregroundColor(.white)
+											.padding(8)
+											.background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 10))
+									}
+								}
+							} else if viewModel.isPermissionDenied {
+								VStack {
+									Text("You cannot share tea without access to your camera and microphone")
+										.foregroundColor(.white)
+										.multilineTextAlignment(.center)
+									
+									Button (action: { viewModel.openSystemSettings() }) {
+										Text("Go to settings")
+											.font(.footnote)
+											.foregroundColor(.white)
+											.padding(8)
+											.background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 10))
+									}
+								}
+							}
 						}
-					)
+						.padding(.horizontal, 40)
+					}
 			}
 		}
 		.onAppear { viewModel.didAppear() }

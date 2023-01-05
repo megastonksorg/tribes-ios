@@ -12,14 +12,30 @@ import SwiftUI
 extension CameraView {
 	@MainActor class ViewModel: ObservableObject {
 		
+		let permissionClient = PermissionClient.shared
+		
 		private (set) var captureClient: CaptureClient = CaptureClient()
 		
+		@Published var audioPermissionState: PermissionState
+		@Published var cameraPermissionState: PermissionState
 		@Published var capturedImage: UIImage?
 		@Published var capturedVideo: URL?
 		@Published var previewImage: UIImage?
 		
 		var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 		var videoRecorderTimer: Timer?
+		
+		var isPermissionAllowed: Bool {
+			cameraPermissionState == .allowed && audioPermissionState == .allowed
+		}
+		
+		var isPermissionDenied: Bool {
+			cameraPermissionState == .denied || audioPermissionState == .denied
+		}
+		
+		var isPermissionUndetermined: Bool {
+			cameraPermissionState == .undetermined || audioPermissionState == .undetermined
+		}
 		
 		var cameraMode: CaptureClient.CaptureMode {
 			captureClient.captureMode
@@ -46,6 +62,8 @@ extension CameraView {
 		}
 		
 		init() {
+			self.audioPermissionState = permissionClient.checkRecordPermission()
+			self.cameraPermissionState = permissionClient.checkCameraPermission()
 			addObservers()
 		}
 		
@@ -112,6 +130,10 @@ extension CameraView {
 			self.didAppear()
 		}
 		
+		func openSystemSettings() {
+			permissionClient.openSystemSettings()
+		}
+		
 		func toggleFlash() {
 			self.captureClient.toggleFlash()
 			FeedbackClient.shared.light()
@@ -119,8 +141,8 @@ extension CameraView {
 		
 		func requestCameraAccess() {
 			Task {
-				let cameraPermissionState = await PermissionClient.shared.requestCameraPermission()
-				let audioPermissionState = await PermissionClient.shared.requestRecordPermission()
+				self.cameraPermissionState = await permissionClient.requestCameraPermission()
+				self.audioPermissionState = await permissionClient.requestRecordPermission()
 				
 				if cameraPermissionState == .allowed && audioPermissionState == .allowed {
 					initializeCaptureClient()
