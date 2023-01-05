@@ -242,6 +242,21 @@ class CaptureClient:
 		}
 	}
 	
+	func setTorchMode(mode: AVCaptureDevice.TorchMode) {
+		guard
+			let captureDevice = self.captureDevice,
+			mode != .auto
+		else { return }
+		do {
+			try captureDevice.lockForConfiguration()
+			try captureDevice.setTorchModeOn(level: 1.0)
+			captureDevice.torchMode = mode
+			captureDevice.unlockForConfiguration()
+		} catch {
+			print("Could not set torch mode")
+		}
+	}
+	
 	func startCaptureSession() {
 		sessionQueue.async {
 			self.resetZoomFactor()
@@ -262,11 +277,17 @@ class CaptureClient:
 		Task(priority: .userInitiated) {
 			do {
 				guard
-					!isRecording,
+					!self.isRecording,
+					let captureDevice = self.captureDevice,
 					let captureVideoDataOutput = self.captureVideoDataOutput,
 					let videoSettings = captureVideoDataOutput.recommendedVideoSettingsForAssetWriter(writingTo: .mp4)
 				else {
 					throw AppError.CaptureClientError.failedToGenerateVideoSettings
+				}
+				
+				//Use Torch if the flash mode is on
+				if captureDevice.hasTorch && self.captureFlashMode == .on {
+					setTorchMode(mode: .on)
 				}
 				
 				let new = Recorder()
@@ -284,6 +305,8 @@ class CaptureClient:
 			isRecording,
 			let recorder = self.recorder
 		else { return }
+		
+		self.setTorchMode(mode: .off)
 		
 		recorder
 		.stopRecording()
