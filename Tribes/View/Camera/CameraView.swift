@@ -56,6 +56,7 @@ struct CameraView: View {
 							.foregroundColor(.white)
 							.padding(.leading, 20)
 					}
+					.opacity(viewModel.isRecordingVideo ? 0.0 : 1.0)
 					
 					Spacer()
 				}
