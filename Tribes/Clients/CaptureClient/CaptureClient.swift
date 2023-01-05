@@ -248,10 +248,12 @@ class CaptureClient:
 			mode != .auto
 		else { return }
 		do {
-			try captureDevice.lockForConfiguration()
-			try captureDevice.setTorchModeOn(level: 1.0)
-			captureDevice.torchMode = mode
-			captureDevice.unlockForConfiguration()
+			if captureDevice.isTorchAvailable {
+				try captureDevice.lockForConfiguration()
+				try captureDevice.setTorchModeOn(level: 1.0)
+				captureDevice.torchMode = mode
+				captureDevice.unlockForConfiguration()
+			}
 		} catch {
 			print("Could not set torch mode")
 		}
