@@ -68,20 +68,22 @@ extension CameraView {
 		}
 		
 		func didPressShutter() {
-			let shutterButtonDelay: Double = SizeConstants.shutterButtonDelay
-			
-			videoRecorderTimer = Timer.scheduledTimer(
-				timeInterval: SizeConstants.maxVideoRecordingDuration + shutterButtonDelay,
-				target: self,
-				selector: #selector(stopVideoRecordingIfRequiredAndInvalidateTimer),
-				userInfo: nil,
-				repeats: false
-			)
-			
-			Task {
-				try await Task.sleep(for: .seconds(shutterButtonDelay))
-				if !self.isCapturingImage && self.capturedImage == nil {
-					self.captureClient.startVideoRecording()
+			if !self.isCapturingImage {
+				let shutterButtonDelay: Double = SizeConstants.shutterButtonDelay
+				
+				videoRecorderTimer = Timer.scheduledTimer(
+					timeInterval: SizeConstants.maxVideoRecordingDuration + shutterButtonDelay,
+					target: self,
+					selector: #selector(stopVideoRecordingIfRequiredAndInvalidateTimer),
+					userInfo: nil,
+					repeats: false
+				)
+				
+				Task {
+					try await Task.sleep(for: .seconds(shutterButtonDelay))
+					if !self.isCapturingImage && self.capturedImage == nil {
+						self.captureClient.startVideoRecording()
+					}
 				}
 			}
 		}
