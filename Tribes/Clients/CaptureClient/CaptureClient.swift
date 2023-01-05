@@ -308,8 +308,6 @@ class CaptureClient:
 			let recorder = self.recorder
 		else { return }
 		
-		self.setTorchMode(mode: .off)
-		
 		recorder
 		.stopRecording()
 		.sink(
