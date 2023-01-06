@@ -15,7 +15,7 @@ fileprivate let appStateKeyNotification: String = "appState"
 	enum AppMode {
 		case welcome(WelcomePageView.ViewModel)
 		case authentication(AuthenticateView.ViewModel)
-		case loggedIn
+		case home
 	}
 	
 	enum AppAction {
@@ -42,8 +42,8 @@ fileprivate let appStateKeyNotification: String = "appState"
 						self.appMode = .welcome(welcomeViewModel)
 					case .authentication(let authenticationViewModel):
 						self.appMode = .authentication(authenticationViewModel)
-					case .loggedIn:
-						self.appMode = .loggedIn
+					case .home:
+						self.appMode = .home
 				}
 		}
 	}
