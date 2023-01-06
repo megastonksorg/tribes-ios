@@ -78,6 +78,8 @@
 		D030D31E2957460B0011128F /* AuthenticateVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030D3112957460B0011128F /* AuthenticateVM.swift */; };
 		D030D31F2957460B0011128F /* ProfileSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030D3132957460B0011128F /* ProfileSettingsView.swift */; };
 		D030D3202957460B0011128F /* ProfileSettingsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030D3142957460B0011128F /* ProfileSettingsVM.swift */; };
+		D03B30A32968DAFB00F797CE /* HomeVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B30A22968DAFB00F797CE /* HomeVM.swift */; };
+		D03B30A52968DB3D00F797CE /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B30A42968DB3D00F797CE /* HomeView.swift */; };
 		D0D2668F295F717100A94183 /* CaptureClient+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D2668E295F717100A94183 /* CaptureClient+Utilities.swift */; };
 		D0D26692295FED0500A94183 /* ComposeVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D26691295FED0500A94183 /* ComposeVM.swift */; };
 		D0D26694295FED1000A94183 /* ComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D26693295FED1000A94183 /* ComposeView.swift */; };
@@ -163,6 +165,8 @@
 		D030D3112957460B0011128F /* AuthenticateVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticateVM.swift; sourceTree = "<group>"; };
 		D030D3132957460B0011128F /* ProfileSettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileSettingsView.swift; sourceTree = "<group>"; };
 		D030D3142957460B0011128F /* ProfileSettingsVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileSettingsVM.swift; sourceTree = "<group>"; };
+		D03B30A22968DAFB00F797CE /* HomeVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVM.swift; sourceTree = "<group>"; };
+		D03B30A42968DB3D00F797CE /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		D0D2668E295F717100A94183 /* CaptureClient+Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CaptureClient+Utilities.swift"; sourceTree = "<group>"; };
 		D0D26691295FED0500A94183 /* ComposeVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeVM.swift; sourceTree = "<group>"; };
 		D0D26693295FED1000A94183 /* ComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeView.swift; sourceTree = "<group>"; };
@@ -382,6 +386,7 @@
 		D030D3002957460B0011128F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				D03B30A12968DAE700F797CE /* Home */,
 				D0D2669A296010C900A94183 /* TeaContent */,
 				D0D2669529600BAB00A94183 /* Draft */,
 				D0D26690295FECEF00A94183 /* Compose */,
@@ -463,6 +468,15 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D03B30A12968DAE700F797CE /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				D03B30A22968DAFB00F797CE /* HomeVM.swift */,
+				D03B30A42968DB3D00F797CE /* HomeView.swift */,
+			);
+			path = Home;
 			sourceTree = "<group>";
 		};
 		D0D2668D295F715500A94183 /* CaptureClient */ = {
@@ -605,6 +619,7 @@
 				D030D2D6295745E90011128F /* View+Overlay.swift in Sources */,
 				D029D81E2957548400EA4C07 /* AppView.swift in Sources */,
 				D0158079295D14880087545A /* CaptureClient.swift in Sources */,
+				D03B30A52968DB3D00F797CE /* HomeView.swift in Sources */,
 				D030D29A295745970011128F /* AppRouter.swift in Sources */,
 				D0158080295E08570087545A /* CameraVM.swift in Sources */,
 				D0D266A9296524AC00A94183 /* Recorder.swift in Sources */,
@@ -630,6 +645,7 @@
 				D030D3162957460B0011128F /* WelcomePageView.swift in Sources */,
 				D030D2E6295745E90011128F /* AppProgressView.swift in Sources */,
 				D0D266A52963466200A94183 /* PlayerView.swift in Sources */,
+				D03B30A32968DAFB00F797CE /* HomeVM.swift in Sources */,
 				D030D2F8295745F90011128F /* AppError.swift in Sources */,
 				D0D26692295FED0500A94183 /* ComposeVM.swift in Sources */,
 				D030D2E8295745E90011128F /* ImagePlaceHolderView.swift in Sources */,
