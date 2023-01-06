@@ -9,7 +9,15 @@ import Foundation
 
 extension HomeView {
 	@MainActor class ViewModel: ObservableObject {
+		
+		enum Page {
+			case compose
+			case tribes
+		}
+		
 		@Published var composeVM: ComposeView.ViewModel = ComposeView.ViewModel()
+		
+		@Published var currentPage: Page = .compose
 		
 		init() {
 		}

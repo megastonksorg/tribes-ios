@@ -16,14 +16,17 @@ struct HomeView: View {
 	}
 	
 	var body: some View {
-		TabView {
+		TabView(selection: $viewModel.currentPage) {
 			ComposeView(viewModel: viewModel.composeVM)
+				.tag(ViewModel.Page.compose)
+			
 			VStack {
 				Text("Tribes")
 				Spacer()
 			}
 			.pushOutFrame()
 			.background(Color.app.background)
+			.tag(ViewModel.Page.tribes)
 		}
 		.tabViewStyle(.page(indexDisplayMode: .never))
 		.ignoresSafeArea()
