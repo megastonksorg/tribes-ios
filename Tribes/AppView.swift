@@ -22,8 +22,8 @@ struct AppView: View {
 						.environmentObject(appRouter)
 				case .authentication(let authenticationViewModel):
 					AuthenticateView(viewModel: authenticationViewModel)
-				case .home:
-					EmptyView()
+				case .home(let homeViewModel):
+					HomeView(viewModel: homeViewModel)
 			}
 		}
 	}

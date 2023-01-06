@@ -15,14 +15,14 @@ fileprivate let appStateKeyNotification: String = "appState"
 	enum AppMode {
 		case welcome(WelcomePageView.ViewModel)
 		case authentication(AuthenticateView.ViewModel)
-		case home
+		case home(HomeView.ViewModel)
 	}
 	
 	enum AppAction {
 		case changeAppMode(AppMode)
 	}
 	
-	@Published var appMode: AppMode = .welcome(WelcomePageView.ViewModel())
+	@Published var appMode: AppMode = .home(HomeView.ViewModel())
 	
 	init() {
 		NotificationCenter
@@ -42,8 +42,8 @@ fileprivate let appStateKeyNotification: String = "appState"
 						self.appMode = .welcome(welcomeViewModel)
 					case .authentication(let authenticationViewModel):
 						self.appMode = .authentication(authenticationViewModel)
-					case .home:
-						self.appMode = .home
+					case .home(let homeViewModel):
+						self.appMode = .home(homeViewModel)
 				}
 		}
 	}
