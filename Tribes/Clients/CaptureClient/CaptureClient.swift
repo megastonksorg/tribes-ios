@@ -161,10 +161,12 @@ class CaptureClient:
 		}
 		
 		//Add photo output
-		if captureSession.canAddOutput(capturePhotoOutput) {
-			captureSession.addOutput(capturePhotoOutput)
-		} else {
-			throw AppError.CaptureClientError.couldNotAddPhotoOutput
+		if !self.isRecording {
+			if captureSession.canAddOutput(capturePhotoOutput) {
+				captureSession.addOutput(capturePhotoOutput)
+			} else {
+				throw AppError.CaptureClientError.couldNotAddPhotoOutput
+			}
 		}
 		
 		//Add video output
