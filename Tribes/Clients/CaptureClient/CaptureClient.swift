@@ -261,14 +261,6 @@ class CaptureClient:
 		captureValueSubject.send(.previewImageBuffer(nil))
 	}
 	
-	private func removeSessionIO() {
-		sessionQueue.async {
-			self.captureSession.inputs.forEach(self.captureSession.removeInput)
-			self.captureSession.outputs.forEach(self.captureSession.removeOutput)
-			self.captureSession.connections.forEach(self.captureSession.removeConnection)
-		}
-	}
-	
 	func cancelVideoRecording() {
 		self.recorderDuration = 0.0
 		self.recorder = nil
@@ -286,6 +278,12 @@ class CaptureClient:
 		#endif
 	}
 		
+	private func removeSessionIO() {
+		self.captureSession.inputs.forEach(self.captureSession.removeInput)
+		self.captureSession.outputs.forEach(self.captureSession.removeOutput)
+		self.captureSession.connections.forEach(self.captureSession.removeConnection)
+	}
+	
 	func resetZoomFactor() {
 		updateZoomFactor(low: 1.0, high: 1.0)
 	}
@@ -385,6 +383,7 @@ class CaptureClient:
 		self.captureSession.beginConfiguration()
 		removeSessionIO()
 		self.captureDevice = oppositeDevice
+		try? addInputAndOutput()
 		self.captureSession.commitConfiguration()
 	}
 	
