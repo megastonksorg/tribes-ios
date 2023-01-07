@@ -83,5 +83,6 @@ struct WelcomePageView: View {
 struct WelcomePageView_Previews: PreviewProvider {
 	static var previews: some View {
 		WelcomePageView(viewModel: WelcomePageView.ViewModel())
+			.environmentObject(AppRouter())
 	}
 }
