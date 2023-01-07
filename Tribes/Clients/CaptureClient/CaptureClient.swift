@@ -272,8 +272,8 @@ class CaptureClient:
 	}
 	
 	func cancelVideoRecording() {
-		self.recorder = nil
 		self.recorderDuration = 0.0
+		self.recorder = nil
 		self.isRecording = false
 		self.resetZoomFactor()
 	}
