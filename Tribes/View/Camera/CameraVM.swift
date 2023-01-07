@@ -100,24 +100,30 @@ extension CameraView {
 		}
 		
 		func didPressShutter() {
-			if !self.isRecordingVideo {
-				videoRecorderTimer = Timer.scheduledTimer(
-					timeInterval: SizeConstants.maxVideoRecordingDuration,
-					target: self,
-					selector: #selector(stopVideoRecordingAndInvalidateTimer),
-					userInfo: nil,
-					repeats: false
-				)
-				self.captureClient.startVideoRecording()
+			cancelVideoRecordingAndInvalidateTimer()
+			videoRecorderTimer = Timer.scheduledTimer(
+				timeInterval: SizeConstants.maxVideoRecordingDuration,
+				target: self,
+				selector: #selector(stopVideoRecordingAndInvalidateTimer),
+				userInfo: nil,
+				repeats: false
+			)
+			
+			Task {
+				await recordVideo()
 			}
+		}
+		
+		func recordVideo() async {
+			try? await Task.sleep(for: .seconds(0.5))
+			self.captureClient.startVideoRecording()
 		}
 		
 		func didReleaseShutter() {
 			guard let videoRecorderTimer = self.videoRecorderTimer else { return }
 			let recordedDurationAtThisMoment = videoRecorderTimer.fireDate.timeIntervalSince(Date.now)
 			//Video recording will only be continued if the recording is more than 2 seconds
-			if recordedDurationAtThisMoment > SizeConstants.maxVideoRecordingDuration - 2 {
-				print(recordedDurationAtThisMoment)
+			if recordedDurationAtThisMoment > SizeConstants.maxVideoRecordingDuration - 3.0 {
 				cancelVideoRecordingAndInvalidateTimer()
 				captureClient.capture()
 			} else {
