@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 extension HomeView {
 	@MainActor class ViewModel: ObservableObject {
@@ -17,9 +18,21 @@ extension HomeView {
 		
 		@Published var composeVM: ComposeView.ViewModel = ComposeView.ViewModel()
 		
-		@Published var currentPage: Page = .compose
+		@Published var currentPage: Page = .tribes
+		
+		var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 		
 		init() {
+			$currentPage
+				.sink(receiveValue: { [weak self] page in
+					switch page {
+					case .compose:
+						self?.composeVM.cameraVM.didAppear()
+					case .tribes:
+						self?.composeVM.cameraVM.didDisappear()
+					}
+				})
+				.store(in: &cancellables)
 		}
 	}
 }
