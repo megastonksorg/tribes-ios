@@ -261,18 +261,6 @@ class CaptureClient:
 		captureValueSubject.send(.previewImageBuffer(nil))
 	}
 	
-	private func removeAudioInputAndOutput() {
-		guard
-			let captureAudioDeviceInput = self.captureAudioDeviceInput,
-			let captureAudioDataOutput = self.captureAudioDataOutput
-		else { return }
-		
-		captureSession.beginConfiguration()
-		captureSession.removeInput(captureAudioDeviceInput)
-		captureSession.removeOutput(captureAudioDataOutput)
-		captureSession.commitConfiguration()
-	}
-	
 	private func removeSessionIO() {
 		sessionQueue.async {
 			self.captureSession.inputs.forEach(self.captureSession.removeInput)
