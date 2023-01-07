@@ -92,6 +92,7 @@
 		D0D266A52963466200A94183 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D266A42963466200A94183 /* PlayerView.swift */; };
 		D0D266A7296513D300A94183 /* TeaContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D266A6296513D300A94183 /* TeaContent.swift */; };
 		D0D266A9296524AC00A94183 /* Recorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D266A8296524AC00A94183 /* Recorder.swift */; };
+		D0E8519A2968EBF70034AFD1 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = D0E851992968EBF70034AFD1 /* Introspect */; };
 		D0F7E13A29574A330053B21D /* SwiftProtobuf in Frameworks */ = {isa = PBXBuildFile; productRef = D0F7E13929574A330053B21D /* SwiftProtobuf */; };
 /* End PBXBuildFile section */
 
@@ -188,6 +189,7 @@
 			files = (
 				D030D2962957452F0011128F /* WalletCore in Frameworks */,
 				D030D293295744F50011128F /* SwiftKeychainWrapper in Frameworks */,
+				D0E8519A2968EBF70034AFD1 /* Introspect in Frameworks */,
 				D030D290295744A80011128F /* IdentifiedCollections in Frameworks */,
 				D0F7E13A29574A330053B21D /* SwiftProtobuf in Frameworks */,
 			);
@@ -546,6 +548,7 @@
 				D030D292295744F50011128F /* SwiftKeychainWrapper */,
 				D030D2952957452F0011128F /* WalletCore */,
 				D0F7E13929574A330053B21D /* SwiftProtobuf */,
+				D0E851992968EBF70034AFD1 /* Introspect */,
 			);
 			productName = Tribes;
 			productReference = D030D27D29573E9A0011128F /* Tribes.app */;
@@ -579,6 +582,7 @@
 				D030D28E295744A80011128F /* XCRemoteSwiftPackageReference "swift-identified-collections" */,
 				D030D291295744F50011128F /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */,
 				D030D2942957452F0011128F /* XCRemoteSwiftPackageReference "wallet-core" */,
+				D0E851982968EBF70034AFD1 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
 			);
 			productRefGroup = D030D27E29573E9A0011128F /* Products */;
 			projectDirPath = "";
@@ -922,6 +926,14 @@
 				kind = branch;
 			};
 		};
+		D0E851982968EBF70034AFD1 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.4;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -939,6 +951,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D030D2942957452F0011128F /* XCRemoteSwiftPackageReference "wallet-core" */;
 			productName = WalletCore;
+		};
+		D0E851992968EBF70034AFD1 /* Introspect */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D0E851982968EBF70034AFD1 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
+			productName = Introspect;
 		};
 		D0F7E13929574A330053B21D /* SwiftProtobuf */ = {
 			isa = XCSwiftPackageProductDependency;
