@@ -92,6 +92,7 @@ extension CameraView {
 		}
 		
 		func didAppear() {
+			cancelVideoRecordingAndInvalidateTimer()
 			resetCaptureValues()
 			self.captureClient.startCaptureSession()
 		}
@@ -144,7 +145,7 @@ extension CameraView {
 		}
 		
 		func recordVideo() async {
-			try? await Task.sleep(for: .seconds(0.5))
+			try? await Task.sleep(for: .seconds(0.2))
 			self.captureClient.startVideoRecording()
 		}
 		
