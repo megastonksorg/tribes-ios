@@ -23,6 +23,7 @@ extension CameraView {
 		@Published var previewImage: UIImage?
 		
 		var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
+		
 		var videoRecorderTimer: Timer?
 		
 		var isPermissionAllowed: Bool {
@@ -114,11 +115,6 @@ extension CameraView {
 			}
 		}
 		
-		func recordVideo() async {
-			try? await Task.sleep(for: .seconds(0.5))
-			self.captureClient.startVideoRecording()
-		}
-		
 		func didReleaseShutter() {
 			guard let videoRecorderTimer = self.videoRecorderTimer else { return }
 			let recordedDurationAtThisMoment = videoRecorderTimer.fireDate.timeIntervalSince(Date.now)
@@ -147,6 +143,11 @@ extension CameraView {
 			FeedbackClient.shared.light()
 		}
 		
+		func recordVideo() async {
+			try? await Task.sleep(for: .seconds(0.5))
+			self.captureClient.startVideoRecording()
+		}
+		
 		func requestCameraAccess() {
 			Task {
 				self.cameraPermissionState = await permissionClient.requestCameraPermission()
@@ -164,16 +165,16 @@ extension CameraView {
 			self.previewImage = nil
 		}
 		
-		func updateZoomFactor(low: CGFloat, high: CGFloat) {
-			if isRecordingVideo {
-				self.captureClient.updateZoomFactor(low: low, high: high)
-			}
-		}
-		
 		@objc func stopVideoRecordingAndInvalidateTimer() {
 			self.captureClient.stopVideoRecording()
 			videoRecorderTimer?.invalidate()
 			videoRecorderTimer = nil
+		}
+		
+		func updateZoomFactor(low: CGFloat, high: CGFloat) {
+			if isRecordingVideo {
+				self.captureClient.updateZoomFactor(low: low, high: high)
+			}
 		}
 	}
 }
