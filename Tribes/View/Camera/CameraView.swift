@@ -143,7 +143,7 @@ struct CameraView: View {
 	
 	@ViewBuilder
 	func captureButton() -> some View {
-		let isRecordingVideo = viewModel.videoRecordingProgress > 0
+		let isRecordingVideo = viewModel.videoRecordingProgress > 0.05
 		let color: Color = {
 			return isRecordingVideo ? Color.app.brown : Color.white
 		}()

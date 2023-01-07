@@ -20,7 +20,6 @@ struct SizeConstants {
 	static let phraseGridCount: Int = 3
 	static let profileImageFrame: CGFloat = 150
 	static let profileImageSize: CGSize = CGSize(width: 400, height: 400)
-	static let shutterButtonDelay: Double = 0.5
 	static let wordCornerRadius: CGFloat = 5.0
 	static let wordSize: CGSize = CGSize(width: 100, height: 30)
 }
