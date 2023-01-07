@@ -137,6 +137,8 @@ struct CameraView: View {
 				.background(Color.app.darkBrown.opacity(0.8))
 			}
 		}
+		.onAppear { viewModel.didAppear() }
+		.onDisappear { viewModel.didDisappear() }
 	}
 	
 	@ViewBuilder

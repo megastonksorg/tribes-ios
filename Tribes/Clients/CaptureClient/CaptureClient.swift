@@ -12,6 +12,7 @@ import UIKit
 
 protocol CaptureClientProtocol {
 	var captureValuePublisher: AnyPublisher<CaptureClient.CaptureValue, Never> { get }
+	func cancelVideoRecording()
 	func capture()
 	func resumeCaptureSession()
 	func startCaptureSession()
@@ -270,7 +271,14 @@ class CaptureClient:
 		}
 	}
 	
-	public func capture() {
+	func cancelVideoRecording() {
+		self.recorder = nil
+		self.recorderDuration = 0.0
+		self.isRecording = false
+		self.resetZoomFactor()
+	}
+	
+	func capture() {
 		#if !targetEnvironment(simulator)
 		self.isCapturingImage = true
 		capturePhotoOutput.capturePhoto(
@@ -279,7 +287,7 @@ class CaptureClient:
 		)
 		#endif
 	}
-	
+		
 	func resetZoomFactor() {
 		updateZoomFactor(low: 1.0, high: 1.0)
 	}
@@ -356,10 +364,7 @@ class CaptureClient:
 	}
 	
 	func stopVideoRecording() {
-		guard
-			isRecording,
-			let recorder = self.recorder
-		else { return }
+		guard let recorder = self.recorder else { return }
 		
 		recorder
 		.stopRecording()

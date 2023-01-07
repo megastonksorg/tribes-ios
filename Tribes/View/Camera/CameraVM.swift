@@ -84,6 +84,12 @@ extension CameraView {
 				.store(in: &cancellables)
 		}
 		
+		func cancelVideoRecordingAndInvalidateTimer() {
+			self.captureClient.cancelVideoRecording()
+			self.videoRecorderTimer?.invalidate()
+			self.videoRecorderTimer = nil
+		}
+		
 		func didAppear() {
 			resetCaptureValues()
 			self.captureClient.startCaptureSession()
@@ -94,32 +100,28 @@ extension CameraView {
 		}
 		
 		func didPressShutter() {
-			if !self.isCapturingImage {
-				let shutterButtonDelay: Double = SizeConstants.shutterButtonDelay
-				
+			if !self.isRecordingVideo {
 				videoRecorderTimer = Timer.scheduledTimer(
-					timeInterval: SizeConstants.maxVideoRecordingDuration + shutterButtonDelay,
+					timeInterval: SizeConstants.maxVideoRecordingDuration,
 					target: self,
-					selector: #selector(stopVideoRecordingIfRequiredAndInvalidateTimer),
+					selector: #selector(stopVideoRecordingAndInvalidateTimer),
 					userInfo: nil,
 					repeats: false
 				)
-				
-				Task {
-					try await Task.sleep(for: .seconds(shutterButtonDelay))
-					if !self.isCapturingImage && self.capturedImage == nil {
-						self.captureClient.startVideoRecording()
-					}
-				}
+				self.captureClient.startVideoRecording()
 			}
 		}
 		
 		func didReleaseShutter() {
-			if captureClient.isRecording {
-				stopVideoRecordingIfRequiredAndInvalidateTimer()
-			} else {
+			guard let videoRecorderTimer = self.videoRecorderTimer else { return }
+			let recordedDurationAtThisMoment = videoRecorderTimer.fireDate.timeIntervalSince(Date.now)
+			//Video recording will only be continued if the recording is more than 2 seconds
+			if recordedDurationAtThisMoment > SizeConstants.maxVideoRecordingDuration - 2 {
+				print(recordedDurationAtThisMoment)
+				cancelVideoRecordingAndInvalidateTimer()
 				captureClient.capture()
-				stopVideoRecordingIfRequiredAndInvalidateTimer()
+			} else {
+				stopVideoRecordingAndInvalidateTimer()
 			}
 		}
 		
@@ -162,7 +164,7 @@ extension CameraView {
 			}
 		}
 		
-		@objc func stopVideoRecordingIfRequiredAndInvalidateTimer() {
+		@objc func stopVideoRecordingAndInvalidateTimer() {
 			self.captureClient.stopVideoRecording()
 			videoRecorderTimer?.invalidate()
 			videoRecorderTimer = nil
