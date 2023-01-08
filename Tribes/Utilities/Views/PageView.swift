@@ -10,11 +10,13 @@ import UIKit
 
 struct PageView<Page: View>: View {
 	let isShowingControl: Bool = false
-	@State var currentPage: Int = 1
+	
+	@Binding var currentPage: Int
 	var viewControllers: [UIHostingController<Page>]
 	
-	init(_ views: [Page]) {
-		self.viewControllers = views.map { UIHostingController(rootView: $0) }
+	init(currentPage: Binding<Int>, _ views: @escaping () -> [Page]) {
+		self._currentPage = currentPage
+		self.viewControllers = views().map { UIHostingController(rootView: $0) }
 	}
 	
 	var body: some View {
