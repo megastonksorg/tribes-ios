@@ -21,7 +21,8 @@ struct HomeView: View {
 			currentPage: Binding(
 				get: { viewModel.currentPage.rawValue },
 				set: { viewModel.currentPage = ViewModel.Page(rawValue: $0)! }
-			)
+			),
+			didNotCompleteScroll: { viewModel.didNotCompletePageScroll() }
 		) {
 			[
 				HomeContentView(page: .compose, viewModel: viewModel),

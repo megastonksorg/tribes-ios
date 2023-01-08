@@ -12,16 +12,18 @@ struct PageView<Page: View>: View {
 	let isShowingControl: Bool = false
 	
 	@Binding var currentPage: Int
+	var didNotCompleteScroll: () -> Void
 	var viewControllers: [UIHostingController<Page>]
 	
-	init(currentPage: Binding<Int>, _ views: @escaping () -> [Page]) {
+	init(currentPage: Binding<Int>, didNotCompleteScroll: @escaping () -> Void, _ views: @escaping () -> [Page]) {
 		self._currentPage = currentPage
+		self.didNotCompleteScroll = didNotCompleteScroll
 		self.viewControllers = views().map { UIHostingController(rootView: $0) }
 	}
 	
 	var body: some View {
 		ZStack(alignment: .bottomTrailing) {
-			PageViewController(controllers: viewControllers, currentPage: $currentPage)
+			PageViewController(controllers: viewControllers, didNotCompleteScroll: didNotCompleteScroll, currentPage: $currentPage)
 			if isShowingControl {
 				PageControl(numberOfPages: viewControllers.count, currentPage: $currentPage)
 					.padding(.trailing)
@@ -69,6 +71,7 @@ struct PageControl: UIViewRepresentable {
 
 struct PageViewController: UIViewControllerRepresentable {
 	var controllers: [UIViewController]
+	var didNotCompleteScroll: () -> Void
 	@Binding var currentPage: Int
 	
 	func makeUIViewController(context: Context) -> UIPageViewController {
@@ -139,6 +142,8 @@ struct PageViewController: UIViewControllerRepresentable {
 				let index = parent.controllers.firstIndex(of: visibleViewController)
 			{
 				parent.currentPage = index
+			} else {
+				parent.didNotCompleteScroll()
 			}
 		}
 	}

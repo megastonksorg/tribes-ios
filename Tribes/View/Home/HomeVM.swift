@@ -37,5 +37,13 @@ extension HomeView {
 				self.composeVM.cameraVM.didDisappear()
 			}
 		}
+		
+		func didNotCompletePageScroll() {
+			switch currentPage {
+			case .compose: return
+			case .tribes:
+				self.composeVM.cameraVM.didDisappear()
+			}
+		}
 	}
 }
