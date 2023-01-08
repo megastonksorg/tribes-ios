@@ -92,6 +92,7 @@
 		D0D266A52963466200A94183 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D266A42963466200A94183 /* PlayerView.swift */; };
 		D0D266A7296513D300A94183 /* TeaContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D266A6296513D300A94183 /* TeaContent.swift */; };
 		D0D266A9296524AC00A94183 /* Recorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D266A8296524AC00A94183 /* Recorder.swift */; };
+		D0D266AF296AAC4E00A94183 /* EdgeInsets+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D266AE296AAC4E00A94183 /* EdgeInsets+Extensions.swift */; };
 		D0E8519A2968EBF70034AFD1 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = D0E851992968EBF70034AFD1 /* Introspect */; };
 		D0F7E13A29574A330053B21D /* SwiftProtobuf in Frameworks */ = {isa = PBXBuildFile; productRef = D0F7E13929574A330053B21D /* SwiftProtobuf */; };
 /* End PBXBuildFile section */
@@ -180,6 +181,7 @@
 		D0D266A42963466200A94183 /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
 		D0D266A6296513D300A94183 /* TeaContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeaContent.swift; sourceTree = "<group>"; };
 		D0D266A8296524AC00A94183 /* Recorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recorder.swift; sourceTree = "<group>"; };
+		D0D266AE296AAC4E00A94183 /* EdgeInsets+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EdgeInsets+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -315,6 +317,7 @@
 				D030D2B9295745E90011128F /* View+Frame.swift */,
 				D030D2BA295745E90011128F /* Notification+Name.swift */,
 				D015807D295E057F0087545A /* CMSampleBuffer+Image.swift */,
+				D0D266AE296AAC4E00A94183 /* EdgeInsets+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -634,6 +637,7 @@
 				D030D2E0295745E90011128F /* TextFieldView.swift in Sources */,
 				D030D2CE295745E90011128F /* Data+Hex.swift in Sources */,
 				D030D2A6295745C20011128F /* APIClient.swift in Sources */,
+				D0D266AF296AAC4E00A94183 /* EdgeInsets+Extensions.swift in Sources */,
 				D030D2CD295745E90011128F /* Helpers.swift in Sources */,
 				D030D2E2295745E90011128F /* AppBackgroundView.swift in Sources */,
 				D0D2669C296010D600A94183 /* TeaContentVM.swift in Sources */,
