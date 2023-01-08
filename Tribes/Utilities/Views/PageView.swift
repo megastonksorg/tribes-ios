@@ -6,142 +6,142 @@
 //
 
 import SwiftUI
+import UIKit
 
-struct PageView<Content: View>: UIViewControllerRepresentable {
-	@Binding var selection: Int
-	var isSwitchingPagesEnabled: Bool = true
-	var additionalSafeAreaInsets: EdgeInsets = .zero
-	let content: () -> [Content]
+struct PageView<Page: View>: View {
+	let isShowingControl: Bool = false
+	@State var currentPage: Int = 1
+	var viewControllers: [UIHostingController<Page>]
 	
-	@Environment(\.layoutDirection) private var layoutDirection
-	
-	// MARK: UIViewControllerRepresentable
-	
-	func makeCoordinator() -> Coordinator {
-		Coordinator(pageView: self)
-	}
-
-	func makeUIViewController(context: Context) -> PagingScrollViewController<Content> {
-		let controller = PagingScrollViewController<Content>()
-		controller.setupPages(content())
-		controller.scrollView.delegate = context.coordinator
-		controller.additionalSafeAreaInsets = additionalSafeAreaInsets.uiEdgeInsets(in: layoutDirection)
-		return controller
+	init(_ views: [Page]) {
+		self.viewControllers = views.map { UIHostingController(rootView: $0) }
 	}
 	
-	func updateUIViewController(_ uiViewController: PagingScrollViewController<Content>, context: Context) {
-		let content = content()
-		
-		if uiViewController.pages.count != content.count {
-			uiViewController.setupPages(content)
-		} else {
-			for (controller, view) in zip(uiViewController.pages, content) {
-				controller.rootView = view
+	var body: some View {
+		ZStack(alignment: .bottomTrailing) {
+			PageViewController(controllers: viewControllers, currentPage: $currentPage)
+			if isShowingControl {
+				PageControl(numberOfPages: viewControllers.count, currentPage: $currentPage)
+					.padding(.trailing)
 			}
-		}
-		
-		if selection != context.coordinator.page {
-			uiViewController.scrollToPage(selection, animated: true)
-		}
-		
-		uiViewController.scrollView.isScrollEnabled = isSwitchingPagesEnabled
-		uiViewController.additionalSafeAreaInsets = additionalSafeAreaInsets.uiEdgeInsets(in: layoutDirection)
-	}
-	
-	class Coordinator: NSObject, UIScrollViewDelegate {
-		var pageView: PageView
-		var page = 0
-		
-		init(pageView: PageView) {
-			self.pageView = pageView
-			super.init()
-		}
-		
-		// MARK: UIScrollViewDelegate
-		
-		func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
-			updatePage(for: scrollView)
-		}
-		
-		func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-			updatePage(for: scrollView)
-		}
-		
-		// MARK: Private methods
-		
-		private func updatePage(for scrollView: UIScrollView) {
-			let newPage = Int(scrollView.contentOffset.x / scrollView.frame.width)
-			DispatchQueue.main.async {
-				self.pageView.selection = newPage
-			}
-			page = newPage
 		}
 	}
 }
 
-final class PagingScrollViewController<Content: View>: UIViewController {
-	var scrollView = UIScrollView()
-	var pages: [UIHostingController<Content>] = []
-	var additionalInsets = UIEdgeInsets.zero
+struct PageControl: UIViewRepresentable {
+	var numberOfPages: Int
+	@Binding var currentPage: Int
 	
-	// MARK: Lifecycle
-	
-	override func viewDidLoad() {
-		super.viewDidLoad()
-		
-		scrollView.backgroundColor = UIColor(Color.black)
-		scrollView.isPagingEnabled = true
-		scrollView.showsHorizontalScrollIndicator = false
-		scrollView.alwaysBounceVertical = false
-		scrollView.alwaysBounceHorizontal = false
-		scrollView.bounces = false
-		view.addSubview(scrollView)
-	}
-	
-	override func viewDidLayoutSubviews() {
-		super.viewDidLayoutSubviews()
-		
-		scrollView.frame = view.bounds
-		scrollView.contentSize = CGSize(
-			width: scrollView.frame.width * Double(pages.count),
-			height: scrollView.frame.height
+	func makeUIView(context: Context) -> UIPageControl {
+		let control = UIPageControl()
+		control.numberOfPages = numberOfPages
+		control.addTarget(
+			context.coordinator,
+			action: #selector(Coordinator.updateCurrentPage(sender:)),
+			for: .valueChanged
 		)
+		return control
+	}
+	
+	func updateUIView(_ uiView: UIPageControl, context: Context) {
+		uiView.currentPage = currentPage
+	}
+	
+	class Coordinator: NSObject {
+		init(_ control: PageControl) {
+			self.control = control
+		}
 		
-		var offset = 0.0
-		pages.forEach { page in
-			page.view.frame = CGRect(
-				origin: CGPoint(x: offset, y: scrollView.bounds.origin.y),
-				size: scrollView.frame.size
-			)
-			
-			page.additionalSafeAreaInsets = additionalInsets
-			
-			offset += scrollView.frame.width
+		var control: PageControl
+		
+		@objc func updateCurrentPage(sender: UIPageControl) {
+			control.currentPage = sender.currentPage
+		}
+		
+	}
+	
+	func makeCoordinator() -> Coordinator {
+		Coordinator(self)
+	}
+}
+
+struct PageViewController: UIViewControllerRepresentable {
+	var controllers: [UIViewController]
+	@Binding var currentPage: Int
+	
+	func makeUIViewController(context: Context) -> UIPageViewController {
+		let pageViewController = UIPageViewController(
+			transitionStyle: .scroll,
+			navigationOrientation: .horizontal
+		)
+		pageViewController.dataSource = context.coordinator
+		pageViewController.delegate = context.coordinator
+		for subview in pageViewController.view.subviews {
+			if let scrollView = subview as? UIScrollView {
+				scrollView.delegate = context.coordinator
+				break;
+			}
+		}
+		return pageViewController
+	}
+	
+	func updateUIViewController(_ pageViewController: UIPageViewController, context: Context) {
+		pageViewController.setViewControllers(
+			[controllers[currentPage]], direction: .forward, animated: true
+		)
+	}
+	
+	//MARK: Coordinator
+	class Coordinator: NSObject, UIPageViewControllerDataSource, UIPageViewControllerDelegate, UIScrollViewDelegate {
+		var parent: PageViewController
+		
+		init(_ pageViewController: PageViewController) {
+			self.parent = pageViewController
+		}
+		
+		func scrollViewDidScroll(_ scrollView: UIScrollView) {
+			if (parent.currentPage == 0 && scrollView.contentOffset.x < scrollView.bounds.size.width) {
+				scrollView.contentOffset = CGPoint(x: scrollView.bounds.size.width, y: 0);
+			} else if (parent.currentPage == parent.controllers.count - 1 && scrollView.contentOffset.x > scrollView.bounds.size.width) {
+				scrollView.contentOffset = CGPoint(x: scrollView.bounds.size.width, y: 0);
+			}
+		}
+		
+		func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+			if (parent.currentPage == 0 && scrollView.contentOffset.x <= scrollView.bounds.size.width) {
+				targetContentOffset.pointee = CGPoint(x: scrollView.bounds.size.width, y: 0);
+			} else if (parent.currentPage == parent.controllers.count - 1 && scrollView.contentOffset.x >= scrollView.bounds.size.width) {
+				targetContentOffset.pointee = CGPoint(x: scrollView.bounds.size.width, y: 0);
+			}
+		}
+		
+		func pageViewController( _ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
+			guard let index = parent.controllers.firstIndex(of: viewController) else { return nil }
+			if index == 0 {
+				return nil
+			}
+			return parent.controllers[index - 1]
+		}
+
+		func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+			guard let index = parent.controllers.firstIndex(of: viewController) else { return nil }
+			if index + 1 == parent.controllers.count {
+				return nil
+			}
+			return parent.controllers[index + 1]
+		}
+		
+		func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+			if completed,
+				let visibleViewController = pageViewController.viewControllers?.first,
+				let index = parent.controllers.firstIndex(of: visibleViewController)
+			{
+				parent.currentPage = index
+			}
 		}
 	}
 	
-	// MARK: Public methods
-	
-	func setupPages(_ pageViews: [Content]) {
-		for page in pages {
-			page.view.removeFromSuperview()
-			page.removeFromParent()
-		}
-		pages.removeAll(keepingCapacity: true)
-		
-		for pageView in pageViews {
-			let page = UIHostingController(rootView: pageView)
-			addChild(page)
-			page.willMove(toParent: self)
-			scrollView.addSubview(page.view)
-			page.didMove(toParent: self)
-			page.additionalSafeAreaInsets = additionalInsets
-			pages.append(page)
-		}
-	}
-	
-	func scrollToPage(_ index: Int, animated: Bool) {
-		let offset = scrollView.frame.width * Double(index)
-		scrollView.setContentOffset(CGPoint(x: offset, y: 0), animated: animated)
+	func makeCoordinator() -> Coordinator {
+		Coordinator(self)
 	}
 }
