@@ -17,24 +17,15 @@ struct HomeView: View {
 	}
 	
 	var body: some View {
-		TabView(selection: $viewModel.currentPage) {
-			Group {
-				ComposeView(viewModel: viewModel.composeVM)
-					.tag(ViewModel.Page.compose)
-				
-				VStack {
-					Text("Tribes")
-					Spacer()
-				}
-				.pushOutFrame()
-				.background(Color.app.background)
-				.tag(ViewModel.Page.tribes)
+		PageView(
+			selection:  $viewModel.currentPage,
+			content: {
+				[
+					HomeContentView(page: .compose, viewModel: viewModel),
+					HomeContentView(page: .tribes, viewModel: viewModel)
+				]
 			}
-			.introspectScrollView { scrollView in
-				scrollView.bounces = false
-			}
-		}
-		.tabViewStyle(.page(indexDisplayMode: .never))
+		)
 		.ignoresSafeArea()
 	}
 }
@@ -42,5 +33,17 @@ struct HomeView: View {
 struct HomeView_Previews: PreviewProvider {
 	static var previews: some View {
 		HomeView(viewModel: .init())
+	}
+}
+
+extension PageView {
+	init(selection: Binding<HomeView.ViewModel.Page>, content: @escaping () -> [Content]) {
+		self.init(
+			selection: Binding<Int>(
+				get: { HomeView.ViewModel.Page.allCases.firstIndex(of: selection.wrappedValue)! },
+				set: { selection.wrappedValue = HomeView.ViewModel.Page.allCases[$0] }
+			),
+			content: content
+		)
 	}
 }

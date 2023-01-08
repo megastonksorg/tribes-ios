@@ -11,7 +11,7 @@ import Combine
 extension HomeView {
 	@MainActor class ViewModel: ObservableObject {
 		
-		enum Page {
+		enum Page: CaseIterable, Hashable {
 			case compose
 			case tribes
 		}
