@@ -94,6 +94,7 @@ final class PagingScrollViewController<Content: View>: UIViewController {
 		scrollView.showsHorizontalScrollIndicator = false
 		scrollView.alwaysBounceVertical = false
 		scrollView.alwaysBounceHorizontal = false
+		scrollView.bounces = false
 		view.addSubview(scrollView)
 	}
 	
