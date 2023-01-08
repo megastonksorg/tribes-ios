@@ -8,7 +8,7 @@
 import Foundation
 
 extension Data {
-	public var hexString: String {
+	var hexString: String {
 		return map({ String(format: "%02x", $0) }).joined()
 	}
 	

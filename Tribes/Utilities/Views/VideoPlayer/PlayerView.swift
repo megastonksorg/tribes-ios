@@ -17,7 +17,7 @@ struct PlayerView: UIViewRepresentable {
 	
 	let onPlaybackProgressChange: (Float) -> Void
 	
-	public func makeUIView(context: Context) -> AVPlayerView {
+	func makeUIView(context: Context) -> AVPlayerView {
 		AVPlayerView(
 			url: url,
 			isPlaying: isPlaying,
@@ -29,7 +29,7 @@ struct PlayerView: UIViewRepresentable {
 		)
 	}
 	
-	public func updateUIView(_ playerView: AVPlayerView, context: Context) {
+	func updateUIView(_ playerView: AVPlayerView, context: Context) {
 		playerView.setIsMuted(isMuted)
 		playerView.setIsPlaying(isPlaying)
 	}
@@ -122,13 +122,13 @@ class AVPlayerView: UIView {
 	
 	deinit { removePeriodicTimeObserver() }
 	
-	override public func layoutSubviews() {
+	override func layoutSubviews() {
 		super.layoutSubviews()
 		playerLayer.frame = bounds
 		playerLayer.removeAllAnimations()
 	}
 	
-	public override func removeFromSuperview() {
+	override func removeFromSuperview() {
 		super.removeFromSuperview()
 		displayLink?.invalidate()
 	}

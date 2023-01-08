@@ -25,7 +25,7 @@ struct VideoPlayerView: View {
 		}()
 	}
 	
-	public var body: some View {
+	var body: some View {
 		ZStack {
 			PlayerView(
 				url: url,
@@ -55,6 +55,6 @@ struct VideoPlayerView_Previews: PreviewProvider {
 }
 
 struct PlaybackProgressKey: PreferenceKey {
-	static public var defaultValue: Float = 0
-	static public func reduce(value: inout Float, nextValue: () -> Float) { value = nextValue() }
+	static var defaultValue: Float = 0
+	static func reduce(value: inout Float, nextValue: () -> Float) { value = nextValue() }
 }

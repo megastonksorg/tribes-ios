@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-public extension Color {
+extension Color {
 	enum app {}
 }
 
-public extension Color.app {
+extension Color.app {
 	static let background: Color = Color(uiColor: UIColor(hex: "1F0602"))
 	static let black: Color = Color(uiColor: UIColor(hex: "0D1114"))
 	static let brown: Color = Color(uiColor: UIColor(hex: "B04A2B"))
