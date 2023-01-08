@@ -18,11 +18,16 @@ struct HomeView: View {
 	
 	var body: some View {
 		PageView(
+			currentPage: Binding(
+				get: { viewModel.currentPage.rawValue },
+				set: { viewModel.currentPage = ViewModel.Page(rawValue: $0)! }
+			)
+		) {
 			[
 				HomeContentView(page: .compose, viewModel: viewModel),
 				HomeContentView(page: .tribes, viewModel: viewModel)
 			]
-		)
+		}
 		.ignoresSafeArea()
 	}
 }

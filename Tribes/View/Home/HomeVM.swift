@@ -11,28 +11,32 @@ import Combine
 extension HomeView {
 	@MainActor class ViewModel: ObservableObject {
 		
-		enum Page: CaseIterable, Hashable {
+		enum Page: Int {
 			case compose
 			case tribes
 		}
 		
 		@Published var composeVM: ComposeView.ViewModel = ComposeView.ViewModel()
 		
-		@Published var currentPage: Page = .tribes
+		var currentPage: Page = .tribes {
+			didSet {
+				pageUpdated(page: currentPage)
+			}
+		}
 		
 		var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 		
 		init() {
-			$currentPage
-				.sink(receiveValue: { [weak self] page in
-					switch page {
-					case .compose:
-						self?.composeVM.cameraVM.didAppear()
-					case .tribes:
-						self?.composeVM.cameraVM.didDisappear()
-					}
-				})
-				.store(in: &cancellables)
+			
+		}
+		
+		func pageUpdated(page: Page) {
+			switch page {
+			case .compose:
+				self.composeVM.cameraVM.didAppear()
+			case .tribes:
+				self.composeVM.cameraVM.didDisappear()
+			}
 		}
 	}
 }
