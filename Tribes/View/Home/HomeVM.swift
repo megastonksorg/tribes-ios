@@ -32,8 +32,7 @@ extension HomeView {
 		
 		func pageUpdated(page: Page) {
 			switch page {
-			case .compose:
-				self.composeVM.cameraVM.didAppear()
+			case .compose: return
 			case .tribes:
 				self.composeVM.cameraVM.didDisappear()
 			}
