@@ -10,7 +10,7 @@ import SwiftUI
 extension View {
 	
 	func onBecomingVisible(xMinimum: Double = 0.3, perform action: @escaping () -> Void) -> some View {
-		// xMinimum here is what factor of the view's width relative to the screen width we want to determine visbility
+		// xMinimum here is what factor of the view's width relative to the screen width we want to determine visibility
 		modifier(BecomingVisible(xMinimum: xMinimum, action: action))
 	}
 }
