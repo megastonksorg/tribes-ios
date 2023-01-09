@@ -134,7 +134,7 @@ struct CameraView: View {
 					.padding(.horizontal, 40)
 				}
 				.pushOutFrame()
-				.background(Color.app.darkBrown.opacity(0.8))
+				.background(Color.app.primary.opacity(0.8))
 			}
 		}
 		.onBecomingVisible { viewModel.didAppear() }
@@ -145,7 +145,7 @@ struct CameraView: View {
 	func captureButton() -> some View {
 		let isRecordingVideo = viewModel.videoRecordingProgress > 0.05
 		let color: Color = {
-			return isRecordingVideo ? Color.app.brown : Color.white
+			return isRecordingVideo ? Color.app.secondary : Color.white
 		}()
 		Circle()
 			.fill(color.opacity(0.3))

@@ -41,7 +41,7 @@ struct TextFieldView: View {
 			}
 			Group {
 				switch self.validation {
-					case .valid: Image(systemName: "checkmark.circle.fill").foregroundColor(.app.brown)
+					case .valid: Image(systemName: "checkmark.circle.fill").foregroundColor(.app.secondary)
 					case .invalid: Image(systemName: "xmark.circle.fill").foregroundColor(.app.red)
 					case .unknown: EmptyView()
 				}
