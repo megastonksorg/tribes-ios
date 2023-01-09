@@ -97,6 +97,8 @@
 		D0D266B3296AAD2300A94183 /* HomeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D266B2296AAD2300A94183 /* HomeContentView.swift */; };
 		D0D266B5296B542500A94183 /* View+OnBecomingVisible.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D266B4296B542500A94183 /* View+OnBecomingVisible.swift */; };
 		D0E8519A2968EBF70034AFD1 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = D0E851992968EBF70034AFD1 /* Introspect */; };
+		D0E8519C296CA3C10034AFD1 /* TribeAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E8519B296CA3C10034AFD1 /* TribeAvatarView.swift */; };
+		D0E8519E296CC0690034AFD1 /* TribeMember.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E8519D296CC0690034AFD1 /* TribeMember.swift */; };
 		D0F7E13A29574A330053B21D /* SwiftProtobuf in Frameworks */ = {isa = PBXBuildFile; productRef = D0F7E13929574A330053B21D /* SwiftProtobuf */; };
 /* End PBXBuildFile section */
 
@@ -188,6 +190,8 @@
 		D0D266B0296AACE000A94183 /* PageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageView.swift; sourceTree = "<group>"; };
 		D0D266B2296AAD2300A94183 /* HomeContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeContentView.swift; sourceTree = "<group>"; };
 		D0D266B4296B542500A94183 /* View+OnBecomingVisible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+OnBecomingVisible.swift"; sourceTree = "<group>"; };
+		D0E8519B296CA3C10034AFD1 /* TribeAvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TribeAvatarView.swift; sourceTree = "<group>"; };
+		D0E8519D296CC0690034AFD1 /* TribeMember.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TribeMember.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -358,6 +362,7 @@
 				D030D2CC295745E90011128F /* ImagePlaceHolderView.swift */,
 				D0D2669F2960C8D400A94183 /* CaptureLoadingIndicator.swift */,
 				D0D266B0296AACE000A94183 /* PageView.swift */,
+				D0E8519B296CA3C10034AFD1 /* TribeAvatarView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -374,6 +379,7 @@
 				D030D2F4295745F90011128F /* Token.swift */,
 				D030D2F5295745F90011128F /* Wallet.swift */,
 				D0D266A6296513D300A94183 /* TeaContent.swift */,
+				D0E8519D296CC0690034AFD1 /* TribeMember.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -622,6 +628,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0E8519C296CA3C10034AFD1 /* TribeAvatarView.swift in Sources */,
 				D030D2D1295745E90011128F /* String+Extension.swift in Sources */,
 				D030D2AC295745C20011128F /* PasteboardClient.swift in Sources */,
 				D030D2E7295745E90011128F /* TextFieldBackgroundView.swift in Sources */,
@@ -639,6 +646,7 @@
 				D030D29A295745970011128F /* AppRouter.swift in Sources */,
 				D0158080295E08570087545A /* CameraVM.swift in Sources */,
 				D0D266A9296524AC00A94183 /* Recorder.swift in Sources */,
+				D0E8519E296CC0690034AFD1 /* TribeMember.swift in Sources */,
 				D030D3182957460B0011128F /* VerifySecretPhraseView.swift in Sources */,
 				D030D2FC295745F90011128F /* Register.swift in Sources */,
 				D015807C295E039E0087545A /* CameraView.swift in Sources */,
