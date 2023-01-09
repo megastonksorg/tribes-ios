@@ -15,8 +15,8 @@ struct TribeMember: Encodable, Identifiable {
 
 extension TribeMember {
 	static let noop: TribeMember = TribeMember(
-		id: "1",
+		id: UUID().uuidString,
 		name: "Kingsley Okeke",
-		photoURL: URL(string: "https://megastonksfilestoragedev.blob.core.windows.net/images/001d0c1e-a971-47cd-ad53-eb468e4d3d94.png")!
+		photoURL: URL(string: "https://kingsleyokeke.blob.core.windows.net/images/1597276037537.jpeg")!
 	)
 }
