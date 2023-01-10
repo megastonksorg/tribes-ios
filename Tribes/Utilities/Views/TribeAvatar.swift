@@ -29,8 +29,8 @@ struct TribeAvatar: View {
 					asyncImage(user: members[0])
 						.frame(dimension: maxSize)
 				case 2:
-					let size1: CGFloat = maxSize * 0.4
-					let size2: CGFloat = maxSize * 0.6
+					let size1: CGFloat = stackSize * 0.4
+					let size2: CGFloat = stackSize * 0.6
 					VStack(alignment: .leading, spacing: 0) {
 						HStack {
 							Spacer()
@@ -43,9 +43,9 @@ struct TribeAvatar: View {
 					}
 					.frame(dimension: stackSize)
 				case 3:
-					let size1: CGFloat = maxSize * 0.5
-					let size2: CGFloat = maxSize * 0.45
-					let size3: CGFloat = maxSize * 0.40
+					let size1: CGFloat = stackSize * 0.5
+					let size2: CGFloat = stackSize * 0.45
+					let size3: CGFloat = stackSize * 0.40
 					VStack(spacing: 0) {
 						Spacer()
 						Spacer()
@@ -61,10 +61,10 @@ struct TribeAvatar: View {
 					}
 					.frame(dimension: stackSize)
 				case 4:
-					let size1: CGFloat = maxSize * 0.4
-					let size2: CGFloat = maxSize * 0.3
-					let size3: CGFloat = maxSize * 0.5
-					let size4: CGFloat = maxSize * 0.43
+					let size1: CGFloat = stackSize * 0.4
+					let size2: CGFloat = stackSize * 0.3
+					let size3: CGFloat = stackSize * 0.5
+					let size4: CGFloat = stackSize * 0.43
 					VStack(spacing: 0) {
 						HStack {
 							asyncImage(user: members[0])
@@ -83,11 +83,11 @@ struct TribeAvatar: View {
 					}
 					.frame(dimension: stackSize)
 				case 5:
-					let size1: CGFloat = maxSize * 0.46
-					let size2: CGFloat = maxSize * 0.40
-					let size3: CGFloat = maxSize * 0.36
-					let size4: CGFloat = maxSize * 0.42
-					let size5: CGFloat = maxSize * 0.30
+					let size1: CGFloat = stackSize * 0.46
+					let size2: CGFloat = stackSize * 0.40
+					let size3: CGFloat = stackSize * 0.36
+					let size4: CGFloat = stackSize * 0.42
+					let size5: CGFloat = stackSize * 0.30
 					VStack(spacing: 0) {
 						HStack {
 							asyncImage(user: members[0])
@@ -103,9 +103,34 @@ struct TribeAvatar: View {
 							asyncImage(user: members[3])
 								.frame(dimension: size4)
 								.offset(x: size4 * 0.05, y: size4 * 0.2)
-							asyncImage(user: members[3])
+							asyncImage(user: members[4])
 								.frame(dimension: size5)
-								.offset(x: -size5 * 0.2, y: -size5 * 0.4)
+								.offset(x: -size5 * 0.2, y: -size5 * 0.5)
+						}
+					}
+					.frame(dimension: stackSize)
+				case 6:
+					let size1: CGFloat = stackSize * 0.42
+					let size2: CGFloat = stackSize * 0.38
+					let size3: CGFloat = stackSize * 0.32
+					let size4: CGFloat = stackSize * 0.28
+					VStack(spacing: 0) {
+						asyncImage(user: members[0])
+							.frame(dimension: size2)
+						HStack {
+							asyncImage(user: members[1])
+								.frame(dimension: size2)
+							asyncImage(user: members[2])
+								.frame(dimension: size4)
+							asyncImage(user: members[3])
+								.frame(dimension: size1)
+								.offset(y: -size1 * 0.2)
+						}
+						HStack {
+							asyncImage(user: members[4])
+								.frame(dimension: size2)
+							asyncImage(user: members[5])
+								.frame(dimension: size3)
 						}
 					}
 					.frame(dimension: stackSize)
@@ -136,7 +161,7 @@ struct TribeAvatar_Previews: PreviewProvider {
 		TribeAvatar(
 			members: Array(
 				repeating: TribeMember.noop,
-				count: 5
+				count: 6
 			),
 			size: 200
 		)
