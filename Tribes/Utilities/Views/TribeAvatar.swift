@@ -82,6 +82,33 @@ struct TribeAvatar: View {
 						}
 					}
 					.frame(dimension: stackSize)
+				case 5:
+					let size1: CGFloat = maxSize * 0.46
+					let size2: CGFloat = maxSize * 0.40
+					let size3: CGFloat = maxSize * 0.36
+					let size4: CGFloat = maxSize * 0.42
+					let size5: CGFloat = maxSize * 0.30
+					VStack(spacing: 0) {
+						HStack {
+							asyncImage(user: members[0])
+								.frame(dimension: size1)
+							asyncImage(user: members[1])
+								.frame(dimension: size2)
+						}
+						Spacer()
+						HStack {
+							asyncImage(user: members[2])
+								.frame(dimension: size3)
+								.offset(x: size3 * 0.2, y: -size3 * 0.2)
+							asyncImage(user: members[3])
+								.frame(dimension: size4)
+								.offset(x: size4 * 0.05, y: size4 * 0.2)
+							asyncImage(user: members[3])
+								.frame(dimension: size5)
+								.offset(x: -size5 * 0.2, y: -size5 * 0.4)
+						}
+					}
+					.frame(dimension: stackSize)
 				default:
 					Circle()
 				}
@@ -109,7 +136,7 @@ struct TribeAvatar_Previews: PreviewProvider {
 		TribeAvatar(
 			members: Array(
 				repeating: TribeMember.noop,
-				count: 4
+				count: 5
 			),
 			size: 200
 		)
