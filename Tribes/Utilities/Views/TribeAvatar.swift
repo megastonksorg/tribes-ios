@@ -15,6 +15,10 @@ struct TribeAvatar: View {
 		size * 0.8
 	}
 	
+	var stackSize: CGFloat {
+		maxSize * 0.9
+	}
+	
 	var body: some View {
 		Circle()
 			.fill(Color.app.primary)
@@ -37,7 +41,7 @@ struct TribeAvatar: View {
 						asyncImage(user: members[1])
 							.frame(dimension: size2)
 					}
-					.frame(dimension: maxSize * 0.9)
+					.frame(dimension: stackSize)
 				case 3:
 					let size1: CGFloat = maxSize * 0.5
 					let size2: CGFloat = maxSize * 0.45
@@ -55,7 +59,29 @@ struct TribeAvatar: View {
 						asyncImage(user: members[2])
 							.frame(dimension: size3)
 					}
-					.frame(dimension: maxSize * 0.9)
+					.frame(dimension: stackSize)
+				case 4:
+					let size1: CGFloat = maxSize * 0.4
+					let size2: CGFloat = maxSize * 0.3
+					let size3: CGFloat = maxSize * 0.5
+					let size4: CGFloat = maxSize * 0.43
+					VStack(spacing: 0) {
+						HStack {
+							asyncImage(user: members[0])
+								.frame(dimension: size1)
+							asyncImage(user: members[1])
+								.frame(dimension: size2)
+						}
+						Spacer()
+						HStack {
+							asyncImage(user: members[2])
+								.frame(dimension: size3)
+							asyncImage(user: members[3])
+								.frame(dimension: size4)
+								.offset(y: -size4 * 0.2)
+						}
+					}
+					.frame(dimension: stackSize)
 				default:
 					Circle()
 				}
@@ -83,7 +109,7 @@ struct TribeAvatar_Previews: PreviewProvider {
 		TribeAvatar(
 			members: Array(
 				repeating: TribeMember.noop,
-				count: 3
+				count: 4
 			),
 			size: 200
 		)
