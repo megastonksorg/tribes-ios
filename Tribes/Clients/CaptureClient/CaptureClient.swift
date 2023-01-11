@@ -35,6 +35,8 @@ class CaptureClient:
 	
 	private let frontDevice: AVCaptureDevice? = {
 		if let frontCameraDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) {
+			frontCameraDevice.activeVideoMinFrameDuration = frameDuration
+			frontCameraDevice.activeVideoMaxFrameDuration = frameDuration
 			return frontCameraDevice
 		} else {
 			return nil
@@ -42,17 +44,22 @@ class CaptureClient:
 	}()
 	
 	private let backDevice: AVCaptureDevice? = {
-		if let dualCameraDevice = AVCaptureDevice.default(.builtInDualCamera, for: .video, position: .back) {
-			return dualCameraDevice
-		} else if let dualWideCameraDevice = AVCaptureDevice.default(.builtInDualWideCamera, for: .video, position: .back) {
-			// If a rear dual camera is not available, default to the rear dual wide camera.
-			return dualWideCameraDevice
-		} else if let backCameraDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) {
-			// If a rear dual wide camera is not available, default to the rear wide angle camera.
-			return backCameraDevice
-		} else {
-			return nil
-		}
+		let backCameraDevice: AVCaptureDevice? = {
+			if let dualCameraDevice = AVCaptureDevice.default(.builtInDualCamera, for: .video, position: .back) {
+				return dualCameraDevice
+			} else if let dualWideCameraDevice = AVCaptureDevice.default(.builtInDualWideCamera, for: .video, position: .back) {
+				// If a rear dual camera is not available, default to the rear dual wide camera.
+				return dualWideCameraDevice
+			} else if let backCameraDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) {
+				// If a rear dual wide camera is not available, default to the rear wide angle camera.
+				return backCameraDevice
+			} else {
+				return nil
+			}
+		}()
+		backCameraDevice?.activeVideoMinFrameDuration = frameDuration
+		backCameraDevice?.activeVideoMaxFrameDuration = frameDuration
+		return backCameraDevice
 	}()
 	
 	private var capturePhotoSettings: AVCapturePhotoSettings {
@@ -74,6 +81,9 @@ class CaptureClient:
 	private var isSessionRunning: Bool = false
 	
 	private var recorder: Recorder?
+	
+	static private let frameRate: Int32 = 30
+	static private let frameDuration: CMTime = CMTime(value: 1, timescale: CMTimeScale(frameRate))
 	
 	var captureFlashMode: AVCaptureDevice.FlashMode = .off
 	var captureMode: CaptureMode = .imageAndVideo
