@@ -23,30 +23,63 @@ struct HomeContentView: View {
 			ComposeView(viewModel: viewModel.composeVM)
 		case .tribes:
 			VStack {
-				SymmetricHStack(
-					content: {
-						TextView("Tribes", style: .appTitle)
-					},
-					leading: {
+				VStack {
+					SymmetricHStack(
+						content: {
+							TextView("Tribes", style: .appTitle)
+						},
+						leading: {
+							Button(action: {}) {
+								Circle()
+									.fill(Color.gray)
+									.frame(dimension: 50)
+							}
+							.buttonStyle(.insideScaling)
+						},
+						trailing: {
+							Button(action: {}) {
+								Image(systemName: "plus.circle.fill")
+									.font(.system(size: 30))
+									.foregroundColor(Color.app.secondary)
+							}
+							.buttonStyle(.insideScaling)
+						}
+					)
+					
+					HStack {
 						Button(action: {}) {
-							Circle()
-								.fill(Color.gray)
-								.frame(dimension: 50)
+							TribeAvatar(
+								tribe: Tribe(
+									id: "1",
+									name: "Dinner Everyday",
+									members: Array(repeating: TribeMember.noop, count: 10)
+								),
+								size: 200
+							)
 						}
 						.buttonStyle(.insideScaling)
-					},
-					trailing: {
+						Spacer()
+					}
+					.padding(.top, 20)
+					HStack {
+						Spacer()
 						Button(action: {}) {
-							Image(systemName: "plus.circle.fill")
-								.font(.system(size: 30))
-								.foregroundColor(Color.app.secondary)
+							TribeAvatar(
+								tribe: Tribe(
+									id: "1",
+									name: "The boys",
+									members: Array(repeating: TribeMember.noop, count: 4)
+								),
+								size: 200
+							)
 						}
 						.buttonStyle(.insideScaling)
 					}
-				)
+					.padding(.top, 20)
+					
+					Spacer()
+				}
 				.padding(.horizontal)
-				
-				Spacer()
 			}
 			.pushOutFrame()
 			.background(Color.app.background)
