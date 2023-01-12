@@ -81,6 +81,9 @@
 		D03B30A32968DAFB00F797CE /* HomeVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B30A22968DAFB00F797CE /* HomeVM.swift */; };
 		D03B30A52968DB3D00F797CE /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B30A42968DB3D00F797CE /* HomeView.swift */; };
 		D0C65AA32970988900E527F9 /* Tribe.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C65AA22970988900E527F9 /* Tribe.swift */; };
+		D0C65AA52970A24D00E527F9 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C65AA42970A24D00E527F9 /* TextView.swift */; };
+		D0C65AA72970A7E600E527F9 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C65AA62970A7E600E527F9 /* Fonts.swift */; };
+		D0C65AAD2970AC6400E527F9 /* Kreon-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D0C65AAC2970AC6400E527F9 /* Kreon-Bold.ttf */; };
 		D0D2668F295F717100A94183 /* CaptureClient+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D2668E295F717100A94183 /* CaptureClient+Utilities.swift */; };
 		D0D26692295FED0500A94183 /* ComposeVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D26691295FED0500A94183 /* ComposeVM.swift */; };
 		D0D26694295FED1000A94183 /* ComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D26693295FED1000A94183 /* ComposeView.swift */; };
@@ -176,6 +179,9 @@
 		D03B30A22968DAFB00F797CE /* HomeVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVM.swift; sourceTree = "<group>"; };
 		D03B30A42968DB3D00F797CE /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		D0C65AA22970988900E527F9 /* Tribe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tribe.swift; sourceTree = "<group>"; };
+		D0C65AA42970A24D00E527F9 /* TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
+		D0C65AA62970A7E600E527F9 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
+		D0C65AAC2970AC6400E527F9 /* Kreon-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Kreon-Bold.ttf"; sourceTree = "<group>"; };
 		D0D2668E295F717100A94183 /* CaptureClient+Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CaptureClient+Utilities.swift"; sourceTree = "<group>"; };
 		D0D26691295FED0500A94183 /* ComposeVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeVM.swift; sourceTree = "<group>"; };
 		D0D26693295FED1000A94183 /* ComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeView.swift; sourceTree = "<group>"; };
@@ -247,9 +253,9 @@
 				D030D3002957460B0011128F /* View */,
 				D030D2972957457D0011128F /* ViewModel */,
 				D030D28029573E9A0011128F /* TribesApp.swift */,
-				D030D28429573E9B0011128F /* Assets.xcassets */,
 				D030D28629573E9B0011128F /* Preview Content */,
 				D029D81D2957548400EA4C07 /* AppView.swift */,
+				D0C65AA82970A80300E527F9 /* Resources */,
 			);
 			path = Tribes;
 			sourceTree = "<group>";
@@ -343,6 +349,7 @@
 				D030D2BE295745E90011128F /* CornerRadiusStyle.swift */,
 				D030D2BF295745E90011128F /* ButtonStyles.swift */,
 				D030D2C0295745E90011128F /* Colors.swift */,
+				D0C65AA62970A7E600E527F9 /* Fonts.swift */,
 			);
 			path = Styles;
 			sourceTree = "<group>";
@@ -365,6 +372,7 @@
 				D0D2669F2960C8D400A94183 /* CaptureLoadingIndicator.swift */,
 				D0D266B0296AACE000A94183 /* PageView.swift */,
 				D0E8519B296CA3C10034AFD1 /* TribeAvatar.swift */,
+				D0C65AA42970A24D00E527F9 /* TextView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -502,6 +510,23 @@
 			path = Home;
 			sourceTree = "<group>";
 		};
+		D0C65AA82970A80300E527F9 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D0C65AA92970A82400E527F9 /* Fonts */,
+				D030D28429573E9B0011128F /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		D0C65AA92970A82400E527F9 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				D0C65AAC2970AC6400E527F9 /* Kreon-Bold.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		D0D2668D295F715500A94183 /* CaptureClient */ = {
 			isa = PBXGroup;
 			children = (
@@ -619,6 +644,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0C65AAD2970AC6400E527F9 /* Kreon-Bold.ttf in Resources */,
 				D030D28829573E9B0011128F /* Preview Assets.xcassets in Resources */,
 				D030D28529573E9B0011128F /* Assets.xcassets in Resources */,
 			);
@@ -632,6 +658,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0E8519C296CA3C10034AFD1 /* TribeAvatar.swift in Sources */,
+				D0C65AA52970A24D00E527F9 /* TextView.swift in Sources */,
 				D030D2D1295745E90011128F /* String+Extension.swift in Sources */,
 				D030D2AC295745C20011128F /* PasteboardClient.swift in Sources */,
 				D030D2E7295745E90011128F /* TextFieldBackgroundView.swift in Sources */,
@@ -712,6 +739,7 @@
 				D030D2D3295745E90011128F /* Font+Extension.swift in Sources */,
 				D030D2D2295745E90011128F /* Color+Extension.swift in Sources */,
 				D030D29B295745970011128F /* AppState.swift in Sources */,
+				D0C65AA72970A7E600E527F9 /* Fonts.swift in Sources */,
 				D030D2CF295745E90011128F /* KeychainWrapper+Keys.swift in Sources */,
 				D030D31A2957460B0011128F /* NewSecretPhraseVM.swift in Sources */,
 				D0D26694295FED1000A94183 /* ComposeView.swift in Sources */,
@@ -852,8 +880,8 @@
 				INFOPLIST_FILE = Tribes/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Tribes;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
-				INFOPLIST_KEY_NSCameraUsageDescription = "$(EXECUTABLE_NAME) uses the camera to capture pictures and videos";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "$(EXECUTABLE_NAME) uses the microphone to capture videos and audio clips";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Tribes uses the camera to capture pictures and videos";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Tribes uses the microphone to capture videos and audio clips";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -886,8 +914,8 @@
 				INFOPLIST_FILE = Tribes/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Tribes;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
-				INFOPLIST_KEY_NSCameraUsageDescription = "$(EXECUTABLE_NAME) uses the camera to capture pictures and videos";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "$(EXECUTABLE_NAME) uses the microphone to capture videos and audio clips";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Tribes uses the camera to capture pictures and videos";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Tribes uses the microphone to capture videos and audio clips";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

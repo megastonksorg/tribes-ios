@@ -4,5 +4,9 @@
 <dict>
 	<key>CFBundleGetInfoString</key>
 	<string></string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Kreon-Bold.ttf</string>
+	</array>
 </dict>
 </plist>
