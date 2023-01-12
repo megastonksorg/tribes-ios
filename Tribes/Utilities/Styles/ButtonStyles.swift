@@ -68,10 +68,22 @@ struct ExpandedButtonStyle: ButtonStyle {
 	}
 }
 
-struct AnimatedButtonStyle: ButtonStyle {
+struct ScalingButtonStyle: ButtonStyle {
+	enum ScaleDirection {
+		case inside
+		case outside
+	}
+	
+	let direction: ScaleDirection
+	
 	func makeBody(configuration: Configuration) -> some View {
 		configuration.label
-			.scaleEffect(configuration.isPressed ? 1.05 : 1)
-			.animation(.easeOut(duration: 0.6), value: configuration.isPressed)
+			.scaleEffect(configuration.isPressed ? direction == .inside ? 0.90 : 1.10 : 1)
+			.animation(.default, value: configuration.isPressed)
 	}
+}
+
+extension ButtonStyle where Self == ScalingButtonStyle {
+	static var insideScaling: Self { ScalingButtonStyle(direction: .inside) }
+	static var outsideScaling: Self { ScalingButtonStyle(direction: .outside) }
 }

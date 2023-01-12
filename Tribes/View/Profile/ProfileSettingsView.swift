@@ -45,7 +45,7 @@ struct ProfileSettingsView: View {
 					}
 					.frame(dimension: SizeConstants.profileImageFrame)
 				}
-				.buttonStyle(AnimatedButtonStyle())
+				.buttonStyle(.outsideScaling)
 				.padding(.top)
 			}
 			

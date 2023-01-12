@@ -33,6 +33,7 @@ struct HomeContentView: View {
 								.fill(Color.gray)
 								.frame(dimension: 50)
 						}
+						.buttonStyle(.insideScaling)
 					},
 					trailing: {
 						Button(action: {}) {
@@ -40,6 +41,7 @@ struct HomeContentView: View {
 								.font(.system(size: 30))
 								.foregroundColor(Color.app.secondary)
 						}
+						.buttonStyle(.insideScaling)
 					}
 				)
 				.padding(.horizontal)

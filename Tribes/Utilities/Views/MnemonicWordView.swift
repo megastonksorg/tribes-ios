@@ -24,7 +24,7 @@ struct MnemonicWordView: View {
 			}) {
 				buttonLabel()
 			}
-			.buttonStyle(AnimatedButtonStyle())
+			.buttonStyle(.outsideScaling)
 			.disabled(!word!.isSelectable)
 		}
 	}
