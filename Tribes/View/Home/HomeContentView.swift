@@ -23,7 +23,7 @@ struct HomeContentView: View {
 			ComposeView(viewModel: viewModel.composeVM)
 		case .tribes:
 			VStack {
-				Text("Tribes")
+				TextView("Tribes", style: .appTitle)
 				Spacer()
 			}
 			.pushOutFrame()
