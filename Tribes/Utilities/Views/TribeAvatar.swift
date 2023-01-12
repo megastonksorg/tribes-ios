@@ -25,7 +25,7 @@ struct TribeAvatar: View {
 		self.nameSize = {
 			switch size {
 			case 0..<100: return 12
-			case 100..<200: return 15
+			case 100..<250: return 15
 			default: return 20
 			}
 		}()
@@ -297,6 +297,7 @@ struct TribeAvatar: View {
 									.frame(dimension: size1 * 1.2)
 									.overlay(
 										Text("+\(othersCount)")
+											.font(.system(size: nameSize * 1.2))
 											.foregroundColor(Color.app.tertiary)
 									)
 									.offset(x: -size1 * 0.2)
