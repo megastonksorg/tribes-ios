@@ -84,6 +84,7 @@
 		D0C65AA52970A24D00E527F9 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C65AA42970A24D00E527F9 /* TextView.swift */; };
 		D0C65AA72970A7E600E527F9 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C65AA62970A7E600E527F9 /* Fonts.swift */; };
 		D0C65AAD2970AC6400E527F9 /* Kreon-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D0C65AAC2970AC6400E527F9 /* Kreon-Bold.ttf */; };
+		D0C65AAF2970BEA100E527F9 /* SymmetricHStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C65AAE2970BEA100E527F9 /* SymmetricHStack.swift */; };
 		D0D2668F295F717100A94183 /* CaptureClient+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D2668E295F717100A94183 /* CaptureClient+Utilities.swift */; };
 		D0D26692295FED0500A94183 /* ComposeVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D26691295FED0500A94183 /* ComposeVM.swift */; };
 		D0D26694295FED1000A94183 /* ComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D26693295FED1000A94183 /* ComposeView.swift */; };
@@ -182,6 +183,7 @@
 		D0C65AA42970A24D00E527F9 /* TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
 		D0C65AA62970A7E600E527F9 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		D0C65AAC2970AC6400E527F9 /* Kreon-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Kreon-Bold.ttf"; sourceTree = "<group>"; };
+		D0C65AAE2970BEA100E527F9 /* SymmetricHStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymmetricHStack.swift; sourceTree = "<group>"; };
 		D0D2668E295F717100A94183 /* CaptureClient+Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CaptureClient+Utilities.swift"; sourceTree = "<group>"; };
 		D0D26691295FED0500A94183 /* ComposeVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeVM.swift; sourceTree = "<group>"; };
 		D0D26693295FED1000A94183 /* ComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeView.swift; sourceTree = "<group>"; };
@@ -373,6 +375,7 @@
 				D0D266B0296AACE000A94183 /* PageView.swift */,
 				D0E8519B296CA3C10034AFD1 /* TribeAvatar.swift */,
 				D0C65AA42970A24D00E527F9 /* TextView.swift */,
+				D0C65AAE2970BEA100E527F9 /* SymmetricHStack.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -724,6 +727,7 @@
 				D030D2AB295745C20011128F /* FeedbackClient.swift in Sources */,
 				D030D2FA295745F90011128F /* User.swift in Sources */,
 				D030D2DF295745E90011128F /* MnemonicWordView.swift in Sources */,
+				D0C65AAF2970BEA100E527F9 /* SymmetricHStack.swift in Sources */,
 				D030D2FB295745F90011128F /* ResponseTypes.swift in Sources */,
 				D030D2A7295745C20011128F /* HttpMethod.swift in Sources */,
 				D0D266A7296513D300A94183 /* TeaContent.swift in Sources */,

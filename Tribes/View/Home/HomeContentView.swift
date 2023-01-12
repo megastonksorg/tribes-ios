@@ -23,7 +23,27 @@ struct HomeContentView: View {
 			ComposeView(viewModel: viewModel.composeVM)
 		case .tribes:
 			VStack {
-				TextView("Tribes", style: .appTitle)
+				SymmetricHStack(
+					content: {
+						TextView("Tribes", style: .appTitle)
+					},
+					leading: {
+						Button(action: {}) {
+							Circle()
+								.fill(Color.gray)
+								.frame(dimension: 50)
+						}
+					},
+					trailing: {
+						Button(action: {}) {
+							Image(systemName: "plus.circle.fill")
+								.font(.system(size: 30))
+								.foregroundColor(Color.app.secondary)
+						}
+					}
+				)
+				.padding(.horizontal)
+				
 				Spacer()
 			}
 			.pushOutFrame()
