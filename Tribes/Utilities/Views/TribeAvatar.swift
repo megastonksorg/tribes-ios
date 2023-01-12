@@ -10,20 +10,25 @@ import SwiftUI
 struct TribeAvatar: View {
 	let name: String
 	let members: [TribeMember]
+	
+	let maxSize: CGFloat
+	let nameSize: CGFloat
 	let size: CGFloat
-	
-	var maxSize: CGFloat {
-		size * 0.8
-	}
-	
-	var stackSize: CGFloat {
-		maxSize * 0.9
-	}
+	let stackSize: CGFloat
 	
 	init(tribe: Tribe, size: CGFloat) {
 		self.name = tribe.name
 		self.members = tribe.members
 		self.size = size
+		self.maxSize = size * 0.8
+		self.stackSize = maxSize * 0.9
+		self.nameSize = {
+			switch size {
+			case 0..<100: return 12
+			case 100..<200: return 15
+			default: return 20
+			}
+		}()
 	}
 	
 	var body: some View {
@@ -317,7 +322,7 @@ struct TribeAvatar: View {
 						.frame(dimension: stackSize)
 					}
 				}
-			Text(name)
+			TextView(name, style: .tribeName(nameSize))
 		}
 	}
 	
