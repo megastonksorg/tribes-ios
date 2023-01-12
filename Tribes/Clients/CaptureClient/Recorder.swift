@@ -128,9 +128,8 @@ final class Recorder {
 			
 			let previousPresentationTimeStamp = self.previousPresentationTimeStamp
 			
-			// Frame correction logic. Fixes the bug of video/audio un-synced when switching cameras
-			let currentFramePosition =
-			(Double(self.frameRate) * Double(currentPresentationTimestamp.value)) / Double(currentPresentationTimestamp.timescale)
+			// Frame correction logic. Fixes the bug of video/audio un-synced when switching cameras (https://github.com/Woodyjl/MWCamera/blob/28a72cf22f4c87f5ef9942b1a7541bc36414258f/MWCamera/Classes/MWBaseCameraViewController.swift#L654)
+			let currentFramePosition = (Double(self.frameRate) * Double(currentPresentationTimestamp.value)) / Double(currentPresentationTimestamp.timescale)
 			let previousFramePosition = (Double(self.frameRate) * Double(previousPresentationTimeStamp.value)) / Double(previousPresentationTimeStamp.timescale)
 			var presentationTimeStamp = currentPresentationTimestamp
 			let maxFrameDistance = 1.1
