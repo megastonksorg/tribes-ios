@@ -30,11 +30,17 @@ final class Recorder {
 	private var assetWriter: AVAssetWriter?
 	private var assetWriterVideoInput: AVAssetWriterInput?
 	private var assetWriterAudioInput: AVAssetWriterInput?
+	private var assetWriterInputPixelBufferAdaptor: AVAssetWriterInputPixelBufferAdaptor?
 	
-	private var startTime = Double(0)
+	private var frameCount = 0
+	private var frameRate: Int32 = CaptureClient.frameRate
+	
 	private var hasReceivedVideoBuffer = false
 	
 	private var lastKnownBufferTimestamp: CMTime?
+	
+	private var previousPresentationTimeStamp: CMTime = .zero
+	private var startingPresentationTimeStamp: CMTime = .zero
 	
 	// MARK: - Recording
 	func startVideoRecording(videoSettings: [String : Any]?, fileType: AVFileType) {
@@ -61,6 +67,10 @@ final class Recorder {
 		videoInput.expectsMediaDataInRealTime = true
 		writer.add(videoInput)
 		assetWriterVideoInput = videoInput
+		
+		//Create and assign the Buffer Adaptor
+		guard let assetWriterVideoInput = self.assetWriterVideoInput else { return }
+		self.assetWriterInputPixelBufferAdaptor = AVAssetWriterInputPixelBufferAdaptor(assetWriterInput: assetWriterVideoInput, sourcePixelBufferAttributes: nil)
 		
 		assetWriter = writer
 		isRecording = true
@@ -101,24 +111,64 @@ final class Recorder {
 	func recordVideo(sampleBuffer: CMSampleBuffer) {
 		guard
 			isRecording,
-			let assetWriter = assetWriter
+			let assetWriter = assetWriter,
+			let assetWriterInputPixelBufferAdaptor = self.assetWriterInputPixelBufferAdaptor
 		else { return }
 		
-		if assetWriter.status == .unknown, let input = assetWriterVideoInput {
+		let currentPresentationTimestamp = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
+		
+		if assetWriter.status == .unknown {
 			assetWriter.startWriting()
-			let startTimeStamp = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
-			assetWriter.startSession(atSourceTime: startTimeStamp)
-			startTime = Double(startTimeStamp.value) / Double(startTimeStamp.timescale)
-			input.append(sampleBuffer)
+			assetWriter.startSession(atSourceTime: currentPresentationTimestamp)
+			self.startingPresentationTimeStamp = currentPresentationTimestamp
+			self.previousPresentationTimeStamp = currentPresentationTimestamp
 		}
 		else if assetWriter.status == .writing, let input = assetWriterVideoInput, input.isReadyForMoreMediaData {
-			input.append(sampleBuffer)
-			if hasReceivedVideoBuffer == false { delegate?.recorderDidBeginRecording(self) }
+			guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
+			
+			let previousPresentationTimeStamp = self.previousPresentationTimeStamp
+			
+			// Frame correction logic. Fixes the bug of video/audio un-synced when switching cameras
+			let currentFramePosition =
+			(Double(self.frameRate) * Double(currentPresentationTimestamp.value)) / Double(currentPresentationTimestamp.timescale)
+			let previousFramePosition = (Double(self.frameRate) * Double(previousPresentationTimeStamp.value)) / Double(previousPresentationTimeStamp.timescale)
+			var presentationTimeStamp = currentPresentationTimestamp
+			let maxFrameDistance = 1.1
+			let frameDistance = currentFramePosition - previousFramePosition
+			
+			if frameDistance > maxFrameDistance {
+				let expectedFramePosition = previousFramePosition + 1.0
+				
+				//Frame at incorrect position moving from \(currentFramePosition) to \(expectedFramePosition)")
+				let newFramePosition = (expectedFramePosition * Double(currentPresentationTimestamp.timescale)) / Double(self.frameRate)
+				
+				let newPresentationTimeStamp = CMTime(value: CMTimeValue(newFramePosition), timescale: currentPresentationTimestamp.timescale)
+				
+				presentationTimeStamp = newPresentationTimeStamp
+			}
+			
+			//Write video
+			assetWriterInputPixelBufferAdaptor.append(pixelBuffer, withPresentationTime: presentationTimeStamp)
+			
+			self.previousPresentationTimeStamp = presentationTimeStamp
+			
+			let startTime = Double(startingPresentationTimeStamp.value) / Double(startingPresentationTimeStamp.timescale)
+			let currentTime = Double(currentPresentationTimestamp.value) / Double(currentPresentationTimestamp.timescale)
+			let previousTime = Double(previousPresentationTimeStamp.value) / Double(previousPresentationTimeStamp.timescale)
+			
+			self.frameCount += 1
+			
+			if (Int(previousTime - startTime) == Int(currentTime - startTime)) == false {
+				self.frameCount = 0
+			}
+			
+			if !hasReceivedVideoBuffer {
+				delegate?.recorderDidBeginRecording(self)
+			}
+			
 			hasReceivedVideoBuffer = true
-			let currentTimeStamp = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
-			let currentTime = Double(currentTimeStamp.value) / Double(currentTimeStamp.timescale)
 			measurement.value = currentTime - startTime
-			lastKnownBufferTimestamp = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
+			lastKnownBufferTimestamp = currentPresentationTimestamp
 			delegate?.recorderDidUpdateRecordingDuration(self, duration: measurement)
 		}
 	}

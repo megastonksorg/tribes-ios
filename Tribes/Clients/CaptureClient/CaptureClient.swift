@@ -82,7 +82,7 @@ class CaptureClient:
 	
 	private var recorder: Recorder?
 	
-	static private let frameRate: Int32 = 30
+	static let frameRate: Int32 = 30
 	static private let frameDuration: CMTime = CMTime(value: 1, timescale: CMTimeScale(frameRate))
 	
 	var captureFlashMode: AVCaptureDevice.FlashMode = .off
