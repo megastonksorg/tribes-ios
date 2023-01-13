@@ -18,7 +18,7 @@ struct NewSecretPhraseView: View {
 		VStack(spacing: 20) {
 			if viewModel.phrase.isEmpty {
 				Text("Could not retrieve mnemonic phrase.\nPlease try that again.")
-					.font(.title2)
+					.font(Font.app.title2)
 					.foregroundColor(.white)
 					.pushOutFrame()
 			}
@@ -28,11 +28,11 @@ struct NewSecretPhraseView: View {
 				Spacer(minLength: 0)
 				
 				Text("Secret account phrase")
-					.font(.app.title)
+					.font(Font.app.title)
 					.foregroundColor(.white)
 				
 				Text("This is the only way you will be able to login to your account. Please store or write it down somewhere safe")
-					.font(.app.subTitle)
+					.font(Font.app.subTitle)
 					.foregroundColor(.gray)
 					.padding(.horizontal)
 				
@@ -53,7 +53,7 @@ struct NewSecretPhraseView: View {
 						Text(didUserAcceptTerms ? "Terms Accepted" : "Accept Terms To Proceed")
 						Spacer()
 					}
-					.font(.app.subTitle)
+					.font(Font.app.subTitle)
 					.foregroundColor(.white)
 					.opacity(0.6)
 				}
@@ -61,7 +61,7 @@ struct NewSecretPhraseView: View {
 				Spacer(minLength: 0)
 				
 				Text("You will not be able to continue past the next step if you are unable to verify this phrase. Please memorize it or write it down on a piece of paper and store it in a secure location.")
-					.font(.app.footer)
+					.font(Font.app.footnote)
 					.foregroundColor(.gray)
 					.multilineTextAlignment(.center)
 				

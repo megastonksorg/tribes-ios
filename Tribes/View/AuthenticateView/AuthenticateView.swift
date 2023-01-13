@@ -45,25 +45,25 @@ struct AuthenticateView: View {
 			.padding(.top, 40)
 			
 			Text(viewModel.user.fullName)
-				.font(.title3)
+				.font(Font.app.title3)
 				.fontWeight(.semibold)
 				.foregroundColor(.white)
 				.padding(.top)
 			
 			Text(viewModel.user.userName)
-				.font(.app.subTitle)
+				.font(Font.app.subTitle)
 				.foregroundColor(.gray)
 			
 			VStack(spacing: 4) {
 				ExpandedHStack {
 					Text("ETHEREUM")
-						.font(.app.footer)
+						.font(Font.app.footnote)
 						.foregroundColor(.gray)
 				}
 
 				ExpandedHStack {
 					Text(String(stringLiteral: "$_,_ _ _._ _ USD"))
-						.font(.title3)
+						.font(Font.app.title3)
 						.fontWeight(.semibold)
 						.foregroundColor(.white)
 						.overlay {
@@ -74,14 +74,14 @@ struct AuthenticateView: View {
 				
 				ExpandedHStack {
 					Text("WALLET ADDRESS")
-						.font(.app.footer)
+						.font(Font.app.footnote)
 						.foregroundColor(.gray)
 				}
 				.padding(.top, 30)
 				
 				HStack {
 					Text(viewModel.user.walletAddress.uppercased())
-						.font(.title3)
+						.font(Font.app.title3)
 						.fontWeight(.semibold)
 						.foregroundColor(.white)
 					
@@ -102,7 +102,7 @@ struct AuthenticateView: View {
 			Spacer()
 			
 			Text("By clicking authenticate, you will sign a message with your wallet for verification")
-				.font(.caption)
+				.font(Font.app.caption)
 				.foregroundColor(.gray)
 				.multilineTextAlignment(.center)
 			

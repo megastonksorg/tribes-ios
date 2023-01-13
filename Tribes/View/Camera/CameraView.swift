@@ -33,7 +33,7 @@ struct CameraView: View {
 									.foregroundColor(.white)
 								Button(action: {}) {
 									Text("Resume")
-										.font(.callout)
+										.font(Font.app.callout)
 										.foregroundColor(.white)
 										.padding(6)
 										.padding(.horizontal, 2)
@@ -52,7 +52,7 @@ struct CameraView: View {
 				HStack {
 					Button(action: { viewModel.toggleFlash() }) {
 						Image(systemName: viewModel.isFlashOn ? "bolt.fill" : "bolt.slash.fill")
-							.font(.title)
+							.font(Font.app.title)
 							.foregroundColor(.white)
 							.padding(.leading, 20)
 					}
@@ -90,7 +90,7 @@ struct CameraView: View {
 				VStack {
 					Button(action: { viewModel.initializeCaptureClient() }) {
 						Text("Resume")
-							.font(.body)
+							.font(Font.app.subTitle)
 							.foregroundColor(.white)
 							.padding(6)
 							.background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 8))
@@ -109,7 +109,7 @@ struct CameraView: View {
 									.multilineTextAlignment(.center)
 								Button(action: { viewModel.requestCameraAccess() }) {
 									Text("Request for access")
-										.font(.footnote)
+										.font(Font.app.footnote)
 										.foregroundColor(.white)
 										.padding(8)
 										.background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 10))
@@ -123,7 +123,7 @@ struct CameraView: View {
 								
 								Button (action: { viewModel.openSystemSettings() }) {
 									Text("Go to settings")
-										.font(.footnote)
+										.font(Font.app.footnote)
 										.foregroundColor(.white)
 										.padding(8)
 										.background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 10))

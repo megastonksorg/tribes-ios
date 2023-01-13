@@ -57,7 +57,7 @@ struct MnemonicWordView: View {
 		}
 		else {
 			Text(word!.text)
-				.font(.subheadline)
+				.font(Font.app.subTitle)
 				.bold()
 				.foregroundColor(textColor)
 				.minimumScaleFactor(0.6)

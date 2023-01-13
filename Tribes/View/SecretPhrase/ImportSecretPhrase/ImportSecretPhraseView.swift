@@ -18,7 +18,7 @@ struct ImportSecretPhraseView: View {
 		ScrollView {
 			VStack(spacing: 20) {
 				Text("Type in your seed phrase into each box to login. You must type the phrase in the correct order for valid authentication")
-					.font(.app.subTitle)
+					.font(Font.app.subTitle)
 					.foregroundColor(.white)
 					.multilineTextAlignment(.center)
 					.padding(.bottom, 30)
@@ -56,7 +56,7 @@ struct ImportSecretPhraseView: View {
 							onCommit: { self.viewModel.advanceToNextField() }
 						)
 						.foregroundColor(.white)
-						.font(.system(.subheadline, weight: .bold))
+						.font(Font.app.subTitle)
 						.multilineTextAlignment(.center)
 						.minimumScaleFactor(0.6)
 						.lineLimit(1)
@@ -82,7 +82,7 @@ struct ImportSecretPhraseView: View {
 				
 				Button(action: { self.viewModel.resetWordFields() }) {
 					Text("Tap to reset")
-						.font(.app.footer)
+						.font(Font.app.footnote)
 						.fontWeight(.bold)
 						.foregroundColor(.gray)
 				}

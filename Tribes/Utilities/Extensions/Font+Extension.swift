@@ -18,7 +18,11 @@ extension Font {
 }
 
 extension Font.app {
-	static var title: Font { .system(.title3, design: .rounded, weight: .medium) }
-	static var subTitle: Font { .system(size: 15, weight: .medium, design: .rounded) }
-	static var footer: Font { .system(size: 12, weight: .regular, design: .rounded) }
+	static var callout: Font { .system(size: FontSizes.callout, weight: .regular, design: .rounded) }
+	static var caption: Font { .system(size: FontSizes.caption, weight: .regular, design: .rounded) }
+	static var footnote: Font { .system(size: FontSizes.footnote, weight: .regular, design: .rounded) }
+	static var subTitle: Font { .system(size: FontSizes.body, weight: .medium, design: .rounded) }
+	static var title: Font { .system(size: FontSizes.title1, weight: .medium, design: .rounded) }
+	static var title2: Font { .system(size: FontSizes.title2, weight: .medium, design: .rounded) }
+	static var title3: Font { .system(size: FontSizes.title3, weight: .medium, design: .rounded) }
 }

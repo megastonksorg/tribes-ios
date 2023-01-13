@@ -17,11 +17,11 @@ struct VerifySecretPhraseView: View {
 	var body: some View {
 		VStack(spacing: 10) {
 			Text("Verify your secret phrase to continue")
-				.font(.app.subTitle)
+				.font(Font.app.subTitle)
 				.foregroundColor(.white)
 			
 			Text("Tap an empty box to select it and fill it with one of the words below.")
-				.font(.app.footer)
+				.font(Font.app.footnote)
 				.foregroundColor(.white)
 			
 			LazyVGrid(columns: Array(repeating: GridItem(), count: SizeConstants.phraseGridCount), spacing: SizeConstants.phraseGridSpacing) {

@@ -118,7 +118,7 @@ struct SlidingButtonView: View {
 				Capsule()
 					.fill(Color.black)
 				Text("Slide to cast your vote")
-					.font(.system(.body, design: .rounded, weight: .medium))
+					.font(Font.app.subTitle)
 					.foregroundStyle(LinearGradient.shine)
 					.opacity(self.inverseProgress)
 			}
@@ -128,7 +128,7 @@ struct SlidingButtonView: View {
 				Capsule()
 					.stroke(self.isSliding ? style.gradientTheme : LinearGradient.gray)
 				Text("You voted \(style.title)")
-					.font(.system(.body, design: .rounded))
+					.font(Font.app.subTitle)
 					.foregroundColor(.white)
 					.opacity(self.didComplete ? 1.0 : 0.0)
 			}

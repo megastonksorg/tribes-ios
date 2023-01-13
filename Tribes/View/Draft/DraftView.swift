@@ -21,7 +21,7 @@ struct DraftView: View {
 				.overlay(alignment: .topTrailing) {
 					Button(action: { viewModel.resetTeaContent() }) {
 						Image(systemName: "xmark")
-							.font(.title)
+							.font(Font.app.title)
 							.foregroundColor(.white)
 					}
 				}

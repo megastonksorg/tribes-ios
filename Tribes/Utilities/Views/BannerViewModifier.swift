@@ -57,16 +57,16 @@ struct BannerViewModifier: ViewModifier {
 						VStack {
 							if(!data.title.isEmpty){
 								Text(data.title)
-									.font(.app.subTitle)
+									.font(Font.app.subTitle)
 									.bold()
 							}
 							
 							HStack {
 								Image(systemName: symbol)
-									.font(.title)
+									.font(Font.app.title)
 									.foregroundColor(data.type.tintColor)
 								Text(data.detail)
-									.font(.app.subTitle)
+									.font(Font.app.subTitle)
 							}
 						}
 					}

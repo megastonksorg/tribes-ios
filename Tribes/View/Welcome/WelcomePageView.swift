@@ -25,7 +25,7 @@ struct WelcomePageView: View {
 					ForEach(0..<6, id: \.self) { num in
 						Button(action: { }) {
 							Text("Onboarding Page \(num)")
-								.font(.title3)
+								.font(Font.app.title3)
 								.foregroundColor(.white)
 						}
 					}

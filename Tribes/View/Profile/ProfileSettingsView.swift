@@ -36,7 +36,7 @@ struct ProfileSettingsView: View {
 									Color.black.opacity(0.2)
 										.overlay(
 											Image(systemName: "plus.circle")
-												.font(.title)
+												.font(Font.app.title)
 												.foregroundColor(.gray)
 										)
 										.clipShape(Circle())
@@ -50,7 +50,7 @@ struct ProfileSettingsView: View {
 			}
 			
 			Text(self.viewModel.profilePictureTitle)
-				.font(.app.subTitle)
+				.font(Font.app.subTitle)
 				.fontWeight(.regular)
 				.foregroundColor(.white)
 				.padding(.vertical)

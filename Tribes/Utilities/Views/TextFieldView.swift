@@ -32,10 +32,10 @@ struct TextFieldView: View {
 		HStack {
 			VStack(alignment: .leading, spacing: 4) {
 				Text(title)
-					.font(.system(.footnote, weight: .light))
+					.font(.system(size: FontSizes.footnote, weight: .light))
 					.foregroundColor(.white)
 				TextField("", text: $text, onCommit: { onCommit() })
-					.font(.system(size: 15, weight: .semibold))
+					.font(Font.app.subTitle)
 					.foregroundColor(.white)
 					.submitLabel(submitLabel)
 			}
