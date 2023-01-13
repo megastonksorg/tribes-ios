@@ -21,9 +21,9 @@ struct ExpandedButtonStyle: ButtonStyle {
 	
 	func makeBody(configuration: Configuration) -> some View {
 		let foregroundColor: Color = {
-			if self.invertedStyle { return .gray }
+			if self.invertedStyle { return Color.app.tertiary }
 			if self.isEnabled {
-				return .black
+				return .white
 			} else {
 				return .gray
 			}
@@ -49,6 +49,7 @@ struct ExpandedButtonStyle: ButtonStyle {
 				}
 			}
 		}
+		.padding(.horizontal)
 		.scaleEffect(shouldAnimate && configuration.isPressed ? 1.05 : 1)
 		.animation(.easeOut(duration: 0.6), value: shouldAnimate && configuration.isPressed)
 	}
@@ -63,7 +64,7 @@ struct ExpandedButtonStyle: ButtonStyle {
 			.overlay(
 				shape()
 					.stroke(lineWidth: 1)
-					.fill(Color.gray)
+					.fill(isEnabled ? Color.app.tertiary : Color.gray)
 			)
 	}
 }

@@ -35,18 +35,17 @@ struct WelcomePageView: View {
 				
 				Group {
 					Button(action: { viewModel.generateNewWallet() }) {
-						Text("Create a new Wallet")
+						Text("Create a new account")
 					}
 					.buttonStyle(ExpandedButtonStyle())
 					
 					Button(action: { viewModel.importWallet() }) {
-						Text("Import an existing  wallet")
+						Text("Login to account")
 					}
 					.buttonStyle(ExpandedButtonStyle(invertedStyle: true))
 				}
 				.textCase(.uppercase)
-				.padding(10)
-				.padding(.horizontal, 4)
+				.padding(.bottom)
 			}
 			.background(AppBackgroundView())
 			.overlay(isShown: viewModel.isLoading) {
