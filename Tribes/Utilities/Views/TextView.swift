@@ -10,6 +10,7 @@ import SwiftUI
 struct TextViewModifier: ViewModifier {
 	enum Style {
 		case appTitle
+		case hint
 		case tribeName(_ size: CGFloat)
 	}
 	
@@ -21,6 +22,10 @@ struct TextViewModifier: ViewModifier {
 			content
 				.font(.custom(FontNames.kreon, fixedSize: 40))
 				.foregroundColor(Color.app.tertiary)
+		case .hint:
+			content
+				.font(Font.app.caption)
+				.foregroundColor(.gray)
 		case .tribeName(let size):
 			content
 				.font(.system(size: size, weight: .medium, design: .rounded))
