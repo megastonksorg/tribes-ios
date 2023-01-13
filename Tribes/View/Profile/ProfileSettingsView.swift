@@ -55,6 +55,10 @@ struct ProfileSettingsView: View {
 				.foregroundColor(.white)
 				.padding(.vertical)
 			
+			Text("What do your friends and family call you?")
+				.font(Font.app.footnote)
+				.foregroundColor(.gray)
+			
 			TextFieldView(
 				title: "Name",
 				validation: viewModel.nameValidation,

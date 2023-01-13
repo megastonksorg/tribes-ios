@@ -46,10 +46,10 @@ extension ProfileSettingsView {
 			}
 		}
 		
-		var buttonTitle: String {
+		var nameHintTitle: String {
 			switch self.mode {
-				case .creation: return "Create User"
-				case .editing: return "Update User"
+				case .creation: return "What do your friends and family call you?"
+				case .editing: return "What do you want your tribe members to call you?"
 			}
 		}
 		
