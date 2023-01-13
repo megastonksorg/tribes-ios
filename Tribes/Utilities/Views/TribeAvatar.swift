@@ -338,7 +338,10 @@ struct TribeAvatar: View {
 		}, placeholder: {
 			Circle()
 				.fill(Color.black.opacity(0.6))
-				.overlay(ProgressView())
+				.overlay(
+					ProgressView()
+						.controlSize(.mini)
+				)
 		})
 	}
 }
