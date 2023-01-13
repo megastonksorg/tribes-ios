@@ -33,22 +33,24 @@ struct MnemonicWordView: View {
 	func buttonLabel() -> some View {
 		let size = SizeConstants.wordSize
 		let cornerRadius: CGFloat = SizeConstants.wordCornerRadius
-		let textColor: Color = word!.isAlternateStyle ? .white : .black
+		let textColor: Color = Color.white
 		if word!.text.isEmpty {
 			RoundedRectangle(cornerRadius: cornerRadius)
 				.fill(Color.black)
 				.overlay(
 					RoundedRectangle(cornerRadius: cornerRadius)
 						.stroke(
-							word!.isSelected ? Color.app.secondary : Color.white.opacity(0.6),
-							style: StrokeStyle(
-								lineWidth: 1,
-								lineCap: .round,
-								lineJoin: .miter,
-								miterLimit: 4,
-								dash: [4],
-								dashPhase: 4
-							)
+							Color.app.secondary,
+							style: word!.isSelected ?
+								StrokeStyle(lineWidth: 1) :
+								StrokeStyle(
+									lineWidth: 1,
+									lineCap: .round,
+									lineJoin: .miter,
+									miterLimit: 4,
+									dash: [4],
+									dashPhase: 4
+								)
 						)
 				)
 				.frame(size: size)
@@ -79,7 +81,13 @@ struct MnemonicWordView: View {
 
 struct MnemonicWordView_Previews: PreviewProvider {
 	static var previews: some View {
-		MnemonicWordView(word: Binding.constant(MnemonicWord(text: "", isSelectable: true, isAlternateStyle: false)), viewHandler: {})
+		let mnemonicWord: MnemonicWord = {
+			var word = MnemonicWord(text: "", isSelectable: true, isAlternateStyle: false)
+			word.isSelected = true
+			return word
+		}()
+		
+		MnemonicWordView(word: Binding.constant(mnemonicWord), viewHandler: {})
 			.preferredColorScheme(.dark)
 	}
 }
