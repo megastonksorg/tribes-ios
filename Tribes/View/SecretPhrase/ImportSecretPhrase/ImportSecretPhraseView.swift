@@ -17,7 +17,7 @@ struct ImportSecretPhraseView: View {
 	var body: some View {
 		ScrollView {
 			VStack(spacing: 20) {
-				Text("Type in your wallet phrase into each box to import it. You must type the phrase in the correct order for valid authentication")
+				Text("Type in your seed phrase into each box to login. You must type the phrase in the correct order for valid authentication")
 					.font(.app.subTitle)
 					.foregroundColor(.white)
 					.multilineTextAlignment(.center)
@@ -55,7 +55,7 @@ struct ImportSecretPhraseView: View {
 							text: word,
 							onCommit: { self.viewModel.advanceToNextField() }
 						)
-						.foregroundColor(isWordReal ? .black : .white)
+						.foregroundColor(.white)
 						.font(.system(.subheadline, weight: .bold))
 						.multilineTextAlignment(.center)
 						.minimumScaleFactor(0.6)
@@ -91,7 +91,7 @@ struct ImportSecretPhraseView: View {
 		}
 		.safeAreaInset(edge: .bottom) {
 			Button(action: { self.viewModel.importWallet() }) {
-				Text("Continue to Import")
+				Text("Continue to login")
 			}
 			.buttonStyle(ExpandedButtonStyle())
 			.disabled(!viewModel.isContinueButtonEnabled)
