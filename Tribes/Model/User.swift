@@ -10,7 +10,6 @@ import Foundation
 struct User: Encodable {
 	let walletAddress: String
 	let fullName: String
-	let userName: String
 	let profilePhoto: URL
 	let currency: String
 	let acceptTerms: Bool
@@ -21,7 +20,6 @@ extension User {
 	static let noop: User = User(
 		walletAddress: "0x1D1479C185d32EB90533a08b36B3CFa5F84A0E6B",
 		fullName: "Full Name",
-		userName: "UserName",
 		profilePhoto: URL(string: "https://kingsleyokeke.blob.core.windows.net/images/1597276037537.jpeg")!,
 		currency: "USD",
 		acceptTerms: false,

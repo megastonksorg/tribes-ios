@@ -26,14 +26,4 @@ extension String {
 		catch {}
 		return false
 	}
-	
-	var isValidUserName: Bool {
-		do
-		{
-			let regex = try NSRegularExpression(pattern: "^[0-9a-zA-Z\\_]{3,20}$", options: .caseInsensitive)
-			if regex.matches(in: self, options: [], range: NSMakeRange(0, self.count)).count > 0 {return true}
-		}
-		catch {}
-		return false
-	}
 }

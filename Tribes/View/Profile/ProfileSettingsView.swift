@@ -58,19 +58,10 @@ struct ProfileSettingsView: View {
 			TextFieldView(
 				title: "Name",
 				validation: viewModel.nameValidation,
-				onCommit: { self.focusField = .userName },
+				onCommit: { self.viewModel.complete() },
 				text: $viewModel.name
 			)
 			.focused(self.$focusField, equals: .name)
-			
-			TextFieldView(
-				title: "Username",
-				validation: viewModel.userNameValidation,
-				submitLabel: .done,
-				onCommit: { self.viewModel.complete() },
-				text: $viewModel.userName
-			)
-			.focused(self.$focusField, equals: .userName)
 			
 			Spacer()
 		}

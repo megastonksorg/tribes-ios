@@ -12,7 +12,6 @@ typealias APIClientError = AppError.APIClientError
 
 protocol APIRequests {
 	func requestAuthentication() -> AnyPublisher<String, APIClientError>
-	func isUsernameAvailable(userName: String) -> AnyPublisher<EmptyResponse, APIClientError>
 	func doesAccountExist(for walletAddress: String) -> AnyPublisher<SuccessResponse, APIClientError>
 	func authenticateUser(model: AuthenticateRequest) -> AnyPublisher<AuthenticateResponse, APIClientError>
 	func registerUser(model: RegisterRequest) -> AnyPublisher<RegisterResponse, APIClientError>
@@ -32,16 +31,6 @@ final class APIClient: APIRequests {
 			pathComponents: ["account", "requestAuthentication"]
 		)
 		return apiRequest(appRequest: authenticationRequest, output: String.self)
-	}
-	
-	func isUsernameAvailable(userName: String) -> AnyPublisher<EmptyResponse, APIClientError> {
-		let userNameAvailableRequest = APPUrlRequest(
-			token: nil,
-			httpMethod: .post,
-			pathComponents: ["account", "isUserNameAvailable"],
-			query: [URLQueryItem(name: "userName", value: userName)]
-		)
-		return apiRequest(appRequest: userNameAvailableRequest, output: EmptyResponse.self)
 	}
 	
 	func doesAccountExist(for walletAddress: String) -> AnyPublisher<SuccessResponse, APIClientError> {

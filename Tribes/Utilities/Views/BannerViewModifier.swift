@@ -123,6 +123,6 @@ struct BannerView_Previews: PreviewProvider {
 				)
 		}
 		.background(Color.black)
-		.banner(data: Binding.constant(BannerData(title: "", detail: "The Username isn't available. Please try another one", type: .warning)))
+		.banner(data: Binding.constant(BannerData(title: "", detail: "The request was not accepted. Please try again", type: .warning)))
 	}
 }

@@ -50,10 +50,6 @@ struct AuthenticateView: View {
 				.foregroundColor(.white)
 				.padding(.top)
 			
-			Text(viewModel.user.userName)
-				.font(Font.app.subTitle)
-				.foregroundColor(.gray)
-			
 			VStack(spacing: 4) {
 				ExpandedHStack {
 					Text("ETHEREUM")

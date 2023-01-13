@@ -19,7 +19,6 @@ extension ProfileSettingsView {
 		
 		enum FocusField {
 			case name
-			case userName
 		}
 		
 		//Clients
@@ -34,8 +33,6 @@ extension ProfileSettingsView {
 		
 		@Published var image: UIImage?
 		@Published var name: String = ""
-		@Published var userName: String = ""
-		@Published var userNameValidation: FieldValidation = .unknown
 		
 		@Published var isShowingImagePicker: Bool = false
 		@Published var isLoading: Bool = false
@@ -65,8 +62,7 @@ extension ProfileSettingsView {
 		}
 		
 		var isCompletionAllowed: Bool {
-			return nameValidation == .valid && userNameValidation == .valid &&
-			walletAddress != nil && image != nil
+			return nameValidation == .valid && walletAddress != nil && image != nil
 		}
 		
 		init(
@@ -80,38 +76,7 @@ extension ProfileSettingsView {
 			
 			if let user = user {
 				self.name = user.fullName
-				self.userName = user.userName
 			}
-			
-			$userName
-				.debounce(for: .seconds(0.4), scheduler: DispatchQueue.main)
-				.sink(receiveValue: { userName in
-					if userName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-						self.userNameValidation = .unknown
-					}
-					else {
-						if userName.trimmingCharacters(in: .whitespacesAndNewlines).isValidUserName {
-							//Check API for availability
-							self.apiClient.isUsernameAvailable(userName: userName)
-								.receive(on: DispatchQueue.main)
-								.sink(receiveCompletion: { completion in
-									switch completion {
-										case .finished: return
-										case .failure(let error):
-											self.userNameValidation = .invalid
-											self.banner = BannerData(title: error.title, detail: error.errorDescription ?? "", type: .error)
-									}
-								}, receiveValue: { _ in
-									self.userNameValidation = .valid
-								})
-								.store(in: &self.cancellables)
-						}
-						else {
-							self.userNameValidation = .invalid
-						}
-					}
-				})
-				.store(in: &cancellables)
 		}
 		
 		func selectImageFromLibrary() {
@@ -143,7 +108,6 @@ extension ProfileSettingsView {
 									walletAddress: walletAddress,
 									profilePhoto: url,
 									fullName: self.name,
-									userName: self.userName,
 									acceptTerms: true
 								)
 								
@@ -162,7 +126,6 @@ extension ProfileSettingsView {
 								let user: User = User(
 									walletAddress: registerResponse.walletAddress,
 									fullName: registerResponse.fullName,
-									userName: registerResponse.userName,
 									profilePhoto: registerResponse.profilePhoto,
 									currency: registerResponse.currency,
 									acceptTerms: registerResponse.acceptTerms,
