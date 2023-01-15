@@ -22,7 +22,7 @@ fileprivate let appStateKeyNotification: String = "appState"
 		case changeAppMode(AppMode)
 	}
 	
-	@Published var appMode: AppMode = .home(HomeView.ViewModel())
+	@Published var appMode: AppMode = .welcome(WelcomePageView.ViewModel())
 	
 	init() {
 		NotificationCenter

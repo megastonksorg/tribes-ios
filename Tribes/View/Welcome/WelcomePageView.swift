@@ -14,7 +14,7 @@ struct WelcomePageView: View {
 	
 	init(viewModel: ViewModel) {
 		UIPageControl.appearance().currentPageIndicatorTintColor = UIColor(Color.app.secondary)
-		UIPageControl.appearance().pageIndicatorTintColor = UIColor(Color.app.secondary).withAlphaComponent(0.2)
+		UIPageControl.appearance().pageIndicatorTintColor = UIColor(Color.app.secondary).withAlphaComponent(0.4)
 		self._viewModel = StateObject(wrappedValue: viewModel)
 	}
 	
@@ -30,7 +30,6 @@ struct WelcomePageView: View {
 						}
 					}
 				}
-				.tint(.app.secondary)
 				.tabViewStyle(.page(indexDisplayMode: .always))
 				
 				Group {
@@ -75,7 +74,6 @@ struct WelcomePageView: View {
 				.navigationTitle("")
 			}
 		}
-		.tint(Color.white)
 	}
 }
 
