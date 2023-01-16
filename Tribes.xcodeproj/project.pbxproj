@@ -900,8 +900,8 @@
 				INFOPLIST_FILE = Tribes/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Tribes;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
-				INFOPLIST_KEY_NSCameraUsageDescription = "Tribes uses the camera to capture pictures and videos";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Tribes uses the microphone to capture videos and audio clips";
+				INFOPLIST_KEY_NSCameraUsageDescription = "$(EXECUTABLE_NAME) uses the camera to capture the tea you share with your tribe members";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "$(EXECUTABLE_NAME) uses the microphone to capture the audio you share with your tribe members";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -934,8 +934,8 @@
 				INFOPLIST_FILE = Tribes/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Tribes;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
-				INFOPLIST_KEY_NSCameraUsageDescription = "Tribes uses the camera to capture pictures and videos";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Tribes uses the microphone to capture videos and audio clips";
+				INFOPLIST_KEY_NSCameraUsageDescription = "$(EXECUTABLE_NAME) uses the camera to capture the tea you share with your tribe members";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "$(EXECUTABLE_NAME) uses the microphone to capture the audio you share with your tribe members";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
