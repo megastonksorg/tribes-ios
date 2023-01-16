@@ -88,6 +88,15 @@ struct TribesView: View {
 						noTribeImage(name: "right3", size: 35)
 					}
 				}
+				
+				Text("Create a Tribe")
+					.font(Font.app.title2)
+					.foregroundColor(Color.app.tertiary)
+				Text("Remember the tea and messages you share with your tribe members are private and encrypted. \nNo one can view or read them. Not even us. \n\nTo get started, click on the (+) above!")
+					.multilineTextAlignment(.center)
+					.font(Font.app.footnote)
+					.foregroundColor(Color.app.tertiary)
+					.padding(.top, 2)
 				Spacer()
 			}
 		default:
