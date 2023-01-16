@@ -158,10 +158,11 @@ extension CameraView {
 		
 		func requestCameraAccess() {
 			Task {
-				if cameraPermissionState == .undetermined {
+				switch cameraPermissionState {
+				case .undetermined:
 					self.cameraPermissionState = await permissionClient.requestCameraPermission()
 					initializeCaptureClient()
-				} else if cameraPermissionState == .denied {
+				case .denied, .allowed:
 					openSystemSettings()
 				}
 			}
@@ -169,10 +170,11 @@ extension CameraView {
 		
 		func requestMicrophoneAccess() {
 			Task {
-				if audioPermissionState == .undetermined {
+				switch audioPermissionState {
+				case .undetermined:
 					self.audioPermissionState = await permissionClient.requestRecordPermission()
 					initializeCaptureClient()
-				} else if audioPermissionState == .denied {
+				case .denied, .allowed:
 					openSystemSettings()
 				}
 			}
