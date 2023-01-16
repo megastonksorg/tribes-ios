@@ -55,6 +55,7 @@ struct TribesView: View {
 		switch viewModel.tribes.count {
 		case 0:
 			let fillColor: Color = Color.app.secondary.opacity(0.5)
+			let firstCircleWidth: CGFloat = 40
 			let strokeColor: Color = Color.app.secondary
 			VStack {
 				Spacer()
@@ -67,7 +68,7 @@ struct TribesView: View {
 						.opacity(0.8)
 					Circle()
 						.fill(fillColor)
-						.frame(dimension: 40)
+						.frame(dimension: firstCircleWidth)
 						.overlay(
 							Circle()
 								.stroke(strokeColor)
@@ -76,6 +77,16 @@ struct TribesView: View {
 										.font(.system(size: 18, design: .rounded))
 								)
 						)
+					HStack {
+						noTribeImage(name: "left3", size: 35)
+						noTribeImage(name: "left2", size: 40)
+						noTribeImage(name: "left1", size: 45)
+						Spacer()
+							.frame(width: firstCircleWidth + 10)
+						noTribeImage(name: "right1", size: 45)
+						noTribeImage(name: "right2", size: 40)
+						noTribeImage(name: "right3", size: 35)
+					}
 				}
 				Spacer()
 			}
@@ -108,6 +119,14 @@ struct TribesView: View {
 				Circle()
 					.stroke(strokeColor)
 			)
+	}
+	
+	@ViewBuilder
+	func noTribeImage(name: String, size: CGFloat) -> some View {
+		Image(name)
+			.resizable()
+			.scaledToFill()
+			.frame(dimension: size)
 	}
 }
 
