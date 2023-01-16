@@ -60,6 +60,16 @@ struct TribesView: View {
 			VStack {
 				Spacer()
 				ZStack {
+					HStack {
+						noTribeImage(name: "left3", size: 35)
+						noTribeImage(name: "left2", size: 40)
+						noTribeImage(name: "left1", size: 45)
+						Spacer()
+							.frame(width: firstCircleWidth + 10)
+						noTribeImage(name: "right1", size: 45)
+						noTribeImage(name: "right2", size: 40)
+						noTribeImage(name: "right3", size: 35)
+					}
 					noTribeCircle(size: 120, fillColor, strokeColor)
 						.opacity(0.4)
 					noTribeCircle(size: 90, fillColor, strokeColor)
@@ -77,22 +87,12 @@ struct TribesView: View {
 										.font(.system(size: 18, design: .rounded))
 								)
 						)
-					HStack {
-						noTribeImage(name: "left3", size: 35)
-						noTribeImage(name: "left2", size: 40)
-						noTribeImage(name: "left1", size: 45)
-						Spacer()
-							.frame(width: firstCircleWidth + 10)
-						noTribeImage(name: "right1", size: 45)
-						noTribeImage(name: "right2", size: 40)
-						noTribeImage(name: "right3", size: 35)
-					}
 				}
 				
-				Text("Create a Tribe")
+				Text("Create Your First Tribe")
 					.font(Font.app.title2)
 					.foregroundColor(Color.app.tertiary)
-				Text("Remember the tea and messages you share with your tribe members are private and encrypted. \nNo one can view or read them. Not even us. \n\nTo get started, click on the (+) above!")
+				Text("Remember the tea and messages you share with your tribe members are private and encrypted. \nNo one can view or read them. Not even us! \n\nTo get started, click on the (+) above!")
 					.multilineTextAlignment(.center)
 					.font(Font.app.footnote)
 					.foregroundColor(Color.app.tertiary)
