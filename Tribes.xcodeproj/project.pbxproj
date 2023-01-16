@@ -82,6 +82,7 @@
 		D03B30A52968DB3D00F797CE /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B30A42968DB3D00F797CE /* HomeView.swift */; };
 		D07278B42974CCD100650A15 /* TribesVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07278B32974CCD100650A15 /* TribesVM.swift */; };
 		D07278B62974CCE000650A15 /* TribesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07278B52974CCE000650A15 /* TribesView.swift */; };
+		D07278BB2975FB9600650A15 /* CalloutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07278BA2975FB9600650A15 /* CalloutView.swift */; };
 		D0C65AA32970988900E527F9 /* Tribe.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C65AA22970988900E527F9 /* Tribe.swift */; };
 		D0C65AA52970A24D00E527F9 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C65AA42970A24D00E527F9 /* TextView.swift */; };
 		D0C65AA72970A7E600E527F9 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C65AA62970A7E600E527F9 /* Fonts.swift */; };
@@ -183,6 +184,7 @@
 		D03B30A42968DB3D00F797CE /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		D07278B32974CCD100650A15 /* TribesVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TribesVM.swift; sourceTree = "<group>"; };
 		D07278B52974CCE000650A15 /* TribesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TribesView.swift; sourceTree = "<group>"; };
+		D07278BA2975FB9600650A15 /* CalloutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalloutView.swift; sourceTree = "<group>"; };
 		D0C65AA22970988900E527F9 /* Tribe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tribe.swift; sourceTree = "<group>"; };
 		D0C65AA42970A24D00E527F9 /* TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
 		D0C65AA62970A7E600E527F9 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
@@ -380,6 +382,7 @@
 				D0E8519B296CA3C10034AFD1 /* TribeAvatar.swift */,
 				D0C65AA42970A24D00E527F9 /* TextView.swift */,
 				D0C65AAE2970BEA100E527F9 /* SymmetricHStack.swift */,
+				D07278BA2975FB9600650A15 /* CalloutView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -731,6 +734,7 @@
 				D030D2D7295745E90011128F /* View+Frame.swift in Sources */,
 				D030D31F2957460B0011128F /* ProfileSettingsView.swift in Sources */,
 				D030D2E4295745E90011128F /* ImagePicker.swift in Sources */,
+				D07278BB2975FB9600650A15 /* CalloutView.swift in Sources */,
 				D0D266A22963459800A94183 /* VideoPlayerView.swift in Sources */,
 				D030D2E3295745E90011128F /* SlidingButtonView.swift in Sources */,
 				D030D2D4295745E90011128F /* View+Extensions.swift in Sources */,
