@@ -54,6 +54,11 @@ extension CameraView {
 			captureClient.isRecording
 		}
 		
+		var permissionText: String {
+			if isPermissionDenied { return "You cannot share tea without your camera and microphone" }
+			else { return "Use you camera and microphone to share tea with your tribes" }
+		}
+		
 		var setUpResult: CaptureClient.SessionSetupResult {
 			captureClient.setupResult
 		}
@@ -129,10 +134,12 @@ extension CameraView {
 		}
 		
 		func initializeCaptureClient() {
-			self.objectWillChange.send()
-			self.captureClient = CaptureClient()
-			self.addObservers()
-			self.didAppear()
+			if cameraPermissionState == .allowed && audioPermissionState == .allowed {
+				self.objectWillChange.send()
+				self.captureClient = CaptureClient()
+				self.addObservers()
+				self.didAppear()
+			}
 		}
 		
 		func openSystemSettings() {
@@ -151,11 +158,22 @@ extension CameraView {
 		
 		func requestCameraAccess() {
 			Task {
-				self.cameraPermissionState = await permissionClient.requestCameraPermission()
-				self.audioPermissionState = await permissionClient.requestRecordPermission()
-				
-				if cameraPermissionState == .allowed && audioPermissionState == .allowed {
+				if cameraPermissionState == .undetermined {
+					self.cameraPermissionState = await permissionClient.requestCameraPermission()
 					initializeCaptureClient()
+				} else if cameraPermissionState == .denied {
+					openSystemSettings()
+				}
+			}
+		}
+		
+		func requestMicrophoneAccess() {
+			Task {
+				if audioPermissionState == .undetermined {
+					self.audioPermissionState = await permissionClient.requestRecordPermission()
+					initializeCaptureClient()
+				} else if audioPermissionState == .denied {
+					openSystemSettings()
 				}
 			}
 		}

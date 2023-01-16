@@ -102,35 +102,47 @@ struct CameraView: View {
 			.overlay(isShown: !viewModel.isPermissionAllowed) {
 				VStack {
 					VStack {
-						if viewModel.isPermissionUndetermined {
-							VStack {
-								Text("You need access to your camera and microphone to share tea")
-									.foregroundColor(.white)
-									.multilineTextAlignment(.center)
-								Button(action: { viewModel.requestCameraAccess() }) {
-									Text("Request for access")
-										.font(Font.app.footnote)
-										.foregroundColor(.white)
-										.padding(8)
-										.background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 10))
-								}
-							}
-						} else if viewModel.isPermissionDenied {
-							VStack {
-								Text("You cannot share tea without access to your camera and microphone")
-									.foregroundColor(.white)
-									.multilineTextAlignment(.center)
-								
-								Button (action: { viewModel.openSystemSettings() }) {
-									Text("Go to settings")
-										.font(Font.app.footnote)
-										.foregroundColor(.white)
-										.padding(8)
-										.background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 10))
-								}
-							}
+						Spacer()
+						let symbolSize: CGFloat = 50
+						Text(viewModel.permissionText)
+							.font(Font.app.subTitle)
+							.multilineTextAlignment(.center)
+							.padding(.bottom, 40)
+						HStack {
+							Image(systemName: "camera")
+								.font(Font.app.title)
+								.frame(dimension: symbolSize)
+							Text("Camera")
+								.padding(.leading)
+							Spacer()
+							Toggle(
+								"",
+								isOn: Binding(
+									get: { return viewModel.cameraPermissionState == .allowed },
+									set: { _ in viewModel.requestCameraAccess() }
+								)
+							)
 						}
+						
+						HStack {
+							Image(systemName: "mic")
+								.font(Font.app.title)
+								.frame(dimension: symbolSize)
+							Text("Mic")
+								.padding(.leading)
+							Spacer()
+							Toggle(
+								"",
+								isOn: Binding(
+									get: { return viewModel.audioPermissionState == .allowed },
+									set: { _ in viewModel.requestMicrophoneAccess() }
+								)
+							)
+						}
+						Spacer()
 					}
+					.foregroundColor(.white)
+					.tint(Color.app.secondary)
 					.padding(.horizontal, 40)
 				}
 				.pushOutFrame()
