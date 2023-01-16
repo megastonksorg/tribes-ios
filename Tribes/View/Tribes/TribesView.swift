@@ -53,6 +53,32 @@ struct TribesView: View {
 	@ViewBuilder
 	func tribesView() -> some View {
 		switch viewModel.tribes.count {
+		case 0:
+			let fillColor: Color = Color.app.secondary.opacity(0.5)
+			let strokeColor: Color = Color.app.secondary
+			VStack {
+				Spacer()
+				ZStack {
+					noTribeCircle(size: 120, fillColor, strokeColor)
+						.opacity(0.4)
+					noTribeCircle(size: 90, fillColor, strokeColor)
+						.opacity(0.6)
+					noTribeCircle(size: 60, fillColor, strokeColor)
+						.opacity(0.8)
+					Circle()
+						.fill(fillColor)
+						.frame(dimension: 40)
+						.overlay(
+							Circle()
+								.stroke(strokeColor)
+								.overlay(
+									Image(systemName: "plus")
+										.font(.system(size: 18, design: .rounded))
+								)
+						)
+				}
+				Spacer()
+			}
 		default:
 			HStack {
 				Button(action: {}) {
@@ -69,6 +95,19 @@ struct TribesView: View {
 			}
 			.padding(.top, 20)
 		}
+	}
+	
+	@ViewBuilder
+	func noTribeCircle(size: CGFloat, _ fillColor: Color, _ strokeColor: Color) -> some View {
+		Circle()
+			.fill(
+				LinearGradient(colors: [fillColor.opacity(0.6), fillColor], startPoint: .leading, endPoint: .trailing)
+			)
+			.frame(dimension: size)
+			.overlay(
+				Circle()
+					.stroke(strokeColor)
+			)
 	}
 }
 
