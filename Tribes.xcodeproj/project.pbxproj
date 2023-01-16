@@ -80,6 +80,8 @@
 		D030D3202957460B0011128F /* ProfileSettingsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030D3142957460B0011128F /* ProfileSettingsVM.swift */; };
 		D03B30A32968DAFB00F797CE /* HomeVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B30A22968DAFB00F797CE /* HomeVM.swift */; };
 		D03B30A52968DB3D00F797CE /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B30A42968DB3D00F797CE /* HomeView.swift */; };
+		D07278B42974CCD100650A15 /* TribesVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07278B32974CCD100650A15 /* TribesVM.swift */; };
+		D07278B62974CCE000650A15 /* TribesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07278B52974CCE000650A15 /* TribesView.swift */; };
 		D0C65AA32970988900E527F9 /* Tribe.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C65AA22970988900E527F9 /* Tribe.swift */; };
 		D0C65AA52970A24D00E527F9 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C65AA42970A24D00E527F9 /* TextView.swift */; };
 		D0C65AA72970A7E600E527F9 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C65AA62970A7E600E527F9 /* Fonts.swift */; };
@@ -179,6 +181,8 @@
 		D030D3142957460B0011128F /* ProfileSettingsVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileSettingsVM.swift; sourceTree = "<group>"; };
 		D03B30A22968DAFB00F797CE /* HomeVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVM.swift; sourceTree = "<group>"; };
 		D03B30A42968DB3D00F797CE /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		D07278B32974CCD100650A15 /* TribesVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TribesVM.swift; sourceTree = "<group>"; };
+		D07278B52974CCE000650A15 /* TribesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TribesView.swift; sourceTree = "<group>"; };
 		D0C65AA22970988900E527F9 /* Tribe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tribe.swift; sourceTree = "<group>"; };
 		D0C65AA42970A24D00E527F9 /* TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
 		D0C65AA62970A7E600E527F9 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
@@ -419,6 +423,7 @@
 		D030D3002957460B0011128F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				D07278B22974CCAD00650A15 /* Tribes */,
 				D03B30A12968DAE700F797CE /* Home */,
 				D0D2669A296010C900A94183 /* TeaContent */,
 				D0D2669529600BAB00A94183 /* Draft */,
@@ -511,6 +516,15 @@
 				D0D266B2296AAD2300A94183 /* HomeContentView.swift */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		D07278B22974CCAD00650A15 /* Tribes */ = {
+			isa = PBXGroup;
+			children = (
+				D07278B32974CCD100650A15 /* TribesVM.swift */,
+				D07278B52974CCE000650A15 /* TribesView.swift */,
+			);
+			path = Tribes;
 			sourceTree = "<group>";
 		};
 		D0C65AA82970A80300E527F9 /* Resources */ = {
@@ -675,6 +689,7 @@
 				D030D2A9295745C20011128F /* APPUrlRequest.swift in Sources */,
 				D030D2D6295745E90011128F /* View+Overlay.swift in Sources */,
 				D029D81E2957548400EA4C07 /* AppView.swift in Sources */,
+				D07278B62974CCE000650A15 /* TribesView.swift in Sources */,
 				D0158079295D14880087545A /* CaptureClient.swift in Sources */,
 				D03B30A52968DB3D00F797CE /* HomeView.swift in Sources */,
 				D030D29A295745970011128F /* AppRouter.swift in Sources */,
@@ -725,6 +740,7 @@
 				D030D2DA295745E90011128F /* NavBarTheme.swift in Sources */,
 				D030D3152957460B0011128F /* WelcomePageVM.swift in Sources */,
 				D030D2AB295745C20011128F /* FeedbackClient.swift in Sources */,
+				D07278B42974CCD100650A15 /* TribesVM.swift in Sources */,
 				D030D2FA295745F90011128F /* User.swift in Sources */,
 				D030D2DF295745E90011128F /* MnemonicWordView.swift in Sources */,
 				D0C65AAF2970BEA100E527F9 /* SymmetricHStack.swift in Sources */,

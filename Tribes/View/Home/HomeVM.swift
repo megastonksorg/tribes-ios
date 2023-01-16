@@ -17,6 +17,7 @@ extension HomeView {
 		}
 		
 		@Published var composeVM: ComposeView.ViewModel = ComposeView.ViewModel()
+		@Published var tribesVM: TribesView.ViewModel = TribesView.ViewModel()
 		
 		var currentPage: Page = .tribes {
 			didSet {
