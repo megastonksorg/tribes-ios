@@ -56,7 +56,7 @@ extension CameraView {
 		
 		var permissionText: String {
 			if isPermissionDenied { return "You cannot share tea without your camera and microphone" }
-			else { return "Use you camera and microphone to share tea with your tribes" }
+			else { return "Use your camera and microphone to share tea with your tribes" }
 		}
 		
 		var setUpResult: CaptureClient.SessionSetupResult {
