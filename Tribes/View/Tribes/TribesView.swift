@@ -60,16 +60,6 @@ struct TribesView: View {
 			VStack {
 				Spacer()
 				ZStack {
-					HStack {
-						noTribeImage(name: "left3", size: 35)
-						noTribeImage(name: "left2", size: 40)
-						noTribeImage(name: "left1", size: 45)
-						Spacer()
-							.frame(width: firstCircleWidth + 10)
-						noTribeImage(name: "right1", size: 45)
-						noTribeImage(name: "right2", size: 40)
-						noTribeImage(name: "right3", size: 35)
-					}
 					noTribeCircle(size: 120, fillColor, strokeColor)
 						.opacity(0.4)
 					noTribeCircle(size: 90, fillColor, strokeColor)
@@ -87,6 +77,16 @@ struct TribesView: View {
 										.font(.system(size: 18, design: .rounded))
 								)
 						)
+					HStack {
+						noTribeImage(name: "left3", size: 35)
+						noTribeImage(name: "left2", size: 40)
+						noTribeImage(name: "left1", size: 45)
+						Spacer()
+							.frame(width: firstCircleWidth + 10)
+						noTribeImage(name: "right1", size: 45)
+						noTribeImage(name: "right2", size: 40)
+						noTribeImage(name: "right3", size: 35)
+					}
 				}
 				
 				Text("Create Your First Tribe")
