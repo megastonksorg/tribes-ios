@@ -44,7 +44,7 @@ struct CalloutView: View {
 				.fill(fill)
 				.frame(dimension: 26)
 				.rotationEffect(.degrees(90))
-				.offset(y: -6)
+				.offset(y: -8)
 		}
 	}
 }
