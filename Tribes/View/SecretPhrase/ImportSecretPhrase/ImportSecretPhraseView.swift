@@ -115,6 +115,7 @@ struct ImportSecretPhraseView: View {
 		.onChange(of: self.viewModel.focusedField) { focusedField in
 			self.focusedField = focusedField
 		}
+		.onAppear { self.focusedField = .one }
 	}
 }
 
