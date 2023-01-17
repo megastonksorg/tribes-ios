@@ -30,6 +30,7 @@ struct AuthenticateView: View {
 				Spacer()
 				Button(action: { self.viewModel.cancel() }) {
 					Text("Cancel")
+						.foregroundColor(.gray)
 						.opacity(0.8)
 				}
 			}
@@ -76,7 +77,7 @@ struct AuthenticateView: View {
 				.padding(.top, 30)
 				
 				HStack {
-					Text(viewModel.user.walletAddress.uppercased())
+					Text(viewModel.user.walletAddress)
 						.font(Font.app.title3)
 						.fontWeight(.semibold)
 						.foregroundColor(.white)
