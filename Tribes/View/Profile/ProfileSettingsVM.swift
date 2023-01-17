@@ -132,7 +132,7 @@ extension ProfileSettingsView {
 									isOnboarded: registerResponse.isOnboarded
 								)
 								self.isLoading = false
-								AppState.updateAppState(with: .changeAppMode(.authentication(AuthenticateView.ViewModel(user: user))))
+								AppState.updateAppState(with: .changeAppMode(.authentication(AuthenticateView.ViewModel(context: .signUp, user: user))))
 							})
 							.store(in: &cancellables)
 				}

@@ -9,12 +9,19 @@ import Combine
 
 extension AuthenticateView {
 	@MainActor class ViewModel: ObservableObject {
+		enum Context {
+			case signUp
+			case signIn
+		}
+		
+		let context: Context
 		@Published var user: User
 		
 		@Published var isShowingAlert: Bool = false
 		@Published var banner: BannerData?
 		
-		init(user: User) {
+		init(context: Context, user: User) {
+			self.context = context
 			self.user = user
 		}
 		

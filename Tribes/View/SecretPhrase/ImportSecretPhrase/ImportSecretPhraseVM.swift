@@ -122,10 +122,19 @@ extension ImportSecretPhraseView {
 						}, receiveValue: { response in
 							self.isLoading = false
 							if response.success {
-								//As the user to login here
+								let user: User = User(
+									walletAddress: address,
+									fullName: "",
+									profilePhoto: URL(string: "https://tribes.ca")!,
+									currency: "USD",
+									acceptTerms: true,
+									isOnboarded: true
+								)
+								AppState.updateAppState(with: .changeAppMode(.authentication(AuthenticateView.ViewModel(context: .signIn, user: user))))
+								//Ask the user to login here
 							}
 							else {
-								//Take them to the Account Creation Screen
+								//Take the user to the Account Creation Screen
 								AppRouter.pushStack(stack: .route1(.createProfile(walletAddress: address)))
 							}
 						})
