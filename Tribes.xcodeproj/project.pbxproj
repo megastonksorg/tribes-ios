@@ -86,6 +86,7 @@
 		D07278BE297602C100650A15 /* CustomRoundedRectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07278BD297602C100650A15 /* CustomRoundedRectangle.swift */; };
 		D07278C02976039600650A15 /* RoundedTriangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07278BF2976039600650A15 /* RoundedTriangle.swift */; };
 		D07278C2297603DC00650A15 /* ChatBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07278C1297603DC00650A15 /* ChatBubble.swift */; };
+		D0AAF2DE29761F49003536C6 /* ChatType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AAF2DD29761F49003536C6 /* ChatType.swift */; };
 		D0C65AA32970988900E527F9 /* Tribe.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C65AA22970988900E527F9 /* Tribe.swift */; };
 		D0C65AA52970A24D00E527F9 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C65AA42970A24D00E527F9 /* TextView.swift */; };
 		D0C65AA72970A7E600E527F9 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C65AA62970A7E600E527F9 /* Fonts.swift */; };
@@ -191,6 +192,7 @@
 		D07278BD297602C100650A15 /* CustomRoundedRectangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRoundedRectangle.swift; sourceTree = "<group>"; };
 		D07278BF2976039600650A15 /* RoundedTriangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedTriangle.swift; sourceTree = "<group>"; };
 		D07278C1297603DC00650A15 /* ChatBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBubble.swift; sourceTree = "<group>"; };
+		D0AAF2DD29761F49003536C6 /* ChatType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatType.swift; sourceTree = "<group>"; };
 		D0C65AA22970988900E527F9 /* Tribe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tribe.swift; sourceTree = "<group>"; };
 		D0C65AA42970A24D00E527F9 /* TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
 		D0C65AA62970A7E600E527F9 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
@@ -409,6 +411,7 @@
 				D0D266A6296513D300A94183 /* TeaContent.swift */,
 				D0E8519D296CC0690034AFD1 /* TribeMember.swift */,
 				D0C65AA22970988900E527F9 /* Tribe.swift */,
+				D0AAF2DD29761F49003536C6 /* ChatType.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -789,6 +792,7 @@
 				D0D26694295FED1000A94183 /* ComposeView.swift in Sources */,
 				D0D2669929600BC500A94183 /* DraftVM.swift in Sources */,
 				D030D2E1295745E90011128F /* AppToolBar.swift in Sources */,
+				D0AAF2DE29761F49003536C6 /* ChatType.swift in Sources */,
 				D015807E295E057F0087545A /* CMSampleBuffer+Image.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
