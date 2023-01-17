@@ -63,6 +63,7 @@ struct ProfileSettingsView: View {
 				onCommit: { self.viewModel.complete() },
 				text: $viewModel.name
 			)
+			.autocorrectionDisabled(true)
 			.focused(self.$focusField, equals: .name)
 			
 			Spacer()
