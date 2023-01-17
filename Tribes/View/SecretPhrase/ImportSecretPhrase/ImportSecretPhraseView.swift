@@ -55,6 +55,8 @@ struct ImportSecretPhraseView: View {
 							text: word,
 							onCommit: { self.viewModel.advanceToNextField() }
 						)
+						.textInputAutocapitalization(.never)
+						.autocorrectionDisabled(true)
 						.foregroundColor(.white)
 						.font(Font.app.subTitle)
 						.multilineTextAlignment(.center)
