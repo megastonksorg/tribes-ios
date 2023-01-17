@@ -57,7 +57,7 @@ struct AuthenticateView: View {
 						.font(Font.app.footnote)
 						.foregroundColor(.gray)
 				}
-
+				
 				ExpandedHStack {
 					Text(String(stringLiteral: "$_,_ _ _._ _ USD"))
 						.font(Font.app.title3)
