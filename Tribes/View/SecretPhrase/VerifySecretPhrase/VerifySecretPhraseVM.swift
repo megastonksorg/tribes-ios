@@ -36,6 +36,7 @@ extension VerifySecretPhraseView {
 							.map {
 								MnemonicWord(text: String($0), isSelectable: true, isAlternateStyle: true)
 							}
+							.shuffled()
 					)
 				case .failure(let error):
 					self.phraseOptions = []
