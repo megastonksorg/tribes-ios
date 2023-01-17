@@ -48,7 +48,7 @@ struct ImportSecretPhraseView: View {
 						
 						let cornerRadius: CGFloat = SizeConstants.wordCornerRadius
 						let frame: CGSize = SizeConstants.wordSize
-						let isWordReal: Bool = word.wrappedValue.isRealWord
+						let isEntryValid: Bool = !word.wrappedValue.isEmpty
 						
 						TextField(
 							"",
@@ -65,7 +65,7 @@ struct ImportSecretPhraseView: View {
 						.focused($focusedField, equals: field)
 						.padding(.horizontal, 4)
 						.background {
-							if isWordReal {
+							if isEntryValid {
 								RoundedRectangle(cornerRadius: cornerRadius)
 									.fill(Color.app.secondary)
 									.frame(size: frame)

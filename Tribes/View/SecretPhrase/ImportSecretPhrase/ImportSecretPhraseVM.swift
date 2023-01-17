@@ -55,10 +55,10 @@ extension ImportSecretPhraseView {
 		@Published var focusedField: Field?
 		
 		var isContinueButtonEnabled: Bool {
-			return self.word1.isRealWord && self.word2.isRealWord && self.word3.isRealWord
-			&& self.word4.isRealWord && self.word5.isRealWord && self.word6.isRealWord
-			&& self.word7.isRealWord && self.word8.isRealWord && self.word9.isRealWord
-			&& self.word10.isRealWord && self.word11.isRealWord && self.word12.isRealWord
+			return !self.word1.isEmpty && !self.word2.isEmpty && !self.word3.isEmpty
+			&& !self.word4.isEmpty && !self.word5.isEmpty && !self.word6.isEmpty
+			&& !self.word7.isEmpty && !self.word8.isEmpty && !self.word9.isEmpty
+			&& !self.word10.isEmpty && !self.word11.isEmpty && !self.word12.isEmpty
 		}
 		
 		func advanceToNextField() {
@@ -126,6 +126,7 @@ extension ImportSecretPhraseView {
 							}
 							else {
 								//Take them to the Account Creation Screen
+								AppRouter.pushStack(stack: .route1(.createProfile(walletAddress: address)))
 							}
 						})
 						.store(in: &cancellables)
