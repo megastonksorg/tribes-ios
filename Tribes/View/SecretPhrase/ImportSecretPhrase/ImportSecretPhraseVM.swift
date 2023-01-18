@@ -67,18 +67,18 @@ extension ImportSecretPhraseView {
 				let nextField = Field(rawValue: currentField + 1)
 				let shouldNavigate: Bool = {
 					switch nextField {
-						case .two: return self.word2.isEmpty
-						case .three: return self.word3.isEmpty
-						case .four: return self.word4.isEmpty
-						case .five: return self.word5.isEmpty
-						case .six: return self.word6.isEmpty
-						case .seven: return self.word7.isEmpty
-						case .eight: return self.word8.isEmpty
-						case .nine: return self.word9.isEmpty
-						case .ten: return self.word10.isEmpty
-						case .eleven: return self.word11.isEmpty
-						case .twelve: return self.word12.isEmpty
-						default: return false
+					case .two: return self.word2.isEmpty
+					case .three: return self.word3.isEmpty
+					case .four: return self.word4.isEmpty
+					case .five: return self.word5.isEmpty
+					case .six: return self.word6.isEmpty
+					case .seven: return self.word7.isEmpty
+					case .eight: return self.word8.isEmpty
+					case .nine: return self.word9.isEmpty
+					case .ten: return self.word10.isEmpty
+					case .eleven: return self.word11.isEmpty
+					case .twelve: return self.word12.isEmpty
+					default: return false
 					}
 				}()
 				if shouldNavigate { self.focusedField = nextField }
@@ -108,37 +108,38 @@ extension ImportSecretPhraseView {
 			
 			switch walletClient.importWallet(mnemonic: mnemonic) {
 			case .success(let hdWallet):
-					self.isLoading = true
-					let address = self.walletClient.getAddress(hdWallet)
-					self.apiClient.doesAccountExist(for: address)
-						.receive(on: DispatchQueue.main)
-						.sink(receiveCompletion: { completion in
-							switch completion {
-								case .finished: return
-								case .failure(let error):
-									self.isLoading = false
-									self.banner = BannerData(title: error.title, detail: error.errorDescription ?? "", type: .error)
-							}
-						}, receiveValue: { response in
+				self.walletClient.saveMnemonic(mnemonic: mnemonic)
+				self.isLoading = true
+				let address = self.walletClient.getAddress(hdWallet)
+				self.apiClient.doesAccountExist(for: address)
+					.receive(on: DispatchQueue.main)
+					.sink(receiveCompletion: { completion in
+						switch completion {
+						case .finished: return
+						case .failure(let error):
 							self.isLoading = false
-							if response.success {
-								let user: User = User(
-									walletAddress: address,
-									fullName: "",
-									profilePhoto: URL(string: "https://tribes.ca")!,
-									currency: "USD",
-									acceptTerms: true,
-									isOnboarded: true
-								)
-								AppState.updateAppState(with: .changeAppMode(.authentication(AuthenticateView.ViewModel(context: .signIn, user: user))))
-								//Ask the user to login here
-							}
-							else {
-								//Take the user to the Account Creation Screen
-								AppRouter.pushStack(stack: .route1(.createProfile(walletAddress: address)))
-							}
-						})
-						.store(in: &cancellables)
+							self.banner = BannerData(title: error.title, detail: error.errorDescription ?? "", type: .error)
+						}
+					}, receiveValue: { response in
+						self.isLoading = false
+						if response.success {
+							let user: User = User(
+								walletAddress: address,
+								fullName: "",
+								profilePhoto: URL(string: "https://tribes.ca")!,
+								currency: "USD",
+								acceptTerms: true,
+								isOnboarded: true
+							)
+							//Ask the user to login here
+							AppState.updateAppState(with: .changeAppMode(.authentication(AuthenticateView.ViewModel(context: .signIn, user: user))))
+						}
+						else {
+							//Take the user to the Account Creation Screen
+							AppRouter.pushStack(stack: .route1(.createProfile(walletAddress: address)))
+						}
+					})
+					.store(in: &cancellables)
 			case .failure(let error):
 				self.banner = BannerData(detail: error.localizedDescription, type: .error)
 				return

@@ -15,6 +15,15 @@ struct BannerData: Equatable {
 	var type: BannerType
 }
 
+extension BannerData {
+	init(error: AppError.WalletError) {
+		self.init(title: error.title, detail: error.errorDescription ?? "", type: .error)
+	}
+	init(error: AppError.APIClientError) {
+		self.init(title: error.title, detail: error.errorDescription ?? "", type: .error)
+	}
+}
+
 enum BannerType {
 	case info
 	case warning

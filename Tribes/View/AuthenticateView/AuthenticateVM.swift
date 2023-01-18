@@ -6,6 +6,7 @@
 //
 
 import Combine
+import Foundation
 
 extension AuthenticateView {
 	@MainActor class ViewModel: ObservableObject {
@@ -14,9 +15,16 @@ extension AuthenticateView {
 			case signIn
 		}
 		
+		private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
+		
+		//Clients
+		let apiClient = APIClient.shared
+		let walletClient = WalletClient.shared
+		
 		let context: Context
 		@Published var user: User
 		
+		@Published var isLoading: Bool = false
 		@Published var isShowingAlert: Bool = false
 		@Published var banner: BannerData?
 		
@@ -41,7 +49,43 @@ extension AuthenticateView {
 		}
 		
 		func authenticate() {
-			
+			self.isLoading = true
+			self.apiClient.requestAuthentication()
+				.flatMap { [unowned self] messageToSign -> AnyPublisher<AuthenticateResponse, APIClientError> in
+					switch self.walletClient.signMessage(message: messageToSign) {
+					case .success(let signedMessage):
+						let authenticateModel = AuthenticateRequest(walletAddress: user.walletAddress, signature: signedMessage.signature)
+						return self.apiClient.authenticateUser(model: authenticateModel)
+					case .failure(let error):
+						self.banner = BannerData(error: error)
+						return Empty().eraseToAnyPublisher()
+					}
+				}
+				.receive(on: DispatchQueue.main)
+				.sink(
+					receiveCompletion: { [weak self] completion in
+						switch completion {
+							case .finished: return
+							case .failure(let error):
+								self?.isLoading = false
+								self?.banner = BannerData(error: error)
+							print(error.errorDescription)
+						}
+					},
+					receiveValue: { [weak self] authenticateResponse in
+						let user: User = User(
+							walletAddress: authenticateResponse.walletAddress,
+							fullName: authenticateResponse.fullName,
+							profilePhoto: authenticateResponse.profilePhoto,
+							currency: authenticateResponse.currency,
+							acceptTerms: authenticateResponse.acceptTerms,
+							isOnboarded: authenticateResponse.isOnboarded
+						)
+						self?.isLoading = false
+						AppState.updateAppState(with: .changeAppMode(.home(HomeView.ViewModel())))
+					}
+				)
+				.store(in: &cancellables)
 		}
 	}
 }

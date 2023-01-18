@@ -14,7 +14,7 @@ struct AuthenticateRequest: Encodable {
 
 struct AuthenticateResponse: Decodable {
 	let walletAddress: String
-	let fullname: String
+	let fullName: String
 	let profilePhoto: URL
 	let currency: String
 	let acceptTerms: Bool

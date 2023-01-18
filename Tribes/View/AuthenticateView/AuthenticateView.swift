@@ -104,7 +104,7 @@ struct AuthenticateView: View {
 				.foregroundColor(.gray)
 				.multilineTextAlignment(.center)
 			
-			Button(action: {}) {
+			Button(action: { viewModel.authenticate() }) {
 				Text("Authenticate")
 			}
 			.buttonStyle(ExpandedButtonStyle())
@@ -125,6 +125,9 @@ struct AuthenticateView: View {
 				Text("Cancelling authentication will bring you back to the welcome screen. Your account creation will be saved")
 			}
 		)
+		.overlay(isShown: viewModel.isLoading) {
+			AppProgressView()
+		}
 		.banner(data: self.$viewModel.banner)
 		.background(Color.app.background)
 	}
