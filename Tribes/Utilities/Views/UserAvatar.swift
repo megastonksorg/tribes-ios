@@ -18,7 +18,7 @@ struct UserAvatar: View {
 				.clipShape(Circle())
 		}, placeholder: {
 			Circle()
-				.fill(Color.black.opacity(0.6))
+				.fill(Color.gray.opacity(0.2))
 				.overlay(
 					ProgressView()
 						.controlSize(.mini)
