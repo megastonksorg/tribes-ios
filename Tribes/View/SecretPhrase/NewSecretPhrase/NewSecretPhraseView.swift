@@ -46,17 +46,7 @@ struct NewSecretPhraseView: View {
 				
 				Spacer(minLength: 0)
 				
-				Button(action: { viewModel.openTerms() } ) {
-					HStack {
-						Spacer()
-						Image(systemName: didUserAcceptTerms ? "checkmark.square.fill" : "square")
-						Text(didUserAcceptTerms ? "Terms Accepted" : "Accept Terms To Proceed")
-						Spacer()
-					}
-					.font(Font.app.subTitle)
-					.foregroundColor(.white)
-					.opacity(0.6)
-				}
+				TermsAndConditionsView.StateButton(didAcceptTerms: didUserAcceptTerms, action: { viewModel.openTerms() })
 				
 				Spacer(minLength: 0)
 				
