@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D01031572978D73500ACC333 /* UserAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01031562978D73500ACC333 /* UserAvatar.swift */; };
 		D0158076295CAE390087545A /* PermissionClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0158075295CAE390087545A /* PermissionClient.swift */; };
 		D0158079295D14880087545A /* CaptureClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0158078295D14880087545A /* CaptureClient.swift */; };
 		D015807C295E039E0087545A /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D015807B295E039E0087545A /* CameraView.swift */; };
@@ -115,6 +116,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D01031562978D73500ACC333 /* UserAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAvatar.swift; sourceTree = "<group>"; };
 		D0158075295CAE390087545A /* PermissionClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionClient.swift; sourceTree = "<group>"; };
 		D0158078295D14880087545A /* CaptureClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureClient.swift; sourceTree = "<group>"; };
 		D015807B295E039E0087545A /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
@@ -393,6 +395,7 @@
 				D0C65AAE2970BEA100E527F9 /* SymmetricHStack.swift */,
 				D07278BA2975FB9600650A15 /* CalloutView.swift */,
 				D07278C1297603DC00650A15 /* ChatBubble.swift */,
+				D01031562978D73500ACC333 /* UserAvatar.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -758,6 +761,7 @@
 				D030D31F2957460B0011128F /* ProfileSettingsView.swift in Sources */,
 				D030D2E4295745E90011128F /* ImagePicker.swift in Sources */,
 				D07278BB2975FB9600650A15 /* CalloutView.swift in Sources */,
+				D01031572978D73500ACC333 /* UserAvatar.swift in Sources */,
 				D0D266A22963459800A94183 /* VideoPlayerView.swift in Sources */,
 				D030D2E3295745E90011128F /* SlidingButtonView.swift in Sources */,
 				D030D2D4295745E90011128F /* View+Extensions.swift in Sources */,
