@@ -29,6 +29,6 @@ struct HomeContentView: View {
 
 struct HomeContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		HomeContentView(page: .tribes, viewModel: .init())
+		HomeContentView(page: .tribes, viewModel: .init(user: User.noop))
 	}
 }

@@ -69,7 +69,6 @@ extension AuthenticateView {
 							case .failure(let error):
 								self?.isLoading = false
 								self?.banner = BannerData(error: error)
-							print(error.errorDescription)
 						}
 					},
 					receiveValue: { [weak self] authenticateResponse in
@@ -82,7 +81,7 @@ extension AuthenticateView {
 							isOnboarded: authenticateResponse.isOnboarded
 						)
 						self?.isLoading = false
-						AppState.updateAppState(with: .changeAppMode(.home(HomeView.ViewModel())))
+						AppState.updateAppState(with: .changeAppMode(.home(HomeView.ViewModel(user: user))))
 					}
 				)
 				.store(in: &cancellables)

@@ -141,6 +141,6 @@ struct TribesView: View {
 
 struct TribesView_Previews: PreviewProvider {
 	static var previews: some View {
-		TribesView(viewModel: .init())
+		TribesView(viewModel: .init(user: User.noop))
 	}
 }

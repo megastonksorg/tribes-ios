@@ -16,8 +16,10 @@ extension HomeView {
 			case tribes
 		}
 		
+		private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
+		
 		@Published var composeVM: ComposeView.ViewModel = ComposeView.ViewModel()
-		@Published var tribesVM: TribesView.ViewModel = TribesView.ViewModel()
+		@Published var tribesVM: TribesView.ViewModel
 		
 		var currentPage: Page = .tribes {
 			didSet {
@@ -25,10 +27,11 @@ extension HomeView {
 			}
 		}
 		
-		var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
+		var user: User
 		
-		init() {
-			
+		init(user: User) {
+			self.user = user
+			self.tribesVM = TribesView.ViewModel(user: user)
 		}
 		
 		func pageUpdated(page: Page) {

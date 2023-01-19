@@ -11,6 +11,12 @@ import IdentifiedCollections
 extension TribesView {
 	@MainActor class ViewModel: ObservableObject {
 		
-		@Published var tribes: IdentifiedArrayOf<Tribe> = []
+		@Published var tribes: IdentifiedArrayOf<Tribe>
+		@Published var user: User
+		
+		init(tribes: IdentifiedArrayOf<Tribe> = [], user: User) {
+			self.tribes = tribes
+			self.user = user
+		}
 	}
 }
