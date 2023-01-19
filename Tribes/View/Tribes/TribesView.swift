@@ -23,9 +23,8 @@ struct TribesView: View {
 						TextView("Tribes", style: .appTitle)
 					},
 					leading: {
-						Button(action: {}) {
-							Circle()
-								.fill(Color.gray)
+						Button(action: {  }) {
+							UserAvatar(url: viewModel.user.profilePhoto)
 								.frame(dimension: 50)
 						}
 						.buttonStyle(.insideScaling)
