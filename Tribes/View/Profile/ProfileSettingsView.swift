@@ -20,7 +20,6 @@ struct ProfileSettingsView: View {
 	
 	var body: some View {
 		VStack(spacing: 20) {
-			let didUserAcceptTerms = viewModel.didUserAcceptTerms
 			Group {
 				Button(action: { viewModel.selectImageFromLibrary() }) {
 					Group {
