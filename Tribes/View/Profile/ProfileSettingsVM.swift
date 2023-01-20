@@ -12,13 +12,18 @@ extension ProfileSettingsView {
 	@MainActor class ViewModel: ObservableObject {
 		
 		//MARK: - Subtypes
+		enum FocusField {
+			case name
+		}
+		
 		enum Mode {
 			case creation
 			case editing
 		}
 		
-		enum FocusField {
-			case name
+		enum Sheet {
+			case imagePicker
+			case termsAndConditions
 		}
 		
 		//Clients
@@ -31,13 +36,14 @@ extension ProfileSettingsView {
 		
 		private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 		
+		@Published var banner: BannerData?
+		@Published var didUserAcceptTerms: Bool = false
 		@Published var image: UIImage?
-		@Published var name: String = ""
-		
 		@Published var isShowingImagePicker: Bool = false
 		@Published var isLoading: Bool = false
+		@Published var name: String = ""
 		
-		@Published var banner: BannerData?
+		@Published var sheet: Sheet?
 		
 		var profilePictureTitle: String {
 			switch self.mode {
@@ -77,10 +83,6 @@ extension ProfileSettingsView {
 			if let user = user {
 				self.name = user.fullName
 			}
-		}
-		
-		func selectImageFromLibrary() {
-			self.isShowingImagePicker = true
 		}
 		
 		func complete() {
@@ -140,6 +142,14 @@ extension ProfileSettingsView {
 			else {
 				self.banner = BannerData(title: "Missing Information", detail: "Cannot complete your request at this time. Please ensure all fields are valid and an image is selected", type: .info)
 			}
+		}
+		
+		func selectImageFromLibrary() {
+			self.isShowingImagePicker = true
+		}
+		
+		func setSheet(sheet: Sheet?) {
+			self.sheet = sheet
 		}
 	}
 }

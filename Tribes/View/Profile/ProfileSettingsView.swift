@@ -20,6 +20,7 @@ struct ProfileSettingsView: View {
 	
 	var body: some View {
 		VStack(spacing: 20) {
+			let didUserAcceptTerms = viewModel.didUserAcceptTerms
 			Group {
 				Button(action: { viewModel.selectImageFromLibrary() }) {
 					Group {
@@ -66,6 +67,11 @@ struct ProfileSettingsView: View {
 			.autocorrectionDisabled(true)
 			.focused(self.$focusField, equals: .name)
 			
+			TermsAndConditionsView.StateButton(
+				didAcceptTerms: $viewModel.didUserAcceptTerms,
+				viewAction: { viewModel.setSheet(sheet: .termsAndConditions) }
+			)
+			
 			Spacer()
 		}
 		.padding(.horizontal)
@@ -84,8 +90,24 @@ struct ProfileSettingsView: View {
 					.opacity(self.viewModel.isCompletionAllowed ? 1.0 : 0.5)
 			}
 		}
-		.sheet(isPresented: $viewModel.isShowingImagePicker) {
-			ImagePicker(image: $viewModel.image)
+		.sheet(
+			isPresented: Binding(
+				get: { viewModel.sheet != nil },
+				set: {
+					if !$0 {
+						viewModel.setSheet(sheet: nil)
+					}
+				}
+			)
+		) {
+			switch viewModel.sheet {
+			case .imagePicker:
+				ImagePicker(image: $viewModel.image)
+			case .termsAndConditions:
+				TermsAndConditionsView()
+			default:
+				EmptyView()
+			}
 		}
 		.onAppear {
 			DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
