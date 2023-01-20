@@ -53,7 +53,7 @@ extension ProfileSettingsView {
 		
 		var nameHintTitle: String {
 			switch self.mode {
-				case .creation: return "What do your friends and family call you?"
+				case .creation: return "What do your family and friends call you?"
 				case .editing: return "What do you want your tribe members to call you?"
 			}
 		}
@@ -67,7 +67,7 @@ extension ProfileSettingsView {
 		}
 		
 		var isCompletionAllowed: Bool {
-			return nameValidation == .valid && walletAddress != nil && image != nil && didUserAcceptTerms
+			return !isLoading && nameValidation == .valid && walletAddress != nil && image != nil && didUserAcceptTerms
 		}
 		
 		init(
