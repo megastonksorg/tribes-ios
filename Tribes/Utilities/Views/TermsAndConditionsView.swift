@@ -9,20 +9,39 @@ import SwiftUI
 
 struct TermsAndConditionsView: View {
 	struct StateButton: View {
-		var didAcceptTerms: Bool
-		var action: () -> ()
+		@Binding var didAcceptTerms: Bool
+		
+		@State var didView: Bool = false
+		
+		var viewAction: () -> ()
+		
 		var body: some View {
-			Button(action: { action() } ) {
-				HStack {
-					Spacer()
+			HStack {
+				Spacer()
+				Button(
+					action: {
+						if self.didView {
+							self.didAcceptTerms.toggle()
+						}
+					}
+				) {
 					Image(systemName: didAcceptTerms ? "checkmark.square.fill" : "square")
-					Text(didAcceptTerms ? "Terms Accepted" : "Accept Terms To Proceed")
-					Spacer()
 				}
-				.font(Font.app.subTitle)
-				.foregroundColor(.white)
-				.opacity(0.6)
+				Button(
+					action: {
+						viewAction()
+						if !self.didView {
+							self.didView = true
+						}
+					}
+				) {
+					Text(didAcceptTerms ? "Terms Accepted" : "Read and Accept Terms To Proceed")
+				}
+				Spacer()
 			}
+			.font(Font.app.subTitle)
+			.foregroundColor(didAcceptTerms ? Color.app.tertiary : Color.white)
+			.opacity(0.6)
 		}
 	}
 	
@@ -42,6 +61,10 @@ struct TermsAndConditionsView: View {
 
 struct TermsAndConditionsView_Previews: PreviewProvider {
 	static var previews: some View {
+		TermsAndConditionsView.StateButton(
+			didAcceptTerms: Binding.constant(true),
+			viewAction: {}
+		)
 		TermsAndConditionsView()
 	}
 }
