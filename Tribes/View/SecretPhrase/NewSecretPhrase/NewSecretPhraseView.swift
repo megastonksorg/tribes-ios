@@ -23,8 +23,6 @@ struct NewSecretPhraseView: View {
 					.pushOutFrame()
 			}
 			else {
-				let didUserAcceptTerms = viewModel.didUserAcceptTerms
-				
 				Spacer(minLength: 0)
 				
 				Text("Secret account phrase")
@@ -46,8 +44,6 @@ struct NewSecretPhraseView: View {
 				
 				Spacer(minLength: 0)
 				
-				TermsAndConditionsView.StateButton(didAcceptTerms: didUserAcceptTerms, action: { viewModel.openTerms() })
-				
 				Spacer(minLength: 0)
 				
 				Text("You will not be able to continue past the next step if you are unable to verify this phrase. Please memorize it or write it down on a piece of paper and store it in a secure location.")
@@ -60,18 +56,11 @@ struct NewSecretPhraseView: View {
 						.fontWeight(.medium)
 				}
 				.buttonStyle(ExpandedButtonStyle(invertedStyle: false))
-				.disabled(!didUserAcceptTerms)
 			}
 		}
 		.padding()
 		.multilineTextAlignment(.center)
 		.background(Color.app.background)
-		.sheet(
-			isPresented: $viewModel.isShowingTerms,
-			onDismiss: { viewModel.didDismissTerms() }
-		) {
-			TermsAndConditionsView()
-		}
 	}
 }
 

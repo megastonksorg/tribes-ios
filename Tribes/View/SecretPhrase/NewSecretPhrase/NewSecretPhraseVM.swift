@@ -17,8 +17,6 @@ extension NewSecretPhraseView {
 		
 		var walletAddress: String?
 		
-		@Published var isShowingTerms: Bool = false
-		@Published var didUserAcceptTerms: Bool = false
 		@Published var phrase: IdentifiedArrayOf<MnemonicWord> = []
 		
 		@Published var banner: BannerData?
@@ -39,16 +37,6 @@ extension NewSecretPhraseView {
 					}
 				case .failure(let error):
 					self.banner = BannerData(title: error.title, detail: error.errorDescription ?? "", type: .error)
-			}
-		}
-		
-		func openTerms() { self.isShowingTerms = true }
-		
-		func didDismissTerms() {
-			if !didUserAcceptTerms {
-				withAnimation(.easeIn) {
-					self.didUserAcceptTerms = true
-				}
 			}
 		}
 		
