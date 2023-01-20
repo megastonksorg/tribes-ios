@@ -44,12 +44,12 @@ struct NewSecretPhraseView: View {
 				
 				Spacer(minLength: 0)
 				
-				Spacer(minLength: 0)
-				
 				Text("You will not be able to continue past the next step if you are unable to verify this phrase. Please memorize it or write it down on a piece of paper and store it in a secure location.")
 					.font(Font.app.footnote)
 					.foregroundColor(.gray)
 					.multilineTextAlignment(.center)
+				
+				Spacer(minLength: 0)
 				
 				Button(action: { viewModel.verifyMnemonicPhrase() }) {
 					Text("I saved it somewhere safe")
