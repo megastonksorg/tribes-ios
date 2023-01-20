@@ -85,9 +85,15 @@ struct ProfileSettingsView: View {
 				AppToolBar(.principal)
 			}
 			ToolbarItem(placement: .navigationBarTrailing) {
-				AppToolBar(.trailing, trailingClosure: { self.viewModel.complete() })
-					.disabled(!self.viewModel.isCompletionAllowed)
-					.opacity(self.viewModel.isCompletionAllowed ? 1.0 : 0.5)
+				AppToolBar(
+					.trailing,
+					trailingClosure: {
+						self.viewModel.complete()
+						self.focusField = nil
+					}
+				)
+				.disabled(!self.viewModel.isCompletionAllowed)
+				.opacity(self.viewModel.isCompletionAllowed ? 1.0 : 0.5)
 			}
 		}
 		.sheet(
