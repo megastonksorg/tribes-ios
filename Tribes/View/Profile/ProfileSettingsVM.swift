@@ -39,7 +39,6 @@ extension ProfileSettingsView {
 		@Published var banner: BannerData?
 		@Published var didUserAcceptTerms: Bool = false
 		@Published var image: UIImage?
-		@Published var isShowingImagePicker: Bool = false
 		@Published var isLoading: Bool = false
 		@Published var name: String = ""
 		
@@ -68,7 +67,7 @@ extension ProfileSettingsView {
 		}
 		
 		var isCompletionAllowed: Bool {
-			return nameValidation == .valid && walletAddress != nil && image != nil
+			return nameValidation == .valid && walletAddress != nil && image != nil && didUserAcceptTerms
 		}
 		
 		init(
@@ -110,7 +109,7 @@ extension ProfileSettingsView {
 									walletAddress: walletAddress,
 									profilePhoto: url,
 									fullName: self.name,
-									acceptTerms: true
+									acceptTerms: self.didUserAcceptTerms
 								)
 								
 								return self.apiClient.registerUser(model: registerRequestModel)
@@ -145,7 +144,7 @@ extension ProfileSettingsView {
 		}
 		
 		func selectImageFromLibrary() {
-			self.isShowingImagePicker = true
+			setSheet(sheet: .imagePicker)
 		}
 		
 		func setSheet(sheet: Sheet?) {
