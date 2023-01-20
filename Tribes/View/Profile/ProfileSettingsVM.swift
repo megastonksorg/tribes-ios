@@ -72,15 +72,20 @@ extension ProfileSettingsView {
 		
 		init(
 			mode: ProfileSettingsView.ViewModel.Mode,
-			walletAddress: String? = nil,
-			user: User? = nil
+			shouldShowAccountNotFoundHint: Bool = false,
+			user: User? = nil,
+			walletAddress: String? = nil
 		) {
 			self.mode = mode
-			self.walletAddress = walletAddress
 			self.user = user
+			self.walletAddress = walletAddress
 			
 			if let user = user {
 				self.name = user.fullName
+			}
+			
+			if shouldShowAccountNotFoundHint {
+				self.banner = BannerData(detail: "We could not find an existing account for you but don't worry, you can create one here", type: .info)
 			}
 		}
 		

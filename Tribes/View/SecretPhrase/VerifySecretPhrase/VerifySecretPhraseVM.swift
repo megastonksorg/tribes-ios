@@ -77,7 +77,7 @@ extension VerifySecretPhraseView {
 			switch self.walletClient.verifyMnemonic(mnemonic: input) {
 				case .success(let walletAddress):
 					self.isLoading = false
-					AppRouter.pushStack(stack: .route1(.createProfile(walletAddress: walletAddress)))
+				AppRouter.pushStack(stack: .route1(.createProfile(shouldShowHint: false, walletAddress: walletAddress)))
 					
 				case .failure(let error):
 					self.isLoading = false

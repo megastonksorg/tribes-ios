@@ -64,10 +64,14 @@ struct WelcomePageView: View {
 						case .verifySecretPhrase:
 							VerifySecretPhraseView()
 								.environmentObject(appRouter)
-						case .createProfile(let walletAddress):
-							let viewModel = ProfileSettingsView.ViewModel(mode: .creation, walletAddress: walletAddress)
-							ProfileSettingsView(viewModel: viewModel)
-								.environmentObject(appRouter)
+					case .createProfile(let shouldShowHint, let walletAddress):
+						let viewModel = ProfileSettingsView.ViewModel(
+							mode: .creation,
+							shouldShowAccountNotFoundHint: shouldShowHint,
+							walletAddress: walletAddress
+						)
+						ProfileSettingsView(viewModel: viewModel)
+							.environmentObject(appRouter)
 					}
 				}
 				.navigationBarTitleDisplayMode(.inline)

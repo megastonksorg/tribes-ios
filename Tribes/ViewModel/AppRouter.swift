@@ -15,7 +15,7 @@ fileprivate let stackKeyNotification: String = "stack"
 			case createWallet
 			case importWallet
 			case verifySecretPhrase
-			case createProfile(walletAddress: String)
+			case createProfile(shouldShowHint: Bool, walletAddress: String)
 		}
 		enum Stack2: Hashable {
 		}
