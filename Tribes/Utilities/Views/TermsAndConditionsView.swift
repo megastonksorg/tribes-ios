@@ -9,9 +9,11 @@ import SwiftUI
 
 struct TermsAndConditionsView: View {
 	struct StateButton: View {
+		static let defaultOpacity: CGFloat = 0.6
 		@Binding var didAcceptTerms: Bool
 		
 		@State var didView: Bool = false
+		@State var opacity: CGFloat = defaultOpacity
 		
 		var viewAction: () -> ()
 		
@@ -22,11 +24,22 @@ struct TermsAndConditionsView: View {
 					action: {
 						if self.didView {
 							self.didAcceptTerms.toggle()
+						} else {
+							withAnimation(.easeOut) {
+								self.opacity = 1.0
+							}
+							DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+								withAnimation(.easeIn) {
+									self.opacity = TermsAndConditionsView.StateButton.defaultOpacity
+								}
+							}
 						}
 					}
 				) {
 					Image(systemName: didAcceptTerms ? "checkmark.square.fill" : "square")
 				}
+				.opacity(TermsAndConditionsView.StateButton.defaultOpacity)
+				
 				Button(
 					action: {
 						viewAction()
@@ -37,11 +50,11 @@ struct TermsAndConditionsView: View {
 				) {
 					Text(didAcceptTerms ? "Terms Accepted" : "Read and Accept Terms To Proceed")
 				}
+				.opacity(opacity)
 				Spacer()
 			}
 			.font(Font.app.subTitle)
-			.foregroundColor(didAcceptTerms ? Color.app.tertiary : Color.white)
-			.opacity(0.6)
+			.foregroundColor(Color.white)
 		}
 	}
 	
@@ -62,9 +75,10 @@ struct TermsAndConditionsView: View {
 struct TermsAndConditionsView_Previews: PreviewProvider {
 	static var previews: some View {
 		TermsAndConditionsView.StateButton(
-			didAcceptTerms: Binding.constant(true),
+			didAcceptTerms: Binding.constant(false),
 			viewAction: {}
 		)
+		.preferredColorScheme(.dark)
 		TermsAndConditionsView()
 	}
 }
