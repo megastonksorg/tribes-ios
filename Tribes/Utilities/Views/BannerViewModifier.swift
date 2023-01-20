@@ -58,7 +58,7 @@ struct BannerViewModifier: ViewModifier {
 					case .info: return "exclamationmark.circle.fill"
 					case .success: return "checkmark.circle.fill"
 					case .warning: return "exclamationmark.circle.fill"
-					case .error: return "xmark.octagon.fill"
+					case .error: return "x.circle.fill"
 					}
 				}()
 				VStack {
@@ -97,11 +97,6 @@ struct BannerViewModifier: ViewModifier {
 					.background (
 						RoundedRectangle(cornerRadius: self.cornerRadius)
 							.fill(Color.app.black.opacity(0.6))
-							.overlay(
-								RoundedRectangle(cornerRadius: self.cornerRadius)
-									.stroke(Color.app.cardStroke, lineWidth: 1)
-							)
-							
 					)
 					.padding(6)
 					
@@ -132,6 +127,6 @@ struct BannerView_Previews: PreviewProvider {
 				)
 		}
 		.background(Color.black)
-		.banner(data: Binding.constant(BannerData(title: "", detail: "The request was not accepted. Please try again", type: .warning)))
+		.banner(data: Binding.constant(BannerData(title: "", detail: "The request was not accepted. Please try again", type: .info)))
 	}
 }
