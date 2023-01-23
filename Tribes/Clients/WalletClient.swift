@@ -30,6 +30,7 @@ class WalletClient: WalletClientProtocol {
 	
 	private let passPhrase: String = ""
 	private let coinType: WalletCore.CoinType = .ethereum
+	private let keychainClient: KeychainClient = KeychainClient.shared
 	
 	func generateNewWallet() -> Result<HDWallet, WalletClientError> {
 		guard let wallet = HDWallet(strength: 128, passphrase: passPhrase)
@@ -42,7 +43,7 @@ class WalletClient: WalletClientProtocol {
 	}
 	
 	func getMnemonic() -> Result<String, WalletClientError> {
-		guard let mnemonic: String = KeychainWrapper.standard.string(forKey: .mnemonic)
+		guard let mnemonic: String = keychainClient.get(key: .mnemonic)
 		else { return .failure(.errorRetrievingMnemonic) }
 		return .success(mnemonic)
 	}
@@ -54,12 +55,12 @@ class WalletClient: WalletClientProtocol {
 	}
 	
 	func saveMnemonic(mnemonic: String) {
-		KeychainWrapper.standard.set(mnemonic, forKey: KeychainWrapper.Key.mnemonic.rawValue)
+		keychainClient.set(key: .mnemonic, value: mnemonic)
 	}
 	
 	func signMessage(message: String) -> Result<SignedMessage, WalletClientError> {
 		guard
-			let mnemonic: String = KeychainWrapper.standard.string(forKey: .mnemonic),
+			let mnemonic: String = keychainClient.get(key: .mnemonic),
 			let wallet: HDWallet = HDWallet(mnemonic: mnemonic, passphrase: passPhrase, check: true)
 		else { return .failure(.couldNotImportWalletForSigning) }
 		

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct User: Encodable {
+struct User: Codable {
 	let walletAddress: String
 	let fullName: String
 	let profilePhoto: URL

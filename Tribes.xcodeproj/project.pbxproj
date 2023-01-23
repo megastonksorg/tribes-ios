@@ -31,7 +31,6 @@
 		D030D2AC295745C20011128F /* PasteboardClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030D2A5295745C20011128F /* PasteboardClient.swift */; };
 		D030D2CD295745E90011128F /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030D2AE295745E90011128F /* Helpers.swift */; };
 		D030D2CE295745E90011128F /* Data+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030D2B0295745E90011128F /* Data+Hex.swift */; };
-		D030D2CF295745E90011128F /* KeychainWrapper+Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030D2B1295745E90011128F /* KeychainWrapper+Keys.swift */; };
 		D030D2D0295745E90011128F /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030D2B2295745E90011128F /* UIImage+Extensions.swift */; };
 		D030D2D1295745E90011128F /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030D2B3295745E90011128F /* String+Extension.swift */; };
 		D030D2D2295745E90011128F /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030D2B4295745E90011128F /* Color+Extension.swift */; };
@@ -87,6 +86,7 @@
 		D07278BE297602C100650A15 /* CustomRoundedRectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07278BD297602C100650A15 /* CustomRoundedRectangle.swift */; };
 		D07278C02976039600650A15 /* RoundedTriangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07278BF2976039600650A15 /* RoundedTriangle.swift */; };
 		D07278C2297603DC00650A15 /* ChatBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07278C1297603DC00650A15 /* ChatBubble.swift */; };
+		D08EBF1F297EBEC1001B7A5C /* KeychainClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08EBF1E297EBEC1001B7A5C /* KeychainClient.swift */; };
 		D0AAF2DE29761F49003536C6 /* ChatType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AAF2DD29761F49003536C6 /* ChatType.swift */; };
 		D0C65AA32970988900E527F9 /* Tribe.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C65AA22970988900E527F9 /* Tribe.swift */; };
 		D0C65AA52970A24D00E527F9 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C65AA42970A24D00E527F9 /* TextView.swift */; };
@@ -138,7 +138,6 @@
 		D030D2A5295745C20011128F /* PasteboardClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasteboardClient.swift; sourceTree = "<group>"; };
 		D030D2AE295745E90011128F /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		D030D2B0295745E90011128F /* Data+Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data+Hex.swift"; sourceTree = "<group>"; };
-		D030D2B1295745E90011128F /* KeychainWrapper+Keys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "KeychainWrapper+Keys.swift"; sourceTree = "<group>"; };
 		D030D2B2295745E90011128F /* UIImage+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
 		D030D2B3295745E90011128F /* String+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		D030D2B4295745E90011128F /* Color+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
@@ -194,6 +193,7 @@
 		D07278BD297602C100650A15 /* CustomRoundedRectangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRoundedRectangle.swift; sourceTree = "<group>"; };
 		D07278BF2976039600650A15 /* RoundedTriangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedTriangle.swift; sourceTree = "<group>"; };
 		D07278C1297603DC00650A15 /* ChatBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBubble.swift; sourceTree = "<group>"; };
+		D08EBF1E297EBEC1001B7A5C /* KeychainClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainClient.swift; sourceTree = "<group>"; };
 		D0AAF2DD29761F49003536C6 /* ChatType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatType.swift; sourceTree = "<group>"; };
 		D0C65AA22970988900E527F9 /* Tribe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tribe.swift; sourceTree = "<group>"; };
 		D0C65AA42970A24D00E527F9 /* TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
@@ -304,6 +304,7 @@
 				D030D2A5295745C20011128F /* PasteboardClient.swift */,
 				D0158075295CAE390087545A /* PermissionClient.swift */,
 				D030D2A3295745C20011128F /* WalletClient.swift */,
+				D08EBF1E297EBEC1001B7A5C /* KeychainClient.swift */,
 			);
 			path = Clients;
 			sourceTree = "<group>";
@@ -343,7 +344,6 @@
 			isa = PBXGroup;
 			children = (
 				D030D2B0295745E90011128F /* Data+Hex.swift */,
-				D030D2B1295745E90011128F /* KeychainWrapper+Keys.swift */,
 				D030D2B2295745E90011128F /* UIImage+Extensions.swift */,
 				D030D2B3295745E90011128F /* String+Extension.swift */,
 				D030D2B4295745E90011128F /* Color+Extension.swift */,
@@ -730,6 +730,7 @@
 				D030D2DB295745E90011128F /* CornerRadiusStyle.swift in Sources */,
 				D030D2E0295745E90011128F /* TextFieldView.swift in Sources */,
 				D030D2CE295745E90011128F /* Data+Hex.swift in Sources */,
+				D08EBF1F297EBEC1001B7A5C /* KeychainClient.swift in Sources */,
 				D0D266B3296AAD2300A94183 /* HomeContentView.swift in Sources */,
 				D030D2A6295745C20011128F /* APIClient.swift in Sources */,
 				D0D266AF296AAC4E00A94183 /* EdgeInsets+Extensions.swift in Sources */,
@@ -791,7 +792,6 @@
 				D030D2D2295745E90011128F /* Color+Extension.swift in Sources */,
 				D030D29B295745970011128F /* AppState.swift in Sources */,
 				D0C65AA72970A7E600E527F9 /* Fonts.swift in Sources */,
-				D030D2CF295745E90011128F /* KeychainWrapper+Keys.swift in Sources */,
 				D030D31A2957460B0011128F /* NewSecretPhraseVM.swift in Sources */,
 				D0D26694295FED1000A94183 /* ComposeView.swift in Sources */,
 				D0D2669929600BC500A94183 /* DraftVM.swift in Sources */,
