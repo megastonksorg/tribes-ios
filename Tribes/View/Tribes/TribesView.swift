@@ -91,7 +91,7 @@ struct TribesView: View {
 				Text("Create Your First Tribe")
 					.font(Font.app.title2)
 					.foregroundColor(Color.app.tertiary)
-				Text("Remember the tea and messages you share with your tribe members are private and encrypted. \nNo one can view or read them. Not even us! \n\nTo get started, click on the (+) above!")
+				Text("Remember the tea and messages you share with your tribe members are private and encrypted. \nNo one can view or read them. Not even us! \n\nTo get started, tap the (+) above!")
 					.multilineTextAlignment(.center)
 					.font(Font.app.footnote)
 					.foregroundColor(Color.app.tertiary)
