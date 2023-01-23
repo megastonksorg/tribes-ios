@@ -73,6 +73,7 @@ struct TribesView: View {
 								.stroke(strokeColor)
 								.overlay(
 									Image(systemName: "plus")
+										.foregroundColor(.black)
 										.font(.system(size: 18, design: .rounded))
 								)
 						)
