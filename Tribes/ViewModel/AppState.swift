@@ -22,7 +22,7 @@ fileprivate let appStateKeyNotification: String = "appState"
 		case changeAppMode(AppMode)
 	}
 	
-	private let keychainClient = KeychainClient.shared
+	let keychainClient = KeychainClient.shared
 	
 	@Published var appMode: AppMode = .welcome(WelcomePageView.ViewModel())
 	
