@@ -19,6 +19,7 @@ extension AuthenticateView {
 		
 		//Clients
 		let apiClient = APIClient.shared
+		let keychainClient = KeychainClient.shared
 		let walletClient = WalletClient.shared
 		
 		let context: Context
@@ -81,6 +82,7 @@ extension AuthenticateView {
 							isOnboarded: authenticateResponse.isOnboarded
 						)
 						self?.isLoading = false
+						self?.keychainClient.set(key: .user, value: user)
 						AppState.updateAppState(with: .changeAppMode(.home(HomeView.ViewModel(user: user))))
 					}
 				)
