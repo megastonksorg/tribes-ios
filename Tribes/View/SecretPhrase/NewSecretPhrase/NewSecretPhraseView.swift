@@ -17,7 +17,7 @@ struct NewSecretPhraseView: View {
 	var body: some View {
 		VStack(spacing: 20) {
 			if viewModel.phrase.isEmpty {
-				Text("Could not retrieve mnemonic phrase.\nPlease try that again.")
+				Text("Could not retrieve secret key.\nPlease try that again.")
 					.font(Font.app.title2)
 					.foregroundColor(.white)
 					.pushOutFrame()
