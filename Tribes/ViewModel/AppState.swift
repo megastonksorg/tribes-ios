@@ -5,8 +5,8 @@
 //  Created by Kingsley Okeke on 2022-08-05.
 //
 
-import Foundation
 import Combine
+import Foundation
 
 fileprivate let appStateKeyNotification: String = "appState"
 
@@ -22,6 +22,8 @@ fileprivate let appStateKeyNotification: String = "appState"
 		case changeAppMode(AppMode)
 	}
 	
+	private let keychainClient = KeychainClient.shared
+	
 	@Published var appMode: AppMode = .welcome(WelcomePageView.ViewModel())
 	
 	init() {
@@ -32,6 +34,10 @@ fileprivate let appStateKeyNotification: String = "appState"
 				name: .updateAppState,
 				object: nil
 			)
+		
+		if let user = keychainClient.get(key: .user) {
+			self.appMode = .home(HomeView.ViewModel(user: user))
+		}
 	}
 	
 	private func executeAppAction(action: AppAction) {
