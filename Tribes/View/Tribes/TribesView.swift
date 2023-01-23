@@ -30,12 +30,21 @@ struct TribesView: View {
 						.buttonStyle(.insideScaling)
 					},
 					trailing: {
-						Button(action: {}) {
-							Image(systemName: "plus.circle.fill")
-								.font(.system(size: 30))
-								.foregroundColor(Color.app.secondary)
-						}
-						.buttonStyle(.insideScaling)
+						Menu(content: {
+							Button(action: {}) {
+								Label("Create", systemImage: "person.fill.badge.plus")
+							}
+							Divider()
+							Button(action: {}) {
+								Label("Join", systemImage: "person.2.fill")
+							}
+						}, label: {
+							Button(action: {}) {
+								Image(systemName: "plus.circle.fill")
+									.font(.system(size: 30))
+									.foregroundColor(Color.app.secondary)
+							}
+						})
 					}
 				)
 				
@@ -142,5 +151,6 @@ struct TribesView: View {
 struct TribesView_Previews: PreviewProvider {
 	static var previews: some View {
 		TribesView(viewModel: .init(user: User.noop))
+			.preferredColorScheme(.dark)
 	}
 }
