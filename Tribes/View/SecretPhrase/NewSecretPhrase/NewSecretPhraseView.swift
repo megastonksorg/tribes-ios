@@ -29,7 +29,7 @@ struct NewSecretPhraseView: View {
 					.font(Font.app.title)
 					.foregroundColor(.white)
 				
-				Text("This phrase is the only way you will be able to login to your account. Please store or write it down somewhere safe")
+				Text("This phrase is the only way you will be able to login to your account. Please memorize or write it down somewhere safe. \n\nIt protects your money and conversations")
 					.font(Font.app.subTitle)
 					.foregroundColor(.gray)
 					.padding(.horizontal)
