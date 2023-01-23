@@ -161,33 +161,33 @@ extension AppError.WalletError: LocalizedError {
 		switch self {
 			case .couldNotGenerateWallet:
 				return NSLocalizedString(
-					"Could not generate a new wallet",
-					comment: "Unable to Generate New Wallet"
+					"Could not generate a new secret key",
+					comment: "Unable to Generate New Key"
 				)
 			case .couldNotImportWallet:
 				return NSLocalizedString(
-					"Could not import a valid wallet for the mnemonic",
-					comment: "Invalid Mnemonic"
+					"Could not import a valid secret key",
+					comment: "Invalid Secret Key"
 				)
 			case .couldNotImportWalletForSigning:
 				return NSLocalizedString(
-					"Could not import a valid wallet for your existing mnemonic",
-					comment: "Invalid Mnemonic"
+					"Could not import your secret key. Please try again",
+					comment: "Invalid Secret Key"
 				)
 			case .couldNotVerifyMnemonic:
 				return NSLocalizedString(
-					"Could not verify the secret phrase you entered. Please try again and remember the order of the words is important",
-					comment: "Invalid Mnemonic"
+					"Could not verify the secret key you entered. Please try again and remember the order of the words is important",
+					comment: "Invalid Secret Key"
 				)
 			case .errorSigningMessage:
 				return NSLocalizedString(
-					"Error encountered while signing message with wallet",
+					"Error encountered while signing message with your secret key",
 					comment: "Error Signing Message"
 				)
 			case .errorRetrievingMnemonic:
 				return NSLocalizedString(
-					"Error encountered while retrieving mnemonic",
-					comment: "Error Retrieving Mnemonic"
+					"Error encountered while retrieving secret key",
+					comment: "Error Retrieving Secret Key"
 				)
 		}
 	}
