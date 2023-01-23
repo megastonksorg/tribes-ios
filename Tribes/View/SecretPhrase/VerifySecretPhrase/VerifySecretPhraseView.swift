@@ -16,7 +16,7 @@ struct VerifySecretPhraseView: View {
 	
 	var body: some View {
 		VStack(spacing: 10) {
-			Text("Verify your secret phrase to continue")
+			Text("Verify your secret key to continue")
 				.font(Font.app.subTitle)
 				.foregroundColor(.white)
 			
