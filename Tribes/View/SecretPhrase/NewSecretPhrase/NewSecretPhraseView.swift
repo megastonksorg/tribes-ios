@@ -25,11 +25,11 @@ struct NewSecretPhraseView: View {
 			else {
 				Spacer(minLength: 0)
 				
-				Text("Secret account phrase")
+				Text("Secret account key")
 					.font(Font.app.title)
 					.foregroundColor(.white)
 				
-				Text("This is the only way you will be able to login to your account. Please store or write it down somewhere safe")
+				Text("This phrase is the only way you will be able to login to your account. Please store or write it down somewhere safe")
 					.font(Font.app.subTitle)
 					.foregroundColor(.gray)
 					.padding(.horizontal)
@@ -44,8 +44,8 @@ struct NewSecretPhraseView: View {
 				
 				Spacer(minLength: 0)
 				
-				Text("You will not be able to continue past the next step if you are unable to verify this phrase. Please memorize it or write it down on a piece of paper and store it in a secure location.")
-					.font(Font.app.footnote)
+				Text("DO NOT SHARE THIS WITH ANYONE!!")
+					.font(Font.app.subTitle)
 					.foregroundColor(.gray)
 					.multilineTextAlignment(.center)
 				
