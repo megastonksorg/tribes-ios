@@ -20,4 +20,5 @@ struct AuthenticateResponse: Decodable {
 	let acceptTerms: Bool
 	let isOnboarded: Bool
 	let jwtToken: String
+	let refreshToken: String
 }
