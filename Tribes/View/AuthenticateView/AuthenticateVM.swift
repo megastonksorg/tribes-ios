@@ -83,6 +83,7 @@ extension AuthenticateView {
 						)
 						self?.isLoading = false
 						self?.keychainClient.set(key: .user, value: user)
+						self?.keychainClient.set(key: .token, value: Token(jwt: authenticateResponse.jwtToken, refresh: authenticateResponse.refreshToken))
 						AppState.updateAppState(with: .changeAppMode(.home(HomeView.ViewModel(user: user))))
 					}
 				)

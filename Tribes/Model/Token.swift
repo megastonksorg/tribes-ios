@@ -7,6 +7,7 @@
 
 import Foundation
 
-struct Token {
-	let rawValue: String
+struct Token: Codable {
+	let jwt: String
+	let refresh: String
 }

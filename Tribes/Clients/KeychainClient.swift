@@ -14,6 +14,7 @@ struct KeychainClientKey<T: Codable> {
 
 extension KeychainClientKey {
 	static var mnemonic: KeychainClientKey<String> { .init(name: "mnemonic") }
+	static var token: KeychainClientKey<Token> { .init(name: "token") }
 	static var user: KeychainClientKey<User> { .init(name: "user") }
 }
 
