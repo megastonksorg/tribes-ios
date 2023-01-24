@@ -41,7 +41,7 @@ extension NewSecretPhraseView {
 		}
 		
 		func verifyMnemonicPhrase() {
-			AppRouter.pushStack(stack: .route1(.verifySecretPhrase))
+			AppRouter.pushStack(stack: .welcome(.verifySecretPhrase))
 		}
 	}
 }

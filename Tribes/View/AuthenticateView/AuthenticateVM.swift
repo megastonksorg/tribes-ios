@@ -45,7 +45,7 @@ extension AuthenticateView {
 		}
 		
 		func alertYesTapped() {
-			AppRouter.popToRoot(stack: .route1())
+			AppRouter.popToRoot(stack: .welcome())
 			AppState.updateAppState(with: .changeAppMode(.welcome(WelcomePageView.ViewModel())))
 		}
 		

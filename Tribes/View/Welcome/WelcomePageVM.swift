@@ -28,19 +28,19 @@ extension WelcomePageView {
 				case .success(let wallet):
 					self.hasGeneratedWallet = true
 						self.walletClient.saveMnemonic(mnemonic: wallet.mnemonic)
-						AppRouter.pushStack(stack: .route1(.createWallet))
+						AppRouter.pushStack(stack: .welcome(.createWallet))
 				case .failure(let error):
 					self.banner = BannerData(title: error.title, detail: error.localizedDescription, type: .error)
 				}
 			}
 			else {
-				AppRouter.pushStack(stack: .route1(.createWallet))
+				AppRouter.pushStack(stack: .welcome(.createWallet))
 			}
 			self.isLoading = false
 		}
 		
 		func importWallet() {
-			AppRouter.pushStack(stack: .route1(.importWallet))
+			AppRouter.pushStack(stack: .welcome(.importWallet))
 		}
 	}
 }

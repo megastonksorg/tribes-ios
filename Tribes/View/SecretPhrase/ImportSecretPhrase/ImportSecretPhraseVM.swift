@@ -136,7 +136,7 @@ extension ImportSecretPhraseView {
 						}
 						else {
 							//Take the user to the Account Creation Screen
-							AppRouter.pushStack(stack: .route1(.createProfile(shouldShowHint: true, walletAddress: address)))
+							AppRouter.pushStack(stack: .welcome(.createProfile(shouldShowHint: true, walletAddress: address)))
 						}
 					})
 					.store(in: &cancellables)
@@ -147,7 +147,7 @@ extension ImportSecretPhraseView {
 		}
 		
 		func pushView() {
-			AppRouter.pushStack(stack: .route1(.importWallet))
+			AppRouter.pushStack(stack: .welcome(.importWallet))
 		}
 	}
 }

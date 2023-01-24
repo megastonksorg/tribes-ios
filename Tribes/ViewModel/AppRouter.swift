@@ -11,21 +11,23 @@ fileprivate let stackKeyNotification: String = "stack"
 
 @MainActor class AppRouter: ObservableObject {
 	enum Route: Hashable {
-		enum Stack1: Hashable {
+		enum WelcomeStack: Hashable {
 			case createWallet
 			case importWallet
 			case verifySecretPhrase
 			case createProfile(shouldShowHint: Bool, walletAddress: String)
 		}
-		enum Stack2: Hashable {
+		enum HomeStack: Hashable {
+			case createTribe
+			case joinTribe
 		}
 		
-		case route1(Stack1? = nil)
-		case route2(Stack2? = nil)
+		case welcome(WelcomeStack? = nil)
+		case home(HomeStack? = nil)
 	}
 	
-	@Published var stack1: [Route.Stack1] = []
-	@Published var stack2: [Route.Stack2] = []
+	@Published var welcomeStack: [Route.WelcomeStack] = []
+	@Published var homeStack: [Route.HomeStack] = []
 	
 	init() {
 		NotificationCenter
@@ -53,24 +55,24 @@ fileprivate let stackKeyNotification: String = "stack"
 	
 	private func pushPath(route: Route) {
 		switch route {
-			case .route1(let route):
-				if let route = route { self.stack1.append(route) }
-			case .route2(let route):
-				if let route = route { self.stack2.append(route) }
+			case .welcome(let route):
+				if let route = route { self.welcomeStack.append(route) }
+			case .home(let route):
+				if let route = route { self.homeStack.append(route) }
 		}
 	}
 	
 	private func popPath(route: Route) {
 		switch route {
-			case .route1: if !self.stack1.isEmpty { self.stack1.removeLast() }
-			case .route2: if !self.stack2.isEmpty { self.stack2.removeLast() }
+			case .welcome: if !self.welcomeStack.isEmpty { self.welcomeStack.removeLast() }
+			case .home: if !self.homeStack.isEmpty { self.homeStack.removeLast() }
 		}
 	}
 	
 	private func popToRoot(route: Route) {
 		switch route {
-			case .route1: self.stack1 = []
-			case .route2: self.stack2 = []
+			case .welcome: self.welcomeStack = []
+			case .home: self.homeStack = []
 		}
 	}
 	

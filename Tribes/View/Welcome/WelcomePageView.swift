@@ -19,7 +19,7 @@ struct WelcomePageView: View {
 	}
 	
 	var body: some View {
-		NavigationStack(path: $appRouter.stack1) {
+		NavigationStack(path: $appRouter.welcomeStack) {
 			VStack(spacing: 0) {
 				TabView {
 					ForEach(0..<6, id: \.self) { num in
@@ -52,7 +52,7 @@ struct WelcomePageView: View {
 			}
 			.banner(data: $viewModel.banner)
 			.navigationTitle("")
-			.navigationDestination(for: AppRouter.Route.Stack1.self) { route in
+			.navigationDestination(for: AppRouter.Route.WelcomeStack.self) { route in
 				Group {
 					switch route {
 						case .createWallet:
