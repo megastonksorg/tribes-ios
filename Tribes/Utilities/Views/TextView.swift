@@ -11,6 +11,8 @@ struct TextViewModifier: ViewModifier {
 	enum Style {
 		case appTitle
 		case hint
+		case pageTitle
+		case pageSubTitle
 		case tribeName(_ size: CGFloat)
 	}
 	
@@ -26,6 +28,14 @@ struct TextViewModifier: ViewModifier {
 			content
 				.font(Font.app.caption)
 				.foregroundColor(.gray)
+		case .pageTitle:
+			content
+				.font(Font.app.title3)
+				.foregroundColor(Color.app.tertiary)
+		case .pageSubTitle:
+			content
+				.font(Font.app.subHeader)
+				.foregroundColor(Color.app.tertiary)
 		case .tribeName(let size):
 			content
 				.font(.system(size: size, weight: .medium, design: .rounded))

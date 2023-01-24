@@ -18,5 +18,5 @@ struct FontSizes {
 	static let footnote: CGFloat = 12
 	static let title1: CGFloat = 25
 	static let title2: CGFloat = 19
-	static let title3: CGFloat = 17
+	static let title3: CGFloat = 18
 }
