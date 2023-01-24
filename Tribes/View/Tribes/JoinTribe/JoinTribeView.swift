@@ -8,13 +8,68 @@
 import SwiftUI
 
 struct JoinTribeView: View {
+	
+	@StateObject var viewModel: ViewModel
+	
+	init(viewModel: ViewModel) {
+		self._viewModel = StateObject(wrappedValue: viewModel)
+	}
+	
 	var body: some View {
-		Text("Hello, World!")
+		VStack {
+			TextView("Join a Tribe", style: .pageTitle)
+			
+			TextView("Enter the pin code that was shared \nwith you below:", style: .pageSubTitle)
+				.multilineTextAlignment(.center)
+				.padding(.top, SizeConstants.subTitleSpacing)
+			
+			ZStack {
+				TextField("", text: $viewModel.code)
+					.background(Color.red)
+					.opacity(0)
+				
+				HStack {
+					ForEach(0..<viewModel.codeLimit, id: \.self) { index in
+						Spacer()
+						RoundedRectangle(cornerRadius: 10)
+							.stroke(Color.app.tertiary, lineWidth: 1)
+							.frame(dimension: 40)
+							.overlay {
+								if index < viewModel.code.count {
+									Text(String(viewModel.code[index]))
+										.font(Font.app.title2)
+										.foregroundColor(Color.app.tertiary)
+								}
+							}
+						Spacer()
+					}
+				}
+			}
+			.padding(.horizontal)
+			.padding(.top, SizeConstants.subTitleSpacing * 2)
+			
+			Spacer()
+			
+			Button(action: {}) {
+				Text("Join Tribe")
+			}
+			.buttonStyle(.expanded)
+			.disabled(!viewModel.isJoinButtonEnabled)
+			.padding(.bottom)
+		}
+		.pushOutFrame()
+		.background(Color.app.background)
 	}
 }
 
 struct JoinTribeView_Previews: PreviewProvider {
 	static var previews: some View {
-		JoinTribeView()
+		JoinTribeView(viewModel: .init())
 	}
+}
+
+fileprivate extension StringProtocol {
+	subscript(offset: Int) -> Character {
+	 self[index(startIndex, offsetBy: offset)]
+ }
 }

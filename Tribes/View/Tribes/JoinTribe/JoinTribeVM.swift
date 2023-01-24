@@ -10,6 +10,9 @@ import Foundation
 extension JoinTribeView {
 	@MainActor class ViewModel: ObservableObject {
 		
-		@Published var code: String = ""
+		let codeLimit: Int = 6
+		
+		@Published var code: String = "123456"
+		@Published var isJoinButtonEnabled: Bool = false
 	}
 }
