@@ -42,7 +42,7 @@ struct CreateTribeView: View {
 				AppToolBar(.principal, principalTitle: "Create a Tribe")
 			}
 		}
-		.onTapGesture { self.focusedField = .name }
+		.onAppear { self.focusedField = .name }
 	}
 }
 
