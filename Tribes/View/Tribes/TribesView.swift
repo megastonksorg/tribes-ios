@@ -67,6 +67,7 @@ struct TribesView: View {
 				}
 			}
 		}
+		.tint(Color.app.tertiary)
 	}
 	
 	@ViewBuilder

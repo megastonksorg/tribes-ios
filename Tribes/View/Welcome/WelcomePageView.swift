@@ -78,7 +78,7 @@ struct WelcomePageView: View {
 				.navigationTitle("")
 			}
 		}
-		.tint(Color.white)
+		.tint(Color.app.tertiary)
 	}
 }
 
