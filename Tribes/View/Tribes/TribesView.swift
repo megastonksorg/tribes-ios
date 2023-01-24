@@ -32,11 +32,11 @@ struct TribesView: View {
 						},
 						trailing: {
 							Menu(content: {
-								Button(action: {}) {
+								Button(action: { viewModel.createTribe() }) {
 									Label("Create", systemImage: "person.fill.badge.plus")
 								}
 								Divider()
-								Button(action: {}) {
+								Button(action: { viewModel.joinTribe() }) {
 									Label("Join", systemImage: "person.2.fill")
 								}
 							}, label: {
@@ -58,6 +58,14 @@ struct TribesView: View {
 			.pushOutFrame()
 			.background(Color.app.background)
 			.navigationTitle("")
+			.navigationDestination(for: ViewModel.Stack.self) { stack in
+				switch stack {
+				case .create:
+					CreateTribeView(viewModel: CreateTribeView.ViewModel())
+				case .join:
+					JoinTribeView(viewModel: JoinTribeView.ViewModel())
+				}
+			}
 		}
 	}
 	

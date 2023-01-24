@@ -24,5 +24,13 @@ extension TribesView {
 			self.tribes = tribes
 			self.user = user
 		}
+		
+		func createTribe() {
+			navStack.append(.create)
+		}
+		
+		func joinTribe() {
+			navStack.append(.join)
+		}
 	}
 }
