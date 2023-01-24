@@ -11,12 +11,6 @@ import IdentifiedCollections
 extension TribesView {
 	@MainActor class ViewModel: ObservableObject {
 		
-		enum Stack: Hashable {
-			case create
-			case join
-		}
-		
-		@Published var navStack: [Stack] = []
 		@Published var tribes: IdentifiedArrayOf<Tribe>
 		@Published var user: User
 		
@@ -26,11 +20,11 @@ extension TribesView {
 		}
 		
 		func createTribe() {
-			navStack.append(.create)
+			AppRouter.pushStack(stack: .home(.createTribe))
 		}
 		
 		func joinTribe() {
-			navStack.append(.join)
+			AppRouter.pushStack(stack: .home(.joinTribe))
 		}
 	}
 }
