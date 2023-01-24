@@ -25,11 +25,17 @@ struct JoinTribeView: View {
 				.padding(.top, SizeConstants.subTitleSpacing)
 			
 			ZStack {
-				TextField("", text: $viewModel.code)
-					.focused($focusedField, equals: .pin)
-					.keyboardType(.numberPad)
-					.background(Color.red)
-					.opacity(0)
+				TextField(
+					"",
+					text: Binding(
+						get: { viewModel.code },
+						set: { if $0.count <= viewModel.codeLimit { viewModel.code = $0 } }
+					)
+				)
+				.focused($focusedField, equals: .pin)
+				.keyboardType(.numberPad)
+				.background(Color.red)
+				.opacity(0)
 				
 				Button(action: { self.focusedField = .pin }) {
 					HStack {
