@@ -16,7 +16,6 @@ struct TribesView: View {
 	}
 	
 	var body: some View {
-		NavigationStack(path: $viewModel.navStack) {
 			VStack {
 				VStack {
 					SymmetricHStack(
@@ -56,17 +55,6 @@ struct TribesView: View {
 				.padding(.horizontal)
 			}
 			.background(Color.app.background)
-			.navigationTitle("")
-			.navigationDestination(for: ViewModel.Stack.self) { stack in
-				switch stack {
-				case .create:
-					CreateTribeView(viewModel: CreateTribeView.ViewModel())
-				case .join:
-					JoinTribeView(viewModel: JoinTribeView.ViewModel())
-				}
-			}
-		}
-		.tint(Color.app.tertiary)
 	}
 	
 	@ViewBuilder
