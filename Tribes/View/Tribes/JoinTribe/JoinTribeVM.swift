@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 extension JoinTribeView {
 	@MainActor class ViewModel: ObservableObject {
@@ -32,6 +33,15 @@ extension JoinTribeView {
 				}
 				else {
 					isShowingPasteButton = false
+				}
+			}
+		}
+		
+		func pasteCode() {
+			if let string = UIPasteboard.general.string {
+				let trimmedString = string.trimmingCharacters(in: .whitespacesAndNewlines).prefix(6)
+				if trimmedString.rangeOfCharacter(from: NSCharacterSet.decimalDigits.inverted, options: String.CompareOptions.literal, range: nil) == nil {
+					self.code = String(trimmedString)
 				}
 			}
 		}
