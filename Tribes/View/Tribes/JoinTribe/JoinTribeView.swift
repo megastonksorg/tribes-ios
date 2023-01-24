@@ -18,8 +18,6 @@ struct JoinTribeView: View {
 	
 	var body: some View {
 		VStack {
-			TextView("Join a Tribe", style: .pageTitle)
-			
 			TextView("Enter the pin code that was shared \nwith you below:", style: .pageSubTitle)
 				.multilineTextAlignment(.center)
 				.padding(.top, SizeConstants.subTitleSpacing)
@@ -70,13 +68,20 @@ struct JoinTribeView: View {
 		}
 		.pushOutFrame()
 		.background(Color.app.background)
+		.toolbar {
+			ToolbarItem(placement: .principal) {
+				AppToolBar(.principal, principalTitle: "Join a Tribe")
+			}
+		}
 		.onAppear { self.focusedField = .pin }
 	}
 }
 
 struct JoinTribeView_Previews: PreviewProvider {
 	static var previews: some View {
-		JoinTribeView(viewModel: .init())
+		NavigationStack {
+			JoinTribeView(viewModel: .init())
+		}
 	}
 }
 
