@@ -69,6 +69,13 @@ struct ExpandedButtonStyle: ButtonStyle {
 	}
 }
 
+extension ButtonStyle where Self == ExpandedButtonStyle {
+	static var expanded: Self { ExpandedButtonStyle() }
+	static func expanded(shouldAnimate: Bool, invertedStyle: Bool) -> Self {
+		return ExpandedButtonStyle()
+	}
+}
+
 struct ScalingButtonStyle: ButtonStyle {
 	enum ScaleDirection {
 		case inside
