@@ -23,8 +23,6 @@ struct NewSecretPhraseView: View {
 					.pushOutFrame()
 			}
 			else {
-				Spacer(minLength: 0)
-				
 				Text("Secret account key")
 					.font(Font.app.title)
 					.foregroundColor(.white)
@@ -33,6 +31,8 @@ struct NewSecretPhraseView: View {
 					.font(Font.app.subTitle)
 					.foregroundColor(.gray)
 					.padding(.horizontal)
+					.padding(.top)
+					.fixedSize(horizontal: false, vertical: true)
 				
 				LazyVGrid(columns: Array(repeating: GridItem(), count: SizeConstants.phraseGridCount), spacing: SizeConstants.phraseGridSpacing) {
 					ForEach(viewModel.phrase){ word in
