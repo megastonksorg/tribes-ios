@@ -17,14 +17,13 @@ struct CreateTribeView: View {
 	
 	var body: some View {
 		VStack {
-			TextView("Create a Tribe", style: .pageTitle)
 			
 			TextView("Add a name  to represent your Tribe", style: .pageSubTitle)
 				.padding(.top, SizeConstants.subTitleSpacing)
 			
 			TextFieldView(title: "Name", text: $viewModel.name)
 				.padding(.horizontal)
-				.padding(.top, SizeConstants.subTitleSpacing * 2)
+				.padding(.top, SizeConstants.subTitleSpacing)
 			
 			Spacer()
 			
@@ -37,11 +36,18 @@ struct CreateTribeView: View {
 		}
 		.pushOutFrame()
 		.background(Color.app.background)
+		.toolbar {
+			ToolbarItem(placement: .principal) {
+				AppToolBar(.principal, principalTitle: "Create a Tribe")
+			}
+		}
 	}
 }
 
 struct CreateTribeView_Previews: PreviewProvider {
 	static var previews: some View {
-		CreateTribeView(viewModel: .init())
+		NavigationStack {
+			CreateTribeView(viewModel: .init())
+		}
 	}
 }
