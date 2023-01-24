@@ -26,7 +26,7 @@ extension JoinTribeView {
 				if !isShowingPasteButton {
 					isShowingPasteButton = true
 					
-					try await Task.sleep(for: .seconds(2.0))
+					try await Task.sleep(for: .seconds(1.0))
 					if isShowingPasteButton {
 						isShowingPasteButton = false
 					}
