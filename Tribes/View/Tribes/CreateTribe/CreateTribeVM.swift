@@ -11,5 +11,9 @@ extension CreateTribeView {
 	@MainActor class ViewModel: ObservableObject {
 		
 		@Published var name: String = ""
+		
+		var isCreateButtonEnabled: Bool {
+			!name.isEmpty
+		}
 	}
 }

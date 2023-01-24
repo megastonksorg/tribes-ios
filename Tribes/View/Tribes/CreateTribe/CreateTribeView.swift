@@ -29,9 +29,10 @@ struct CreateTribeView: View {
 			Spacer()
 			
 			Button(action: {}) {
-				Text("Create a Group")
+				Text("Create Tribe")
 			}
 			.buttonStyle(.expanded)
+			.disabled(!viewModel.isCreateButtonEnabled)
 			.padding(.bottom)
 		}
 		.pushOutFrame()
