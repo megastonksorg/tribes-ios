@@ -10,5 +10,6 @@ import Foundation
 extension CreateTribeView {
 	@MainActor class ViewModel: ObservableObject {
 		
+		@Published var name: String = ""
 	}
 }
