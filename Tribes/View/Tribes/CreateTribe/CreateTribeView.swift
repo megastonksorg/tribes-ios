@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CreateTribeView: View {
+	@FocusState var focusedField: ViewModel.Field?
 	
 	@StateObject var viewModel: ViewModel
 	
@@ -17,11 +18,11 @@ struct CreateTribeView: View {
 	
 	var body: some View {
 		VStack {
-			
 			TextView("Add a name  to represent your Tribe", style: .pageSubTitle)
 				.padding(.top, SizeConstants.subTitleSpacing)
 			
 			TextFieldView(title: "Name", text: $viewModel.name)
+				.focused($focusedField, equals: .name)
 				.padding(.horizontal)
 				.padding(.top, SizeConstants.subTitleSpacing)
 			
@@ -41,6 +42,7 @@ struct CreateTribeView: View {
 				AppToolBar(.principal, principalTitle: "Create a Tribe")
 			}
 		}
+		.onTapGesture { self.focusedField = .name }
 	}
 }
 
