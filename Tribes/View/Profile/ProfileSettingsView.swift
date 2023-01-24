@@ -114,11 +114,7 @@ struct ProfileSettingsView: View {
 				EmptyView()
 			}
 		}
-		.onAppear {
-			DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-				self.focusField = .name
-			}
-		}
+		.onAppear { self.focusField = .name }
 	}
 }
 
