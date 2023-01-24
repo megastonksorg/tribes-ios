@@ -11,6 +11,12 @@ import IdentifiedCollections
 extension TribesView {
 	@MainActor class ViewModel: ObservableObject {
 		
+		enum Stack: Hashable {
+			case create
+			case join
+		}
+		
+		@Published var navStack: [Stack] = []
 		@Published var tribes: IdentifiedArrayOf<Tribe>
 		@Published var user: User
 		

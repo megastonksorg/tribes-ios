@@ -16,46 +16,49 @@ struct TribesView: View {
 	}
 	
 	var body: some View {
-		VStack {
+		NavigationStack(path: $viewModel.navStack) {
 			VStack {
-				SymmetricHStack(
-					content: {
-						TextView("Tribes", style: .appTitle)
-					},
-					leading: {
-						Button(action: {  }) {
-							UserAvatar(url: viewModel.user.profilePhoto)
-								.frame(dimension: 50)
+				VStack {
+					SymmetricHStack(
+						content: {
+							TextView("Tribes", style: .appTitle)
+						},
+						leading: {
+							Button(action: {  }) {
+								UserAvatar(url: viewModel.user.profilePhoto)
+									.frame(dimension: 50)
+							}
+							.buttonStyle(.insideScaling)
+						},
+						trailing: {
+							Menu(content: {
+								Button(action: {}) {
+									Label("Create", systemImage: "person.fill.badge.plus")
+								}
+								Divider()
+								Button(action: {}) {
+									Label("Join", systemImage: "person.2.fill")
+								}
+							}, label: {
+								Button(action: {}) {
+									Image(systemName: "plus.circle.fill")
+										.font(.system(size: 30))
+										.foregroundColor(Color.app.secondary)
+								}
+							})
 						}
-						.buttonStyle(.insideScaling)
-					},
-					trailing: {
-						Menu(content: {
-							Button(action: {}) {
-								Label("Create", systemImage: "person.fill.badge.plus")
-							}
-							Divider()
-							Button(action: {}) {
-								Label("Join", systemImage: "person.2.fill")
-							}
-						}, label: {
-							Button(action: {}) {
-								Image(systemName: "plus.circle.fill")
-									.font(.system(size: 30))
-									.foregroundColor(Color.app.secondary)
-							}
-						})
-					}
-				)
-				
-				tribesView()
-				
-				Spacer()
+					)
+					
+					tribesView()
+					
+					Spacer()
+				}
+				.padding(.horizontal)
 			}
-			.padding(.horizontal)
+			.pushOutFrame()
+			.background(Color.app.background)
+			.navigationTitle("")
 		}
-		.pushOutFrame()
-		.background(Color.app.background)
 	}
 	
 	@ViewBuilder
