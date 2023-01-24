@@ -55,7 +55,6 @@ struct TribesView: View {
 				}
 				.padding(.horizontal)
 			}
-			.pushOutFrame()
 			.background(Color.app.background)
 			.navigationTitle("")
 			.navigationDestination(for: ViewModel.Stack.self) { stack in
