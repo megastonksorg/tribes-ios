@@ -18,5 +18,22 @@ extension JoinTribeView {
 		
 		@Published var code: String = ""
 		@Published var isJoinButtonEnabled: Bool = false
+		@Published var isShowingPasteButton: Bool = false
+		
+		func textFieldTapped() {
+			Task {
+				if !isShowingPasteButton {
+					isShowingPasteButton = true
+					
+					try await Task.sleep(for: .seconds(2.0))
+					if isShowingPasteButton {
+						isShowingPasteButton = false
+					}
+				}
+				else {
+					isShowingPasteButton = false
+				}
+			}
+		}
 	}
 }

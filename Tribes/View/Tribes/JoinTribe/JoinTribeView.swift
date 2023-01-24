@@ -22,6 +22,14 @@ struct JoinTribeView: View {
 				.multilineTextAlignment(.center)
 				.padding(.top, SizeConstants.subTitleSpacing)
 			
+			HStack {
+				Text("Paste")
+				Image(systemName: "doc.on.clipboard")
+			}
+			.foregroundColor(Color.app.tertiary)
+			.padding(.top, 20)
+			.opacity(viewModel.isShowingPasteButton ? 1.0 : 0.0)
+			
 			ZStack {
 				TextField(
 					"",
@@ -35,7 +43,10 @@ struct JoinTribeView: View {
 				.background(Color.red)
 				.opacity(0)
 				
-				Button(action: { self.focusedField = .pin }) {
+				Button(action: {
+					self.focusedField = .pin
+					viewModel.textFieldTapped()
+				}) {
 					HStack {
 						ForEach(0..<viewModel.codeLimit, id: \.self) { index in
 							Spacer()
@@ -55,7 +66,6 @@ struct JoinTribeView: View {
 				}
 			}
 			.padding(.horizontal)
-			.padding(.top, SizeConstants.subTitleSpacing * 2)
 			
 			Spacer()
 			
