@@ -24,7 +24,7 @@ struct CreateTribeView: View {
 			TextFieldView(title: "Name", text: $viewModel.name)
 				.focused($focusedField, equals: .name)
 				.padding(.horizontal)
-				.padding(.top, SizeConstants.subTitleSpacing)
+				.padding(.top, SizeConstants.subTitleSpacing * 2)
 			
 			Spacer()
 			
