@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct JoinTribeView: View {
+	@FocusState private var focusedField: ViewModel.Field?
 	
 	@StateObject var viewModel: ViewModel
 	
@@ -25,23 +26,27 @@ struct JoinTribeView: View {
 			
 			ZStack {
 				TextField("", text: $viewModel.code)
+					.focused($focusedField, equals: .pin)
+					.keyboardType(.numberPad)
 					.background(Color.red)
 					.opacity(0)
 				
-				HStack {
-					ForEach(0..<viewModel.codeLimit, id: \.self) { index in
-						Spacer()
-						RoundedRectangle(cornerRadius: 10)
-							.stroke(Color.app.tertiary, lineWidth: 1)
-							.frame(dimension: 40)
-							.overlay {
-								if index < viewModel.code.count {
-									Text(String(viewModel.code[index]))
-										.font(Font.app.title2)
-										.foregroundColor(Color.app.tertiary)
+				Button(action: { self.focusedField = .pin }) {
+					HStack {
+						ForEach(0..<viewModel.codeLimit, id: \.self) { index in
+							Spacer()
+							RoundedRectangle(cornerRadius: 10)
+								.stroke(Color.app.tertiary, lineWidth: 1)
+								.frame(dimension: 40)
+								.overlay {
+									if index < viewModel.code.count {
+										Text(String(viewModel.code[index]))
+											.font(Font.app.title2)
+											.foregroundColor(Color.app.tertiary)
+									}
 								}
-							}
-						Spacer()
+							Spacer()
+						}
 					}
 				}
 			}
@@ -59,6 +64,7 @@ struct JoinTribeView: View {
 		}
 		.pushOutFrame()
 		.background(Color.app.background)
+		.onAppear { self.focusedField = .pin }
 	}
 }
 
