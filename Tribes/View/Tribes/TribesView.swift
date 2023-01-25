@@ -24,14 +24,7 @@ struct TribesView: View {
 							TextView("Tribes", style: .appTitle)
 						},
 						leading: {
-							Button(
-								action: {
-									withAnimation(Animation.cardView) {
-										self.isShowingTribeInvite = true
-										viewModel.openTribeInvite()
-									}
-								}
-							) {
+							Button(action: { showCardView() }) {
 								UserAvatar(url: viewModel.user.profilePhoto)
 									.frame(dimension: 50)
 							}
@@ -63,10 +56,13 @@ struct TribesView: View {
 				.padding(.horizontal)
 			}
 			.background(Color.app.background)
-			.cardView(isShowing: self.$isShowingTribeInvite) {
+			.cardView(
+				isShowing: $isShowingTribeInvite,
+				dismissAction: { dismissCardView() }
+			) {
 				Group {
 					if let inviteVM = viewModel.tribeInviteVM {
-						TribeInviteView(viewModel: inviteVM)
+						TribeInviteView(dismissAction: { dismissCardView() }, viewModel: inviteVM)
 					}
 				}
 			}
@@ -159,6 +155,20 @@ struct TribesView: View {
 			.resizable()
 			.scaledToFill()
 			.frame(dimension: size)
+	}
+	
+	func showCardView() {
+		withAnimation(Animation.cardView) {
+			self.isShowingTribeInvite = true
+			viewModel.openTribeInvite()
+		}
+	}
+	
+	func dismissCardView() {
+		withAnimation(Animation.cardView) {
+			self.isShowingTribeInvite = false
+			viewModel.dismissTribeInvite()
+		}
 	}
 }
 

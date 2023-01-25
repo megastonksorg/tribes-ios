@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct TribeInviteView: View {
+	let dismissAction: () -> ()
 	
 	@StateObject var viewModel: ViewModel
 	
-	init(viewModel: ViewModel) {
+	init(dismissAction: @escaping () -> (), viewModel: ViewModel) {
+		self.dismissAction = dismissAction
 		self._viewModel = StateObject(wrappedValue: viewModel)
 	}
 	
@@ -23,7 +25,7 @@ struct TribeInviteView: View {
 				},
 				leading: { EmptyView() },
 				trailing: {
-					Button(action: {}) {
+					Button(action: { dismissAction() }) {
 						Image(systemName: "x.circle.fill")
 							.font(Font.app.title)
 							.foregroundColor(Color.white)
@@ -72,7 +74,7 @@ struct TribeInviteView: View {
 
 struct TribeInviteView_Previews: PreviewProvider {
 	static var previews: some View {
-		TribeInviteView(viewModel: .init(tribe: Tribe.noop))
+		TribeInviteView(dismissAction: {}, viewModel: .init(tribe: Tribe.noop))
 			.background(Color.black)
 	}
 }

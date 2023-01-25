@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CardView<Content: View>: View {
 	@Binding var isShowing: Bool
+	let dismissAction: () -> ()
 	let content: () -> Content
 	@State var size: CGSize = .zero
 	
@@ -34,7 +35,8 @@ struct CardView<Content: View>: View {
 			Color.app.background.opacity(0.8)
 				.onTapGesture {
 					withAnimation(Animation.cardView) {
-						self.isShowing.toggle()
+						self.isShowing = false
+						dismissAction()
 					}
 				}
 		)
@@ -44,9 +46,13 @@ struct CardView<Content: View>: View {
 }
 
 extension View {
-	func cardView<Content: View>(isShowing: Binding<Bool>, content: @escaping () -> Content) -> some View {
+	func cardView<Content: View>(
+		isShowing: Binding<Bool>,
+		dismissAction: @escaping () -> Void,
+		content: @escaping () -> Content
+	) -> some View {
 		self.overlay(isShown: isShowing.wrappedValue) {
-			CardView(isShowing: isShowing) {
+			CardView(isShowing: isShowing, dismissAction: dismissAction) {
 				content()
 			}
 		}
@@ -65,14 +71,16 @@ fileprivate struct TestView: View {
 	@State var isShowing: Bool = false
 	var body: some View {
 		VStack {
-			Button(action: { withAnimation(Animation.cardView) { isShowing.toggle() } }) {
+			Button(action: { withAnimation(Animation.cardView) { isShowing = true } }) {
 				Text("Press Me")
+					.padding()
+					.background()
 			}
 		}
 		.pushOutFrame()
 		.background(Color.black)
 		.overlay(isShown: isShowing) {
-			CardView(isShowing: $isShowing) { Text("Testing Here") }
+			CardView(isShowing: $isShowing, dismissAction: {}) { Text("Testing Here") }
 		}
 	}
 }
