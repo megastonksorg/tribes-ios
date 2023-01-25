@@ -28,6 +28,7 @@ struct CardView<Content: View>: View {
 				.frame(dimension: size.width * 0.9)
 				.transition(AnyTransition.move(edge: .bottom))
 				.padding(.bottom)
+				.padding(.bottom)
 			}
 		}
 		.pushOutFrame()
@@ -74,7 +75,6 @@ fileprivate struct TestView: View {
 			Button(action: { withAnimation(Animation.cardView) { isShowing = true } }) {
 				Text("Press Me")
 					.padding()
-					.background()
 			}
 		}
 		.pushOutFrame()

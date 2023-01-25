@@ -31,7 +31,6 @@ struct TribeInviteView: View {
 							.foregroundColor(Color.white)
 					}
 					.buttonStyle(.insideScaling)
-					.padding(.trailing)
 				}
 			)
 			
