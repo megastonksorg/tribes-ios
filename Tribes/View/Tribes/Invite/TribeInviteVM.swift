@@ -9,6 +9,10 @@ import Foundation
 
 extension TribeInviteView {
 	@MainActor class ViewModel: ObservableObject {
+		var tribe: Tribe
 		
+		init(tribe: Tribe) {
+			self.tribe = tribe
+		}
 	}
 }
