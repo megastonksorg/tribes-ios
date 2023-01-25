@@ -33,7 +33,7 @@ struct CardView<Content: View>: View {
 		}
 		.pushOutFrame()
 		.background(
-			Color.app.background.opacity(0.8)
+			Color.app.background.opacity(isShowing ? 0.8 : 0)
 				.onTapGesture {
 					withAnimation(Animation.cardView) {
 						self.isShowing = false
@@ -52,7 +52,7 @@ extension View {
 		dismissAction: @escaping () -> Void,
 		content: @escaping () -> Content
 	) -> some View {
-		self.overlay(isShown: isShowing.wrappedValue) {
+		self.overlay {
 			CardView(isShowing: isShowing, dismissAction: dismissAction) {
 				content()
 			}
@@ -78,8 +78,8 @@ fileprivate struct TestView: View {
 			}
 		}
 		.pushOutFrame()
-		.background(Color.black)
-		.overlay(isShown: isShowing) {
+		.background(Color.white)
+		.overlay {
 			CardView(isShowing: $isShowing, dismissAction: {}) { Text("Testing Here") }
 		}
 	}
