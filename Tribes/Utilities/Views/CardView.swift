@@ -26,9 +26,9 @@ struct CardView<Content: View>: View {
 					content()
 				}
 				.frame(dimension: size.width * 0.9)
+				.padding(.bottom)
+				.padding(.bottom)
 				.transition(AnyTransition.move(edge: .bottom))
-				.padding(.bottom)
-				.padding(.bottom)
 			}
 		}
 		.pushOutFrame()
