@@ -158,16 +158,16 @@ struct TribesView: View {
 	}
 	
 	func showCardView() {
-		withAnimation(Animation.cardView) {
+		withAnimation(Animation.cardViewAppear) {
 			self.isShowingTribeInvite = true
 			viewModel.openTribeInvite()
 		}
 	}
 	
 	func dismissCardView() {
-		withAnimation(Animation.cardView) {
+		withAnimation(Animation.cardViewDisappear) {
 			self.isShowingTribeInvite = false
-			viewModel.dismissTribeInvite()
+			viewModel.closeTribeInvite()
 		}
 	}
 }

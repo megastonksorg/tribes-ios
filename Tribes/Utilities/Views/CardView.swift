@@ -35,8 +35,7 @@ struct CardView<Content: View>: View {
 		.background(
 			Color.app.background.opacity(isShowing ? 0.8 : 0)
 				.onTapGesture {
-					withAnimation(Animation.cardView) {
-						self.isShowing = false
+					withAnimation(Animation.cardViewDisappear) {
 						dismissAction()
 					}
 				}
@@ -72,7 +71,7 @@ fileprivate struct TestView: View {
 	@State var isShowing: Bool = false
 	var body: some View {
 		VStack {
-			Button(action: { withAnimation(Animation.cardView) { isShowing = true } }) {
+			Button(action: { withAnimation(Animation.cardViewAppear) { isShowing = true } }) {
 				Text("Press Me")
 					.padding()
 			}

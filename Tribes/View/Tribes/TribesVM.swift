@@ -33,7 +33,7 @@ extension TribesView {
 			self.tribeInviteVM = TribeInviteView.ViewModel(tribe: Tribe.noop)
 		}
 		
-		func dismissTribeInvite() {
+		func closeTribeInvite() {
 			self.tribeInviteVM = nil
 		}
 	}

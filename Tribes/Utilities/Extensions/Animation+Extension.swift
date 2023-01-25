@@ -8,5 +8,6 @@
 import SwiftUI
 
 extension Animation {
-	static let cardView: Animation = .spring()
+	static let cardViewAppear: Animation = .spring()
+	static let cardViewDisappear: Animation = .linear.speed(1.6)
 }
