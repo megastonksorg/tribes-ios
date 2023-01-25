@@ -174,7 +174,9 @@ struct TribesView: View {
 
 struct TribesView_Previews: PreviewProvider {
 	static var previews: some View {
-		TribesView(viewModel: .init(user: User.noop))
-			.preferredColorScheme(.dark)
+		VStack { //Need to put the view in a container here to get the animation working correctly in the preview
+			TribesView(viewModel: .init(user: User.noop))
+				.preferredColorScheme(.dark)
+		}
 	}
 }
