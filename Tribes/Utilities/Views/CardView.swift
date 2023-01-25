@@ -31,7 +31,7 @@ struct CardView<Content: View>: View {
 		}
 		.pushOutFrame()
 		.background(
-			Color.app.background.opacity(0.4)
+			Color.app.background.opacity(0.8)
 				.onTapGesture {
 					withAnimation(Animation.cardView) {
 						self.isShowing.toggle()
