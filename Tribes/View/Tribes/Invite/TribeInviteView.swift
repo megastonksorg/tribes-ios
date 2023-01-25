@@ -43,6 +43,13 @@ struct TribeInviteView: View {
 			
 			HStack {
 				Text("123456")
+					.foregroundStyle(
+						LinearGradient(
+							colors: [Color.app.tertiary, Color.app.secondary],
+							startPoint: .leading,
+							endPoint: .trailing
+						)
+					)
 				
 				Button(action: {}) {
 					Image(systemName: "doc.on.doc.fill")
@@ -56,7 +63,9 @@ struct TribeInviteView: View {
 			
 			Spacer()
 			
-			TextView("Tap here to generate a new one", style: .bodyTitle)
+			Button(action: {}) {
+				TextView("Tap here to generate a new one", style: .bodyTitle)
+			}
 			
 			Spacer()
 			
