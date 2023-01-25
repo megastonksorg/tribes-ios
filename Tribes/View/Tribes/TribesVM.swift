@@ -7,10 +7,12 @@
 
 import Foundation
 import IdentifiedCollections
+import SwiftUI
 
 extension TribesView {
 	@MainActor class ViewModel: ObservableObject {
 		
+		@Published var tribeInviteVM: TribeInviteView.ViewModel?
 		@Published var tribes: IdentifiedArrayOf<Tribe>
 		@Published var user: User
 		
@@ -25,6 +27,14 @@ extension TribesView {
 		
 		func joinTribe() {
 			AppRouter.pushStack(stack: .home(.joinTribe))
+		}
+		
+		func openTribeInvite() {
+			self.tribeInviteVM = TribeInviteView.ViewModel(tribe: Tribe.noop)
+		}
+		
+		func dismissTribeInvite() {
+			self.tribeInviteVM = nil
 		}
 	}
 }

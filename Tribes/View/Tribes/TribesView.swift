@@ -9,6 +9,7 @@ import SwiftUI
 
 struct TribesView: View {
 	
+	@State var isShowingTribeInvite: Bool = false
 	@StateObject var viewModel: ViewModel
 	
 	init(viewModel: ViewModel) {
@@ -23,7 +24,14 @@ struct TribesView: View {
 							TextView("Tribes", style: .appTitle)
 						},
 						leading: {
-							Button(action: {  }) {
+							Button(
+								action: {
+									withAnimation(Animation.cardView) {
+										self.isShowingTribeInvite = true
+										viewModel.openTribeInvite()
+									}
+								}
+							) {
 								UserAvatar(url: viewModel.user.profilePhoto)
 									.frame(dimension: 50)
 							}
@@ -55,6 +63,13 @@ struct TribesView: View {
 				.padding(.horizontal)
 			}
 			.background(Color.app.background)
+			.cardView(isShowing: self.$isShowingTribeInvite) {
+				Group {
+					if let inviteVM = viewModel.tribeInviteVM {
+						TribeInviteView(viewModel: inviteVM)
+					}
+				}
+			}
 	}
 	
 	@ViewBuilder

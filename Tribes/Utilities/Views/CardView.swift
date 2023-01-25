@@ -31,7 +31,7 @@ struct CardView<Content: View>: View {
 		}
 		.pushOutFrame()
 		.background(
-			Color.app.background.opacity(0.2)
+			Color.app.background.opacity(0.4)
 				.onTapGesture {
 					withAnimation(Animation.cardView) {
 						self.isShowing.toggle()
@@ -40,6 +40,16 @@ struct CardView<Content: View>: View {
 		)
 		.ignoresSafeArea()
 		.readSize(onChange: { self.size =  $0 })
+	}
+}
+
+extension View {
+	func cardView<Content: View>(isShowing: Binding<Bool>, content: @escaping () -> Content) -> some View {
+		self.overlay(isShown: isShowing.wrappedValue) {
+			CardView(isShowing: isShowing) {
+				content()
+			}
+		}
 	}
 }
 
