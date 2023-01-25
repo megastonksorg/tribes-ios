@@ -10,6 +10,8 @@ import SwiftUI
 struct TextViewModifier: ViewModifier {
 	enum Style {
 		case appTitle
+		case bodyTitle
+		case callout
 		case hint
 		case pageTitle
 		case pageSubTitle
@@ -24,6 +26,14 @@ struct TextViewModifier: ViewModifier {
 			content
 				.font(.custom(FontNames.kreon, fixedSize: 40))
 				.foregroundColor(Color.app.tertiary)
+		case .bodyTitle:
+			content
+				.font(Font.app.subTitle)
+				.foregroundColor(Color.app.tertiary)
+		case .callout:
+			content
+				.font(Font.app.callout)
+				.foregroundColor(.gray)
 		case .hint:
 			content
 				.font(Font.app.caption)
