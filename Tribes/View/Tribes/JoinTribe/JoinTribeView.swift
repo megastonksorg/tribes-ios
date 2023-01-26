@@ -72,12 +72,14 @@ struct JoinTribeView: View {
 							}
 						}
 					}
+					.onAppear { self.focusedField = .pin }
 				case .code:
 					VStack {
 						ZStack {
 							Text("CODE WORD")
 								.foregroundColor(Color.gray.opacity(0.5))
 							TextField("", text: $viewModel.code)
+								.focused($focusedField, equals: .code)
 								.keyboardType(.asciiCapable)
 								.textInputAutocapitalization(.characters)
 								.foregroundColor(Color.white)
@@ -86,6 +88,7 @@ struct JoinTribeView: View {
 					}
 					.font(.system(size: viewModel.codeFontSize, weight: .medium, design: .rounded))
 					.padding(.top, 20)
+					.onAppear { self.focusedField = .code }
 				}
 			}
 			.padding(.horizontal)
@@ -106,7 +109,6 @@ struct JoinTribeView: View {
 				AppToolBar(.principal, principalTitle: "Join a Tribe")
 			}
 		}
-		.onAppear { self.focusedField = .pin }
 	}
 }
 
