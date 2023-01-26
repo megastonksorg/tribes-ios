@@ -10,7 +10,8 @@ import SwiftUI
 
 extension TribeInviteView {
 	@MainActor class ViewModel: ObservableObject {
-		let numberAnimation: Animation = .easeInOut(duration: 2.0)
+		static private let animationDelay: Double = 2.0
+		let numberAnimation: Animation = .easeInOut(duration: animationDelay)
 		var randomNumberTimer: Timer?
 		var tribe: Tribe
 		
@@ -28,7 +29,7 @@ extension TribeInviteView {
 				self.code = code
 			}
 			Task {
-				try await Task.sleep(for: .seconds(2.0))
+				try await Task.sleep(for: .seconds(TribeInviteView.ViewModel.animationDelay))
 				withAnimation(.easeInOut) {
 					self.isCodeReady = true
 				}

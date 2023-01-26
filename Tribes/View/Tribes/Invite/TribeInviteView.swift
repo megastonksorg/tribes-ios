@@ -63,6 +63,9 @@ struct TribeInviteView: View {
 			Button(action: { viewModel.setRandomNumberTimer() }) {
 				TextView("Tap here to generate a new one", style: .bodyTitle)
 			}
+			.disabled(!viewModel.isCodeReady)
+			.opacity(viewModel.isCodeReady ? 1.0 : 0.5)
+			.transition(.opacity)
 			
 			Spacer()
 			
