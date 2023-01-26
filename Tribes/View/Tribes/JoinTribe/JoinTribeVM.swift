@@ -31,8 +31,12 @@ extension JoinTribeView {
 		var isProceedButtonEnabled: Bool {
 			switch stage {
 			case .pin: return pin.count == SizeConstants.pinLimit
-			case .code: return code.count != 0
+			case .code: return !code.isEmpty
 			}
+		}
+		
+		var isShowingCodeHint: Bool {
+			code.isEmpty
 		}
 		
 		var pageSubtitle: String {

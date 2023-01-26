@@ -77,7 +77,7 @@ struct JoinTribeView: View {
 					VStack {
 						ZStack {
 							Text("CODE WORD")
-								.foregroundColor(Color.gray.opacity(0.5))
+								.foregroundColor(Color.gray.opacity(viewModel.isShowingCodeHint ? 0.5 : 0.0))
 							TextField("", text: $viewModel.code)
 								.tint(Color.app.textFieldCursor)
 								.focused($focusedField, equals: .code)
