@@ -15,11 +15,10 @@ extension TribeInviteView {
 		var tribe: Tribe
 		
 		@Published var code: Int = 0
-		@Published var isCopyButtonEnabled: Bool = false
+		@Published var isCodeReady: Bool = false
 		
 		init(tribe: Tribe) {
 			self.tribe = tribe
-			setRandomNumberTimer()
 		}
 		
 		func setCode(code: Int) {
@@ -31,13 +30,13 @@ extension TribeInviteView {
 			Task {
 				try await Task.sleep(for: .seconds(2.0))
 				withAnimation(.easeInOut) {
-					self.isCopyButtonEnabled = true
+					self.isCodeReady = true
 				}
 			}
 		}
 		
 		func setRandomNumberTimer() {
-			self.isCopyButtonEnabled = false
+			self.isCodeReady = false
 			setRandomNumber()
 			self.randomNumberTimer = Timer.scheduledTimer(
 				timeInterval: 1.5,

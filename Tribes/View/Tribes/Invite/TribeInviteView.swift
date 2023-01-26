@@ -48,8 +48,8 @@ struct TribeInviteView: View {
 				Button(action: {}) {
 					Image(systemName: "doc.on.doc.fill")
 				}
-				.disabled(!viewModel.isCopyButtonEnabled)
-				.opacity(viewModel.isCopyButtonEnabled ? 1.0 : 0.5)
+				.disabled(!viewModel.isCodeReady)
+				.opacity(viewModel.isCodeReady ? 1.0 : 0.5)
 				.transition(.opacity)
 			}
 			.font(Font.app.title2)
@@ -74,6 +74,7 @@ struct TribeInviteView: View {
 		}
 		.multilineTextAlignment(.center)
 		.padding()
+		.onAppear { viewModel.setRandomNumberTimer() }
 	}
 }
 
