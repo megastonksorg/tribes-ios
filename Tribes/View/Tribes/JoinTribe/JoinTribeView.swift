@@ -71,12 +71,23 @@ struct JoinTribeView: View {
 								}
 							}
 						}
-						.padding(.horizontal)
 					}
 				case .code:
-					EmptyView()
+					VStack {
+						ZStack {
+							Text("CODE WORD")
+								.foregroundColor(Color.gray.opacity(0.5))
+							TextField("", text: $viewModel.code)
+								.textInputAutocapitalization(.characters)
+								.foregroundColor(Color.white)
+								.multilineTextAlignment(.center)
+						}
+					}
+					.font(.system(size: viewModel.codeFontSize, weight: .medium, design: .rounded))
+					.padding(.top, 20)
 				}
 			}
+			.padding(.horizontal)
 			
 			Spacer()
 			

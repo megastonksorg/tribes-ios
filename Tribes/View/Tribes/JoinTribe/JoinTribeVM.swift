@@ -20,6 +20,14 @@ extension JoinTribeView {
 			case code
 		}
 		
+		var codeFontSize: CGFloat {
+			if code.count > 12 {
+				return 30
+			} else {
+				return 40
+			}
+		}
+		
 		var isProceedButtonEnabled: Bool {
 			switch stage {
 			case .pin: return pin.count == SizeConstants.pinLimit
@@ -43,7 +51,7 @@ extension JoinTribeView {
 		@Published var code: String = ""
 		@Published var isShowingPasteButton: Bool = false
 		@Published var pin: String = ""
-		@Published var stage: Stage = .pin
+		@Published var stage: Stage = .code
 		
 		func pasteCode() {
 			if let string = UIPasteboard.general.string {
