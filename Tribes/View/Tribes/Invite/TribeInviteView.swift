@@ -48,6 +48,9 @@ struct TribeInviteView: View {
 				Button(action: {}) {
 					Image(systemName: "doc.on.doc.fill")
 				}
+				.disabled(!viewModel.isCopyButtonEnabled)
+				.opacity(viewModel.isCopyButtonEnabled ? 1.0 : 0.5)
+				.transition(.opacity)
 			}
 			.font(Font.app.title2)
 			.foregroundColor(.white)
@@ -57,17 +60,13 @@ struct TribeInviteView: View {
 			
 			Spacer()
 			
-			Button(action: {
-				withAnimation(Animation.easeInOut(duration: 2)) {
-					viewModel.code = .random(in: 0..<100000)
-				}
-			}) {
+			Button(action: { viewModel.setRandomNumberTimer() }) {
 				TextView("Tap here to generate a new one", style: .bodyTitle)
 			}
 			
 			Spacer()
 			
-			Button(action: {}) {
+			Button(action: { viewModel.setCode(code: 545468) }) {
 				Text("Share")
 			}
 			.buttonStyle(.expanded)
