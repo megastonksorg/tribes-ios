@@ -89,12 +89,24 @@ struct JoinTribeView: View {
 						}
 					}
 					.font(.system(size: viewModel.codeFontSize, weight: .medium, design: .rounded))
-					.padding(.top, 20)
+					.padding(.top, 40)
 					.transition(.move(edge: .leading))
 					.onAppear { self.focusedField = .code }
 				}
 			}
 			.padding(.horizontal)
+			
+			Button(action: { viewModel.backToPinStage() }) {
+				HStack(spacing: 2) {
+					Image(systemName: "chevron.backward")
+					Text(ViewModel.Stage.pin.rawValue)
+						.textCase(.uppercase)
+				}
+				.font(Font.app.title2)
+				.foregroundColor(Color.app.tertiary)
+			}
+			.padding(.top, 30)
+			.opacity(viewModel.stage == .code ? 1.0 : 0.0)
 			
 			Spacer()
 			

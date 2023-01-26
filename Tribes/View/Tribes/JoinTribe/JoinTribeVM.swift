@@ -57,6 +57,16 @@ extension JoinTribeView {
 		@Published var pin: String = ""
 		@Published var stage: Stage = .pin
 		
+		init() {
+			
+		}
+		
+		func backToPinStage() {
+			withAnimation(.easeInOut) {
+				self.stage = .pin
+			}
+		}
+		
 		func pasteCode() {
 			if let string = UIPasteboard.general.string {
 				let trimmedString = string.trimmingCharacters(in: .whitespacesAndNewlines).prefix(6)
