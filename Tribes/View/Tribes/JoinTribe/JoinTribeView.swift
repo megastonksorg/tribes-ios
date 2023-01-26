@@ -37,7 +37,7 @@ struct JoinTribeView: View {
 					"",
 					text: Binding(
 						get: { viewModel.code },
-						set: { if $0.count <= viewModel.codeLimit { viewModel.code = $0 } }
+						set: { if $0.count <= SizeConstants.pinLimit { viewModel.code = $0 } }
 					)
 				)
 				.focused($focusedField, equals: .pin)
@@ -50,7 +50,7 @@ struct JoinTribeView: View {
 					viewModel.textFieldTapped()
 				}) {
 					HStack {
-						ForEach(0..<viewModel.codeLimit, id: \.self) { index in
+						ForEach(0..<SizeConstants.pinLimit, id: \.self) { index in
 							Spacer()
 							RoundedRectangle(cornerRadius: 10)
 								.stroke(Color.app.tertiary, lineWidth: 1)

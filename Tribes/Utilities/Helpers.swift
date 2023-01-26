@@ -18,6 +18,7 @@ struct SizeConstants {
 	static let maxVideoRecordingDuration: Double = 20
 	static let phraseGridSpacing: CGFloat = 10
 	static let phraseGridCount: Int = 3
+	static let pinLimit: Int = 6
 	static let profileImageFrame: CGFloat = 150
 	static let profileImageSize: CGSize = CGSize(width: 400, height: 400)
 	static let subTitleSpacing: CGFloat = 50

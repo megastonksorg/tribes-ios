@@ -42,7 +42,7 @@ struct TribeInviteView: View {
 			Spacer()
 			
 			HStack {
-				Text("123456")
+				Color.clear
 					.modifier(NumberView(number: viewModel.code))
 				
 				Button(action: {}) {
@@ -97,7 +97,7 @@ fileprivate struct NumberView: AnimatableModifier {
 	}
 
 	func body(content: Content) -> some View {
-		Text(String(format: "%06d", number))
+		Text(String(format: "%0\(SizeConstants.pinLimit)d", number))
 			.foregroundStyle(
 				LinearGradient(
 					colors: [Color.app.tertiary, Color.app.secondary],

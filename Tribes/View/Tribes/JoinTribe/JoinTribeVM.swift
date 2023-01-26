@@ -15,8 +15,6 @@ extension JoinTribeView {
 			case pin
 		}
 		
-		let codeLimit: Int = 6
-		
 		@Published var code: String = ""
 		@Published var isJoinButtonEnabled: Bool = false
 		@Published var isShowingPasteButton: Bool = false
