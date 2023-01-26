@@ -79,6 +79,7 @@ struct JoinTribeView: View {
 							Text("CODE WORD")
 								.foregroundColor(Color.gray.opacity(0.5))
 							TextField("", text: $viewModel.code)
+								.tint(Color.app.textFieldCursor)
 								.focused($focusedField, equals: .code)
 								.keyboardType(.asciiCapable)
 								.textInputAutocapitalization(.characters)

@@ -35,6 +35,7 @@ struct TextFieldView: View {
 					.font(.system(size: FontSizes.footnote, weight: .light))
 					.foregroundColor(.white)
 				TextField("", text: $text, onCommit: { onCommit() })
+					.tint(Color.app.textFieldCursor)
 					.font(Font.app.subTitle)
 					.foregroundColor(.white)
 					.submitLabel(submitLabel)
