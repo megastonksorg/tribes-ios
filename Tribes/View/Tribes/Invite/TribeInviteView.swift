@@ -21,7 +21,7 @@ struct TribeInviteView: View {
 		VStack(spacing: 10) {
 			SymmetricHStack(
 				content: {
-					TextView("Invite Code", style: .pageTitle)
+					TextView("Invite Pin Code", style: .pageTitle)
 				},
 				leading: { EmptyView() },
 				trailing: {
@@ -36,7 +36,7 @@ struct TribeInviteView: View {
 			
 			Spacer()
 			
-			TextView("Share your invite code to ‘\(viewModel.tribe.name)’ with a tribe member", style: .pageSubTitle)
+			TextView("Share your pin code for ‘\(viewModel.tribe.name)’ with a tribe member", style: .pageSubTitle)
 				.fixedSize(horizontal: false, vertical: true)
 			
 			Spacer()
@@ -55,7 +55,7 @@ struct TribeInviteView: View {
 			.font(Font.app.title2)
 			.foregroundColor(.white)
 			
-			TextView("Code will expire in 5 minutes. You need a new code for each tribe member", style: .callout)
+			TextView("Pin code will expire in 5 minutes. You need a new pin code for each tribe member", style: .callout)
 				.fixedSize(horizontal: false, vertical: true)
 			
 			Spacer()
