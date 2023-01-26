@@ -55,7 +55,7 @@ extension JoinTribeView {
 		@Published var code: String = ""
 		@Published var isShowingPasteButton: Bool = false
 		@Published var pin: String = ""
-		@Published var stage: Stage = .code
+		@Published var stage: Stage = .pin
 		
 		func pasteCode() {
 			if let string = UIPasteboard.general.string {
@@ -83,7 +83,14 @@ extension JoinTribeView {
 		}
 		
 		func proceed() {
-			
+			switch stage {
+			case .pin:
+				withAnimation(.easeInOut) {
+					self.stage = .code
+				}
+			case .code:
+				print("")
+			}
 		}
 	}
 }

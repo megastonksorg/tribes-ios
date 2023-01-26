@@ -72,12 +72,13 @@ struct JoinTribeView: View {
 							}
 						}
 					}
+					.transition(.move(edge: .leading))
 					.onAppear { self.focusedField = .pin }
 				case .code:
 					VStack {
 						ZStack {
 							Text("CODE WORD")
-								.foregroundColor(Color.gray.opacity(viewModel.isShowingCodeHint ? 0.5 : 0.0))
+								.foregroundColor(Color.gray.opacity(viewModel.isShowingCodeHint ? 0.4 : 0.0))
 							TextField("", text: $viewModel.code)
 								.tint(Color.app.textFieldCursor)
 								.focused($focusedField, equals: .code)
@@ -89,6 +90,7 @@ struct JoinTribeView: View {
 					}
 					.font(.system(size: viewModel.codeFontSize, weight: .medium, design: .rounded))
 					.padding(.top, 20)
+					.transition(.move(edge: .leading))
 					.onAppear { self.focusedField = .code }
 				}
 			}
@@ -96,7 +98,7 @@ struct JoinTribeView: View {
 			
 			Spacer()
 			
-			Button(action: {}) {
+			Button(action: { viewModel.proceed() }) {
 				Text(viewModel.proceedButtonTitle)
 			}
 			.buttonStyle(.expanded)
