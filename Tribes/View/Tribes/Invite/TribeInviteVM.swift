@@ -50,7 +50,7 @@ extension TribeInviteView {
 		
 		@objc func setRandomNumber() {
 			withAnimation(numberAnimation) {
-				self.code = .random(in: 0..<100000)
+				self.code = .random(in: 0..<1000000)
 			}
 		}
 	}
