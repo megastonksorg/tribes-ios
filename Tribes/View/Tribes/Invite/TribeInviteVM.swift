@@ -11,6 +11,8 @@ extension TribeInviteView {
 	@MainActor class ViewModel: ObservableObject {
 		var tribe: Tribe
 		
+		@Published var code: Int = 123456
+		
 		init(tribe: Tribe) {
 			self.tribe = tribe
 		}

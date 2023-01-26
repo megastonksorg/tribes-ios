@@ -43,13 +43,7 @@ struct TribeInviteView: View {
 			
 			HStack {
 				Text("123456")
-					.foregroundStyle(
-						LinearGradient(
-							colors: [Color.app.tertiary, Color.app.secondary],
-							startPoint: .leading,
-							endPoint: .trailing
-						)
-					)
+					.modifier(NumberView(number: viewModel.code))
 				
 				Button(action: {}) {
 					Image(systemName: "doc.on.doc.fill")
@@ -63,7 +57,11 @@ struct TribeInviteView: View {
 			
 			Spacer()
 			
-			Button(action: {}) {
+			Button(action: {
+				withAnimation(Animation.easeInOut(duration: 2)) {
+					viewModel.code = .random(in: 0..<100000)
+				}
+			}) {
 				TextView("Tap here to generate a new one", style: .bodyTitle)
 			}
 			
@@ -84,5 +82,25 @@ struct TribeInviteView_Previews: PreviewProvider {
 	static var previews: some View {
 		TribeInviteView(dismissAction: {}, viewModel: .init(tribe: Tribe.noop))
 			.background(Color.black)
+	}
+}
+
+fileprivate struct NumberView: AnimatableModifier {
+	var number: Int
+
+	var animatableData: CGFloat {
+		get { CGFloat(number) }
+		set { number = Int(newValue) }
+	}
+
+	func body(content: Content) -> some View {
+		Text(String(format: "%06d", number))
+			.foregroundStyle(
+				LinearGradient(
+					colors: [Color.app.tertiary, Color.app.secondary],
+					startPoint: .leading,
+					endPoint: .trailing
+				)
+			)
 	}
 }
