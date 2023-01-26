@@ -36,8 +36,8 @@ struct JoinTribeView: View {
 				TextField(
 					"",
 					text: Binding(
-						get: { viewModel.code },
-						set: { if $0.count <= SizeConstants.pinLimit { viewModel.code = $0 } }
+						get: { viewModel.pin },
+						set: { if $0.count <= SizeConstants.pinLimit { viewModel.pin = $0 } }
 					)
 				)
 				.focused($focusedField, equals: .pin)
@@ -56,8 +56,8 @@ struct JoinTribeView: View {
 								.stroke(Color.app.tertiary, lineWidth: 1)
 								.frame(dimension: 40)
 								.overlay {
-									if index < viewModel.code.count {
-										Text(String(viewModel.code[index]))
+									if index < viewModel.pin.count {
+										Text(String(viewModel.pin[index]))
 											.font(Font.app.title2)
 											.foregroundColor(Color.app.tertiary)
 									}

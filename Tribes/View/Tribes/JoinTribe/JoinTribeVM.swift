@@ -10,12 +10,17 @@ import SwiftUI
 
 extension JoinTribeView {
 	@MainActor class ViewModel: ObservableObject {
+		enum Stage {
+			case pin
+			case code
+		}
 		
 		enum Field: Hashable {
 			case pin
+			case code
 		}
 		
-		@Published var code: String = ""
+		@Published var pin: String = ""
 		@Published var isJoinButtonEnabled: Bool = false
 		@Published var isShowingPasteButton: Bool = false
 		
@@ -39,7 +44,7 @@ extension JoinTribeView {
 			if let string = UIPasteboard.general.string {
 				let trimmedString = string.trimmingCharacters(in: .whitespacesAndNewlines).prefix(6)
 				if trimmedString.rangeOfCharacter(from: NSCharacterSet.decimalDigits.inverted, options: String.CompareOptions.literal, range: nil) == nil {
-					self.code = String(trimmedString)
+					self.pin = String(trimmedString)
 				}
 			}
 		}
