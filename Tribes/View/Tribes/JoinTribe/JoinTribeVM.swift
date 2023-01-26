@@ -10,7 +10,7 @@ import SwiftUI
 
 extension JoinTribeView {
 	@MainActor class ViewModel: ObservableObject {
-		enum Stage {
+		enum Stage: String {
 			case pin
 			case code
 		}
@@ -20,11 +20,18 @@ extension JoinTribeView {
 			case code
 		}
 		
-		@Published var pin: String = ""
+		var pageSubtitle: String {
+			withAnimation(.interactiveSpring()) {
+				"Enter the \(stage.rawValue) that was shared \nwith you below:"
+			}
+		}
+		
 		@Published var isJoinButtonEnabled: Bool = false
 		@Published var isShowingPasteButton: Bool = false
+		@Published var pin: String = ""
+		@Published var stage: Stage = .pin
 		
-		func textFieldTapped() {
+		func pinFieldTapped() {
 			Task {
 				if !isShowingPasteButton {
 					isShowingPasteButton = true

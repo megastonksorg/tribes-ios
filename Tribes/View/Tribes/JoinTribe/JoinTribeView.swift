@@ -18,56 +18,65 @@ struct JoinTribeView: View {
 	
 	var body: some View {
 		VStack {
-			TextView("Enter the pin code that was shared \nwith you below:", style: .pageSubTitle)
+			TextView(viewModel.pageSubtitle, style: .pageSubTitle)
 				.multilineTextAlignment(.center)
 				.padding(.top, SizeConstants.subTitleSpacing)
+				.transition(.move(edge: .leading))
 			
-			Button(action: { viewModel.pasteCode() }) {
-				HStack {
-					Text("Paste")
-					Image(systemName: "doc.on.clipboard")
-				}
-				.foregroundColor(Color.app.tertiary)
-				.padding(.top, 20)
-				.opacity(viewModel.isShowingPasteButton ? 1.0 : 0.0)
-			}
-			
-			ZStack {
-				TextField(
-					"",
-					text: Binding(
-						get: { viewModel.pin },
-						set: { if $0.count <= SizeConstants.pinLimit { viewModel.pin = $0 } }
-					)
-				)
-				.focused($focusedField, equals: .pin)
-				.keyboardType(.numberPad)
-				.background(Color.red)
-				.opacity(0)
-				
-				Button(action: {
-					self.focusedField = .pin
-					viewModel.textFieldTapped()
-				}) {
-					HStack {
-						ForEach(0..<SizeConstants.pinLimit, id: \.self) { index in
-							Spacer()
-							RoundedRectangle(cornerRadius: 10)
-								.stroke(Color.app.tertiary, lineWidth: 1)
-								.frame(dimension: 40)
-								.overlay {
-									if index < viewModel.pin.count {
-										Text(String(viewModel.pin[index]))
-											.font(Font.app.title2)
-											.foregroundColor(Color.app.tertiary)
+			Group {
+				switch viewModel.stage {
+				case .pin:
+					VStack {
+						Button(action: { viewModel.pasteCode() }) {
+							HStack {
+								Text("Paste")
+								Image(systemName: "doc.on.clipboard")
+							}
+							.foregroundColor(Color.app.tertiary)
+							.padding(.top, 20)
+							.opacity(viewModel.isShowingPasteButton ? 1.0 : 0.0)
+						}
+						ZStack {
+							TextField(
+								"",
+								text: Binding(
+									get: { viewModel.pin },
+									set: { if $0.count <= SizeConstants.pinLimit { viewModel.pin = $0 } }
+								)
+							)
+							.focused($focusedField, equals: .pin)
+							.keyboardType(.numberPad)
+							.background(Color.red)
+							.opacity(0)
+							
+							Button(action: {
+								self.focusedField = .pin
+								viewModel.pinFieldTapped()
+							}) {
+								HStack {
+									ForEach(0..<SizeConstants.pinLimit, id: \.self) { index in
+										Spacer()
+										RoundedRectangle(cornerRadius: 10)
+											.stroke(Color.app.tertiary, lineWidth: 1)
+											.frame(dimension: 40)
+											.overlay {
+												if index < viewModel.pin.count {
+													Text(String(viewModel.pin[index]))
+														.font(Font.app.title2)
+														.foregroundColor(Color.app.tertiary)
+												}
+											}
+										Spacer()
 									}
 								}
-							Spacer()
+							}
 						}
+						.padding(.horizontal)
 					}
+				case .code:
+					EmptyView()
 				}
 			}
-			.padding(.horizontal)
 			
 			Spacer()
 			
