@@ -81,10 +81,10 @@ struct JoinTribeView: View {
 			Spacer()
 			
 			Button(action: {}) {
-				Text("Join Tribe")
+				Text(viewModel.proceedButtonTitle)
 			}
 			.buttonStyle(.expanded)
-			.disabled(!viewModel.isJoinButtonEnabled)
+			.disabled(!viewModel.isProceedButtonEnabled)
 			.padding(.bottom)
 		}
 		.pushOutFrame()
