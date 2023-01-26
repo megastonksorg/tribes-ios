@@ -41,12 +41,21 @@ struct TribeInviteView: View {
 			
 			Spacer()
 			
-			HStack {
+			HStack(spacing: 2) {
 				Color.clear
 					.modifier(NumberView(number: viewModel.code))
 				
+				Text("-")
+					.textCase(.uppercase)
+				
+				Text("Bombard")
+					.textCase(.uppercase)
+					.lineLimit(1)
+				
 				Button(action: {}) {
 					Image(systemName: "doc.on.doc.fill")
+						.font(Font.app.title3)
+						.foregroundColor(.gray)
 				}
 				.disabled(!viewModel.isCodeReady)
 				.opacity(viewModel.isCodeReady ? 1.0 : 0.5)
