@@ -13,7 +13,7 @@ extension TribeInviteView {
 		static private let animationDelay: Double = 2.0
 		let codeWords: [String]
 		let numberAnimation: Animation = .easeInOut(duration: animationDelay)
-		var randomNumberTimer: Timer?
+		var randomPinTimer: Timer?
 		var tribe: Tribe
 		
 		@Published var code: String = ""
@@ -35,9 +35,9 @@ extension TribeInviteView {
 			self.tribe = tribe
 		}
 		
-		func setCode(code: Int) {
-			self.randomNumberTimer?.invalidate()
-			self.randomNumberTimer = nil
+		func setPinCode(code: Int) {
+			self.randomPinTimer?.invalidate()
+			self.randomPinTimer = nil
 			withAnimation(numberAnimation) {
 				self.pin = code
 				self.code = codeWords.randomElement()!
@@ -50,19 +50,19 @@ extension TribeInviteView {
 			}
 		}
 		
-		func setRandomNumberTimer() {
+		func setRandomPinTimer() {
 			self.isCodeReady = false
-			setRandomNumber()
-			self.randomNumberTimer = Timer.scheduledTimer(
+			setRandomPin()
+			self.randomPinTimer = Timer.scheduledTimer(
 				timeInterval: 1.5,
 				target: self,
-				selector: #selector(setRandomNumber),
+				selector: #selector(setRandomPin),
 				userInfo: nil,
 				repeats: true
 			)
 		}
 		
-		@objc func setRandomNumber() {
+		@objc func setRandomPin() {
 			withAnimation(numberAnimation) {
 				self.pin = .random(in: 0..<1000000)
 			}

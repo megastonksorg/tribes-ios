@@ -69,7 +69,7 @@ struct TribeInviteView: View {
 			
 			Spacer()
 			
-			Button(action: { viewModel.setRandomNumberTimer() }) {
+			Button(action: { viewModel.setRandomPinTimer() }) {
 				TextView("Tap here to generate a new one", style: .bodyTitle)
 			}
 			.disabled(!viewModel.isCodeReady)
@@ -78,7 +78,7 @@ struct TribeInviteView: View {
 			
 			Spacer()
 			
-			Button(action: { viewModel.setCode(code: 545468) }) {
+			Button(action: { viewModel.setPinCode(code: 545468) }) {
 				Text("Share")
 			}
 			.buttonStyle(.expanded)
@@ -86,7 +86,7 @@ struct TribeInviteView: View {
 		}
 		.multilineTextAlignment(.center)
 		.padding()
-		.onAppear { viewModel.setRandomNumberTimer() }
+		.onAppear { viewModel.setRandomPinTimer() }
 	}
 }
 
