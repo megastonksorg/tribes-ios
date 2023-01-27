@@ -71,6 +71,11 @@ struct JoinTribeView: View {
 								}
 							}
 						}
+						.onChange(of: viewModel.pin) {
+							if $0.count == SizeConstants.pinLimit {
+								viewModel.setStage(stage: .code)
+							}
+						}
 					}
 					.transition(.move(edge: .leading))
 					.onAppear { self.focusedField = .pin }
@@ -102,7 +107,7 @@ struct JoinTribeView: View {
 			}
 			.padding(.horizontal)
 			
-			Button(action: { viewModel.backToPinStage() }) {
+			Button(action: { viewModel.setStage(stage: .pin) }) {
 				HStack(spacing: 2) {
 					Image(systemName: "chevron.backward")
 					Text(ViewModel.Stage.pin.rawValue)

@@ -61,12 +61,6 @@ extension JoinTribeView {
 			
 		}
 		
-		func backToPinStage() {
-			withAnimation(.easeInOut) {
-				self.stage = .pin
-			}
-		}
-		
 		func pasteCode() {
 			if let string = UIPasteboard.general.string {
 				let trimmedString = string.trimmingCharacters(in: .whitespacesAndNewlines).prefix(6)
@@ -100,6 +94,12 @@ extension JoinTribeView {
 				}
 			case .code:
 				print("")
+			}
+		}
+		
+		func setStage(stage: Stage) {
+			withAnimation(.easeInOut) {
+				self.stage = stage
 			}
 		}
 	}
