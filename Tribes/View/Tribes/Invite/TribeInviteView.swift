@@ -43,12 +43,12 @@ struct TribeInviteView: View {
 			
 			HStack(spacing: 2) {
 				Color.clear
-					.modifier(NumberView(number: viewModel.code))
+					.modifier(NumberView(number: viewModel.pin))
 				
 				Text("-")
 					.textCase(.uppercase)
 				
-				Text("Bombard")
+				Text(viewModel.code)
 					.textCase(.uppercase)
 					.lineLimit(1)
 				
