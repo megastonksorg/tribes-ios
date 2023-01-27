@@ -46,10 +46,9 @@ struct TribeInviteView: View {
 					.modifier(NumberView(number: viewModel.pin))
 				
 				Text("-")
-					.textCase(.uppercase)
 				
 				Text(viewModel.code)
-					.textCase(.uppercase)
+					.font(viewModel.code.count < 15 ? Font.app.title2 : Font.app.subTitle)
 					.lineLimit(1)
 				
 				Button(action: {}) {
@@ -63,6 +62,7 @@ struct TribeInviteView: View {
 			}
 			.font(Font.app.title2)
 			.foregroundColor(.white)
+			.textCase(.uppercase)
 			
 			TextView("Pin code will expire in 5 minutes. You need a new pin code for each tribe member", style: .callout)
 				.fixedSize(horizontal: false, vertical: true)
