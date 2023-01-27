@@ -79,13 +79,19 @@ struct JoinTribeView: View {
 						ZStack {
 							Text("CODE WORD")
 								.foregroundColor(Color.gray.opacity(viewModel.isShowingCodeHint ? 0.4 : 0.0))
-							TextField("", text: $viewModel.code)
-								.tint(Color.app.textFieldCursor)
-								.focused($focusedField, equals: .code)
-								.keyboardType(.asciiCapable)
-								.textInputAutocapitalization(.characters)
-								.foregroundColor(Color.white)
-								.multilineTextAlignment(.center)
+							TextField(
+								"",
+								text: Binding(
+									get: { viewModel.code },
+									set: { viewModel.code = $0.uppercased() }
+								)
+							)
+							.tint(Color.app.textFieldCursor)
+							.focused($focusedField, equals: .code)
+							.keyboardType(.asciiCapable)
+							.textInputAutocapitalization(.characters)
+							.foregroundColor(Color.white)
+							.multilineTextAlignment(.center)
 						}
 					}
 					.font(.system(size: viewModel.codeFontSize, weight: .medium, design: .rounded))
