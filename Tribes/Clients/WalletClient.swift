@@ -52,7 +52,7 @@ class WalletClient: WalletClientProtocol {
 	func hashMessage(message: String) -> String? {
 		guard let messageData = message.data(using: .utf8) else { return nil }
 		let hashedData: Data = WalletCore.Hash.keccak256(data: messageData)
-		return String(decoding: hashedData, as: UTF8.self)
+		return hashedData.hexString
 	}
 	
 	func importWallet(mnemonic: String) -> Result<HDWallet, WalletClientError> {
