@@ -87,9 +87,13 @@ final class APIClient: APIRequests {
 	private func apiRequest<Output: Decodable>(appRequest: APPUrlRequest, output: Output.Type) -> AnyPublisher<Output, APIClientError> {
 		do {
 			return try urlRequest(urlRequest: appRequest.urlRequest)
+				.retry(1)
 				.decode(type: output, decoder: self.decoder)
 				.mapError{ error in
 					if let error = error as? AppError.APIClientError {
+						if error == .authExpired {
+							self.refreshAuth()
+						}
 						return error
 					}
 					else {

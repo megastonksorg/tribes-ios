@@ -9,7 +9,8 @@ import Foundation
 
 enum AppError: Error {
 	
-	enum APIClientError: Error {
+	enum APIClientError: Error, Equatable {
+		case authExpired
 		case invalidURL
 		case httpError(statusCode: Int, data: Data)
 		case decodingError
@@ -58,6 +59,11 @@ enum AppError: Error {
 extension AppError.APIClientError: LocalizedError {
 	var errorDescription: String? {
 		switch self {
+		case .authExpired:
+			return NSLocalizedString(
+				"Authentication has expired. You will be logged out now",
+				comment: "Auth Expired"
+			)
 			case .invalidURL:
 				return NSLocalizedString(
 					"Request URL could not be formed or is Invalid",
