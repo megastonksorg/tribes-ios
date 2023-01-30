@@ -87,13 +87,9 @@ final class APIClient: APIRequests {
 	private func apiRequest<Output: Decodable>(appRequest: APPUrlRequest, output: Output.Type) -> AnyPublisher<Output, APIClientError> {
 		do {
 			return try urlRequest(urlRequest: appRequest.urlRequest)
-				.retry(1)
 				.decode(type: output, decoder: self.decoder)
 				.mapError{ error in
 					if let error = error as? AppError.APIClientError {
-						if error == .authExpired {
-							self.refreshAuth()
-						}
 						return error
 					}
 					else {
@@ -106,37 +102,6 @@ final class APIClient: APIRequests {
 			return Fail(error: AppError.APIClientError.rawError(String(describing: error)))
 					.eraseToAnyPublisher()
 		}
-	}
-	
-	private func refreshAuth() {
-		if let token = keychainClient.get(key: .token), let cookie = HTTPCookie(properties: [
-			.domain: APPUrlRequest.domain,
-			.path: "/",
-			.name: "refreshToken",
-			.value: token.refresh,
-			.secure: "FALSE",
-			.discard: "TRUE"
-		]) {
-			HTTPCookieStorage.shared.setCookie(cookie)
-		}
-		let urlRequest: APPUrlRequest = APPUrlRequest(httpMethod: .post, pathComponents: ["account", "refresh"])
-		apiRequest(appRequest: urlRequest, output: AuthenticateResponse.self)
-			.sink(receiveCompletion: { _ in
-				
-			}, receiveValue: { [weak self] authResponse in
-				let token = Token(jwt: authResponse.jwtToken, refresh: authResponse.refreshToken)
-				let user = User(
-					walletAddress: authResponse.walletAddress,
-					fullName: authResponse.fullName,
-					profilePhoto: authResponse.profilePhoto,
-					currency: authResponse.currency,
-					acceptTerms: authResponse.acceptTerms,
-					isOnboarded: authResponse.isOnboarded
-				)
-				self?.keychainClient.set(key: .token, value: token)
-				self?.keychainClient.set(key: .user, value: user)
-			})
-			.store(in: &cancellables)
 	}
 	
 	private func urlRequest(urlRequest: URLRequest) -> AnyPublisher<Data, Error> {
