@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 struct APPUrlRequest {
 #if DEBUG
@@ -37,7 +38,7 @@ struct APPUrlRequest {
 			request.addValue("application/json", forHTTPHeaderField: "Accept")
 			
 			if requiresAuth, let token = KeychainClient.shared.get(key: .token) {
-				request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+				request.addValue("Bearer \(token.jwt)", forHTTPHeaderField: "Authorization")
 			}
 			
 			if let body = body, httpMethod != .get {
