@@ -9,9 +9,9 @@ import Foundation
 
 struct APPUrlRequest {
 #if DEBUG
-	let domain = "megastonksdev.azurewebsites.net"
+	static let domain = "megastonksdev.azurewebsites.net"
 #else
-	let domain = "megastonksprod.azurewebsites.net"
+	static let domain = "megastonksprod.azurewebsites.net"
 #endif
 	
 	let httpMethod: HTTPMethod
@@ -22,7 +22,7 @@ struct APPUrlRequest {
 	
 	var urlRequest: URLRequest {
 		get throws {
-			let baseUrl = URL(string: "https://\(domain)/")
+			let baseUrl = URL(string: "https://\(APPUrlRequest.domain)/")
 			guard var url = baseUrl else { throw AppError.apiClientError(.invalidURL) }
 			for pathComponent in pathComponents {
 				url.appendPathComponent(pathComponent)

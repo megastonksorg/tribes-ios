@@ -25,6 +25,8 @@ final class APIClient: APIRequests {
 	
 	static let shared: APIClient = APIClient()
 
+	private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
+	
 	let decoder: JSONDecoder = JSONDecoder()
 	let keychainClient: KeychainClient = KeychainClient.shared
 	
@@ -100,6 +102,37 @@ final class APIClient: APIRequests {
 			return Fail(error: AppError.APIClientError.rawError(String(describing: error)))
 					.eraseToAnyPublisher()
 		}
+	}
+	
+	private func refreshAuth() {
+		if let token = keychainClient.get(key: .token), let cookie = HTTPCookie(properties: [
+			.domain: APPUrlRequest.domain,
+			.path: "/",
+			.name: "refreshToken",
+			.value: token.refresh,
+			.secure: "FALSE",
+			.discard: "TRUE"
+		]) {
+			HTTPCookieStorage.shared.setCookie(cookie)
+		}
+		let urlRequest: APPUrlRequest = APPUrlRequest(httpMethod: .post, pathComponents: ["account", "refresh"])
+		apiRequest(appRequest: urlRequest, output: AuthenticateResponse.self)
+			.sink(receiveCompletion: { _ in
+				
+			}, receiveValue: { [weak self] authResponse in
+				let token = Token(jwt: authResponse.jwtToken, refresh: authResponse.refreshToken)
+				let user = User(
+					walletAddress: authResponse.walletAddress,
+					fullName: authResponse.fullName,
+					profilePhoto: authResponse.profilePhoto,
+					currency: authResponse.currency,
+					acceptTerms: authResponse.acceptTerms,
+					isOnboarded: authResponse.isOnboarded
+				)
+				self?.keychainClient.set(key: .token, value: token)
+				self?.keychainClient.set(key: .user, value: user)
+			})
+			.store(in: &cancellables)
 	}
 	
 	private func urlRequest(urlRequest: URLRequest) -> AnyPublisher<Data, Error> {
