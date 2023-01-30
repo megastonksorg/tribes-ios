@@ -14,11 +14,11 @@ struct APPUrlRequest {
 	let domain = "megastonksprod.azurewebsites.net"
 #endif
 	
-	let token: Token?
 	let httpMethod: HTTPMethod
 	let pathComponents: [String]
 	let query: [URLQueryItem]
 	let body: Encodable?
+	let requiresAuth: Bool
 	
 	var urlRequest: URLRequest {
 		get throws {
@@ -36,7 +36,7 @@ struct APPUrlRequest {
 			request.addValue("application/json", forHTTPHeaderField: "Content-Type")
 			request.addValue("application/json", forHTTPHeaderField: "Accept")
 			
-			if let token = token {
+			if requiresAuth, let token = KeychainClient.shared.get(key: .token) {
 				request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
 			}
 			
@@ -49,16 +49,16 @@ struct APPUrlRequest {
 	}
 	
 	init(
-		token: Token?,
 		httpMethod: HTTPMethod,
 		pathComponents: [String],
 		query: [URLQueryItem] = [],
-		body: Encodable? = nil
+		body: Encodable? = nil,
+		requiresAuth: Bool = false
 	) {
-		self.token = token
 		self.httpMethod = httpMethod
 		self.pathComponents = pathComponents
 		self.query = query
 		self.body = body
+		self.requiresAuth = requiresAuth
 	}
 }

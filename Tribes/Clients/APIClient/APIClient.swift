@@ -11,11 +11,14 @@ import Foundation
 typealias APIClientError = AppError.APIClientError
 
 protocol APIRequests {
+	//Authentication
 	func requestAuthentication() -> AnyPublisher<String, APIClientError>
 	func doesAccountExist(for walletAddress: String) -> AnyPublisher<SuccessResponse, APIClientError>
 	func authenticateUser(model: AuthenticateRequest) -> AnyPublisher<AuthenticateResponse, APIClientError>
 	func registerUser(model: RegisterRequest) -> AnyPublisher<RegisterResponse, APIClientError>
 	func uploadImage(imageData: Data) -> AnyPublisher<URL, APIClientError>
+	//Tribe
+	func getTribes() -> AnyPublisher<[Tribe], APIClientError>
 }
 
 final class APIClient: APIRequests {
@@ -23,10 +26,10 @@ final class APIClient: APIRequests {
 	static let shared: APIClient = APIClient()
 
 	let decoder: JSONDecoder = JSONDecoder()
+	let keychainClient: KeychainClient = KeychainClient.shared
 	
 	func requestAuthentication() -> AnyPublisher<String, APIClientError> {
 		let authenticationRequest = APPUrlRequest(
-			token: nil,
 			httpMethod: .get,
 			pathComponents: ["account", "requestAuthentication"]
 		)
@@ -35,7 +38,6 @@ final class APIClient: APIRequests {
 	
 	func doesAccountExist(for walletAddress: String) -> AnyPublisher<SuccessResponse, APIClientError> {
 		let accountExistsRequest = APPUrlRequest(
-			token: nil,
 			httpMethod: .post,
 			pathComponents: ["account", "doesAccountExist"],
 			query: [URLQueryItem(name: "walletAddress", value: walletAddress)]
@@ -45,7 +47,6 @@ final class APIClient: APIRequests {
 	
 	func authenticateUser(model: AuthenticateRequest) -> AnyPublisher<AuthenticateResponse, APIClientError> {
 		let authenticateRequest = APPUrlRequest(
-			token: nil,
 			httpMethod: .post,
 			pathComponents: ["account", "authenticate"],
 			body: model
@@ -55,7 +56,6 @@ final class APIClient: APIRequests {
 	
 	func registerUser(model: RegisterRequest) -> AnyPublisher<RegisterResponse, APIClientError> {
 		let registerRequest = APPUrlRequest(
-			token: nil,
 			httpMethod: .post,
 			pathComponents: ["account", "register"],
 			body: model
@@ -65,12 +65,21 @@ final class APIClient: APIRequests {
 	
 	func uploadImage(imageData: Data) -> AnyPublisher<URL, APIClientError> {
 		let imageUploadRequest = APPUrlRequest(
-			token: nil,
 			httpMethod: .put,
 			pathComponents: ["mediaUpload", "image"],
 			body: imageData
 		)
 		return apiRequest(appRequest: imageUploadRequest, output: URL.self)
+	}
+	
+	//Tribes
+	func getTribes() -> AnyPublisher<[Tribe], APIClientError> {
+		let getTribesRequest = APPUrlRequest(
+			httpMethod: .get,
+			pathComponents: ["tribe"],
+			requiresAuth: true
+		)
+		return apiRequest(appRequest: getTribesRequest, output: [Tribe].self)
 	}
 	
 	private func apiRequest<Output: Decodable>(appRequest: APPUrlRequest, output: Output.Type) -> AnyPublisher<Output, APIClientError> {
