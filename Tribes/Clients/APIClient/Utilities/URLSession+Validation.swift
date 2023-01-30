@@ -13,7 +13,6 @@ extension URLSession.DataTaskPublisher {
 		return tryMap { data, response in
 			if let response = response as? HTTPURLResponse, (400..<600).contains(response.statusCode) {
 				if response.statusCode == 401 {
-					TokenManager.shared.refreshToken()
 					throw AppError.APIClientError.authExpired
 				}
 				if let errorMessage = try? JSONDecoder().decode(ErrorResponse.self, from: data) {
@@ -26,14 +25,6 @@ extension URLSession.DataTaskPublisher {
 				return (data, response)
 			}
 		}
-		.retry(times: 4, if: { error in
-			if let error = error as? AppError.APIClientError {
-				if error == .authExpired {
-					return true
-				}
-			}
-			return false
-		})
 		.eraseToAnyPublisher()
 	}
 }
