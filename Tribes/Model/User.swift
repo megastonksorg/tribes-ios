@@ -7,13 +7,15 @@
 
 import Foundation
 
-struct User: Codable {
+struct User: Codable, Identifiable {
 	let walletAddress: String
 	let fullName: String
 	let profilePhoto: URL
 	let currency: String
 	let acceptTerms: Bool
 	let isOnboarded: Bool
+	
+	var id: String { walletAddress }
 }
 
 extension User {
