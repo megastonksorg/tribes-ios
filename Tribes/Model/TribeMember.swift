@@ -7,16 +7,18 @@
 
 import Foundation
 
-struct TribeMember: Encodable, Identifiable {
-	let id: String
-	let name: String
-	let photoURL: URL
+struct TribeMember: Decodable, Identifiable {
+	let fullName: String
+	let profilePhoto: URL
+	let walletAddress: String
+	
+	var id: String { walletAddress }
 }
 
 extension TribeMember {
 	static let noop: TribeMember = TribeMember(
-		id: UUID().uuidString,
-		name: "Kingsley Okeke",
-		photoURL: URL(string: "https://kingsleyokeke.blob.core.windows.net/images/1597276037537.jpeg")!
+		fullName: "Kingsley Okeke",
+		profilePhoto: URL(string: "https://kingsleyokeke.blob.core.windows.net/images/1597276037537.jpeg")!,
+		walletAddress: UUID().uuidString
 	)
 }

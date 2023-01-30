@@ -329,7 +329,7 @@ struct TribeAvatar: View {
 	
 	@ViewBuilder
 	func userAvatar(user: TribeMember) -> some View {
-		UserAvatar(url: user.photoURL)
+		UserAvatar(url: user.profilePhoto)
 	}
 }
 

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Tribe: Encodable, Identifiable {
+struct Tribe: Decodable, Identifiable {
 	let id: String
 	let name: String
 	let members: [TribeMember]
