@@ -98,6 +98,8 @@
 		D0A3F0852980AA2B000308BF /* TribeInviteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3F0842980AA2B000308BF /* TribeInviteView.swift */; };
 		D0AAF2DE29761F49003536C6 /* ChatType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AAF2DD29761F49003536C6 /* ChatType.swift */; };
 		D0BFEA4F298736D200FB6F22 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0BFEA4E298736D200FB6F22 /* LaunchScreen.storyboard */; };
+		D0BFEA512987978500FB6F22 /* Publishers+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BFEA502987978500FB6F22 /* Publishers+Extensions.swift */; };
+		D0BFEA53298797C700FB6F22 /* TokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BFEA52298797C700FB6F22 /* TokenManager.swift */; };
 		D0C65AA32970988900E527F9 /* Tribe.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C65AA22970988900E527F9 /* Tribe.swift */; };
 		D0C65AA52970A24D00E527F9 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C65AA42970A24D00E527F9 /* TextView.swift */; };
 		D0C65AA72970A7E600E527F9 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C65AA62970A7E600E527F9 /* Fonts.swift */; };
@@ -215,6 +217,8 @@
 		D0A3F0842980AA2B000308BF /* TribeInviteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TribeInviteView.swift; sourceTree = "<group>"; };
 		D0AAF2DD29761F49003536C6 /* ChatType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatType.swift; sourceTree = "<group>"; };
 		D0BFEA4E298736D200FB6F22 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		D0BFEA502987978500FB6F22 /* Publishers+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publishers+Extensions.swift"; sourceTree = "<group>"; };
+		D0BFEA52298797C700FB6F22 /* TokenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenManager.swift; sourceTree = "<group>"; };
 		D0C65AA22970988900E527F9 /* Tribe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tribe.swift; sourceTree = "<group>"; };
 		D0C65AA42970A24D00E527F9 /* TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
 		D0C65AA62970A7E600E527F9 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
@@ -345,6 +349,7 @@
 				D030D2A0295745C20011128F /* HttpMethod.swift */,
 				D030D2A1295745C20011128F /* URLSession+Validation.swift */,
 				D030D2A2295745C20011128F /* APPUrlRequest.swift */,
+				D0BFEA52298797C700FB6F22 /* TokenManager.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -378,6 +383,7 @@
 				D0D266AE296AAC4E00A94183 /* EdgeInsets+Extensions.swift */,
 				D0D266B4296B542500A94183 /* View+OnBecomingVisible.swift */,
 				D0A3F07F2980949B000308BF /* Animation+Extension.swift */,
+				D0BFEA502987978500FB6F22 /* Publishers+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -829,6 +835,7 @@
 				D030D31D2957460B0011128F /* AuthenticateView.swift in Sources */,
 				D030D2D8295745E90011128F /* Notification+Name.swift in Sources */,
 				D030D2DD295745E90011128F /* Colors.swift in Sources */,
+				D0BFEA53298797C700FB6F22 /* TokenManager.swift in Sources */,
 				D030D2DA295745E90011128F /* NavBarTheme.swift in Sources */,
 				D030D3152957460B0011128F /* WelcomePageVM.swift in Sources */,
 				D030D2AB295745C20011128F /* FeedbackClient.swift in Sources */,
@@ -843,6 +850,7 @@
 				D0D266A02960C8D400A94183 /* CaptureLoadingIndicator.swift in Sources */,
 				D030D2DE295745E90011128F /* TermsAndConditionsView.swift in Sources */,
 				D0D2669E296010E000A94183 /* TeaContentView.swift in Sources */,
+				D0BFEA512987978500FB6F22 /* Publishers+Extensions.swift in Sources */,
 				D030D31B2957460B0011128F /* ImportSecretPhraseVM.swift in Sources */,
 				D030D2FE295745F90011128F /* Token.swift in Sources */,
 				D030D2D0295745E90011128F /* UIImage+Extensions.swift in Sources */,
