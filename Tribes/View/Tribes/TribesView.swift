@@ -66,6 +66,18 @@ struct TribesView: View {
 					}
 				}
 			}
+			.banner(data: self.$viewModel.banner)
+			.onAppear {
+				KeychainClient.shared.set(
+					key: .token,
+					value: Token(
+						jwt: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJyb2xlIjoiVXNlciIsIm5iZiI6MTY3NTAzMjI3MSwiZXhwIjoxNjc1MDM5NDcxLCJpYXQiOjE2NzUwMzIyNzF9.VpxBVfRLweVHm-XV2HwDOcLdQUXWRsjMDOOTmf8cK8A",
+						refresh: "7CA160FA3A72063E2C9F2455C5850F0A9C8464ABF2181935932079DA9F8C3319DA5C8C46FD4C7C80"
+					)
+				)
+				
+				viewModel.testGetTribe()
+			}
 	}
 	
 	@ViewBuilder
