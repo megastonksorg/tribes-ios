@@ -87,6 +87,50 @@ final class APIClient: APIRequests {
 	private func apiRequest<Output: Decodable>(appRequest: APPUrlRequest, output: Output.Type) -> AnyPublisher<Output, APIClientError> {
 		do {
 			return try urlRequest(urlRequest: appRequest.urlRequest)
+				.catch { error -> AnyPublisher<Data, Error> in
+					if let error  = error as? APIClientError {
+						if error == .authExpired {
+							do {
+								if let token = self.keychainClient.get(key: .token), let cookie = HTTPCookie(properties: [
+									.domain: APPUrlRequest.domain,
+									.path: "/",
+									.name: "refreshToken",
+									.value: token.refresh,
+									.secure: "FALSE",
+									.discard: "TRUE"
+								]) {
+									HTTPCookieStorage.shared.setCookie(cookie)
+								}
+								let tokenRequest: URLRequest = try APPUrlRequest(httpMethod: .post, pathComponents: ["account", "refresh"]).urlRequest
+								
+								return self.urlRequest(urlRequest: tokenRequest)
+									.decode(type: AuthenticateResponse.self, decoder: self.decoder)
+									.mapError{ $0 as! AppError.APIClientError }
+									.eraseToAnyPublisher()
+									.flatMap { authResponse -> AnyPublisher<Data, Error> in
+										let token = Token(jwt: authResponse.jwtToken, refresh: authResponse.refreshToken)
+										let user = User(
+											walletAddress: authResponse.walletAddress,
+											fullName: authResponse.fullName,
+											profilePhoto: authResponse.profilePhoto,
+											currency: authResponse.currency,
+											acceptTerms: authResponse.acceptTerms,
+											isOnboarded: authResponse.isOnboarded
+										)
+										self.keychainClient.set(key: .token, value: token)
+										self.keychainClient.set(key: .user, value: user)
+										let request = try! appRequest.urlRequest
+										return self.urlRequest(urlRequest: request)
+											.eraseToAnyPublisher()
+									}
+									.eraseToAnyPublisher()
+							} catch {
+								return Fail(error: error as! APIClientError).eraseToAnyPublisher()
+							}
+						}
+					}
+					return Fail(error: error as! APIClientError).eraseToAnyPublisher()
+				}
 				.decode(type: output, decoder: self.decoder)
 				.mapError{ error in
 					if let error = error as? AppError.APIClientError {
