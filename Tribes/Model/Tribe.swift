@@ -15,8 +15,18 @@ struct Tribe: Decodable, Identifiable {
 
 extension Tribe {
 	static let noop: Tribe = Tribe(
-		id: "1234565",
+		id: "1",
 		name: "It's The Boys",
+		members: [TribeMember.noop]
+	)
+	static let noop2: Tribe = Tribe(
+		id: "2",
+		name: "Team Zero",
+		members: [TribeMember.noop]
+	)
+	static let noop3: Tribe = Tribe(
+		id: "3",
+		name: "Dark Thirty",
 		members: [TribeMember.noop]
 	)
 }

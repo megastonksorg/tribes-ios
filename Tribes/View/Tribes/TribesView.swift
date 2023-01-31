@@ -127,6 +127,21 @@ struct TribesView: View {
 				TribeAvatar(tribe: viewModel.tribes[0], size: 200)
 				Spacer()
 			}
+		case 2:
+			VStack {
+				Spacer()
+				HStack {
+					TribeAvatar(tribe: viewModel.tribes[0], size: 200)
+					Spacer()
+				}
+				Spacer()
+				HStack {
+					Spacer()
+					TribeAvatar(tribe: viewModel.tribes[1], size: 200)
+				}
+				Spacer()
+			}
+			.padding(.horizontal)
 		default:
 			HStack {
 				Button(action: {}) {
@@ -185,7 +200,7 @@ struct TribesView_Previews: PreviewProvider {
 	static var previews: some View {
 		VStack { //Need to put the view in a container here to get the animation working correctly in the preview
 			let viewModel: TribesView.ViewModel = {
-				let tribes = IdentifiedArrayOf(uniqueElements: [Tribe.noop])
+				let tribes = IdentifiedArrayOf(uniqueElements: [Tribe.noop, Tribe.noop2])
 				let viewModel = TribesView.ViewModel(user: User.noop)
 				viewModel.tribes = tribes
 				return viewModel
