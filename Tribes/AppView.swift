@@ -27,6 +27,7 @@ struct AppView: View {
 					.environmentObject(appRouter)
 			}
 		}
+		.banner(data: $appState.banner)
 	}
 }
 
