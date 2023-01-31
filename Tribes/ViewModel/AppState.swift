@@ -20,11 +20,13 @@ fileprivate let appStateKeyNotification: String = "appState"
 	
 	enum AppAction {
 		case changeAppMode(AppMode)
+		case logUserOut
 	}
 	
 	let keychainClient = KeychainClient.shared
 	
 	@Published var appMode: AppMode = .welcome(WelcomePageView.ViewModel())
+	@Published var banner: BannerData?
 	
 	init() {
 		NotificationCenter
@@ -51,6 +53,9 @@ fileprivate let appStateKeyNotification: String = "appState"
 					case .home(let homeViewModel):
 						self.appMode = .home(homeViewModel)
 				}
+		case .logUserOut:
+			self.banner = BannerData(timeOut: 8.0, detail: "Authentication Failed. You will be logged out soon.", type: .error)
+			//Set the APPState here to Welcome
 		}
 	}
 	
