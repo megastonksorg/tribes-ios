@@ -18,7 +18,12 @@ struct TribeAvatar: View {
 	
 	init(tribe: Tribe, size: CGFloat) {
 		self.name = tribe.name
-		self.members = tribe.members
+		self.members = {
+			if let currentUser: User = KeychainClient.shared.get(key: .user) {
+				return tribe.members.filter({ $0.walletAddress != currentUser.walletAddress })
+			}
+			return tribe.members
+		}()
 		self.size = size
 		self.maxSize = size * 0.8
 		self.stackSize = maxSize * 0.9
