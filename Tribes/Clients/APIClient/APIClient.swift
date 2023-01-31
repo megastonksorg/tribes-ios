@@ -110,6 +110,20 @@ final class APIClient: APIRequests {
 										.decode(type: AuthenticateResponse.self, decoder: self.decoder)
 										.mapError{ $0 as! AppError.APIClientError }
 										.eraseToAnyPublisher()
+										.handleEvents(receiveCompletion: { completion in
+											switch completion {
+											case .finished: return
+											case .failure(let error):
+												if let error = error as? AppError.APIClientError {
+													let expectedDataError: Data = Data("Invalid token".utf8)
+													if error == .httpError(statusCode: 400, data: expectedDataError) {
+														Task {
+															await AppState.updateAppState(with: .logUserOut)
+														}
+													}
+												}
+											}
+										})
 										.flatMap { authResponse -> AnyPublisher<Data, Error> in
 											let token = Token(jwt: authResponse.jwtToken, refresh: authResponse.refreshToken)
 											let user = User(
