@@ -30,6 +30,24 @@ extension TribesView {
 			AppRouter.pushStack(stack: .home(.createTribe))
 		}
 		
+		func getTribe() {
+			apiClient.getTribes()
+				.receive(on: DispatchQueue.main)
+				.sink(
+					receiveCompletion: { [weak self] completion in
+						switch completion {
+							case .finished: return
+							case .failure(let error):
+							self?.banner = BannerData(error: error)
+						}
+					},
+					receiveValue: { [weak self] tribes in
+						self?.tribes = IdentifiedArray(uniqueElements: tribes)
+					}
+				)
+				.store(in: &cancellables)
+		}
+		
 		func joinTribe() {
 			AppRouter.pushStack(stack: .home(.joinTribe))
 		}
@@ -40,25 +58,6 @@ extension TribesView {
 		
 		func closeTribeInvite() {
 			self.tribeInviteVM = nil
-		}
-		
-		func testGetTribe() {
-			apiClient.getTribes()
-				.sink(
-					receiveCompletion: { [weak self] completion in
-						switch completion {
-							case .finished: return
-							case .failure(let error):
-							DispatchQueue.main.async {
-								self?.banner = BannerData(error: error)
-							}
-						}
-					},
-					receiveValue: { [weak self] tribes in
-						self?.banner = BannerData(title: "YES", detail: "SUCCESS", type: .success)
-					}
-				)
-				.store(in: &cancellables)
 		}
 	}
 }
