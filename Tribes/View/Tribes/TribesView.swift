@@ -124,7 +124,7 @@ struct TribesView: View {
 		case 1:
 			VStack {
 				Spacer()
-				TribeAvatar(tribe: viewModel.tribes[0], size: 200)
+				TribeAvatar(tribe: viewModel.tribes[0], size: 250)
 				Spacer()
 			}
 		case 2:
