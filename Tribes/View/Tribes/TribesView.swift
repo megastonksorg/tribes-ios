@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import IdentifiedCollections
 
 struct TribesView: View {
 	
@@ -120,6 +121,12 @@ struct TribesView: View {
 					.padding(.top, 2)
 				Spacer()
 			}
+		case 1:
+			VStack {
+				Spacer()
+				TribeAvatar(tribe: viewModel.tribes[0], size: 200)
+				Spacer()
+			}
 		default:
 			HStack {
 				Button(action: {}) {
@@ -177,7 +184,13 @@ struct TribesView: View {
 struct TribesView_Previews: PreviewProvider {
 	static var previews: some View {
 		VStack { //Need to put the view in a container here to get the animation working correctly in the preview
-			TribesView(viewModel: .init(user: User.noop))
+			let viewModel: TribesView.ViewModel = {
+				let tribes = IdentifiedArrayOf(uniqueElements: [Tribe.noop])
+				let viewModel = TribesView.ViewModel(user: User.noop)
+				viewModel.tribes = tribes
+				return viewModel
+			}()
+			TribesView(viewModel: viewModel)
 				.preferredColorScheme(.dark)
 		}
 	}
