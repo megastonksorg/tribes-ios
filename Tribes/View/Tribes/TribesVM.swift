@@ -30,7 +30,11 @@ extension TribesView {
 			AppRouter.pushStack(stack: .home(.createTribe))
 		}
 		
-		func getTribe() {
+		func joinTribe() {
+			AppRouter.pushStack(stack: .home(.joinTribe))
+		}
+		
+		func loadTribes() {
 			apiClient.getTribes()
 				.receive(on: DispatchQueue.main)
 				.sink(
@@ -46,10 +50,6 @@ extension TribesView {
 					}
 				)
 				.store(in: &cancellables)
-		}
-		
-		func joinTribe() {
-			AppRouter.pushStack(stack: .home(.joinTribe))
 		}
 		
 		func openTribeInvite() {
