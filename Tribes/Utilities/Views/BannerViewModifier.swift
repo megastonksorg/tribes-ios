@@ -10,8 +10,9 @@ import SwiftUI
 fileprivate let tintColorOpacity: CGFloat = 0.6
 
 struct BannerData: Equatable {
-	var title:String = ""
-	var detail:String
+	var timeOut: CGFloat = 4.0
+	var title: String = ""
+	var detail: String
 	var type: BannerType
 }
 
@@ -104,7 +105,7 @@ struct BannerViewModifier: ViewModifier {
 					
 				}
 				.onAppear {
-					DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+					DispatchQueue.main.asyncAfter(deadline: .now() + data.timeOut) {
 						self.dismissData()
 					}
 				}
