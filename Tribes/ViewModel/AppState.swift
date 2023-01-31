@@ -55,7 +55,11 @@ fileprivate let appStateKeyNotification: String = "appState"
 				}
 		case .logUserOut:
 			self.banner = BannerData(timeOut: 8.0, detail: "Authentication Failed. You will be logged out soon.", type: .error)
-			//Set the APPState here to Welcome
+			Task {
+				try await Task.sleep(for: .seconds(8.0))
+				keychainClient.clearAllKeys()
+				self.appMode = .welcome(WelcomePageView.ViewModel())
+			}
 		}
 	}
 	

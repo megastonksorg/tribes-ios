@@ -21,6 +21,7 @@ extension KeychainClientKey {
 protocol KeychainClientProtocol {
 	func get<Data: Codable>(key: KeychainClientKey<Data>) -> Data?
 	func set<Data: Codable>(key: KeychainClientKey<Data>, value: Data)
+	func clearAllKeys()
 }
 
 class KeychainClient: KeychainClientProtocol {
@@ -38,5 +39,9 @@ class KeychainClient: KeychainClientProtocol {
 		if let data = try? JSONEncoder().encode(value) {
 			KeychainWrapper.standard.set(data, forKey: key.name)
 		}
+	}
+	
+	func clearAllKeys() {
+		KeychainWrapper.standard.removeAllKeys()
 	}
 }
