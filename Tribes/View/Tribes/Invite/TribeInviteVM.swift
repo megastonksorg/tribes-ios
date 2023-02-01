@@ -5,20 +5,33 @@
 //  Created by Kingsley Okeke on 2023-01-24.
 //
 
+import Combine
 import Foundation
 import SwiftUI
 
 extension TribeInviteView {
 	@MainActor class ViewModel: ObservableObject {
 		static private let animationDelay: Double = 2.0
+		
 		let codeWords: [String]
 		let numberAnimation: Animation = .easeInOut(duration: animationDelay)
+		let pinRange: Range<Int> = 0..<1000000
+		
+		var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 		var randomPinTimer: Timer?
 		var tribe: Tribe
 		
 		@Published var code: String = ""
 		@Published var pin: Int = 0
+		@Published var pendingCode: String = ""
+		@Published var pendingPin: Int = 0
+		
+		@Published var didPinCodeGenerationFail: Bool = false
 		@Published var isCodeReady: Bool = false
+		
+		//Clients
+		private let apiClient: APIClient = APIClient.shared
+		private let walletClient: WalletClient = WalletClient.shared
 		
 		init(tribe: Tribe) {
 			self.codeWords = {
@@ -35,17 +48,20 @@ extension TribeInviteView {
 			self.tribe = tribe
 		}
 		
-		func didDisappear() {
-			self.randomPinTimer?.invalidate()
-			self.randomPinTimer = nil
+		func didAppear() {
+			generatePinCode()
 		}
 		
-		func setPinCode(code: Int) {
-			self.randomPinTimer?.invalidate()
-			self.randomPinTimer = nil
+		func didDisappear() {
+			invalidateTimer()
+		}
+		
+		func setPinCode() {
+			invalidateTimer()
+			self.didPinCodeGenerationFail = false
 			withAnimation(numberAnimation) {
-				self.pin = code
-				self.code = codeWords.randomElement()!
+				self.pin = self.pendingPin
+				self.code = self.pendingCode
 			}
 			Task {
 				try await Task.sleep(for: .seconds(TribeInviteView.ViewModel.animationDelay))
@@ -55,21 +71,56 @@ extension TribeInviteView {
 			}
 		}
 		
-		func setRandomPinTimer() {
+		func generatePinCode() {
 			self.isCodeReady = false
-			setRandomPin()
+			self.didPinCodeGenerationFail = false
+			self.pendingPin = .random(in: pinRange)
+			self.pendingCode = codeWords.randomElement()!
+			simulatePinGeneration()
+			validatePendingPinCode()
 			self.randomPinTimer = Timer.scheduledTimer(
 				timeInterval: 1.5,
 				target: self,
-				selector: #selector(setRandomPin),
+				selector: #selector(simulatePinGeneration),
 				userInfo: nil,
 				repeats: true
 			)
 		}
 		
-		@objc func setRandomPin() {
+		private func validatePendingPinCode() {
+			guard !self.pendingCode.isEmpty else { return }
+			let hashedCode: String = walletClient.hashMessage(message: "\(pendingPin):\(pendingCode)") ?? ""
+			self.apiClient
+				.inviteToTribe(tribeID: tribe.id, code: hashedCode)
+				.receive(on: DispatchQueue.main)
+				.sink(
+					receiveCompletion: { [weak self] completion in
+						switch completion {
+						case .finished: return
+						case .failure:
+							self?.invalidateTimer()
+							self?.didPinCodeGenerationFail = true
+						}
+					}, receiveValue: { [weak self] successResponse in
+						if successResponse.success {
+							self?.setPinCode()
+						} else {
+							self?.invalidateTimer()
+							self?.didPinCodeGenerationFail = true
+						}
+					}
+				)
+				.store(in: &self.cancellables)
+		}
+		
+		private func invalidateTimer() {
+			self.randomPinTimer?.invalidate()
+			self.randomPinTimer = nil
+		}
+		
+		@objc private func simulatePinGeneration() {
 			withAnimation(numberAnimation) {
-				self.pin = .random(in: 0..<1000000)
+				self.pin = .random(in: pinRange)
 			}
 		}
 	}
