@@ -363,6 +363,7 @@ struct TribeAvatar: View {
 			.buttonStyle(.insideScaling)
 			Button(action: { secondaryAction(self.tribe) }) {
 				TextView(name, style: .tribeName(nameSize))
+					.fixedSize(horizontal: true, vertical: false)
 			}
 			.buttonStyle(.insideScaling)
 		}
