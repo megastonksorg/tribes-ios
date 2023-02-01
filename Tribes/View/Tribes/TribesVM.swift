@@ -59,5 +59,13 @@ extension TribesView {
 		func closeTribeInvite() {
 			self.tribeInviteVM = nil
 		}
+		
+		func tribePrimaryActionTapped(_ tribe: Tribe) {
+			
+		}
+		
+		func tribeSecondaryActionTapped(_ tribe: Tribe) {
+			
+		}
 	}
 }

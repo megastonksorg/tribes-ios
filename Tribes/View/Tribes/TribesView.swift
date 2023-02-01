@@ -124,20 +124,20 @@ struct TribesView: View {
 		case 1:
 			VStack {
 				Spacer()
-				TribeAvatar(tribe: viewModel.tribes[0], size: 250, primaryAction: {}, secondaryAction: {})
+				tribeAvatar(tribe: viewModel.tribes[0], size: 250)
 				Spacer()
 			}
 		case 2:
 			VStack {
 				Spacer()
 				HStack {
-					TribeAvatar(tribe: viewModel.tribes[0], size: 200, primaryAction: {}, secondaryAction: {})
+					tribeAvatar(tribe: viewModel.tribes[0], size: 200)
 					Spacer()
 				}
 				Spacer()
 				HStack {
 					Spacer()
-					TribeAvatar(tribe: viewModel.tribes[1], size: 200, primaryAction: {}, secondaryAction: {})
+					tribeAvatar(tribe: viewModel.tribes[1], size: 200)
 				}
 				Spacer()
 			}
@@ -158,6 +158,16 @@ struct TribesView: View {
 				Circle()
 					.stroke(strokeColor)
 			)
+	}
+	
+	@ViewBuilder
+	func tribeAvatar(tribe: Tribe, size: CGFloat) -> some View {
+		TribeAvatar(
+			tribe: tribe,
+			size: size,
+			primaryAction: { viewModel.tribePrimaryActionTapped($0) },
+			secondaryAction: { viewModel.tribeSecondaryActionTapped($0) }
+		)
 	}
 	
 	@ViewBuilder

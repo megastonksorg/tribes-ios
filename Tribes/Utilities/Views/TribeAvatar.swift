@@ -10,16 +10,22 @@ import SwiftUI
 struct TribeAvatar: View {
 	let name: String
 	let members: [TribeMember]
+	let tribe: Tribe
 	
 	let maxSize: CGFloat
 	let nameSize: CGFloat
 	let size: CGFloat
 	let stackSize: CGFloat
 	
-	let primaryAction: () -> ()
-	let secondaryAction: () -> ()
+	let primaryAction: (_ tribe: Tribe) -> ()
+	let secondaryAction: (_ tribe: Tribe) -> ()
 	
-	init(tribe: Tribe, size: CGFloat, primaryAction: @escaping () -> (), secondaryAction: @escaping () -> ()) {
+	init(
+		tribe: Tribe,
+		size: CGFloat,
+		primaryAction: @escaping (_ tribe: Tribe) -> (),
+		secondaryAction: @escaping (_ tribe: Tribe) -> ()
+	) {
 		self.name = tribe.name
 		self.members = {
 			if let currentUser: User = KeychainClient.shared.get(key: .user) {
@@ -27,6 +33,8 @@ struct TribeAvatar: View {
 			}
 			return tribe.members
 		}()
+		self.tribe = tribe
+		
 		self.size = size
 		self.maxSize = size * 0.8
 		self.stackSize = maxSize * 0.9
@@ -43,7 +51,7 @@ struct TribeAvatar: View {
 	
 	var body: some View {
 		VStack {
-			Button(action: { primaryAction() }) {
+			Button(action: { primaryAction(self.tribe) }) {
 				Circle()
 					.fill(Color.app.primary)
 					.frame(dimension: size)
@@ -352,7 +360,7 @@ struct TribeAvatar: View {
 					}
 			}
 			.buttonStyle(.insideScaling)
-			Button(action: { secondaryAction() }) {
+			Button(action: { secondaryAction(self.tribe) }) {
 				TextView(name, style: .tribeName(nameSize))
 			}
 			.buttonStyle(.insideScaling)
@@ -374,8 +382,8 @@ struct TribeAvatar_Previews: PreviewProvider {
 				members: Array(repeating: TribeMember.noop, count: 10)
 			),
 			size: 200,
-			primaryAction: {},
-			secondaryAction: {}
+			primaryAction: { _ in },
+			secondaryAction: { _ in}
 		)
 	}
 }
