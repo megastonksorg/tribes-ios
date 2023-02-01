@@ -50,12 +50,14 @@ struct TribesView: View {
 							})
 						}
 					)
+					.padding(.horizontal)
 					
 					tribesView()
+						.padding(.horizontal, 30)
 					
 					Spacer()
 				}
-				.padding(.horizontal)
+				.pushOutFrame()
 			}
 			.background(Color.app.background)
 			.cardView(
@@ -145,7 +147,6 @@ struct TribesView: View {
 				}
 				Spacer()
 			}
-			.padding(.horizontal)
 		case 3:
 			let size: CGFloat = sizeWidth * 0.5
 			VStack {
@@ -160,12 +161,34 @@ struct TribesView: View {
 					tribeAvatar(tribe: viewModel.tribes[1], size: size)
 				}
 				HStack {
-					tribeAvatar(tribe: viewModel.tribes[0], size: size)
+					tribeAvatar(tribe: viewModel.tribes[2], size: size)
 					Spacer()
 				}
 				Spacer()
 			}
-			.padding(.horizontal)
+		case 4:
+			let size: CGFloat = sizeWidth * 0.4
+			VStack(spacing: size * 0.4) {
+				customHStack(
+					size: size,
+					contentA: {
+						tribeAvatar(tribe: viewModel.tribes[0], size: size)
+					},
+					contentB: {
+						tribeAvatar(tribe: viewModel.tribes[1], size: size)
+					}
+				)
+				.padding(.top)
+				customHStack(
+					size: size,
+					contentA: {
+						tribeAvatar(tribe: viewModel.tribes[2], size: size)
+					},
+					contentB: {
+						tribeAvatar(tribe: viewModel.tribes[3], size: size)
+					}
+				)
+			}
 		default:
 			EmptyView()
 		}
@@ -202,6 +225,16 @@ struct TribesView: View {
 			.frame(dimension: size)
 	}
 	
+	@ViewBuilder
+	func customHStack<ContentA: View, ContentB: View>(size: CGFloat, contentA: @escaping () -> ContentA, contentB: @escaping () -> ContentB) -> some View {
+		HStack {
+			contentA()
+			Spacer()
+			contentB()
+				.offset(y: size * 0.5)
+		}
+	}
+	
 	func showCardView() {
 		withAnimation(Animation.cardViewAppear) {
 			self.isShowingTribeInvite = true
@@ -221,7 +254,7 @@ struct TribesView_Previews: PreviewProvider {
 	static var previews: some View {
 		VStack { //Need to put the view in a container here to get the animation working correctly in the preview
 			let viewModel: TribesView.ViewModel = {
-				let tribes = IdentifiedArrayOf(uniqueElements: [Tribe.noop, Tribe.noop2, Tribe.noop3])
+				let tribes = IdentifiedArrayOf(uniqueElements: [Tribe.noop, Tribe.noop2, Tribe.noop3, Tribe.noop4])
 				let viewModel = TribesView.ViewModel(user: User.noop)
 				viewModel.tribes = tribes
 				return viewModel
