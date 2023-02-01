@@ -41,35 +41,43 @@ struct TribeInviteView: View {
 			
 			Spacer()
 			
-			HStack(spacing: 2) {
-				Color.clear
-					.modifier(NumberView(number: viewModel.pin))
-				
-				Text("-")
-				
-				Text(viewModel.code)
-					.font(viewModel.code.count < 15 ? Font.app.title2 : Font.app.subTitle)
-					.lineLimit(1)
-				
-				Button(action: {}) {
-					Image(systemName: "doc.on.doc.fill")
-						.font(Font.app.title3)
-						.foregroundColor(.gray)
+			ZStack {
+				HStack(spacing: 2) {
+					Color.clear
+						.modifier(NumberView(number: viewModel.pin))
+					
+					Text("-")
+					
+					Text(viewModel.code)
+						.font(viewModel.code.count < 15 ? Font.app.title2 : Font.app.subTitle)
+						.lineLimit(1)
+					
+					Button(action: {}) {
+						Image(systemName: "doc.on.doc.fill")
+							.font(Font.app.title3)
+							.foregroundColor(.gray)
+					}
+					.disabled(!viewModel.isCodeReady)
+					.opacity(viewModel.isCodeReady ? 1.0 : 0.5)
+					.transition(.opacity)
 				}
-				.disabled(!viewModel.isCodeReady)
-				.opacity(viewModel.isCodeReady ? 1.0 : 0.5)
-				.transition(.opacity)
+				.font(Font.app.title2)
+				.foregroundColor(.white)
+				.textCase(.uppercase)
+				.opacity(viewModel.didPinCodeGenerationFail ? 0.0 : 1.0)
+				
+				Text("Could Not Generate Pin Code")
+					.font(Font.app.subHeader)
+					.foregroundColor(Color.app.red)
+					.opacity(viewModel.didPinCodeGenerationFail ? 1.0 : 0.0)
 			}
-			.font(Font.app.title2)
-			.foregroundColor(.white)
-			.textCase(.uppercase)
 			
 			TextView("Pin code will expire in 5 minutes. You need a new pin code for each tribe member", style: .callout)
 				.fixedSize(horizontal: false, vertical: true)
 			
 			Spacer()
 			
-			Button(action: { viewModel.setRandomPinTimer() }) {
+			Button(action: { viewModel.generatePinCode() }) {
 				TextView("Tap here to generate a new one", style: .bodyTitle)
 			}
 			.disabled(!viewModel.isCodeReady)
@@ -78,16 +86,17 @@ struct TribeInviteView: View {
 			
 			Spacer()
 			
-			Button(action: { viewModel.setPinCode(code: 545468) }) {
+			Button(action: { }) {
 				Text("Share")
 			}
 			.buttonStyle(.expanded)
 			.padding(.horizontal, 80)
 			.fixedSize(horizontal: true, vertical: false)
+		
 		}
 		.multilineTextAlignment(.center)
 		.padding()
-		.onAppear { viewModel.setRandomPinTimer() }
+		.onAppear { viewModel.didAppear() }
 		.onDisappear { viewModel.didDisappear() }
 	}
 }
