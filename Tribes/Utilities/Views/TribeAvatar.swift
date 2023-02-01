@@ -42,7 +42,8 @@ struct TribeAvatar: View {
 			switch size {
 			case 0..<100: return 12
 			case 100..<250: return 15
-			default: return 20
+			case 250..<400: return 18
+			default: return 22
 			}
 		}()
 		self.primaryAction = primaryAction
