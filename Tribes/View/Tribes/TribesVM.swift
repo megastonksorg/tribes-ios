@@ -61,7 +61,9 @@ extension TribesView {
 		}
 		
 		func tribeSecondaryActionTapped(_ tribe: Tribe) {
-			
+			if tribe.members.count == 1 {
+				showTribeInviteCard(tribe: tribe)
+			}
 		}
 		
 		func showTribeInviteCard(tribe: Tribe) {
