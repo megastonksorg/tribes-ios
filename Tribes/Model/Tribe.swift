@@ -29,4 +29,9 @@ extension Tribe {
 		name: "Dark Thirty",
 		members: [TribeMember.noop]
 	)
+	static let noop4: Tribe = Tribe(
+		id: "4",
+		name: "Never Sorry",
+		members: [TribeMember.noop]
+	)
 }
