@@ -19,6 +19,6 @@ struct EULA {
 	If you have any questions or suggestions about these Terms and Conditions, do not hesitate to contact us.
 	
 	Contact Us
-	hello@megastonks.com
+ \(AppConstants.email)
 """
 }

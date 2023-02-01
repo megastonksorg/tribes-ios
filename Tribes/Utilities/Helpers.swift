@@ -9,6 +9,11 @@ import AVFoundation
 import Foundation
 import SwiftUI
 
+struct AppConstants {
+	static var email: String = "hello@megastonks.com"
+	static var website: String = "tribesapp.ca"
+}
+
 struct SizeConstants {
 	static let backgroundCircle: CGSize = CGSize(width: 300, height: 300)
 	static let cardInnerPadding: CGFloat = 4
