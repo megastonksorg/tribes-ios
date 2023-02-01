@@ -18,7 +18,11 @@ protocol APIRequests {
 	func registerUser(model: RegisterRequest) -> AnyPublisher<RegisterResponse, APIClientError>
 	func uploadImage(imageData: Data) -> AnyPublisher<URL, APIClientError>
 	//Tribe
+	func createTribe(name: String) -> AnyPublisher<Tribe, APIClientError>
 	func getTribes() -> AnyPublisher<[Tribe], APIClientError>
+	func inviteToTribe(tribeID: Tribe.ID, code: String) -> AnyPublisher<SuccessResponse, APIClientError>
+	func joinTribe(pin: String, code: String) -> AnyPublisher<Tribe, APIClientError>
+	func leaveTribe(tribeID: Tribe.ID) -> AnyPublisher<SuccessResponse, APIClientError>
 }
 
 final class APIClient: APIRequests {
@@ -76,6 +80,16 @@ final class APIClient: APIRequests {
 	}
 	
 	//Tribes
+	func createTribes(name: String) -> AnyPublisher<Tribe, APIClientError> {
+		let createTribeRequest = APPUrlRequest(
+			httpMethod: .post,
+			pathComponents: ["tribe", "create"],
+			query: [URLQueryItem(name: "name", value: name)],
+			requiresAuth: true
+		)
+		return apiRequest(appRequest: createTribeRequest, output: Tribe.self)
+	}
+	
 	func getTribes() -> AnyPublisher<[Tribe], APIClientError> {
 		let getTribesRequest = APPUrlRequest(
 			httpMethod: .get,
