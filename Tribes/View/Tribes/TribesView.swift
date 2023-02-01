@@ -189,6 +189,37 @@ struct TribesView: View {
 					}
 				)
 			}
+		case 5:
+			let size: CGFloat = sizeWidth * 0.4
+			VStack(spacing: size * 0.4) {
+				customHStack(
+					size: size,
+					contentA: {
+						tribeAvatar(tribe: viewModel.tribes[0], size: size)
+					},
+					contentB: {
+						tribeAvatar(tribe: viewModel.tribes[1], size: size)
+					}
+				)
+				customHStack(
+					size: size,
+					contentA: {
+						tribeAvatar(tribe: viewModel.tribes[2], size: size)
+					},
+					contentB: {
+						tribeAvatar(tribe: viewModel.tribes[3], size: size)
+					}
+				)
+				customHStack(
+					size: size,
+					contentA: {
+						tribeAvatar(tribe: viewModel.tribes[4], size: size)
+					},
+					contentB: {
+						EmptyView()
+					}
+				)
+			}
 		default:
 			EmptyView()
 		}
@@ -254,7 +285,15 @@ struct TribesView_Previews: PreviewProvider {
 	static var previews: some View {
 		VStack { //Need to put the view in a container here to get the animation working correctly in the preview
 			let viewModel: TribesView.ViewModel = {
-				let tribes = IdentifiedArrayOf(uniqueElements: [Tribe.noop, Tribe.noop2, Tribe.noop3, Tribe.noop4])
+				let tribes = IdentifiedArrayOf(
+					uniqueElements: [
+						Tribe.noop,
+						Tribe.noop2,
+						Tribe.noop3,
+						Tribe.noop4,
+						Tribe.noop5
+					]
+				)
 				let viewModel = TribesView.ViewModel(user: User.noop)
 				viewModel.tribes = tribes
 				return viewModel
