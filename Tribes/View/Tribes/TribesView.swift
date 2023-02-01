@@ -221,7 +221,15 @@ struct TribesView: View {
 				)
 			}
 		default:
-			EmptyView()
+			let size: CGFloat = sizeWidth * 0.4
+			ScrollView(.vertical, showsIndicators: false) {
+				LazyVGrid(columns: Array(repeating: GridItem(), count: 2)) {
+					ForEach(viewModel.tribes) {
+						tribeAvatar(tribe: $0, size: size)
+							.padding(.top)
+					}
+				}
+			}
 		}
 	}
 	
@@ -291,7 +299,9 @@ struct TribesView_Previews: PreviewProvider {
 						Tribe.noop2,
 						Tribe.noop3,
 						Tribe.noop4,
-						Tribe.noop5
+						Tribe.noop5,
+						Tribe.noop6,
+						Tribe.noop7
 					]
 				)
 				let viewModel = TribesView.ViewModel(user: User.noop)
