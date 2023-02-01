@@ -90,6 +90,7 @@ struct TribeInviteView: View {
 				Text("Share")
 			}
 			.buttonStyle(.expanded)
+			.disabled(!viewModel.isCodeReady)
 			.padding(.horizontal, 80)
 			.fixedSize(horizontal: true, vertical: false)
 		
