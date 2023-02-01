@@ -50,6 +50,8 @@ struct TextViewModifier: ViewModifier {
 			content
 				.font(.system(size: size, weight: .medium, design: .rounded))
 				.foregroundColor(Color.app.tertiary)
+				.multilineTextAlignment(.center)
+				.lineLimit(2)
 		}
 	}
 }

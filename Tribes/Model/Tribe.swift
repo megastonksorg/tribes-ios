@@ -26,12 +26,17 @@ extension Tribe {
 	)
 	static let noop3: Tribe = Tribe(
 		id: "3",
-		name: "Dark Thirty",
+		name: "Men do not Lie. That is a fact 📠 ",
 		members: [TribeMember.noop]
 	)
 	static let noop4: Tribe = Tribe(
 		id: "4",
-		name: "Never Sorry",
+		name: "Stop The Count",
+		members: [TribeMember.noop]
+	)
+	static let noop5: Tribe = Tribe(
+		id: "5",
+		name: "Are you coming or not?",
 		members: [TribeMember.noop]
 	)
 }
