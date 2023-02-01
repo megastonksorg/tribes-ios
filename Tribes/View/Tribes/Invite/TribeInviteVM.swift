@@ -59,9 +59,11 @@ extension TribeInviteView {
 		func setPinCode() {
 			invalidateTimer()
 			self.didPinCodeGenerationFail = false
+			withAnimation(.easeInOut) {
+				self.code = self.pendingCode
+			}
 			withAnimation(numberAnimation) {
 				self.pin = self.pendingPin
-				self.code = self.pendingCode
 			}
 			Task {
 				try await Task.sleep(for: .seconds(TribeInviteView.ViewModel.animationDelay))
