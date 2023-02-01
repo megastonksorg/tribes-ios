@@ -12,6 +12,7 @@ struct TribesView: View {
 	
 	@State var isShowingTribeInvite: Bool = false
 	@StateObject var viewModel: ViewModel
+	@State var sizeWidth: CGFloat = UIScreen.main.bounds.maxX > 500 ? 500 :  UIScreen.main.bounds.maxX
 	
 	init(viewModel: ViewModel) {
 		self._viewModel = StateObject(wrappedValue: viewModel)
@@ -122,22 +123,45 @@ struct TribesView: View {
 				Spacer()
 			}
 		case 1:
+			let size: CGFloat = sizeWidth * 0.7
 			VStack {
 				Spacer()
-				tribeAvatar(tribe: viewModel.tribes[0], size: 250)
+				tribeAvatar(tribe: viewModel.tribes[0], size: size)
 				Spacer()
 			}
 		case 2:
+			let size: CGFloat = sizeWidth * 0.6
 			VStack {
 				Spacer()
 				HStack {
-					tribeAvatar(tribe: viewModel.tribes[0], size: 200)
+					tribeAvatar(tribe: viewModel.tribes[0], size: size)
 					Spacer()
 				}
+				.padding(.top)
 				Spacer()
 				HStack {
 					Spacer()
-					tribeAvatar(tribe: viewModel.tribes[1], size: 200)
+					tribeAvatar(tribe: viewModel.tribes[1], size: size)
+				}
+				Spacer()
+			}
+			.padding(.horizontal)
+		case 3:
+			let size: CGFloat = sizeWidth * 0.5
+			VStack {
+				Spacer()
+				HStack {
+					tribeAvatar(tribe: viewModel.tribes[0], size: size)
+					Spacer()
+				}
+				.padding(.top)
+				HStack {
+					Spacer()
+					tribeAvatar(tribe: viewModel.tribes[1], size: size)
+				}
+				HStack {
+					tribeAvatar(tribe: viewModel.tribes[0], size: size)
+					Spacer()
 				}
 				Spacer()
 			}
@@ -197,7 +221,7 @@ struct TribesView_Previews: PreviewProvider {
 	static var previews: some View {
 		VStack { //Need to put the view in a container here to get the animation working correctly in the preview
 			let viewModel: TribesView.ViewModel = {
-				let tribes = IdentifiedArrayOf(uniqueElements: [Tribe.noop, Tribe.noop2])
+				let tribes = IdentifiedArrayOf(uniqueElements: [Tribe.noop, Tribe.noop2, Tribe.noop3])
 				let viewModel = TribesView.ViewModel(user: User.noop)
 				viewModel.tribes = tribes
 				return viewModel
