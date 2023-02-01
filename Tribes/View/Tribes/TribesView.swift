@@ -124,39 +124,26 @@ struct TribesView: View {
 		case 1:
 			VStack {
 				Spacer()
-				TribeAvatar(tribe: viewModel.tribes[0], size: 250)
+				TribeAvatar(tribe: viewModel.tribes[0], size: 250, primaryAction: {}, secondaryAction: {})
 				Spacer()
 			}
 		case 2:
 			VStack {
 				Spacer()
 				HStack {
-					TribeAvatar(tribe: viewModel.tribes[0], size: 200)
+					TribeAvatar(tribe: viewModel.tribes[0], size: 200, primaryAction: {}, secondaryAction: {})
 					Spacer()
 				}
 				Spacer()
 				HStack {
 					Spacer()
-					TribeAvatar(tribe: viewModel.tribes[1], size: 200)
+					TribeAvatar(tribe: viewModel.tribes[1], size: 200, primaryAction: {}, secondaryAction: {})
 				}
 				Spacer()
 			}
 			.padding(.horizontal)
 		default:
-			HStack {
-				Button(action: {}) {
-					TribeAvatar(
-						tribe: Tribe(
-							id: "1",
-							name: "The boys",
-							members: Array(repeating: TribeMember.noop, count: 4)
-						),
-						size: 200
-					)
-				}
-				.buttonStyle(.insideScaling)
-			}
-			.padding(.top, 20)
+			EmptyView()
 		}
 	}
 	
