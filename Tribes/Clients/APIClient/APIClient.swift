@@ -125,6 +125,16 @@ final class APIClient: APIRequests {
 		return apiRequest(appRequest: joinTribeRequest, output: Tribe.self)
 	}
 	
+	func leaveTribe(tribeID: Tribe.ID) -> AnyPublisher<SuccessResponse, APIClientError> {
+		let leaveTribeRequest = APPUrlRequest(
+			httpMethod: .post,
+			pathComponents: ["tribe", "leave"],
+			query: [URLQueryItem(name: "id", value: tribeID)],
+			requiresAuth: true
+		)
+		return apiRequest(appRequest: leaveTribeRequest, output: SuccessResponse.self)
+	}
+	
 	private func apiRequest<Output: Decodable>(appRequest: APPUrlRequest, output: Output.Type) -> AnyPublisher<Output, APIClientError> {
 		do {
 			return try urlRequest(urlRequest: appRequest.urlRequest)
