@@ -17,7 +17,7 @@ extension Tribe {
 	static let noop: Tribe = Tribe(
 		id: "1",
 		name: "It's The Boys",
-		members: [TribeMember.noop]
+		members: []
 	)
 	static let noop2: Tribe = Tribe(
 		id: "2",

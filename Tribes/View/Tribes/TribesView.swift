@@ -9,8 +9,6 @@ import SwiftUI
 import IdentifiedCollections
 
 struct TribesView: View {
-	
-	@State var isShowingTribeInvite: Bool = false
 	@StateObject var viewModel: ViewModel
 	@State var sizeWidth: CGFloat = UIScreen.main.bounds.maxX > 500 ? 500 :  UIScreen.main.bounds.maxX
 	
@@ -26,7 +24,7 @@ struct TribesView: View {
 							TextView("Tribes", style: .appTitle)
 						},
 						leading: {
-							Button(action: { showCardView() }) {
+							Button(action: {  }) {
 								UserAvatar(url: viewModel.user.profilePhoto)
 									.frame(dimension: 50)
 							}
@@ -61,12 +59,15 @@ struct TribesView: View {
 			}
 			.background(Color.app.background)
 			.cardView(
-				isShowing: $isShowingTribeInvite,
-				dismissAction: { dismissCardView() }
+				isShowing: $viewModel.isShowingTribeInvite,
+				dismissAction: { viewModel.dismissTribeInviteCard() }
 			) {
 				Group {
 					if let inviteVM = viewModel.tribeInviteVM {
-						TribeInviteView(dismissAction: { dismissCardView() }, viewModel: inviteVM)
+						TribeInviteView(
+							dismissAction: { viewModel.dismissTribeInviteCard() },
+							viewModel: inviteVM
+						)
 					}
 				}
 			}
@@ -273,20 +274,6 @@ struct TribesView: View {
 				.offset(y: size * 0.5)
 		}
 	}
-	
-	func showCardView() {
-		withAnimation(Animation.cardViewAppear) {
-			self.isShowingTribeInvite = true
-			viewModel.openTribeInvite()
-		}
-	}
-	
-	func dismissCardView() {
-		withAnimation(Animation.cardViewDisappear) {
-			self.isShowingTribeInvite = false
-			viewModel.closeTribeInvite()
-		}
-	}
 }
 
 struct TribesView_Previews: PreviewProvider {
@@ -299,13 +286,10 @@ struct TribesView_Previews: PreviewProvider {
 						Tribe.noop2,
 						Tribe.noop3,
 						Tribe.noop4,
-						Tribe.noop5,
-						Tribe.noop6,
-						Tribe.noop7
+						Tribe.noop5
 					]
 				)
-				let viewModel = TribesView.ViewModel(user: User.noop)
-				viewModel.tribes = tribes
+				let viewModel = TribesView.ViewModel(tribes: tribes, user: User.noop)
 				return viewModel
 			}()
 			TribesView(viewModel: viewModel)

@@ -21,6 +21,8 @@ extension TribesView {
 		@Published var tribes: IdentifiedArrayOf<Tribe>
 		@Published var user: User
 		
+		@Published var isShowingTribeInvite: Bool = false
+		
 		init(tribes: IdentifiedArrayOf<Tribe> = [], user: User) {
 			self.tribes = tribes
 			self.user = user
@@ -52,20 +54,28 @@ extension TribesView {
 				.store(in: &cancellables)
 		}
 		
-		func openTribeInvite() {
-			self.tribeInviteVM = TribeInviteView.ViewModel(tribe: Tribe.noop)
-		}
-		
-		func closeTribeInvite() {
-			self.tribeInviteVM = nil
-		}
-		
 		func tribePrimaryActionTapped(_ tribe: Tribe) {
-			
+			if tribe.members.count == 1 {
+				showTribeInviteCard(tribe: tribe)
+			}
 		}
 		
 		func tribeSecondaryActionTapped(_ tribe: Tribe) {
 			
+		}
+		
+		func showTribeInviteCard(tribe: Tribe) {
+			withAnimation(Animation.cardViewAppear) {
+				self.isShowingTribeInvite = true
+				self.tribeInviteVM = TribeInviteView.ViewModel(tribe: tribe)
+			}
+		}
+		
+		func dismissTribeInviteCard() {
+			withAnimation(Animation.cardViewDisappear) {
+				self.isShowingTribeInvite = false
+				self.tribeInviteVM = nil
+			}
 		}
 	}
 }
