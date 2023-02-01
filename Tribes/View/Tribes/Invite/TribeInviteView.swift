@@ -83,6 +83,7 @@ struct TribeInviteView: View {
 			}
 			.buttonStyle(.expanded)
 			.padding(.horizontal, 80)
+			.fixedSize(horizontal: true, vertical: false)
 		}
 		.multilineTextAlignment(.center)
 		.padding()
