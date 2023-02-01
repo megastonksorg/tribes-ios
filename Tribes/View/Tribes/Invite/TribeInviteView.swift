@@ -88,6 +88,7 @@ struct TribeInviteView: View {
 		.multilineTextAlignment(.center)
 		.padding()
 		.onAppear { viewModel.setRandomPinTimer() }
+		.onDisappear { viewModel.didDisappear() }
 	}
 }
 

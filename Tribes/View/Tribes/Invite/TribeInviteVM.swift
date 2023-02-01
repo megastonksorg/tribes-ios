@@ -35,6 +35,11 @@ extension TribeInviteView {
 			self.tribe = tribe
 		}
 		
+		func didDisappear() {
+			self.randomPinTimer?.invalidate()
+			self.randomPinTimer = nil
+		}
+		
 		func setPinCode(code: Int) {
 			self.randomPinTimer?.invalidate()
 			self.randomPinTimer = nil
