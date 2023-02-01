@@ -80,7 +80,7 @@ final class APIClient: APIRequests {
 	}
 	
 	//Tribes
-	func createTribes(name: String) -> AnyPublisher<Tribe, APIClientError> {
+	func createTribe(name: String) -> AnyPublisher<Tribe, APIClientError> {
 		let createTribeRequest = APPUrlRequest(
 			httpMethod: .post,
 			pathComponents: ["tribe", "create"],
@@ -110,6 +110,19 @@ final class APIClient: APIRequests {
 			requiresAuth: true
 		)
 		return apiRequest(appRequest: inviteToTribeRequest, output: SuccessResponse.self)
+	}
+	
+	func joinTribe(pin: String, code: String) -> AnyPublisher<Tribe, APIClientError> {
+		let joinTribeRequest = APPUrlRequest(
+			httpMethod: .post,
+			pathComponents: ["tribe", "join"],
+			query: [
+				URLQueryItem(name: "pin", value: pin),
+				URLQueryItem(name: "code", value: code)
+			],
+			requiresAuth: true
+		)
+		return apiRequest(appRequest: joinTribeRequest, output: Tribe.self)
 	}
 	
 	private func apiRequest<Output: Decodable>(appRequest: APPUrlRequest, output: Output.Type) -> AnyPublisher<Output, APIClientError> {
