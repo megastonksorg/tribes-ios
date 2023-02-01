@@ -99,6 +99,19 @@ final class APIClient: APIRequests {
 		return apiRequest(appRequest: getTribesRequest, output: [Tribe].self)
 	}
 	
+	func inviteToTribe(tribeID: Tribe.ID, code: String) -> AnyPublisher<SuccessResponse, APIClientError> {
+		let inviteToTribeRequest = APPUrlRequest(
+			httpMethod: .post,
+			pathComponents: ["tribe", "invite"],
+			query: [
+				URLQueryItem(name: "tribeId", value: tribeID),
+				URLQueryItem(name: "code", value: code)
+			],
+			requiresAuth: true
+		)
+		return apiRequest(appRequest: inviteToTribeRequest, output: SuccessResponse.self)
+	}
+	
 	private func apiRequest<Output: Decodable>(appRequest: APPUrlRequest, output: Output.Type) -> AnyPublisher<Output, APIClientError> {
 		do {
 			return try urlRequest(urlRequest: appRequest.urlRequest)
