@@ -43,6 +43,22 @@ struct TribeAvatar: View {
 				.frame(dimension: size)
 				.overlay {
 					switch members.count {
+					case 0:
+						let fontSize: CGFloat = size * 0.15
+						VStack(spacing: 10) {
+							Spacer()
+							Image(systemName: "plus.circle.fill")
+								.font(.system(size: fontSize))
+								.foregroundColor(Color.app.tertiary)
+							Spacer()
+						}
+						.frame(maxWidth: .infinity)
+						.overlay(alignment: .center) {
+							HStack {
+								TextView("Assemble Your Tribe", style: .tribeName(fontSize * 0.4))
+									.offset(y: fontSize)
+							}
+						}
 					case 1:
 						userAvatar(user: members[0])
 							.frame(dimension: maxSize)
