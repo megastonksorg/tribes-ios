@@ -86,13 +86,21 @@ struct TribeInviteView: View {
 			
 			Spacer()
 			
-			Button(action: { }) {
+			ShareLink(item: viewModel.shareSheetItem) {
 				Text("Share")
+				.font(Font.app.title3)
+				.textCase(.uppercase)
+				.foregroundColor(Color.white)
+				.padding()
+				.padding(.horizontal)
+				.background(
+					RoundedRectangle(cornerRadius: SizeConstants.cornerRadius)
+						.fill(Color.app.secondary)
+				)
+				.fixedSize(horizontal: true, vertical: false)
 			}
-			.buttonStyle(.expanded)
 			.disabled(!viewModel.isCodeReady)
-			.padding(.horizontal, 80)
-			.fixedSize(horizontal: true, vertical: false)
+			.opacity(viewModel.isCodeReady ? 1.0 : 0.5)
 		
 		}
 		.multilineTextAlignment(.center)

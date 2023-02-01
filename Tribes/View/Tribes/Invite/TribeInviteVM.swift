@@ -21,6 +21,10 @@ extension TribeInviteView {
 		var randomPinTimer: Timer?
 		var tribe: Tribe
 		
+		var shareSheetItem: String {
+			"Join my Tribe. Your secret pin code is \"\(pin)-\(code)\".\n\nIt expires in 5 minutes. \n\nDownload now @ \(AppConstants.website)"
+		}
+		
 		@Published var code: String = ""
 		@Published var pin: Int = 0
 		@Published var pendingCode: String = ""
