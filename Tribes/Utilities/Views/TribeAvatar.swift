@@ -363,7 +363,7 @@ struct TribeAvatar: View {
 			.buttonStyle(.insideScaling)
 			Button(action: { secondaryAction(self.tribe) }) {
 				TextView(name, style: .tribeName(nameSize))
-					.fixedSize(horizontal: true, vertical: false)
+					.fixedSize(horizontal: false, vertical: true)
 			}
 			.buttonStyle(.insideScaling)
 		}
@@ -377,15 +377,30 @@ struct TribeAvatar: View {
 
 struct TribeAvatar_Previews: PreviewProvider {
 	static var previews: some View {
-		TribeAvatar(
-			tribe: Tribe(
-				id: "1",
-				name: "Dinner Everyday",
-				members: Array(repeating: TribeMember.noop, count: 10)
-			),
-			size: 200,
-			primaryAction: { _ in },
-			secondaryAction: { _ in}
-		)
+		VStack {
+			HStack {
+				TribeAvatar(
+					tribe: Tribe(
+						id: "1",
+						name: "Body does not Lie. But do not for one second think that this is",
+						members: Array(repeating: TribeMember.noop, count: 10)
+					),
+					size: 180,
+					primaryAction: { _ in },
+					secondaryAction: { _ in}
+				)
+				Spacer()
+				TribeAvatar(
+					tribe: Tribe(
+						id: "1",
+						name: "Body does not Lie. But do not think that I would",
+						members: Array(repeating: TribeMember.noop, count: 10)
+					),
+					size: 180,
+					primaryAction: { _ in },
+					secondaryAction: { _ in}
+				)
+			}
+		}
 	}
 }
