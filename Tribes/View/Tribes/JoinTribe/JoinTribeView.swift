@@ -113,7 +113,8 @@ struct JoinTribeView: View {
 								tribe: tribe,
 								size: 260,
 								primaryAction: {_ in},
-								secondaryAction: {_ in}
+								secondaryAction: {_ in},
+								leaveAction: {_ in}
 							)
 							Spacer()
 						}

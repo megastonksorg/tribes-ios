@@ -17,14 +17,19 @@ struct TribeAvatar: View {
 	let size: CGFloat
 	let stackSize: CGFloat
 	
+	let shouldShowContextMenu: Bool
+	
 	let primaryAction: (_ tribe: Tribe) -> ()
 	let secondaryAction: (_ tribe: Tribe) -> ()
+	let leaveAction: (_ tribe: Tribe) -> ()
 	
 	init(
 		tribe: Tribe,
 		size: CGFloat,
+		showContextMenu: Bool = true,
 		primaryAction: @escaping (_ tribe: Tribe) -> (),
-		secondaryAction: @escaping (_ tribe: Tribe) -> ()
+		secondaryAction: @escaping (_ tribe: Tribe) -> (),
+		leaveAction: @escaping (_ tribe: Tribe) -> ()
 	) {
 		self.name = tribe.name
 		self.members = {
@@ -46,11 +51,22 @@ struct TribeAvatar: View {
 			default: return 22
 			}
 		}()
+		
+		self.shouldShowContextMenu = showContextMenu
+		
 		self.primaryAction = primaryAction
 		self.secondaryAction = secondaryAction
+		self.leaveAction = leaveAction
 	}
 	
 	var body: some View {
+		let contextMenu = ContextMenu {
+			if let leaveAction = self.leaveAction {
+				Button { leaveAction(self.tribe) } label: {
+					Label("Leave", systemImage: "rectangle.portrait.and.arrow.forward.fill")
+				}
+			}
+		}
 		VStack {
 			Button(action: { primaryAction(self.tribe) }) {
 				Circle()
@@ -361,6 +377,7 @@ struct TribeAvatar: View {
 					}
 			}
 			.buttonStyle(.insideScaling)
+			.contextMenu(shouldShowContextMenu ? contextMenu : nil)
 			Button(action: { secondaryAction(self.tribe) }) {
 				TextView(name, style: .tribeName(nameSize))
 					.fixedSize(horizontal: false, vertical: true)
@@ -387,7 +404,8 @@ struct TribeAvatar_Previews: PreviewProvider {
 					),
 					size: 180,
 					primaryAction: { _ in },
-					secondaryAction: { _ in}
+					secondaryAction: { _ in},
+					leaveAction: { _ in }
 				)
 				Spacer()
 				TribeAvatar(
@@ -397,8 +415,9 @@ struct TribeAvatar_Previews: PreviewProvider {
 						members: Array(repeating: TribeMember.noop, count: 10)
 					),
 					size: 180,
-					primaryAction: { _ in },
-					secondaryAction: { _ in}
+					primaryAction: {_ in},
+					secondaryAction: {_ in},
+					leaveAction: { _ in }
 				)
 			}
 		}
