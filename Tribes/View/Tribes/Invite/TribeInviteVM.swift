@@ -78,6 +78,7 @@ extension TribeInviteView {
 		}
 		
 		func generatePinCode() {
+			invalidateTimer()
 			self.isCodeReady = false
 			self.didPinCodeGenerationFail = false
 			self.pendingPin = .random(in: pinRange)
