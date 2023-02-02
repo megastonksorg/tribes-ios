@@ -66,6 +66,10 @@ extension TribesView {
 			}
 		}
 		
+		func tribeInviteActionTapped(_ tribe: Tribe) {
+			showTribeInviteCard(tribe: tribe)
+		}
+		
 		func showTribeInviteCard(tribe: Tribe) {
 			withAnimation(Animation.cardViewAppear) {
 				self.isShowingTribeInvite = true

@@ -21,7 +21,7 @@ struct TribeAvatar: View {
 	
 	let primaryAction: (_ tribe: Tribe) -> ()
 	let secondaryAction: (_ tribe: Tribe) -> ()
-	let inviteToTribeAction: (_ tribe: Tribe) -> ()
+	let inviteAction: (_ tribe: Tribe) -> ()
 	let leaveAction: (_ tribe: Tribe) -> ()
 	
 	var isInviteButtonEnabled: Bool {
@@ -34,7 +34,7 @@ struct TribeAvatar: View {
 		showContextMenu: Bool = true,
 		primaryAction: @escaping (_ tribe: Tribe) -> (),
 		secondaryAction: @escaping (_ tribe: Tribe) -> (),
-		inviteToTribeAction: @escaping (_ tribe: Tribe) -> (),
+		inviteAction: @escaping (_ tribe: Tribe) -> (),
 		leaveAction: @escaping (_ tribe: Tribe) -> ()
 	) {
 		self.name = tribe.name
@@ -62,14 +62,14 @@ struct TribeAvatar: View {
 		
 		self.primaryAction = primaryAction
 		self.secondaryAction = secondaryAction
-		self.inviteToTribeAction = inviteToTribeAction
+		self.inviteAction = inviteAction
 		self.leaveAction = leaveAction
 	}
 	
 	var body: some View {
 		let contextMenu = ContextMenu {
 			Group {
-				Button { leaveAction(self.tribe) } label: {
+				Button { inviteAction(self.tribe) } label: {
 					Label("Invite", systemImage: "person.fill.badge.plus")
 				}
 				.disabled(!isInviteButtonEnabled)
@@ -419,7 +419,7 @@ struct TribeAvatar_Previews: PreviewProvider {
 					size: 180,
 					primaryAction: { _ in },
 					secondaryAction: { _ in},
-					inviteToTribeAction: {_ in},
+					inviteAction: {_ in},
 					leaveAction: { _ in }
 				)
 				Spacer()
@@ -432,7 +432,7 @@ struct TribeAvatar_Previews: PreviewProvider {
 					size: 180,
 					primaryAction: {_ in},
 					secondaryAction: {_ in},
-					inviteToTribeAction: {_ in},
+					inviteAction: {_ in},
 					leaveAction: { _ in }
 				)
 			}

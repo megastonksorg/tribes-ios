@@ -249,13 +249,12 @@ struct TribesView: View {
 	
 	@ViewBuilder
 	func tribeAvatar(tribe: Tribe, size: CGFloat) -> some View {
-		
 		TribeAvatar(
 			tribe: tribe,
 			size: size,
 			primaryAction: { viewModel.tribePrimaryActionTapped($0) },
 			secondaryAction: { viewModel.tribeSecondaryActionTapped($0) },
-			inviteToTribeAction: {_ in},
+			inviteAction: { viewModel.tribeInviteActionTapped($0) },
 			leaveAction: { _ in }
 		)
 	}
