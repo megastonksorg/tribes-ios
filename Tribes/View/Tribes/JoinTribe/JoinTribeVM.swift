@@ -26,7 +26,7 @@ extension JoinTribeView {
 		@Published var code: String = ""
 		@Published var pin: String = ""
 		@Published var stage: Stage = .pin
-		@Published var isLoading: Bool = true
+		@Published var isLoading: Bool = false
 		@Published var isShowingPasteButton: Bool = false
 		@Published var banner: BannerData?
 		
