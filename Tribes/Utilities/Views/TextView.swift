@@ -14,6 +14,7 @@ struct TextViewModifier: ViewModifier {
 		case callout
 		case error
 		case hint
+		case largeTitle
 		case pageTitle
 		case pageSubTitle
 		case tribeName(_ size: CGFloat)
@@ -43,6 +44,10 @@ struct TextViewModifier: ViewModifier {
 			content
 				.font(Font.app.caption)
 				.foregroundColor(.gray)
+		case .largeTitle:
+			content
+				.font(Font.app.title)
+				.foregroundColor(Color.app.tertiary)
 		case .pageTitle:
 			content
 				.font(Font.app.title3)
