@@ -120,7 +120,7 @@ extension JoinTribeView {
 						}, receiveValue: { [weak self]  tribe in
 							self?.isLoading = false
 							self?.tribe = tribe
-							withAnimation(.easeInOut) {
+							withAnimation(.easeInOut(duration: 0.5)) {
 								self?.stage = .joined
 							}
 						}

@@ -21,6 +21,7 @@ struct JoinTribeView: View {
 			if viewModel.stage != .joined {
 				TextView(viewModel.pageSubtitle, style: .pageSubTitle)
 					.multilineTextAlignment(.center)
+					.fixedSize(horizontal: false, vertical: true)
 					.padding(.top, SizeConstants.subTitleSpacing)
 					.transition(.move(edge: .leading))
 			}
