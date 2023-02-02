@@ -77,7 +77,7 @@ struct TribeAvatar: View {
 							let fontSize: CGFloat = size * 0.15
 							VStack(spacing: 10) {
 								Spacer()
-								Image(systemName: "plus.circle.fill")
+								Image(systemName: "person.3.fill")
 									.font(.system(size: fontSize))
 									.foregroundColor(Color.app.tertiary)
 								Spacer()
