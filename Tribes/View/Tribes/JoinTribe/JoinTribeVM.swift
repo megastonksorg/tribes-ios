@@ -5,6 +5,7 @@
 //  Created by Kingsley Okeke on 2023-01-24.
 //
 
+import Combine
 import Foundation
 import SwiftUI
 
@@ -19,6 +20,14 @@ extension JoinTribeView {
 			case pin
 			case code
 		}
+		
+		private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
+		
+		@Published var code: String = ""
+		@Published var pin: String = ""
+		@Published var stage: Stage = .pin
+		@Published var isShowingPasteButton: Bool = false
+		@Published var banner: BannerData?
 		
 		var codeFontSize: CGFloat {
 			if code.count > 12 {
@@ -52,10 +61,8 @@ extension JoinTribeView {
 			}
 		}
 		
-		@Published var code: String = ""
-		@Published var isShowingPasteButton: Bool = false
-		@Published var pin: String = ""
-		@Published var stage: Stage = .pin
+		//Clients
+		let apiClient: APIClient = APIClient.shared
 		
 		init() {
 			
@@ -93,7 +100,21 @@ extension JoinTribeView {
 					self.stage = .code
 				}
 			case .code:
-				print("")
+				self.apiClient
+					.joinTribe(pin: self.pin, code: self.code)
+					.receive(on: DispatchQueue.main)
+					.sink(
+						receiveCompletion: { [weak self] completion in
+							switch completion {
+							case .finished: return
+							case .failure(let error):
+								self?.banner = BannerData(error: error)
+						}
+						}, receiveValue: { _ in
+							
+						}
+					)
+					.store(in: &cancellables)
 			}
 		}
 		

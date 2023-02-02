@@ -129,6 +129,7 @@ struct JoinTribeView: View {
 			.padding(.bottom)
 		}
 		.pushOutFrame()
+		.banner(data: self.$viewModel.banner)
 		.background(Color.app.background)
 		.toolbar {
 			ToolbarItem(placement: .principal) {
