@@ -42,6 +42,16 @@ struct TribeInviteView: View {
 			Spacer()
 			
 			ZStack {
+				let font: Font = {
+					let wordCount: Int = viewModel.code.count
+					if wordCount < 15 {
+						return Font.app.title2
+					} else if wordCount < 20 {
+						return Font.app.subTitle
+					} else {
+						return Font.app.callout
+					}
+				}()
 				HStack(spacing: 2) {
 					Color.clear
 						.modifier(NumberView(number: viewModel.pin))
@@ -49,7 +59,7 @@ struct TribeInviteView: View {
 					Text("-")
 					
 					Text(viewModel.code)
-						.font(viewModel.code.count < 15 ? Font.app.title2 : Font.app.subTitle)
+						.font(font)
 						.lineLimit(1)
 					
 					Button(action: {}) {
