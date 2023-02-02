@@ -26,6 +26,7 @@ extension JoinTribeView {
 		@Published var code: String = ""
 		@Published var pin: String = ""
 		@Published var stage: Stage = .pin
+		@Published var isLoading: Bool = true
 		@Published var isShowingPasteButton: Bool = false
 		@Published var banner: BannerData?
 		
@@ -100,6 +101,7 @@ extension JoinTribeView {
 					self.stage = .code
 				}
 			case .code:
+				self.isLoading = true
 				self.apiClient
 					.joinTribe(pin: self.pin, code: self.code)
 					.receive(on: DispatchQueue.main)
@@ -108,6 +110,7 @@ extension JoinTribeView {
 							switch completion {
 							case .finished: return
 							case .failure(let error):
+								self?.isLoading = false
 								self?.banner = BannerData(error: error)
 						}
 						}, receiveValue: { _ in

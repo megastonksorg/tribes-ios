@@ -129,6 +129,9 @@ struct JoinTribeView: View {
 			.padding(.bottom)
 		}
 		.pushOutFrame()
+		.overlay(isShown: viewModel.isLoading) {
+			AppProgressView()
+		}
 		.banner(data: self.$viewModel.banner)
 		.background(Color.app.background)
 		.toolbar {
