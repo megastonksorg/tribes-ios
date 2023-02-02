@@ -24,6 +24,10 @@ struct TribeAvatar: View {
 	let inviteToTribeAction: (_ tribe: Tribe) -> ()
 	let leaveAction: (_ tribe: Tribe) -> ()
 	
+	var isInviteButtonEnabled: Bool {
+		members.count + 1 <= 10
+	}
+	
 	init(
 		tribe: Tribe,
 		size: CGFloat,
@@ -68,6 +72,8 @@ struct TribeAvatar: View {
 				Button { leaveAction(self.tribe) } label: {
 					Label("Invite", systemImage: "person.fill.badge.plus")
 				}
+				.disabled(!isInviteButtonEnabled)
+				Divider()
 				Button { leaveAction(self.tribe) } label: {
 					Label("Leave", systemImage: "rectangle.portrait.and.arrow.forward.fill")
 						.foregroundColor(Color.white)
