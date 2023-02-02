@@ -21,7 +21,7 @@ extension BannerData {
 		self.init(title: error.title, detail: error.errorDescription ?? "", type: .error)
 	}
 	init(error: AppError.APIClientError) {
-		self.init(title: error.title, detail: error.errorDescription ?? "", type: .error)
+		self.init(detail: error.errorDescription ?? "", type: .error)
 	}
 }
 
