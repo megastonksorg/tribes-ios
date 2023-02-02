@@ -158,7 +158,7 @@ final class APIClient: APIRequests {
 									
 									return self.urlRequest(urlRequest: tokenRequest)
 										.decode(type: AuthenticateResponse.self, decoder: self.decoder)
-										.mapError{ $0 as! AppError.APIClientError }
+										.mapError{ $0 as? AppError.APIClientError ?? APIClientError.rawError($0.localizedDescription) }
 										.eraseToAnyPublisher()
 										.handleEvents(receiveCompletion: { completion in
 											switch completion {
@@ -194,11 +194,11 @@ final class APIClient: APIRequests {
 										.eraseToAnyPublisher()
 								}
 							} catch {
-								return Fail(error: error as! APIClientError).eraseToAnyPublisher()
+								return Fail(error: error as? APIClientError ?? APIClientError.rawError(error.localizedDescription)).eraseToAnyPublisher()
 							}
 						}
 					}
-					return Fail(error: error as! APIClientError).eraseToAnyPublisher()
+					return Fail(error: error as? APIClientError ?? APIClientError.rawError(error.localizedDescription)).eraseToAnyPublisher()
 				}
 				.decode(type: output, decoder: self.decoder)
 				.mapError{ error in
