@@ -27,7 +27,7 @@ extension JoinTribeView {
 		@Published var code: String = ""
 		@Published var pin: String = ""
 		@Published var stage: Stage = .pin
-		@Published var tribe: Tribe = Tribe.noop
+		@Published var tribe: Tribe? = nil
 		@Published var isLoading: Bool = false
 		@Published var isShowingPasteButton: Bool = false
 		@Published var banner: BannerData?
@@ -117,8 +117,8 @@ extension JoinTribeView {
 								self?.isLoading = false
 								self?.banner = BannerData(error: error)
 						}
-						}, receiveValue: { _ in
-							
+						}, receiveValue: { [weak self]  tribe in
+							self?.tribe = tribe
 						}
 					)
 					.store(in: &cancellables)

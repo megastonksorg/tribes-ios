@@ -104,20 +104,22 @@ struct JoinTribeView: View {
 					.padding(.top, 40)
 					.onAppear { self.focusedField = .code }
 				case .joined:
-					VStack {
-						TextView("You Joined", style: .largeTitle)
-						Spacer()
-						TribeAvatar(
-							tribe: viewModel.tribe,
-							size: 260,
-							primaryAction: {_ in},
-							secondaryAction: {_ in}
-						)
-						Spacer()
+					if let tribe = viewModel.tribe {
+						VStack {
+							TextView("You Joined", style: .largeTitle)
+							Spacer()
+							TribeAvatar(
+								tribe: tribe,
+								size: 260,
+								primaryAction: {_ in},
+								secondaryAction: {_ in}
+							)
+							Spacer()
+						}
+						.padding(.top, 40)
+						.onAppear { self.focusedField = nil }
+						.onDisappear {  }
 					}
-					.padding(.top, 40)
-					.onAppear { self.focusedField = nil }
-					.onDisappear {  }
 				}
 			}
 			.transition(.move(edge: .leading))
