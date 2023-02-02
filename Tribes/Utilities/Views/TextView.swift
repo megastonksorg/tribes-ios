@@ -12,6 +12,7 @@ struct TextViewModifier: ViewModifier {
 		case appTitle
 		case bodyTitle
 		case callout
+		case error
 		case hint
 		case pageTitle
 		case pageSubTitle
@@ -34,6 +35,10 @@ struct TextViewModifier: ViewModifier {
 			content
 				.font(Font.app.callout)
 				.foregroundColor(.gray)
+		case .error:
+			content
+				.font(Font.app.subHeader)
+				.foregroundColor(Color.app.red)
 		case .hint:
 			content
 				.font(Font.app.caption)

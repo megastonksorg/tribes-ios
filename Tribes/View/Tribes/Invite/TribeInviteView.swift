@@ -66,9 +66,7 @@ struct TribeInviteView: View {
 				.textCase(.uppercase)
 				.opacity(viewModel.didPinCodeGenerationFail ? 0.0 : 1.0)
 				
-				Text("Could Not Generate Pin Code")
-					.font(Font.app.subHeader)
-					.foregroundColor(Color.app.red)
+				TextView("Could Not Generate Pin Code", style: .error)
 					.opacity(viewModel.didPinCodeGenerationFail ? 1.0 : 0.0)
 			}
 			
