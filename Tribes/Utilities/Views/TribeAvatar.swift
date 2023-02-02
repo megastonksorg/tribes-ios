@@ -61,10 +61,9 @@ struct TribeAvatar: View {
 	
 	var body: some View {
 		let contextMenu = ContextMenu {
-			if let leaveAction = self.leaveAction {
-				Button { leaveAction(self.tribe) } label: {
-					Label("Leave", systemImage: "rectangle.portrait.and.arrow.forward.fill")
-				}
+			Button { leaveAction(self.tribe) } label: {
+				Label("Leave", systemImage: "rectangle.portrait.and.arrow.forward.fill")
+					.foregroundColor(Color.white)
 			}
 		}
 		VStack {
@@ -377,13 +376,13 @@ struct TribeAvatar: View {
 					}
 			}
 			.buttonStyle(.insideScaling)
-			.contextMenu(shouldShowContextMenu ? contextMenu : nil)
 			Button(action: { secondaryAction(self.tribe) }) {
 				TextView(name, style: .tribeName(nameSize))
 					.fixedSize(horizontal: false, vertical: true)
 			}
 			.buttonStyle(.insideScaling)
 		}
+		.contextMenu(shouldShowContextMenu ? contextMenu : nil)
 	}
 	
 	@ViewBuilder
