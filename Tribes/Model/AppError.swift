@@ -69,9 +69,9 @@ extension AppError.APIClientError: LocalizedError {
 					"Request URL could not be formed or is Invalid",
 					comment: "Invalid Url"
 				)
-			case let .httpError(statusCode: statusCode, data: data):
+			case let .httpError(statusCode: _, data: data):
 				return NSLocalizedString(
-					"Error \(statusCode) Processing Request: \(String(decoding: data, as: UTF8.self))",
+					"\(String(decoding: data, as: UTF8.self))",
 					comment: "HTTP Error"
 				)
 			case .decodingError:
