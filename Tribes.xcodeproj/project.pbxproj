@@ -565,8 +565,8 @@
 			isa = PBXGroup;
 			children = (
 				D0A3F0812980A9D6000308BF /* Invite */,
-				D08EBF26297FD014001B7A5C /* JoinTribe */,
-				D08EBF21297FC4AF001B7A5C /* CreateTribe */,
+				D08EBF26297FD014001B7A5C /* Join */,
+				D08EBF21297FC4AF001B7A5C /* Create */,
 				D07278B32974CCD100650A15 /* TribesVM.swift */,
 				D07278B52974CCE000650A15 /* TribesView.swift */,
 			);
@@ -582,22 +582,22 @@
 			path = Shapes;
 			sourceTree = "<group>";
 		};
-		D08EBF21297FC4AF001B7A5C /* CreateTribe */ = {
+		D08EBF21297FC4AF001B7A5C /* Create */ = {
 			isa = PBXGroup;
 			children = (
 				D08EBF22297FC4D1001B7A5C /* CreateTribeView.swift */,
 				D08EBF24297FC508001B7A5C /* CreateTribeVM.swift */,
 			);
-			path = CreateTribe;
+			path = Create;
 			sourceTree = "<group>";
 		};
-		D08EBF26297FD014001B7A5C /* JoinTribe */ = {
+		D08EBF26297FD014001B7A5C /* Join */ = {
 			isa = PBXGroup;
 			children = (
 				D08EBF27297FD105001B7A5C /* JoinTribeView.swift */,
 				D08EBF29297FD118001B7A5C /* JoinTribeVM.swift */,
 			);
-			path = JoinTribe;
+			path = Join;
 			sourceTree = "<group>";
 		};
 		D0A3F0812980A9D6000308BF /* Invite */ = {
