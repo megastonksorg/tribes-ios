@@ -255,6 +255,7 @@ struct TribesView: View {
 			size: size,
 			primaryAction: { viewModel.tribePrimaryActionTapped($0) },
 			secondaryAction: { viewModel.tribeSecondaryActionTapped($0) },
+			inviteToTribeAction: {_ in},
 			leaveAction: { _ in }
 		)
 	}

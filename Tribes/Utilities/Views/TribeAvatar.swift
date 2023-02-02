@@ -21,6 +21,7 @@ struct TribeAvatar: View {
 	
 	let primaryAction: (_ tribe: Tribe) -> ()
 	let secondaryAction: (_ tribe: Tribe) -> ()
+	let inviteToTribeAction: (_ tribe: Tribe) -> ()
 	let leaveAction: (_ tribe: Tribe) -> ()
 	
 	init(
@@ -29,6 +30,7 @@ struct TribeAvatar: View {
 		showContextMenu: Bool = true,
 		primaryAction: @escaping (_ tribe: Tribe) -> (),
 		secondaryAction: @escaping (_ tribe: Tribe) -> (),
+		inviteToTribeAction: @escaping (_ tribe: Tribe) -> (),
 		leaveAction: @escaping (_ tribe: Tribe) -> ()
 	) {
 		self.name = tribe.name
@@ -56,15 +58,22 @@ struct TribeAvatar: View {
 		
 		self.primaryAction = primaryAction
 		self.secondaryAction = secondaryAction
+		self.inviteToTribeAction = inviteToTribeAction
 		self.leaveAction = leaveAction
 	}
 	
 	var body: some View {
 		let contextMenu = ContextMenu {
-			Button { leaveAction(self.tribe) } label: {
-				Label("Leave", systemImage: "rectangle.portrait.and.arrow.forward.fill")
-					.foregroundColor(Color.white)
+			Group {
+				Button { leaveAction(self.tribe) } label: {
+					Label("Invite", systemImage: "person.fill.badge.plus")
+				}
+				Button { leaveAction(self.tribe) } label: {
+					Label("Leave", systemImage: "rectangle.portrait.and.arrow.forward.fill")
+						.foregroundColor(Color.white)
+				}
 			}
+			.foregroundColor(Color.white)
 		}
 		VStack {
 			Button(action: { primaryAction(self.tribe) }) {
@@ -404,6 +413,7 @@ struct TribeAvatar_Previews: PreviewProvider {
 					size: 180,
 					primaryAction: { _ in },
 					secondaryAction: { _ in},
+					inviteToTribeAction: {_ in},
 					leaveAction: { _ in }
 				)
 				Spacer()
@@ -416,6 +426,7 @@ struct TribeAvatar_Previews: PreviewProvider {
 					size: 180,
 					primaryAction: {_ in},
 					secondaryAction: {_ in},
+					inviteToTribeAction: {_ in},
 					leaveAction: { _ in }
 				)
 			}
