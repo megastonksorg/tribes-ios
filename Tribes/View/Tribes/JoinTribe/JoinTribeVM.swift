@@ -118,7 +118,11 @@ extension JoinTribeView {
 								self?.banner = BannerData(error: error)
 						}
 						}, receiveValue: { [weak self]  tribe in
+							self?.isLoading = false
 							self?.tribe = tribe
+							withAnimation(.easeInOut) {
+								self?.stage = .joined
+							}
 						}
 					)
 					.store(in: &cancellables)
