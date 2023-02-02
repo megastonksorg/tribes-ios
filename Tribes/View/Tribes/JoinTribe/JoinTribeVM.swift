@@ -14,6 +14,7 @@ extension JoinTribeView {
 		enum Stage: String {
 			case pin
 			case code
+			case joined
 		}
 		
 		enum Field: Hashable {
@@ -26,6 +27,7 @@ extension JoinTribeView {
 		@Published var code: String = ""
 		@Published var pin: String = ""
 		@Published var stage: Stage = .pin
+		@Published var tribe: Tribe = Tribe.noop
 		@Published var isLoading: Bool = false
 		@Published var isShowingPasteButton: Bool = false
 		@Published var banner: BannerData?
@@ -42,6 +44,7 @@ extension JoinTribeView {
 			switch stage {
 			case .pin: return pin.count == SizeConstants.pinLimit
 			case .code: return !code.isEmpty
+			case .joined: return false
 			}
 		}
 		
@@ -59,6 +62,7 @@ extension JoinTribeView {
 			switch stage {
 			case .pin: return "Next"
 			case .code: return "Join Tribe"
+			case .joined: return ""
 			}
 		}
 		
@@ -118,6 +122,7 @@ extension JoinTribeView {
 						}
 					)
 					.store(in: &cancellables)
+			case .joined: return
 			}
 		}
 		

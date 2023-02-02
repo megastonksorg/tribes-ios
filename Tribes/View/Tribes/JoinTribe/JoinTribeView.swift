@@ -18,10 +18,12 @@ struct JoinTribeView: View {
 	
 	var body: some View {
 		VStack {
-			TextView(viewModel.pageSubtitle, style: .pageSubTitle)
-				.multilineTextAlignment(.center)
-				.padding(.top, SizeConstants.subTitleSpacing)
-				.transition(.move(edge: .leading))
+			if viewModel.stage != .joined {
+				TextView(viewModel.pageSubtitle, style: .pageSubTitle)
+					.multilineTextAlignment(.center)
+					.padding(.top, SizeConstants.subTitleSpacing)
+					.transition(.move(edge: .leading))
+			}
 			
 			Group {
 				switch viewModel.stage {
@@ -77,7 +79,6 @@ struct JoinTribeView: View {
 							}
 						}
 					}
-					.transition(.move(edge: .leading))
 					.onAppear { self.focusedField = .pin }
 				case .code:
 					VStack {
@@ -101,10 +102,25 @@ struct JoinTribeView: View {
 					}
 					.font(.system(size: viewModel.codeFontSize, weight: .medium, design: .rounded))
 					.padding(.top, 40)
-					.transition(.move(edge: .leading))
 					.onAppear { self.focusedField = .code }
+				case .joined:
+					VStack {
+						TextView("You Joined", style: .largeTitle)
+						Spacer()
+						TribeAvatar(
+							tribe: viewModel.tribe,
+							size: 260,
+							primaryAction: {_ in},
+							secondaryAction: {_ in}
+						)
+						Spacer()
+					}
+					.padding(.top, 40)
+					.onAppear { self.focusedField = nil }
+					.onDisappear {  }
 				}
 			}
+			.transition(.move(edge: .leading))
 			.padding(.horizontal)
 			
 			Button(action: { viewModel.setStage(stage: .pin) }) {
@@ -126,6 +142,7 @@ struct JoinTribeView: View {
 			}
 			.buttonStyle(.expanded)
 			.disabled(!viewModel.isProceedButtonEnabled)
+			.opacity(viewModel.stage == .joined ? 0.0 : 1.0)
 			.padding(.bottom)
 		}
 		.pushOutFrame()
