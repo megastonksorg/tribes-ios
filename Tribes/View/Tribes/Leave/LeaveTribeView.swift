@@ -40,6 +40,7 @@ struct LeaveTribeView: View {
 				
 				VStack(spacing: 20) {
 					Text("Are you sure you want to \(ViewModel.confirmationTitle) ‘\(viewModel.tribe.name)’ tribe?")
+						.fixedSize(horizontal: false, vertical: true)
 					Text("If you are sure, please type")
 					+
 					Text(" \(ViewModel.confirmationTitle) ")
@@ -69,7 +70,7 @@ struct LeaveTribeView: View {
 					}
 				}
 				.frame(width: self.avatarsWidth, height: 100, alignment: .center)
-				.padding(.top, 40)
+				.padding(.top)
 				
 				SymmetricHStack(
 					content: {
@@ -94,7 +95,7 @@ struct LeaveTribeView: View {
 				)
 				.font(.system(size: FontSizes.title1, weight: .semibold, design: .rounded))
 				.foregroundColor(Color.app.tertiary)
-				.padding(.top, 40)
+				.padding(.top)
 				.padding(.horizontal)
 				
 				Spacer()
