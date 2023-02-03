@@ -10,6 +10,7 @@ import SwiftUI
 struct LeaveTribeView: View {
 	@FocusState private var focusedField: ViewModel.FocusField?
 	
+	@State var avatarsWidth: CGFloat = 0
 	@StateObject var viewModel: ViewModel
 	
 	init(viewModel: ViewModel) {
@@ -49,6 +50,23 @@ struct LeaveTribeView: View {
 				.foregroundColor(.white)
 				.padding(.top)
 				
+				ScrollView(.horizontal, showsIndicators: false) {
+					LazyHStack(spacing: 10) {
+						ForEach(viewModel.tribe.members) {
+							userAvatar(user: $0)
+						}
+					}
+					.readSize { size in
+						let maxWidth = UIScreen.main.bounds.maxX * 0.8
+						if size.width < maxWidth {
+							self.avatarsWidth = size.width
+						} else {
+							self.avatarsWidth = maxWidth
+						}
+					}
+				}
+				.frame(width: self.avatarsWidth, height: 100, alignment: .center)
+				
 				SymmetricHStack(
 					content: {
 						VStack {
@@ -86,10 +104,21 @@ struct LeaveTribeView: View {
 		.banner(data: self.$viewModel.banner)
 		.background(Color.app.background)
 	}
+	
+	@ViewBuilder
+	func userAvatar(user: TribeMember) -> some View {
+		VStack {
+			UserAvatar(url: user.profilePhoto)
+				.frame(dimension: 50)
+			Text(user.fullName)
+				.font(Font.app.subTitle)
+				.foregroundColor(Color.white)
+		}
+	}
 }
 
 struct LeaveTribeView_Previews: PreviewProvider {
 	static var previews: some View {
-		LeaveTribeView(viewModel: .init(tribe: Tribe.noop))
+		LeaveTribeView(viewModel: .init(tribe: Tribe.noop2))
 	}
 }
