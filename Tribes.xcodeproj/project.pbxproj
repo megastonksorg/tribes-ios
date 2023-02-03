@@ -125,6 +125,7 @@
 		D0E8519A2968EBF70034AFD1 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = D0E851992968EBF70034AFD1 /* Introspect */; };
 		D0E8519C296CA3C10034AFD1 /* TribeAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E8519B296CA3C10034AFD1 /* TribeAvatar.swift */; };
 		D0E8519E296CC0690034AFD1 /* TribeMember.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E8519D296CC0690034AFD1 /* TribeMember.swift */; };
+		D0E9F7FC298DD20F00A0400A /* CacheClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E9F7FB298DD20F00A0400A /* CacheClient.swift */; };
 		D0F7E13A29574A330053B21D /* SwiftProtobuf in Frameworks */ = {isa = PBXBuildFile; productRef = D0F7E13929574A330053B21D /* SwiftProtobuf */; };
 /* End PBXBuildFile section */
 
@@ -244,6 +245,7 @@
 		D0D266B4296B542500A94183 /* View+OnBecomingVisible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+OnBecomingVisible.swift"; sourceTree = "<group>"; };
 		D0E8519B296CA3C10034AFD1 /* TribeAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TribeAvatar.swift; sourceTree = "<group>"; };
 		D0E8519D296CC0690034AFD1 /* TribeMember.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TribeMember.swift; sourceTree = "<group>"; };
+		D0E9F7FB298DD20F00A0400A /* CacheClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -325,6 +327,7 @@
 		D030D29C295745C20011128F /* Clients */ = {
 			isa = PBXGroup;
 			children = (
+				D0E9F7FA298DD1FF00A0400A /* CacheClient */,
 				D0D2668D295F715500A94183 /* CaptureClient */,
 				D030D29D295745C20011128F /* APIClient */,
 				D030D2A4295745C20011128F /* FeedbackClient.swift */,
@@ -687,6 +690,14 @@
 			path = VideoPlayer;
 			sourceTree = "<group>";
 		};
+		D0E9F7FA298DD1FF00A0400A /* CacheClient */ = {
+			isa = PBXGroup;
+			children = (
+				D0E9F7FB298DD20F00A0400A /* CacheClient.swift */,
+			);
+			path = CacheClient;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -852,6 +863,7 @@
 				D030D3152957460B0011128F /* WelcomePageVM.swift in Sources */,
 				D030D2AB295745C20011128F /* FeedbackClient.swift in Sources */,
 				D07278B42974CCD100650A15 /* TribesVM.swift in Sources */,
+				D0E9F7FC298DD20F00A0400A /* CacheClient.swift in Sources */,
 				D030D2FA295745F90011128F /* User.swift in Sources */,
 				D030D2DF295745E90011128F /* MnemonicWordView.swift in Sources */,
 				D0C65AAF2970BEA100E527F9 /* SymmetricHStack.swift in Sources */,
