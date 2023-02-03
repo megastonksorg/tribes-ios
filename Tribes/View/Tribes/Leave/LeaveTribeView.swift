@@ -50,7 +50,7 @@ struct LeaveTribeView: View {
 				.foregroundColor(.white)
 				.padding(.top)
 				
-				ScrollView(.horizontal, showsIndicators: false) {
+				ScrollView(.horizontal) {
 					LazyHStack(spacing: 10) {
 						ForEach(viewModel.tribe.members) {
 							userAvatar(user: $0)
@@ -66,6 +66,7 @@ struct LeaveTribeView: View {
 					}
 				}
 				.frame(width: self.avatarsWidth, height: 100, alignment: .center)
+				.padding(.top, 40)
 				
 				SymmetricHStack(
 					content: {
@@ -92,10 +93,16 @@ struct LeaveTribeView: View {
 				.foregroundColor(Color.app.tertiary)
 				.padding(.top, 40)
 				.padding(.horizontal)
+				
+				Spacer()
+				
+				Button(action: {}) {
+					Text(ViewModel.confirmationTitle)
+				}
+				.buttonStyle(.expanded)
+				.disabled(!viewModel.isConfirmed)
 			}
 			.padding(.horizontal)
-			
-			Spacer()
 		}
 		.pushOutFrame()
 		.overlay(isShown: viewModel.isLoading) {
