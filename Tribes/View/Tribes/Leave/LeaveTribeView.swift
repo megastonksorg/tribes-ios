@@ -13,12 +13,14 @@ struct LeaveTribeView: View {
 	@State var avatarsWidth: CGFloat = 0
 	@StateObject var viewModel: ViewModel
 	
+	@Environment(\.dismiss) var dismiss
+	
 	init(viewModel: ViewModel) {
 		self._viewModel = StateObject(wrappedValue: viewModel)
 	}
 	
 	var body: some View {
-		VStack(spacing: 20) {
+		VStack {
 			VStack {
 				SymmetricHStack(
 					content: {
@@ -26,7 +28,7 @@ struct LeaveTribeView: View {
 					},
 					leading: { EmptyView() },
 					trailing: {
-						Button(action: {}) {
+						Button(action: { dismiss() }) {
 							Image(systemName: "xmark")
 						}
 					}
@@ -34,6 +36,7 @@ struct LeaveTribeView: View {
 				.font(Font.app.title2)
 				.fontWeight(.semibold)
 				.foregroundColor(Color.app.tertiary)
+				.padding(.top)
 				
 				VStack(spacing: 20) {
 					Text("Are you sure you want to \(ViewModel.confirmationTitle) ‘\(viewModel.tribe.name)’ tribe?")
@@ -46,7 +49,7 @@ struct LeaveTribeView: View {
 					Text("below")
 				}
 				.multilineTextAlignment(.center)
-				.font(Font.app.title2)
+				.font(Font.app.subTitle)
 				.foregroundColor(.white)
 				.padding(.top)
 				
@@ -101,6 +104,7 @@ struct LeaveTribeView: View {
 				}
 				.buttonStyle(.expanded)
 				.disabled(!viewModel.isConfirmed)
+				.padding(.bottom)
 			}
 			.padding(.horizontal)
 		}
