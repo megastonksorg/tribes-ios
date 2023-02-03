@@ -17,6 +17,7 @@ extension TribesView {
 		private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 		
 		@Published var banner: BannerData?
+		@Published var leaveTribeVM: LeaveTribeView.ViewModel?
 		@Published var tribeInviteVM: TribeInviteView.ViewModel?
 		@Published var tribes: IdentifiedArrayOf<Tribe>
 		@Published var user: User
@@ -52,6 +53,14 @@ extension TribesView {
 					}
 				)
 				.store(in: &cancellables)
+		}
+		
+		func setLeaveTribeVM(_ viewModel: LeaveTribeView.ViewModel?) {
+			self.leaveTribeVM = viewModel
+		}
+		
+		func tribeLeaveActionTapped(_ tribe: Tribe) {
+			setLeaveTribeVM(LeaveTribeView.ViewModel(tribe: tribe))
 		}
 		
 		func tribePrimaryActionTapped(_ tribe: Tribe) {

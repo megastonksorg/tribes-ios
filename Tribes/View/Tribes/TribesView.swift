@@ -71,6 +71,16 @@ struct TribesView: View {
 					}
 				}
 			}
+			.sheet(
+				isPresented: Binding(
+					get: { viewModel.leaveTribeVM != nil },
+					set: { $0 == false ? viewModel.setLeaveTribeVM(nil) : () }
+				)
+			) {
+				if let leaveTribeVM = viewModel.leaveTribeVM {
+					LeaveTribeView(viewModel: leaveTribeVM)
+				}
+			}
 			.banner(data: self.$viewModel.banner)
 			.onAppear { viewModel.loadTribes() }
 	}
@@ -255,7 +265,7 @@ struct TribesView: View {
 			primaryAction: { viewModel.tribePrimaryActionTapped($0) },
 			secondaryAction: { viewModel.tribeSecondaryActionTapped($0) },
 			inviteAction: { viewModel.tribeInviteActionTapped($0) },
-			leaveAction: { _ in }
+			leaveAction: { viewModel.tribeLeaveActionTapped($0) }
 		)
 	}
 	
