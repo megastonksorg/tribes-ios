@@ -100,7 +100,7 @@ struct LeaveTribeView: View {
 				
 				Spacer()
 				
-				Button(action: {}) {
+				Button(action: { viewModel.leaveTribe() }) {
 					Text(ViewModel.confirmationTitle)
 				}
 				.buttonStyle(.expanded)
@@ -108,6 +108,9 @@ struct LeaveTribeView: View {
 				.padding(.bottom)
 			}
 			.padding(.horizontal)
+			.onChange(of: viewModel.didLeaveTribe) { _ in
+				dismiss()
+			}
 		}
 		.pushOutFrame()
 		.overlay(isShown: viewModel.isLoading) {
