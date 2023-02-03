@@ -56,7 +56,7 @@ struct LeaveTribeView: View {
 				
 				ScrollView(.horizontal) {
 					LazyHStack(spacing: 10) {
-						ForEach(viewModel.tribe.members) {
+						ForEach(viewModel.tribeMembers) {
 							userAvatar(user: $0)
 						}
 					}

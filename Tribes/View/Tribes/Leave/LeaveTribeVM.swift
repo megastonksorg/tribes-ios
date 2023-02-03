@@ -15,6 +15,7 @@ extension LeaveTribeView {
 		
 		static let confirmationTitle: String = "Leave"
 		let tribe: Tribe
+		let tribeMembers: [TribeMember]
 		
 		var isConfirmed: Bool {
 			confirmation == ViewModel.confirmationTitle
@@ -25,6 +26,12 @@ extension LeaveTribeView {
 		@Published var banner: BannerData?
 		
 		init(tribe: Tribe) {
+			self.tribeMembers = {
+				if let currentUser = KeychainClient.shared.get(key: .user) {
+					return tribe.members.filter({ $0.walletAddress != currentUser.walletAddress })
+				}
+				return tribe.members
+			}()
 			self.tribe = tribe
 		}
 	}
