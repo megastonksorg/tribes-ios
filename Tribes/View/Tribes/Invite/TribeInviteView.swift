@@ -120,7 +120,7 @@ struct TribeInviteView: View {
 
 struct TribeInviteView_Previews: PreviewProvider {
 	static var previews: some View {
-		TribeInviteView(dismissAction: {}, viewModel: .init(tribe: Tribe.noop))
+		TribeInviteView(dismissAction: {}, viewModel: .init(tribe: Tribe.noop1))
 			.background(Color.black)
 	}
 }

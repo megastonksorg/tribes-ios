@@ -16,7 +16,32 @@ struct TribeMember: Decodable, Identifiable {
 }
 
 extension TribeMember {
-	static let noop: TribeMember = TribeMember(
+	static let noop1: TribeMember = TribeMember(
+		fullName: "Kingsley Okeke",
+		profilePhoto: URL(string: "https://kingsleyokeke.blob.core.windows.net/images/1597276037537.jpeg")!,
+		walletAddress: UUID().uuidString
+	)
+	static let noop2: TribeMember = TribeMember(
+		fullName: "Kingsley Okeke",
+		profilePhoto: URL(string: "https://kingsleyokeke.blob.core.windows.net/images/1597276037537.jpeg")!,
+		walletAddress: UUID().uuidString
+	)
+	static let noop3: TribeMember = TribeMember(
+		fullName: "Kingsley Okeke",
+		profilePhoto: URL(string: "https://kingsleyokeke.blob.core.windows.net/images/1597276037537.jpeg")!,
+		walletAddress: UUID().uuidString
+	)
+	static let noop4: TribeMember = TribeMember(
+		fullName: "Kingsley Okeke",
+		profilePhoto: URL(string: "https://kingsleyokeke.blob.core.windows.net/images/1597276037537.jpeg")!,
+		walletAddress: UUID().uuidString
+	)
+	static let noop5: TribeMember = TribeMember(
+		fullName: "Kingsley Okeke",
+		profilePhoto: URL(string: "https://kingsleyokeke.blob.core.windows.net/images/1597276037537.jpeg")!,
+		walletAddress: UUID().uuidString
+	)
+	static let noop6: TribeMember = TribeMember(
 		fullName: "Kingsley Okeke",
 		profilePhoto: URL(string: "https://kingsleyokeke.blob.core.windows.net/images/1597276037537.jpeg")!,
 		walletAddress: UUID().uuidString

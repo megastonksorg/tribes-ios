@@ -284,7 +284,7 @@ struct TribesView_Previews: PreviewProvider {
 			let viewModel: TribesView.ViewModel = {
 				let tribes = IdentifiedArrayOf(
 					uniqueElements: [
-						Tribe.noop,
+						Tribe.noop1,
 						Tribe.noop2,
 						Tribe.noop3,
 						Tribe.noop4,
