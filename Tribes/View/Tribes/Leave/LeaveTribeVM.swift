@@ -10,11 +10,17 @@ import Foundation
 extension LeaveTribeView {
 	@MainActor class ViewModel: ObservableObject {
 		enum FocusField: Hashable {
-		  case field
+		  case confirmation
 		}
 		
+		static let confirmationTitle: String = "Leave"
 		let tribe: Tribe
 		
+		var isConfirmed: Bool {
+			confirmation == ViewModel.confirmationTitle
+		}
+		
+		@Published var confirmation: String = ""
 		@Published var isLoading: Bool = false
 		@Published var banner: BannerData?
 		
