@@ -34,14 +34,17 @@ struct AuthenticateView: View {
 						.opacity(0.8)
 				}
 			}
-			AsyncImage(url: user.profilePhoto) { image in
-				image
-					.resizable()
-					.clipShape(Circle())
-			}
-			placeholder:  {
-				ImagePlaceholderView()
-			}
+			CachedImage(
+				url: user.profilePhoto,
+				content: { uiImage in
+					Image(uiImage: uiImage)
+						.resizable()
+						.clipShape(Circle())
+				},
+				placeHolder: {
+					ImagePlaceholderView()
+				}
+			)
 			.frame(dimension: SizeConstants.profileImageFrame)
 			.padding(.top, 40)
 			.opacity(viewModel.context == .signUp ? 1.0 : 0.0)
