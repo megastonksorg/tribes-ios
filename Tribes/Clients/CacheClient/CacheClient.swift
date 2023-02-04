@@ -6,13 +6,28 @@
 //
 
 import Combine
+import CryptoKit
 import Foundation
 import IdentifiedCollections
 import SwiftUI
 
 protocol CacheClientProtocol {
-	func get<Object: Codable>(key: String, type: Object.Type) async -> Codable?
+	func get<Object: Codable>(key: String, type: Object.Type) async -> Object?
 	func set(cache: Cache) async -> Void
+}
+
+extension CacheClientProtocol {
+	func setImage(url: URL, image: UIImage) async -> Void {
+		guard let pngData = image.pngData() else { return }
+		await set(cache: Cache(key: SHA256.hash(data: Data(url.absoluteString.utf8)).description, object: pngData))
+	}
+	
+	func getImage(url: URL) async -> UIImage? {
+		guard let imageData = await get(key: SHA256.hash(data: Data(url.absoluteString.utf8)).description, type: Data.self) else {
+			return nil
+		}
+		return UIImage(data: imageData)
+	}
 }
 
 class CacheClient: CacheClientProtocol {
@@ -40,7 +55,7 @@ class CacheClient: CacheClientProtocol {
 			.sink(receiveValue: { [weak self] _ in self?.cache = [] })
 	}
 	
-	func get<Object: Codable>(key: String, type: Object.Type) async -> Codable? {
+	func get<Object: Codable>(key: String, type: Object.Type) async -> Object? {
 		await withCheckedContinuation { continuation in
 			self.queue.async { [weak self] in
 				guard let self = self else {
@@ -49,7 +64,7 @@ class CacheClient: CacheClientProtocol {
 				}
 				
 				if let cachedItem = self.cache[id: key] {
-					continuation.resume(returning: cachedItem.object)
+					continuation.resume(returning:  cachedItem.object as? Object)
 					return
 				}
 				

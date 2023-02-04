@@ -9,6 +9,9 @@ import SwiftUI
 
 struct CachedImage<Content: View, PlaceHolder: View>: View {
 	let url: URL
+	let apiClient: APIClient = APIClient.shared
+	let cacheClient: CacheClient = CacheClient.shared
+	
 	@ViewBuilder let content: (UIImage) -> Content
 	@ViewBuilder let placeHolder: () -> PlaceHolder
 	
@@ -44,7 +47,14 @@ struct CachedImage<Content: View, PlaceHolder: View>: View {
 	func loadImage() {
 		Task {
 			guard image == nil else { return }
-			image = await APIClient.shared.getImage(url: url)
+			if let image = await cacheClient.getImage(url: url) {
+				self.image = image
+				return
+			}
+			image = await apiClient.getImage(url: url)
+			if let image = self.image {
+				await cacheClient.setImage(url: url, image: image)
+			}
 		}
 	}
 }
