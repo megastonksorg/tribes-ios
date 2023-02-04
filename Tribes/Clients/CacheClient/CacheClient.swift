@@ -11,7 +11,7 @@ import IdentifiedCollections
 import SwiftUI
 
 protocol CacheClientProtocol {
-	func get(key: String) async -> Codable?
+	func get<Object: Codable>(key: String, type: Object.Type) async -> Codable?
 	func set(cache: Cache) async -> Void
 }
 
@@ -22,6 +22,8 @@ class CacheClient: CacheClientProtocol {
 	private let cacheDirectory: URL = try! FileManager.default
 		.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
 		.appendingPathComponent(cacheFolderName)
+	private let encoder: JSONEncoder = JSONEncoder()
+	private let decoder: JSONDecoder = JSONDecoder()
 	private let queue = DispatchQueue(label: "com.strikingFinancial.tribes.cache.sessionQueue", target: .global())
 	
 	private var cache: IdentifiedArrayOf<Cache> = []
@@ -38,11 +40,46 @@ class CacheClient: CacheClientProtocol {
 			.sink(receiveValue: { [weak self] _ in self?.cache = [] })
 	}
 	
-	func get(key: String) async -> Codable? {
-		nil
+	func get<Object: Codable>(key: String, type: Object.Type) async -> Codable? {
+		await withCheckedContinuation { continuation in
+			self.queue.async { [weak self] in
+				guard let self = self else {
+					continuation.resume(returning: nil)
+					return
+				}
+				
+				if let cachedItem = self.cache[id: key] {
+					continuation.resume(returning: cachedItem.object)
+					return
+				}
+				
+				guard let data = try? Data(contentsOf: self.fileName(for: key)),
+					  let cachedObject = try? self.decoder.decode(type, from: data)
+				else {
+					continuation.resume(returning: nil)
+					return
+				}
+				self.cache[id: key] = Cache(key: key, object: cachedObject)
+				continuation.resume(returning: cachedObject)
+			}
+		}
 	}
 	
 	func set(cache: Cache) async {
-		()
+		await withCheckedContinuation { continuation in
+			self.queue.sync { [weak self] in
+				guard let self = self else {
+					continuation.resume()
+					return
+				}
+				guard let data = try? self.encoder.encode(cache.object) else { return }
+				try? data.write(to: fileName(for: cache.key), options: [.atomic, .completeFileProtection])
+				continuation.resume()
+			}
+		}
+	}
+	
+	private func fileName(for key: String) -> URL {
+		return cacheDirectory.appendingPathComponent("cache_\(key)", isDirectory: false)
 	}
 }
