@@ -51,8 +51,8 @@ struct ExpandedButtonStyle: ButtonStyle {
 			}
 		}
 		.padding(.horizontal)
-		.scaleEffect(shouldAnimate && configuration.isPressed ? 0.9 : 1)
-		.animation(.easeInOut, value: shouldAnimate && configuration.isPressed)
+		.scaleEffect(shouldAnimate && configuration.isPressed ? 0.95 : 1)
+		.animation(.easeInOut.speed(2.0), value: shouldAnimate && configuration.isPressed)
 	}
 	
 	private func shape() -> some Shape {
@@ -87,8 +87,8 @@ struct ScalingButtonStyle: ButtonStyle {
 	
 	func makeBody(configuration: Configuration) -> some View {
 		configuration.label
-			.scaleEffect(configuration.isPressed ? direction == .inside ? 0.8 : 1.2 : 1)
-			.animation(.default, value: configuration.isPressed)
+			.scaleEffect(configuration.isPressed ? direction == .inside ? 0.98 : 1.02 : 1)
+			.animation(.easeInOut.speed(2.0), value: configuration.isPressed)
 	}
 }
 
