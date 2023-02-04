@@ -35,7 +35,6 @@ final class APIClient: APIRequests {
 	private var isRefreshingToken: Bool = false
 	
 	let decoder: JSONDecoder = JSONDecoder()
-	let cacheClient: CacheClient = CacheClient.shared
 	let keychainClient: KeychainClient = KeychainClient.shared
 	
 	func getImage(url: URL) async -> UIImage? {
