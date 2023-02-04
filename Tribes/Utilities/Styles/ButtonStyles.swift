@@ -87,7 +87,7 @@ struct ScalingButtonStyle: ButtonStyle {
 	
 	func makeBody(configuration: Configuration) -> some View {
 		configuration.label
-			.scaleEffect(configuration.isPressed ? direction == .inside ? 0.95 : 1.05 : 1)
+			.scaleEffect(configuration.isPressed ? direction == .inside ? 0.8 : 1.2 : 1)
 			.animation(.default, value: configuration.isPressed)
 	}
 }
