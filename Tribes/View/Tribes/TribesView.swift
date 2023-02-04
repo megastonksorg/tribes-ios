@@ -53,7 +53,7 @@ struct TribesView: View {
 					Spacer()
 					
 					tribesView()
-						.padding(.horizontal, 30)
+						.padding(.horizontal)
 					
 					Spacer()
 				}
