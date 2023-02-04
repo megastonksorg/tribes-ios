@@ -7,24 +7,34 @@
 
 import SwiftUI
 
-struct CachedImage: View {
+struct CachedImage<Content: View, PlaceHolder: View>: View {
 	let url: URL
+	@ViewBuilder let content: (UIImage) -> Content
+	@ViewBuilder let placeHolder: () -> PlaceHolder
 	
 	@State var image: UIImage?
+	
+	init(
+		url: URL,
+		@ViewBuilder content: @escaping (UIImage) -> Content,
+		@ViewBuilder placeHolder: @escaping () -> PlaceHolder
+	) {
+		self.url = url
+		self.content = content
+		self.placeHolder = placeHolder
+	}
 	
 	var body: some View {
 		Group {
 			if let uiImage = image {
-				Image(uiImage: uiImage)
+				content(uiImage)
 			} else {
-				Color.gray.opacity(0.2)
+				placeHolder()
 			}
-		}
-		.task(id: url) {
-			loadImage()
 		}
 		.onChange(of: url) { _ in
 			image = nil
+			loadImage()
 		}
 		.onAppear {
 			loadImage()
@@ -41,6 +51,20 @@ struct CachedImage: View {
 
 struct CachedImage_Previews: PreviewProvider {
 	static var previews: some View {
-		CachedImage(url: URL(string: "https://kingsleyokeke.blob.core.windows.net/images/1597276037537.jpeg")!)
+		VStack {
+			CachedImage(
+				url: URL(string: "https://kingsleyokeke.blob.core.windows.net/images/1597276037537.jpeg")!,
+				content: { uiImage in
+					Image(uiImage: uiImage)
+						.resizable()
+						.aspectRatio(contentMode: .fit)
+				},
+				placeHolder: {
+					Color.red
+				}
+			)
+			.clipShape(Circle())
+			.frame(dimension: 200)
+		}
 	}
 }
