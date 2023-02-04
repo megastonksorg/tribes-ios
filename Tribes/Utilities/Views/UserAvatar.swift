@@ -10,13 +10,12 @@ import SwiftUI
 struct UserAvatar: View {
 	let url: URL
 	var body: some View {
-		AsyncImage(url: url,
-		content: { image in
-			image
+		CachedImage(url: url, content: { uiImage in
+			Image(uiImage: uiImage)
 				.resizable()
 				.scaledToFill()
 				.clipShape(Circle())
-		}, placeholder: {
+		}, placeHolder: {
 			Circle()
 				.fill(Color.gray.opacity(0.2))
 				.overlay(
