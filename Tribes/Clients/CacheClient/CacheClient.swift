@@ -87,7 +87,13 @@ class CacheClient: CacheClientProtocol {
 					return
 				}
 				var files = [URL]()
-				if let enumerator = FileManager.default.enumerator(at: self.cacheDirectory, includingPropertiesForKeys: [.isRegularFileKey], options: [.skipsHiddenFiles, .skipsPackageDescendants]) {
+				if let enumerator = FileManager
+					.default
+					.enumerator(
+						at: self.cacheDirectory,
+						includingPropertiesForKeys: [.isRegularFileKey],
+						options: [.skipsHiddenFiles, .skipsPackageDescendants]
+					) {
 					for case let fileURL as URL in enumerator {
 						do {
 							let fileAttributes = try fileURL.resourceValues(forKeys:[.isRegularFileKey])
