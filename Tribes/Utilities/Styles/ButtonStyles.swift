@@ -51,8 +51,8 @@ struct ExpandedButtonStyle: ButtonStyle {
 			}
 		}
 		.padding(.horizontal)
-		.scaleEffect(shouldAnimate && configuration.isPressed ? 1.05 : 1)
-		.animation(.easeOut(duration: 0.6), value: shouldAnimate && configuration.isPressed)
+		.scaleEffect(shouldAnimate && configuration.isPressed ? 0.9 : 1)
+		.animation(.easeInOut, value: shouldAnimate && configuration.isPressed)
 	}
 	
 	private func shape() -> some Shape {
