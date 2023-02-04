@@ -50,13 +50,15 @@ struct TribesView: View {
 					)
 					.padding(.horizontal)
 					
+					Spacer()
+					
 					tribesView()
 						.padding(.horizontal, 30)
 					
 					Spacer()
 				}
-				.pushOutFrame()
 			}
+			.pushOutFrame()
 			.background(Color.app.background)
 			.cardView(
 				isShowing: $viewModel.isShowingTribeInvite,
@@ -93,7 +95,6 @@ struct TribesView: View {
 			let firstCircleWidth: CGFloat = 40
 			let strokeColor: Color = Color.app.secondary
 			VStack {
-				Spacer()
 				ZStack {
 					noTribeCircle(size: 120, fillColor, strokeColor)
 						.opacity(0.4)
@@ -133,40 +134,31 @@ struct TribesView: View {
 					.font(Font.app.footnote)
 					.foregroundColor(Color.app.tertiary)
 					.padding(.top, 2)
-				Spacer()
 			}
 		case 1:
 			let size: CGFloat = sizeWidth * 0.7
 			VStack {
-				Spacer()
 				tribeAvatar(tribe: viewModel.tribes[0], size: size)
-				Spacer()
 			}
 		case 2:
 			let size: CGFloat = sizeWidth * 0.6
-			VStack {
-				Spacer()
+			VStack(spacing: size * 0.4) {
 				HStack {
 					tribeAvatar(tribe: viewModel.tribes[0], size: size)
 					Spacer()
 				}
-				.padding(.top)
-				Spacer()
 				HStack {
 					Spacer()
 					tribeAvatar(tribe: viewModel.tribes[1], size: size)
 				}
-				Spacer()
 			}
 		case 3:
 			let size: CGFloat = sizeWidth * 0.5
 			VStack {
-				Spacer()
 				HStack {
 					tribeAvatar(tribe: viewModel.tribes[0], size: size)
 					Spacer()
 				}
-				.padding(.top)
 				HStack {
 					Spacer()
 					tribeAvatar(tribe: viewModel.tribes[1], size: size)
@@ -175,11 +167,10 @@ struct TribesView: View {
 					tribeAvatar(tribe: viewModel.tribes[2], size: size)
 					Spacer()
 				}
-				Spacer()
 			}
 		case 4:
 			let size: CGFloat = sizeWidth * 0.4
-			VStack(spacing: size * 0.4) {
+			VStack(spacing: size * 0.8) {
 				customHStack(
 					size: size,
 					contentA: {
@@ -189,7 +180,6 @@ struct TribesView: View {
 						tribeAvatar(tribe: viewModel.tribes[1], size: size)
 					}
 				)
-				.padding(.top)
 				customHStack(
 					size: size,
 					contentA: {
