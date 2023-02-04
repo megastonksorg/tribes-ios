@@ -7,10 +7,12 @@
 
 import Combine
 import Foundation
+import UIKit
 
 typealias APIClientError = AppError.APIClientError
 
 protocol APIRequests {
+	func getImage(url: URL) async -> UIImage?
 	//Authentication
 	func requestAuthentication() -> AnyPublisher<String, APIClientError>
 	func doesAccountExist(for walletAddress: String) -> AnyPublisher<SuccessResponse, APIClientError>
@@ -33,7 +35,28 @@ final class APIClient: APIRequests {
 	private var isRefreshingToken: Bool = false
 	
 	let decoder: JSONDecoder = JSONDecoder()
+	let cacheClient: CacheClient = CacheClient.shared
 	let keychainClient: KeychainClient = KeychainClient.shared
+	
+	func getImage(url: URL) async -> UIImage? {
+		await withCheckedContinuation { continuation in
+			urlRequest(urlRequest: URLRequest(url: url))
+				.sink(
+					receiveCompletion: { completion in
+						switch completion {
+						case .finished: return
+						case .failure:
+							continuation.resume(with: .success(nil))
+							return
+						}
+					},
+					receiveValue: { data in
+						continuation.resume(with: .success(UIImage(data: data)))
+					}
+				)
+				.store(in: &cancellables)
+		}
+	}
 	
 	func requestAuthentication() -> AnyPublisher<String, APIClientError> {
 		let authenticationRequest = APPUrlRequest(
