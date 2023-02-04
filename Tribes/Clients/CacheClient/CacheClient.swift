@@ -79,6 +79,33 @@ class CacheClient: CacheClientProtocol {
 		}
 	}
 	
+	private func clear() async {
+		await withCheckedContinuation { continuation in
+			queue.sync { [weak self] in
+				guard let self = self else {
+					continuation.resume()
+					return
+				}
+				var files = [URL]()
+				if let enumerator = FileManager.default.enumerator(at: self.cacheDirectory, includingPropertiesForKeys: [.isRegularFileKey], options: [.skipsHiddenFiles, .skipsPackageDescendants]) {
+					for case let fileURL as URL in enumerator {
+						do {
+							let fileAttributes = try fileURL.resourceValues(forKeys:[.isRegularFileKey])
+							if fileAttributes.isRegularFile! {
+								files.append(fileURL)
+							}
+						} catch { continuation.resume() }
+					}
+				}
+				for file in files {
+					try? FileManager.default.removeItem(at: file)
+				}
+				self.cache = []
+				continuation.resume()
+			}
+		}
+	}
+	
 	private func delete(key: String) async {
 		await withCheckedContinuation { continuation in
 			queue.sync { [weak self] in
