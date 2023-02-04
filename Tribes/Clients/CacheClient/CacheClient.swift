@@ -79,6 +79,20 @@ class CacheClient: CacheClientProtocol {
 		}
 	}
 	
+	private func delete(key: String) async {
+		await withCheckedContinuation { continuation in
+			queue.sync { [weak self] in
+				guard let self = self else {
+					continuation.resume()
+					return
+				}
+				try? FileManager.default.removeItem(at: fileName(for: key))
+				self.cache.remove(id: key)
+				continuation.resume()
+			}
+		}
+	}
+	
 	private func fileName(for key: String) -> URL {
 		return cacheDirectory.appendingPathComponent("cache_\(key)", isDirectory: false)
 	}
