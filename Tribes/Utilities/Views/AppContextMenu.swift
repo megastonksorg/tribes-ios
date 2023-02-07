@@ -9,31 +9,34 @@ import SwiftUI
 
 
 struct BoundsPreferenceKey: PreferenceKey {
-	typealias Value = Anchor<CGRect>?
+	typealias Value = [Anchor<CGRect>]
 	
-	static var defaultValue: Value? = nil
+	static var defaultValue: Value = []
 	
 	static func reduce(value: inout Value, nextValue: () -> Value) {
-		value = nextValue()
+		value.append(contentsOf: nextValue())
 	}
 }
 
 struct AppContextMenu<ContextMenu: View>: ViewModifier {
-	@State var isShowing: Bool = false
+	@Binding var isShowing: Bool
 	@ViewBuilder let contextMenu: () -> ContextMenu
 	
 	func body(content: Content) -> some View {
 		content
-			.anchorPreference(key: BoundsPreferenceKey.self, value: .bounds) { $0 }
-			.onTapGesture {
-				self.isShowing = true
+			.overlay(isShown: isShowing) {
+				Rectangle()
+					.fill(.ultraThinMaterial)
+					.edgesIgnoringSafeArea(.all)
+					.onTapGesture {
+						self.isShowing = false
+					}
 			}
 			.overlayPreferenceValue(BoundsPreferenceKey.self) { preferenceValues in
 				if isShowing {
 					GeometryReader { geometry in
 						preferenceValues.map {
-							Rectangle()
-								.fill(Color.black)
+							contextMenu()
 								.frame(
 									width: geometry[$0].width,
 									height: geometry[$0].height
@@ -42,41 +45,21 @@ struct AppContextMenu<ContextMenu: View>: ViewModifier {
 									x: geometry[$0].minX,
 									y: geometry[$0].minY
 								)
-						}
+						}[0]
 					}
-				}
-//				preferenceValues.map { value in
-
-//					GeometryReader{ proxy in
-//						let rect = proxy[value]
-//						content
-//							.frame(width: rect.width, height: rect.height)
-//							.offset(x: rect.minX, y: rect.maxY > proxy.size.height ? proxy.size.height / 2 : rect.minY)
-//					}
-//					.transition(.asymmetric(insertion: .identity, removal: .offset(x: 1)))
-//				}
-			}
-			.background {
-				if isShowing {
-					Rectangle()
-						.fill(.ultraThinMaterial)
-						.frame(width: UIScreen.main.nativeBounds.maxX, height: UIScreen.main.nativeBounds.maxY)
-						.edgesIgnoringSafeArea(.all)
-						.onTapGesture {
-							self.isShowing = false
-						}
 				}
 			}
 	}
 }
 
 extension View {
-	func appContextMenu<ContentMenu: View>(@ViewBuilder contextMenu: @escaping () -> ContentMenu) -> some View {
-		self.modifier(AppContextMenu(contextMenu: contextMenu))
+	func appContextMenu<ContentMenu: View>(isShowing: Binding<Bool>, @ViewBuilder contextMenu: @escaping () -> ContentMenu) -> some View {
+		self.modifier(AppContextMenu(isShowing: isShowing, contextMenu: contextMenu))
 	}
 }
 
 struct TestView2: View {
+	@State var isShowingContextMenu: Bool = false
 	@State var currentContextId: String = ""
 	
 	var body: some View {
@@ -84,18 +67,24 @@ struct TestView2: View {
 			Text("He went such dare good mr fact. The small own seven saved man age ﻿no offer. Suspicion did mrs nor furniture smallness. Scale whole downs often leave not eat. An expression reasonably cultivated indulgence mr he surrounded instrument. Gentleman eat and consisted are pronounce distrusts..")
 				.padding()
 				.background(Color.green)
-				.appContextMenu {
-					Color.red
+				.anchorPreference(key: BoundsPreferenceKey.self, value: .bounds) { [$0] }
+				.onTapGesture {
+					self.isShowingContextMenu = true
 				}
-//			Text("He went such dare good mr fact. The small own seven saved man age ﻿no offer. Suspicion did mrs nor furniture smallness. Scale whole downs often leave not eat. An expression reasonably cultivated indulgence mr he surrounded instrument. Gentleman eat and consisted are pronounce distrusts..")
-//				.padding()
-//				.background(Color.blue)
-//				.appContextMenu {
-//					Color.red
-//				}
+			//			Text("He went such dare good mr fact. The small own seven saved man age ﻿no offer. Suspicion did mrs nor furniture smallness. Scale whole downs often leave not eat. An expression reasonably cultivated indulgence mr he surrounded instrument. Gentleman eat and consisted are pronounce distrusts..")
+			//				.padding()
+			//				.background(Color.blue)
+			//				.appContextMenu {
+			//					Color.red
+			//				}
 		}
 		.pushOutFrame()
 		.background(Color.purple)
+		.appContextMenu(isShowing: $isShowingContextMenu) {
+			Text("He went such dare good mr fact. The small own seven saved man age ﻿no offer. Suspicion did mrs nor furniture smallness. Scale whole downs often leave not eat. An expression reasonably cultivated indulgence mr he surrounded instrument. Gentleman eat and consisted are pronounce distrusts..")
+				.padding()
+				.background(Color.green)
+		}
 	}
 }
 
