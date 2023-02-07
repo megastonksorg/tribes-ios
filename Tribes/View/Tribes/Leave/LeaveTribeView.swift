@@ -107,6 +107,7 @@ struct LeaveTribeView: View {
 				.disabled(!viewModel.isConfirmed)
 				.padding(.bottom)
 				.padding(.bottom)
+				.ignoresSafeArea(.keyboard)
 			}
 			.padding(.horizontal)
 			.onChange(of: viewModel.didLeaveTribe) { _ in

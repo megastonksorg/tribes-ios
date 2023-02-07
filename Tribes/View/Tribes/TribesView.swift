@@ -149,7 +149,6 @@ struct TribesView: View {
 			) {
 				if let leaveTribeVM = viewModel.leaveTribeVM {
 					LeaveTribeView(viewModel: leaveTribeVM)
-						.edgesIgnoringSafeArea(.all)
 				}
 			}
 			.banner(data: self.$viewModel.banner)
