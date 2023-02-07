@@ -106,6 +106,7 @@ struct LeaveTribeView: View {
 				.buttonStyle(.expanded)
 				.disabled(!viewModel.isConfirmed)
 				.padding(.bottom)
+				.padding(.bottom)
 			}
 			.padding(.horizontal)
 			.onChange(of: viewModel.didLeaveTribe) { _ in
