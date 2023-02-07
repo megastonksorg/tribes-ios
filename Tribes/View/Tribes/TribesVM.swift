@@ -72,6 +72,7 @@ extension TribesView {
 		}
 		
 		func tribeLeaveActionTapped(_ tribe: Tribe) {
+			setFocusedTribe(nil)
 			setLeaveTribeVM(LeaveTribeView.ViewModel(tribe: tribe))
 		}
 		
@@ -88,6 +89,7 @@ extension TribesView {
 		}
 		
 		func tribeInviteActionTapped(_ tribe: Tribe) {
+			setFocusedTribe(nil)
 			self.showTribeInviteCard(tribe: tribe)
 		}
 		
