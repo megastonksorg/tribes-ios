@@ -65,20 +65,6 @@ struct TribeAvatar: View {
 	}
 	
 	var body: some View {
-		let contextMenu = ContextMenu {
-			Group {
-				Button { inviteAction(self.tribe) } label: {
-					Label("Invite", systemImage: "person.fill.badge.plus")
-				}
-				.disabled(!isInviteButtonEnabled)
-				Divider()
-				Button { leaveAction(self.tribe) } label: {
-					Label("Leave", systemImage: "rectangle.portrait.and.arrow.forward.fill")
-						.foregroundColor(Color.white)
-				}
-			}
-			.foregroundColor(Color.white)
-		}
 		VStack {
 			Button(action: { primaryAction(self.tribe) }) {
 				Circle()
