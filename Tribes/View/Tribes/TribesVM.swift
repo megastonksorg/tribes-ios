@@ -83,9 +83,7 @@ extension TribesView {
 		}
 		
 		func tribeInviteActionTapped(_ tribe: Tribe) {
-			DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-				self.showTribeInviteCard(tribe: tribe)
-			}
+			self.showTribeInviteCard(tribe: tribe)
 		}
 		
 		func showTribeInviteCard(tribe: Tribe) {
