@@ -44,7 +44,6 @@ class CacheClient: CacheClientProtocol {
 	private var cache: IdentifiedArrayOf<Cache> = []
 	private var memorySubscription: AnyCancellable!
 	
-	//Be sure to clear the stored cache in RAM as well
 	init() {
 		if !FileManager.default.fileExists(atPath: cacheDirectory.path(), isDirectory: nil) {
 			try! FileManager.default.createDirectory(at: cacheDirectory, withIntermediateDirectories: true)
@@ -53,6 +52,12 @@ class CacheClient: CacheClientProtocol {
 			.default
 			.publisher(for: UIApplication.didReceiveMemoryWarningNotification)
 			.sink(receiveValue: { [weak self] _ in self?.cache = [] })
+		Task {
+			let fileSizes = await getSizeOfCache()
+			if fileSizes > 500_000_000 { // 500 MB
+				await clear()
+			}
+		}
 	}
 	
 	func get<Object: Codable>(key: String, type: Object.Type) async -> Object? {
@@ -123,6 +128,33 @@ class CacheClient: CacheClientProtocol {
 				}
 				self.cache = []
 				continuation.resume()
+			}
+		}
+	}
+	
+	private func getSizeOfCache() async -> Int {
+		await withCheckedContinuation { continuation in
+			queue.async { [weak self] in
+				guard let self = self else {
+					continuation.resume(with: .success(0))
+					return
+				}
+				guard let urls = FileManager.default.enumerator(at: self.cacheDirectory, includingPropertiesForKeys: nil)?.allObjects as? [URL] else {
+					continuation.resume(with: .success(0))
+					return
+				}
+				
+				do {
+					let allFileSizes: Int = try urls.lazy
+						.reduce(0) {
+							(try $1.resourceValues(forKeys: [.totalFileAllocatedSizeKey]).totalFileAllocatedSize ?? 0) + $0
+						}
+					continuation.resume(with: .success(allFileSizes))
+					return
+				} catch {
+					continuation.resume(with: .success(0))
+					return
+				}
 			}
 		}
 	}

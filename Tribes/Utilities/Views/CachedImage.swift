@@ -51,7 +51,7 @@ struct CachedImage<Content: View, PlaceHolder: View>: View {
 				self.image = image
 				return
 			}
-			image = await apiClient.getImage(url: url)
+			self.image = await apiClient.getImage(url: url)
 			if let image = self.image {
 				await cacheClient.setImage(url: url, image: image)
 			}
