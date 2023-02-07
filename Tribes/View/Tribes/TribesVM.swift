@@ -57,7 +57,7 @@ extension TribesView {
 		}
 		
 		func setFocusedTribe(_ tribe: Tribe?) {
-			withAnimation(.easeInOut) {
+			withAnimation(.easeInOut.speed(1.4)) {
 				self.focusedTribe = tribe
 			}
 		}

@@ -9,6 +9,8 @@ import SwiftUI
 import IdentifiedCollections
 
 struct TribesView: View {
+	@Namespace var namespace
+	
 	@StateObject var viewModel: ViewModel
 	@State var sizeWidth: CGFloat = UIScreen.main.bounds.maxX > 500 ? 500 :  UIScreen.main.bounds.maxX
 	
@@ -82,6 +84,7 @@ struct TribesView: View {
 								)
 								.scaleEffect(viewModel.focusedTribe == nil ? 1.0 : 1.1)
 								.transition(.scale)
+								.matchedGeometryEffect(id: focusedTribe.id, in: namespace, properties: .position)
 							}
 							Spacer()
 							Spacer()
@@ -286,6 +289,8 @@ struct TribesView: View {
 			inviteAction: { viewModel.tribeInviteActionTapped($0) },
 			leaveAction: { viewModel.tribeLeaveActionTapped($0) }
 		)
+		.id(tribe.id)
+		.matchedGeometryEffect(id: tribe.id, in: namespace)
 	}
 	
 	@ViewBuilder
