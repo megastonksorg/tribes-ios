@@ -11,8 +11,14 @@ class FeedbackClient {
 	static let shared: FeedbackClient = FeedbackClient()
 	
 	func light() {
-		let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
-		impactFeedbackgenerator.prepare()
-		impactFeedbackgenerator.impactOccurred()
+		let impactFeedbackGenerator = UIImpactFeedbackGenerator(style: .light)
+		impactFeedbackGenerator.prepare()
+		impactFeedbackGenerator.impactOccurred()
+	}
+	
+	func medium() {
+		let impactFeedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
+		impactFeedbackGenerator.prepare()
+		impactFeedbackGenerator.impactOccurred()
 	}
 }

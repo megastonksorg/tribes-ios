@@ -12,8 +12,6 @@ import SwiftUI
 
 extension TribesView {
 	@MainActor class ViewModel: ObservableObject {
-		
-		private let apiClient: APIClient = APIClient.shared
 		private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 		
 		@Published var banner: BannerData?
@@ -24,6 +22,10 @@ extension TribesView {
 		@Published var user: User
 		
 		@Published var isShowingTribeInvite: Bool = false
+		
+		//Clients
+		private let apiClient: APIClient = APIClient.shared
+		private let feedbackClient: FeedbackClient = FeedbackClient.shared
 		
 		init(tribes: IdentifiedArrayOf<Tribe> = [], user: User) {
 			self.tribes = tribes
@@ -57,6 +59,9 @@ extension TribesView {
 		}
 		
 		func setFocusedTribe(_ tribe: Tribe?) {
+			if tribe != nil {
+				self.feedbackClient.medium()
+			}
 			withAnimation(.easeInOut.speed(1.4)) {
 				self.focusedTribe = tribe
 			}
