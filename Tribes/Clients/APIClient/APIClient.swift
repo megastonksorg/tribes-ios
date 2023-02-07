@@ -34,26 +34,31 @@ final class APIClient: APIRequests {
 	private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 	private var isRefreshingToken: Bool = false
 	
+	private let queue = DispatchQueue(label: "com.strikingFinancial.tribes.api.sessionQueue", target: .global())
+	
 	let decoder: JSONDecoder = JSONDecoder()
 	let keychainClient: KeychainClient = KeychainClient.shared
 	
 	func getImage(url: URL) async -> UIImage? {
 		await withCheckedContinuation { continuation in
-			urlRequest(urlRequest: URLRequest(url: url))
-				.sink(
-					receiveCompletion: { completion in
-						switch completion {
-						case .finished: return
-						case .failure:
-							continuation.resume(with: .success(nil))
-							return
+			queue.async { [weak self] in
+				guard let self = self else { return }
+				self.urlRequest(urlRequest: URLRequest(url: url))
+					.sink(
+						receiveCompletion: { completion in
+							switch completion {
+							case .finished: return
+							case .failure:
+								continuation.resume(with: .success(nil))
+								return
+							}
+						},
+						receiveValue: { data in
+							continuation.resume(with: .success(UIImage(data: data)))
 						}
-					},
-					receiveValue: { data in
-						continuation.resume(with: .success(UIImage(data: data)))
-					}
-				)
-				.store(in: &cancellables)
+					)
+					.store(in: &self.cancellables)
+			}
 		}
 	}
 	
