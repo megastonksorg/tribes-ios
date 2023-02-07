@@ -74,6 +74,7 @@ struct TribesView: View {
 								TribeAvatar(
 									tribe: focusedTribe,
 									size: 200,
+									contextAction: { _ in },
 									primaryAction: { _ in },
 									secondaryAction: { _ in },
 									inviteAction: { viewModel.tribeInviteActionTapped($0) },
@@ -276,6 +277,7 @@ struct TribesView: View {
 		TribeAvatar(
 			tribe: tribe,
 			size: size,
+			contextAction: { viewModel.setFocusedTribe($0) },
 			primaryAction: { viewModel.tribePrimaryActionTapped($0) },
 			secondaryAction: { viewModel.tribeSecondaryActionTapped($0) },
 			inviteAction: { viewModel.tribeInviteActionTapped($0) },

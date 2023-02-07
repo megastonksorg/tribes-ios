@@ -17,8 +17,7 @@ struct TribeAvatar: View {
 	let size: CGFloat
 	let stackSize: CGFloat
 	
-	let shouldShowContextMenu: Bool
-	
+	let contextAction: (_ tribe: Tribe) -> ()
 	let primaryAction: (_ tribe: Tribe) -> ()
 	let secondaryAction: (_ tribe: Tribe) -> ()
 	let inviteAction: (_ tribe: Tribe) -> ()
@@ -31,7 +30,7 @@ struct TribeAvatar: View {
 	init(
 		tribe: Tribe,
 		size: CGFloat,
-		showContextMenu: Bool = true,
+		contextAction: @escaping (_ tribe: Tribe) -> (),
 		primaryAction: @escaping (_ tribe: Tribe) -> (),
 		secondaryAction: @escaping (_ tribe: Tribe) -> (),
 		inviteAction: @escaping (_ tribe: Tribe) -> (),
@@ -58,8 +57,7 @@ struct TribeAvatar: View {
 			}
 		}()
 		
-		self.shouldShowContextMenu = showContextMenu
-		
+		self.contextAction = contextAction
 		self.primaryAction = primaryAction
 		self.secondaryAction = secondaryAction
 		self.inviteAction = inviteAction
@@ -397,7 +395,12 @@ struct TribeAvatar: View {
 			}
 			.buttonStyle(.insideScaling)
 		}
-		.contextMenu(shouldShowContextMenu ? contextMenu : nil)
+		.simultaneousGesture(
+			LongPressGesture(minimumDuration: 0.8)
+				.onEnded { _ in
+					contextAction(self.tribe)
+				}
+		)
 	}
 	
 	@ViewBuilder
@@ -417,9 +420,10 @@ struct TribeAvatar_Previews: PreviewProvider {
 						members: Array(repeating: TribeMember.noop1, count: 10)
 					),
 					size: 180,
+					contextAction: { _ in },
 					primaryAction: { _ in },
-					secondaryAction: { _ in},
-					inviteAction: {_ in},
+					secondaryAction: { _ in },
+					inviteAction: {_ in },
 					leaveAction: { _ in }
 				)
 				Spacer()
@@ -430,9 +434,10 @@ struct TribeAvatar_Previews: PreviewProvider {
 						members: Array(repeating: TribeMember.noop1, count: 10)
 					),
 					size: 180,
-					primaryAction: {_ in},
-					secondaryAction: {_ in},
-					inviteAction: {_ in},
+					contextAction: { _ in },
+					primaryAction: { _ in },
+					secondaryAction: { _ in },
+					inviteAction: { _ in },
 					leaveAction: { _ in }
 				)
 			}
