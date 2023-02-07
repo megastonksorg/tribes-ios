@@ -90,6 +90,17 @@ struct TribesView: View {
 								
 								VStack(spacing: 10) {
 									Group {
+										Button(action: { }) {
+											HStack {
+												Text("Rename")
+												Spacer()
+												Image(systemName: "pencil")
+											}
+										}
+										Rectangle()
+											.fill(Color.app.divider)
+											.frame(height: 6)
+											.padding(.horizontal, -padding)
 										Button(action: { viewModel.tribeInviteActionTapped(focusedTribe) }) {
 											HStack {
 												Text("Invite")
