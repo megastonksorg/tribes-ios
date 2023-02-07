@@ -19,6 +19,7 @@ extension TribesView {
 		@Published var banner: BannerData?
 		@Published var leaveTribeVM: LeaveTribeView.ViewModel?
 		@Published var tribeInviteVM: TribeInviteView.ViewModel?
+		@Published var focusedTribe: Tribe?
 		@Published var tribes: IdentifiedArrayOf<Tribe>
 		@Published var user: User
 		
@@ -53,6 +54,10 @@ extension TribesView {
 					}
 				)
 				.store(in: &cancellables)
+		}
+		
+		func setFocusedTribe(_ tribe: Tribe?) {
+			self.focusedTribe = tribe
 		}
 		
 		func setLeaveTribeVM(_ viewModel: LeaveTribeView.ViewModel?) {

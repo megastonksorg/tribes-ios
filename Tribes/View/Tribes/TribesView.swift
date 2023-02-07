@@ -60,6 +60,30 @@ struct TribesView: View {
 			}
 			.pushOutFrame()
 			.background(Color.app.background)
+			.overlay(isShown: viewModel.focusedTribe != nil) {
+				Rectangle()
+					.fill(.ultraThinMaterial)
+					.edgesIgnoringSafeArea(.all)
+					.onTapGesture {
+						viewModel.setFocusedTribe(nil)
+					}
+					.overlay(
+						VStack {
+							Spacer()
+							if let focusedTribe = viewModel.focusedTribe {
+								TribeAvatar(
+									tribe: focusedTribe,
+									size: 200,
+									primaryAction: { _ in },
+									secondaryAction: { _ in },
+									inviteAction: { viewModel.tribeInviteActionTapped($0) },
+									leaveAction: { viewModel.tribeLeaveActionTapped($0) }
+								)
+							}
+							Spacer()
+						}
+					)
+			}
 			.cardView(
 				isShowing: $viewModel.isShowingTribeInvite,
 				dismissAction: { viewModel.dismissTribeInviteCard() }
