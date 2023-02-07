@@ -69,15 +69,15 @@ extension TribesView {
 		}
 		
 		func tribePrimaryActionTapped(_ tribe: Tribe) {
-			if tribe.members.count == 1 {
-				showTribeInviteCard(tribe: tribe)
+			if focusedTribe == nil {
+				if tribe.members.count == 1 {
+					showTribeInviteCard(tribe: tribe)
+				}
 			}
 		}
 		
 		func tribeSecondaryActionTapped(_ tribe: Tribe) {
-			if tribe.members.count == 1 {
-				showTribeInviteCard(tribe: tribe)
-			}
+			
 		}
 		
 		func tribeInviteActionTapped(_ tribe: Tribe) {
@@ -87,11 +87,9 @@ extension TribesView {
 		}
 		
 		func showTribeInviteCard(tribe: Tribe) {
-			if self.focusedTribe == nil {
-				withAnimation(Animation.cardViewAppear) {
-					self.isShowingTribeInvite = true
-					self.tribeInviteVM = TribeInviteView.ViewModel(tribe: tribe)
-				}
+			withAnimation(Animation.cardViewAppear) {
+				self.isShowingTribeInvite = true
+				self.tribeInviteVM = TribeInviteView.ViewModel(tribe: tribe)
 			}
 		}
 		
