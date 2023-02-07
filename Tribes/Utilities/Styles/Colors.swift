@@ -22,6 +22,7 @@ extension Color.app {
 	static let black: Color = Color(uiColor: UIColor(hex: "0D1114"))
 	static let card: Color = Color(uiColor: UIColor(hex: "232328"))
 	static let cardStroke: Color = Color(uiColor: UIColor(hex: "3E3E3E"))
+	static let divider: Color = Color(uiColor: UIColor(hex: "1C1A1B"))
 	static let red: Color = Color(uiColor: UIColor(hex: "D73A3A"))
 	static let textFieldCursor: Color = Color.white
 }

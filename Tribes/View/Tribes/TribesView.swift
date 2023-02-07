@@ -85,6 +85,41 @@ struct TribesView: View {
 								.scaleEffect(viewModel.focusedTribe == nil ? 1.0 : 1.1)
 								.transition(.scale)
 								.matchedGeometryEffect(id: focusedTribe.id, in: namespace, properties: .position)
+								
+								let padding: CGFloat = 20
+								
+								VStack(spacing: 10) {
+									Group {
+										Button(action: { viewModel.tribeInviteActionTapped(focusedTribe) }) {
+											HStack {
+												Text("Invite")
+												Spacer()
+												Image(systemName: "person.fill.badge.plus")
+											}
+										}
+										.disabled(focusedTribe.members.count + 1 >= 10)
+										Rectangle()
+											.fill(Color.app.divider)
+											.frame(height: 6)
+											.padding(.horizontal, -padding)
+										Button(action: { viewModel.tribeLeaveActionTapped(focusedTribe) }) {
+											HStack {
+												Text("Leave")
+												Spacer()
+												Image(systemName: "rectangle.portrait.and.arrow.forward.fill")
+													.offset(x: 4)
+											}
+										}
+									}
+									.frame(width: 200)
+									.foregroundColor(Color.white)
+								}
+								.transition(.identity.combined(with: .opacity))
+								.padding(padding)
+								.background(.ultraThickMaterial)
+								.cornerRadius(10)
+								.dropShadow()
+								.padding([.top, .horizontal])
 							}
 							Spacer()
 							Spacer()
