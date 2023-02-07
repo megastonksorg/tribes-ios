@@ -40,11 +40,9 @@ struct TribesView: View {
 									Label("Join", systemImage: "person.2.fill")
 								}
 							}, label: {
-								Button(action: {}) {
-									Image(systemName: "plus.circle.fill")
-										.font(.system(size: 30))
-										.foregroundColor(Color.app.secondary)
-								}
+								Image(systemName: "plus.circle.fill")
+									.font(.system(size: 30))
+									.foregroundColor(Color.app.secondary)
 							})
 						}
 					)
