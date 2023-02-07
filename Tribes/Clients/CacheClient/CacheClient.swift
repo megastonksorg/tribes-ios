@@ -90,6 +90,7 @@ class CacheClient: CacheClientProtocol {
 			guard let self = self else { return }
 			guard let data = try? self.encoder.encode(cache.object) else { return }
 			try? data.write(to: fileName(for: cache.key), options: [.atomic, .completeFileProtection])
+			self.cache[id: cache.key] = cache
 		}
 	}
 	
