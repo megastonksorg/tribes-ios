@@ -87,9 +87,11 @@ extension TribesView {
 		}
 		
 		func showTribeInviteCard(tribe: Tribe) {
-			withAnimation(Animation.cardViewAppear) {
-				self.isShowingTribeInvite = true
-				self.tribeInviteVM = TribeInviteView.ViewModel(tribe: tribe)
+			if self.focusedTribe == nil {
+				withAnimation(Animation.cardViewAppear) {
+					self.isShowingTribeInvite = true
+					self.tribeInviteVM = TribeInviteView.ViewModel(tribe: tribe)
+				}
 			}
 		}
 		
