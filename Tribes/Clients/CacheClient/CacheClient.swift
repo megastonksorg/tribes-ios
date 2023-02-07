@@ -62,7 +62,7 @@ class CacheClient: CacheClientProtocol {
 	
 	func get<Object: Codable>(key: String, type: Object.Type) async -> Object? {
 		await withCheckedContinuation { continuation in
-			self.queue.async { [weak self] in
+			queue.async { [weak self] in
 				guard let self = self else {
 					continuation.resume(returning: nil)
 					return
@@ -86,49 +86,37 @@ class CacheClient: CacheClientProtocol {
 	}
 	
 	func set(cache: Cache) async {
-		await withCheckedContinuation { continuation in
-			self.queue.sync { [weak self] in
-				guard let self = self else {
-					continuation.resume()
-					return
-				}
-				guard let data = try? self.encoder.encode(cache.object) else { return }
-				try? data.write(to: fileName(for: cache.key), options: [.atomic, .completeFileProtection])
-				continuation.resume()
-			}
+		queue.sync { [weak self] in
+			guard let self = self else { return }
+			guard let data = try? self.encoder.encode(cache.object) else { return }
+			try? data.write(to: fileName(for: cache.key), options: [.atomic, .completeFileProtection])
 		}
 	}
 	
 	private func clear() async {
-		await withCheckedContinuation { continuation in
-			queue.sync { [weak self] in
-				guard let self = self else {
-					continuation.resume()
-					return
+		queue.sync { [weak self] in
+			guard let self = self else { return }
+			var files = [URL]()
+			if let enumerator = FileManager
+				.default
+				.enumerator(
+					at: self.cacheDirectory,
+					includingPropertiesForKeys: [.isRegularFileKey],
+					options: [.skipsHiddenFiles, .skipsPackageDescendants]
+				) {
+				for case let fileURL as URL in enumerator {
+					do {
+						let fileAttributes = try fileURL.resourceValues(forKeys:[.isRegularFileKey])
+						if fileAttributes.isRegularFile! {
+							files.append(fileURL)
+						}
+					} catch { }
 				}
-				var files = [URL]()
-				if let enumerator = FileManager
-					.default
-					.enumerator(
-						at: self.cacheDirectory,
-						includingPropertiesForKeys: [.isRegularFileKey],
-						options: [.skipsHiddenFiles, .skipsPackageDescendants]
-					) {
-					for case let fileURL as URL in enumerator {
-						do {
-							let fileAttributes = try fileURL.resourceValues(forKeys:[.isRegularFileKey])
-							if fileAttributes.isRegularFile! {
-								files.append(fileURL)
-							}
-						} catch { continuation.resume() }
-					}
-				}
-				for file in files {
-					try? FileManager.default.removeItem(at: file)
-				}
-				self.cache = []
-				continuation.resume()
 			}
+			for file in files {
+				try? FileManager.default.removeItem(at: file)
+			}
+			self.cache = []
 		}
 	}
 	
@@ -160,16 +148,10 @@ class CacheClient: CacheClientProtocol {
 	}
 	
 	private func delete(key: String) async {
-		await withCheckedContinuation { continuation in
-			queue.sync { [weak self] in
-				guard let self = self else {
-					continuation.resume()
-					return
-				}
-				try? FileManager.default.removeItem(at: fileName(for: key))
-				self.cache.remove(id: key)
-				continuation.resume()
-			}
+		queue.sync { [weak self] in
+			guard let self = self else { return }
+			try? FileManager.default.removeItem(at: fileName(for: key))
+			self.cache.remove(id: key)
 		}
 	}
 	
