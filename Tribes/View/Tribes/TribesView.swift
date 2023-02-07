@@ -58,10 +58,12 @@ struct TribesView: View {
 			}
 			.pushOutFrame()
 			.background(Color.app.background)
-			.overlay(isShown: viewModel.focusedTribe != nil) {
+			.overlay {
 				Rectangle()
 					.fill(.ultraThinMaterial)
 					.edgesIgnoringSafeArea(.all)
+					.opacity(viewModel.focusedTribe == nil ? 0.0 : 1.0)
+					.transition(.opacity)
 					.onTapGesture {
 						viewModel.setFocusedTribe(nil)
 					}
@@ -78,7 +80,10 @@ struct TribesView: View {
 									inviteAction: { viewModel.tribeInviteActionTapped($0) },
 									leaveAction: { viewModel.tribeLeaveActionTapped($0) }
 								)
+								.scaleEffect(viewModel.focusedTribe == nil ? 1.0 : 1.1)
+								.transition(.scale)
 							}
+							Spacer()
 							Spacer()
 						}
 					)
