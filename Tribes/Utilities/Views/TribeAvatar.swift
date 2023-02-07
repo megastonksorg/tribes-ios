@@ -396,7 +396,7 @@ struct TribeAvatar: View {
 			.buttonStyle(.insideScaling)
 		}
 		.simultaneousGesture(
-			LongPressGesture(minimumDuration: 0.8)
+			LongPressGesture(minimumDuration: 0.5)
 				.onEnded { _ in
 					contextAction(self.tribe)
 				}
