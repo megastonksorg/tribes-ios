@@ -88,17 +88,6 @@ struct TribesView: View {
 								
 								VStack(spacing: 10) {
 									Group {
-										Button(action: { }) {
-											HStack {
-												Text("Rename")
-												Spacer()
-												Image(systemName: "pencil")
-											}
-										}
-										Rectangle()
-											.fill(Color.app.divider)
-											.frame(height: 6)
-											.padding(.horizontal, -padding)
 										Button(action: { viewModel.tribeInviteActionTapped(focusedTribe) }) {
 											HStack {
 												Text("Invite")
@@ -108,8 +97,8 @@ struct TribesView: View {
 										}
 										.disabled(focusedTribe.members.count + 1 >= 10)
 										Rectangle()
-											.fill(Color.app.divider)
-											.frame(height: 6)
+											.fill(Color.app.cardStroke)
+											.frame(height: 1)
 											.padding(.horizontal, -padding)
 										Button(action: { viewModel.tribeLeaveActionTapped(focusedTribe) }) {
 											HStack {
@@ -120,14 +109,20 @@ struct TribesView: View {
 											}
 										}
 									}
-									.frame(width: 200)
+									.frame(width: 180)
+									.font(.system(size: FontSizes.body))
 									.foregroundColor(Color.white)
 								}
 								.padding(.horizontal, padding)
 								.padding(.vertical, padding / 1.5)
-								.background(.ultraThickMaterial)
-								.cornerRadius(10)
-								.dropShadow()
+								.background {
+									ZStack {
+										RoundedRectangle(cornerRadius: 10)
+											.fill(Color.app.black.opacity(0.6))
+										RoundedRectangle(cornerRadius: 10)
+											.stroke(Color.app.cardStroke)
+									}
+								}
 								.padding([.top, .horizontal])
 								.transition(.asymmetric(insertion: .scale, removal: .identity))
 							}
