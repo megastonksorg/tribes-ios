@@ -6,10 +6,19 @@
 //
 
 import Foundation
+import IdentifiedCollections
 
 struct Cache: Identifiable {
 	let key: String
 	let object: Codable
 	
 	var id: String { key }
+}
+
+struct CacheKey<Object: Codable> {
+	let name: String
+}
+
+extension CacheKey {
+	static var tribes: CacheKey<IdentifiedArrayOf<Tribe>> { .init(name: "tribes") }
 }

@@ -28,6 +28,14 @@ extension CacheClientProtocol {
 		}
 		return UIImage(data: imageData)
 	}
+	
+	func setData<Data: Codable>(key: CacheKey<Data>, value: Data) async -> Void {
+		await set(cache: Cache(key: key.name, object: value))
+	}
+	
+	func getData<Data: Codable>(key: CacheKey<Data>) async -> Data? {
+		await get(key: key.name, type: Data.self)
+	}
 }
 
 class CacheClient: CacheClientProtocol {
