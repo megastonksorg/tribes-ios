@@ -61,7 +61,7 @@ extension AppError.APIClientError: LocalizedError {
 		switch self {
 		case .authExpired:
 			return NSLocalizedString(
-				"Authentication has expired. You will be logged out now",
+				"Authentication Token expired",
 				comment: "Auth Expired"
 			)
 			case .invalidURL:

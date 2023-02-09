@@ -32,7 +32,6 @@ final class APIClient: APIRequests {
 	static let shared: APIClient = APIClient()
 
 	private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
-	private var isRefreshingToken: Bool = false
 	
 	private let queue = DispatchQueue(label: "com.strikingFinancial.tribes.api.sessionQueue", target: .global())
 	
@@ -166,66 +165,26 @@ final class APIClient: APIRequests {
 		do {
 			return try urlRequest(urlRequest: appRequest.urlRequest)
 				.catch { error -> AnyPublisher<Data, Error> in
+					let failedPublisher: AnyPublisher<Data, Error> = Fail(error: error).eraseToAnyPublisher()
 					if let error  = error as? APIClientError {
 						if error == .authExpired {
-							do {
-								if !self.isRefreshingToken {
-									self.isRefreshingToken = true
-									if let token = self.keychainClient.get(key: .token), let cookie = HTTPCookie(properties: [
-										.domain: APPUrlRequest.domain,
-										.path: "/",
-										.name: "refreshToken",
-										.value: token.refresh,
-										.secure: "FALSE",
-										.discard: "TRUE"
-									]) {
-										HTTPCookieStorage.shared.setCookie(cookie)
+							return TokenManager.shared.refreshToken()
+								.flatMap { isSuccess -> AnyPublisher<Data, Error> in
+									let request = try! appRequest.urlRequest
+									if isSuccess {
+										return self.urlRequest(urlRequest: request)
+											.eraseToAnyPublisher()
+									} else {
+										return failedPublisher
 									}
-									let tokenRequest: URLRequest = try APPUrlRequest(httpMethod: .post, pathComponents: ["account", "refresh"]).urlRequest
-									
-									return self.urlRequest(urlRequest: tokenRequest)
-										.decode(type: AuthenticateResponse.self, decoder: self.decoder)
-										.mapError{ $0 as? AppError.APIClientError ?? APIClientError.rawError($0.localizedDescription) }
-										.eraseToAnyPublisher()
-										.handleEvents(receiveCompletion: { completion in
-											switch completion {
-											case .finished: return
-											case .failure(let error):
-												if let error = error as? AppError.APIClientError {
-													let expectedDataError: Data = Data("Invalid token".utf8)
-													if error == .httpError(statusCode: 400, data: expectedDataError) {
-														Task {
-															await AppState.updateAppState(with: .logUserOut)
-														}
-													}
-												}
-											}
-										})
-										.flatMap { authResponse -> AnyPublisher<Data, Error> in
-											let token = Token(jwt: authResponse.jwtToken, refresh: authResponse.refreshToken)
-											let user = User(
-												walletAddress: authResponse.walletAddress,
-												fullName: authResponse.fullName,
-												profilePhoto: authResponse.profilePhoto,
-												currency: authResponse.currency,
-												acceptTerms: authResponse.acceptTerms,
-												isOnboarded: authResponse.isOnboarded
-											)
-											self.keychainClient.set(key: .token, value: token)
-											self.keychainClient.set(key: .user, value: user)
-											let request = try! appRequest.urlRequest
-											self.isRefreshingToken = false
-											return self.urlRequest(urlRequest: request)
-												.eraseToAnyPublisher()
-										}
-										.eraseToAnyPublisher()
 								}
-							} catch {
-								return Fail(error: error as? APIClientError ?? APIClientError.rawError(error.localizedDescription)).eraseToAnyPublisher()
-							}
+								.eraseToAnyPublisher()
+						} else {
+							return failedPublisher
 						}
+					} else {
+						return failedPublisher
 					}
-					return Fail(error: error as? APIClientError ?? APIClientError.rawError(error.localizedDescription)).eraseToAnyPublisher()
 				}
 				.decode(type: output, decoder: self.decoder)
 				.mapError{ error in
@@ -244,7 +203,7 @@ final class APIClient: APIRequests {
 		}
 	}
 	
-	private func urlRequest(urlRequest: URLRequest) -> AnyPublisher<Data, Error> {
+	func urlRequest(urlRequest: URLRequest) -> AnyPublisher<Data, Error> {
 		return URLSession.shared.dataTaskPublisher(for: urlRequest)
 			.validateStatusCode()
 			.map(\.data)
