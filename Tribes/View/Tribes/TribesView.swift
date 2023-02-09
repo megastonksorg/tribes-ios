@@ -62,7 +62,7 @@ struct TribesView: View {
 			.background(Color.app.background)
 			.overlay {
 				Rectangle()
-					.fill(.ultraThinMaterial)
+					.fill(Color.black)
 					.edgesIgnoringSafeArea(.all)
 					.opacity(viewModel.focusedTribe == nil ? 0.0 : 1.0)
 					.transition(.opacity)
