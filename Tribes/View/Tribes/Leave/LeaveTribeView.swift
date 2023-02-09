@@ -38,21 +38,9 @@ struct LeaveTribeView: View {
 				.foregroundColor(Color.app.tertiary)
 				.padding(.top)
 				
-				VStack(spacing: 20) {
-					Text("Are you sure you want to \(ViewModel.confirmationTitle) ‘\(viewModel.tribe.name)’ tribe?")
-						.fixedSize(horizontal: false, vertical: true)
-					Text("If you are sure, please type")
-					+
-					Text(" \(ViewModel.confirmationTitle) ")
-						.foregroundColor(Color.app.tertiary)
-						.bold()
-					+
-					Text("below")
-				}
-				.multilineTextAlignment(.center)
-				.font(Font.app.subTitle)
-				.foregroundColor(.white)
-				.padding(.top)
+				Text("Are you sure you want to \(ViewModel.confirmationTitle) ‘\(viewModel.tribe.name)’?")
+					.fixedSize(horizontal: false, vertical: true)
+					.padding(.top)
 				
 				ScrollView(.horizontal) {
 					LazyHStack(spacing: 10) {
@@ -71,6 +59,14 @@ struct LeaveTribeView: View {
 				}
 				.frame(width: self.avatarsWidth, height: 100, alignment: .center)
 				.padding(.top)
+				
+				Text("Type")
+				+
+				Text(" \(ViewModel.confirmationTitle) ")
+					.foregroundColor(Color.app.tertiary)
+					.bold()
+				+
+				Text("below")
 				
 				SymmetricHStack(
 					content: {
@@ -114,6 +110,9 @@ struct LeaveTribeView: View {
 				dismiss()
 			}
 		}
+		.multilineTextAlignment(.center)
+		.font(Font.app.subTitle)
+		.foregroundColor(.white)
 		.pushOutFrame()
 		.overlay(isShown: viewModel.isLoading) {
 			AppProgressView()
