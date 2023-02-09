@@ -329,17 +329,19 @@ struct TribesView: View {
 	
 	@ViewBuilder
 	func tribeAvatar(tribe: Tribe, size: CGFloat) -> some View {
-		TribeAvatar(
-			tribe: tribe,
-			size: size,
-			contextAction: { viewModel.setFocusedTribe($0) },
-			primaryAction: { viewModel.tribePrimaryActionTapped($0) },
-			secondaryAction: { viewModel.tribeSecondaryActionTapped($0) },
-			inviteAction: { viewModel.tribeInviteActionTapped($0) },
-			leaveAction: { viewModel.tribeLeaveActionTapped($0) }
-		)
-		.id(tribe.id)
-		.matchedGeometryEffect(id: tribe.id, in: namespace)
+		if viewModel.focusedTribe?.id != tribe.id {
+			TribeAvatar(
+				tribe: tribe,
+				size: size,
+				contextAction: { viewModel.setFocusedTribe($0) },
+				primaryAction: { viewModel.tribePrimaryActionTapped($0) },
+				secondaryAction: { viewModel.tribeSecondaryActionTapped($0) },
+				inviteAction: { viewModel.tribeInviteActionTapped($0) },
+				leaveAction: { viewModel.tribeLeaveActionTapped($0) }
+			)
+			.id(tribe.id)
+			.matchedGeometryEffect(id: tribe.id, in: namespace)
+		}
 	}
 	
 	@ViewBuilder
