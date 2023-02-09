@@ -125,12 +125,12 @@ struct TribesView: View {
 									.frame(width: 200)
 									.foregroundColor(Color.white)
 								}
-								.transition(.identity.combined(with: .opacity))
 								.padding(padding)
 								.background(.ultraThickMaterial)
 								.cornerRadius(10)
 								.dropShadow()
 								.padding([.top, .horizontal])
+								.transition(.asymmetric(insertion: .scale, removal: .identity))
 							}
 							Spacer()
 							Spacer()
