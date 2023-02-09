@@ -38,9 +38,16 @@ struct LeaveTribeView: View {
 				.foregroundColor(Color.app.tertiary)
 				.padding(.top)
 				
-				Text("Are you sure you want to \(ViewModel.confirmationTitle) ‘\(viewModel.tribe.name)’?")
-					.fixedSize(horizontal: false, vertical: true)
-					.padding(.top)
+				VStack {
+					Text("Are you sure you want to \(ViewModel.confirmationTitle) ")
+					+
+					Text(viewModel.tribe.name)
+						.foregroundColor(Color.app.tertiary)
+					+
+					Text("?")
+				}
+				.fixedSize(horizontal: false, vertical: true)
+				.padding(.top)
 				
 				ScrollView(.horizontal) {
 					LazyHStack(spacing: 10) {
@@ -60,13 +67,14 @@ struct LeaveTribeView: View {
 				.frame(width: self.avatarsWidth, height: 100, alignment: .center)
 				.padding(.top)
 				
-				Text("Type")
-				+
-				Text(" \(ViewModel.confirmationTitle) ")
-					.foregroundColor(Color.app.tertiary)
-					.bold()
-				+
-				Text("below")
+				VStack {
+					Text("Type")
+					+
+					Text(" \(ViewModel.confirmationTitle) ")
+						.foregroundColor(Color.app.tertiary)
+						.bold()
+				}
+				.padding(.top)
 				
 				SymmetricHStack(
 					content: {
