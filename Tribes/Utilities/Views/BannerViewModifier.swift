@@ -71,12 +71,14 @@ struct BannerViewModifier: ViewModifier {
 									.bold()
 							}
 							
-							HStack {
-								Image(systemName: symbol)
-									.font(Font.app.title)
-									.foregroundColor(data.type.tintColor)
-								Text(data.detail)
-									.font(Font.app.subTitle)
+							if (!data.detail.isEmpty) {
+								HStack {
+									Image(systemName: symbol)
+										.font(Font.app.title)
+										.foregroundColor(data.type.tintColor)
+									Text(data.detail)
+										.font(Font.app.subTitle)
+								}
 							}
 						}
 					}
