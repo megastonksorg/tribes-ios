@@ -61,9 +61,7 @@ struct TribesView: View {
 			.pushOutFrame()
 			.background(Color.app.background)
 			.overlay {
-				Rectangle()
-					.fill(Color.black)
-					.edgesIgnoringSafeArea(.all)
+				contextMenuBackground()
 					.opacity(viewModel.focusedTribe == nil ? 0.0 : 1.0)
 					.transition(.opacity)
 					.onTapGesture {
@@ -345,6 +343,16 @@ struct TribesView: View {
 			.id(tribe.id)
 			.matchedGeometryEffect(id: tribe.id, in: namespace)
 		}
+	}
+	
+	@ViewBuilder
+	func contextMenuBackground() -> some View {
+		Rectangle()
+			.fill(.ultraThinMaterial)
+			.overlay {
+				Color.app.background.opacity(0.6)
+			}
+			.edgesIgnoringSafeArea(.all)
 	}
 	
 	@ViewBuilder
