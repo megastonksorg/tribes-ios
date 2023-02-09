@@ -92,6 +92,7 @@
 		D0766365298E288100946F7B /* CachedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0766364298E288100946F7B /* CachedImage.swift */; };
 		D07663672990389F00946F7B /* AppContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07663662990389F00946F7B /* AppContextMenu.swift */; };
 		D076636929948FEB00946F7B /* TokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D076636829948FEB00946F7B /* TokenManager.swift */; };
+		D076636D2995313100946F7B /* TribesRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D076636C2995313100946F7B /* TribesRepository.swift */; };
 		D08EBF1F297EBEC1001B7A5C /* KeychainClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08EBF1E297EBEC1001B7A5C /* KeychainClient.swift */; };
 		D08EBF23297FC4D1001B7A5C /* CreateTribeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08EBF22297FC4D1001B7A5C /* CreateTribeView.swift */; };
 		D08EBF25297FC508001B7A5C /* CreateTribeVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08EBF24297FC508001B7A5C /* CreateTribeVM.swift */; };
@@ -217,6 +218,7 @@
 		D0766364298E288100946F7B /* CachedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedImage.swift; sourceTree = "<group>"; };
 		D07663662990389F00946F7B /* AppContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppContextMenu.swift; sourceTree = "<group>"; };
 		D076636829948FEB00946F7B /* TokenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenManager.swift; sourceTree = "<group>"; };
+		D076636C2995313100946F7B /* TribesRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TribesRepository.swift; sourceTree = "<group>"; };
 		D08EBF1E297EBEC1001B7A5C /* KeychainClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainClient.swift; sourceTree = "<group>"; };
 		D08EBF22297FC4D1001B7A5C /* CreateTribeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTribeView.swift; sourceTree = "<group>"; };
 		D08EBF24297FC508001B7A5C /* CreateTribeVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTribeVM.swift; sourceTree = "<group>"; };
@@ -335,6 +337,7 @@
 		D030D29C295745C20011128F /* Clients */ = {
 			isa = PBXGroup;
 			children = (
+				D076636E2995436500946F7B /* Repositories */,
 				D0E9F7FA298DD1FF00A0400A /* CacheClient */,
 				D0D2668D295F715500A94183 /* CaptureClient */,
 				D030D29D295745C20011128F /* APIClient */,
@@ -610,6 +613,14 @@
 			path = Leave;
 			sourceTree = "<group>";
 		};
+		D076636E2995436500946F7B /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				D076636C2995313100946F7B /* TribesRepository.swift */,
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
 		D08EBF21297FC4AF001B7A5C /* Create */ = {
 			isa = PBXGroup;
 			children = (
@@ -863,6 +874,7 @@
 				D07278C2297603DC00650A15 /* ChatBubble.swift in Sources */,
 				D030D2F6295745F90011128F /* EULA.swift in Sources */,
 				D030D2D7295745E90011128F /* View+Frame.swift in Sources */,
+				D076636D2995313100946F7B /* TribesRepository.swift in Sources */,
 				D030D31F2957460B0011128F /* ProfileSettingsView.swift in Sources */,
 				D030D2E4295745E90011128F /* ImagePicker.swift in Sources */,
 				D07278BB2975FB9600650A15 /* CalloutView.swift in Sources */,

@@ -24,6 +24,7 @@ fileprivate let appStateKeyNotification: String = "appState"
 	}
 	
 	let keychainClient = KeychainClient.shared
+	let tribesRepository = TribesRepository.shared
 	
 	@Published var appMode: AppMode = .welcome(WelcomePageView.ViewModel())
 	@Published var banner: BannerData?

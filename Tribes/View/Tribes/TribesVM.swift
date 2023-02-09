@@ -26,8 +26,9 @@ extension TribesView {
 		//Clients
 		private let apiClient: APIClient = APIClient.shared
 		private let feedbackClient: FeedbackClient = FeedbackClient.shared
+		private let tribesRepository: TribesRepository = TribesRepository.shared
 		
-		init(tribes: IdentifiedArrayOf<Tribe> = [], user: User) {
+		init(tribes: IdentifiedArrayOf<Tribe> = TribesRepository.shared.getTribes(), user: User) {
 			self.tribes = tribes
 			self.user = user
 		}
@@ -41,7 +42,7 @@ extension TribesView {
 		}
 		
 		func loadTribes() {
-			apiClient.getTribes()
+			tribesRepository.refreshTribes()
 				.receive(on: DispatchQueue.main)
 				.sink(
 					receiveCompletion: { [weak self] completion in
@@ -52,7 +53,7 @@ extension TribesView {
 						}
 					},
 					receiveValue: { [weak self] tribes in
-						self?.tribes = IdentifiedArray(uniqueElements: tribes)
+						self?.tribes = tribes
 					}
 				)
 				.store(in: &cancellables)
