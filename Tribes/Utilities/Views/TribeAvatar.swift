@@ -17,6 +17,8 @@ struct TribeAvatar: View {
 	let size: CGFloat
 	let stackSize: CGFloat
 	
+	let showName: Bool
+	
 	let contextAction: (_ tribe: Tribe) -> ()
 	let primaryAction: (_ tribe: Tribe) -> ()
 	let secondaryAction: (_ tribe: Tribe) -> ()
@@ -30,6 +32,7 @@ struct TribeAvatar: View {
 	init(
 		tribe: Tribe,
 		size: CGFloat,
+		showName: Bool = true,
 		contextAction: @escaping (_ tribe: Tribe) -> (),
 		primaryAction: @escaping (_ tribe: Tribe) -> (),
 		secondaryAction: @escaping (_ tribe: Tribe) -> (),
@@ -56,6 +59,8 @@ struct TribeAvatar: View {
 			default: return 22
 			}
 		}()
+		
+		self.showName = showName
 		
 		self.contextAction = contextAction
 		self.primaryAction = primaryAction
@@ -375,11 +380,13 @@ struct TribeAvatar: View {
 					}
 			}
 			.buttonStyle(.insideScaling)
-			Button(action: { secondaryAction(self.tribe) }) {
-				TextView(name, style: .tribeName(nameSize))
-					.fixedSize(horizontal: false, vertical: true)
+			if self.showName {
+				Button(action: { secondaryAction(self.tribe) }) {
+					TextView(name, style: .tribeName(nameSize))
+						.fixedSize(horizontal: false, vertical: true)
+				}
+				.buttonStyle(.insideScaling)
 			}
-			.buttonStyle(.insideScaling)
 		}
 		.simultaneousGesture(
 			LongPressGesture(minimumDuration: 0.5)
@@ -420,6 +427,7 @@ struct TribeAvatar_Previews: PreviewProvider {
 						members: Array(repeating: TribeMember.noop1, count: 10)
 					),
 					size: 180,
+					showName: false,
 					contextAction: { _ in },
 					primaryAction: { _ in },
 					secondaryAction: { _ in },

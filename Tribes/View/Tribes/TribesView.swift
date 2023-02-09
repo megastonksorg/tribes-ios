@@ -74,6 +74,7 @@ struct TribesView: View {
 								TribeAvatar(
 									tribe: focusedTribe,
 									size: 200,
+									showName: false,
 									contextAction: { _ in },
 									primaryAction: { _ in },
 									secondaryAction: { _ in },
