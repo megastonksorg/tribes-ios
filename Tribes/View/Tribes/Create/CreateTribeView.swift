@@ -21,10 +21,16 @@ struct CreateTribeView: View {
 			TextView("Add a name  to represent your Tribe", style: .pageSubTitle)
 				.padding(.top, SizeConstants.subTitleSpacing)
 			
-			TextFieldView(title: "Name", text: $viewModel.name)
-				.focused($focusedField, equals: .name)
-				.padding(.horizontal)
-				.padding(.top, SizeConstants.subTitleSpacing * 2)
+			TextFieldView(
+				title: "Name",
+				text: Binding(
+					get: { viewModel.name },
+					set: { viewModel.setName($0) }
+				)
+			)
+			.focused($focusedField, equals: .name)
+			.padding(.horizontal)
+			.padding(.top, SizeConstants.subTitleSpacing * 2)
 			
 			Spacer()
 			

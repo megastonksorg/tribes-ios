@@ -43,5 +43,10 @@ extension CreateTribeView {
 				)
 				.store(in: &cancellables)
 		}
+		
+		func setName(_ name: String) {
+			guard name.count <= 24 else { return }
+			self.name = name
+		}
 	}
 }
