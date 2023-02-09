@@ -28,7 +28,7 @@ struct CreateTribeView: View {
 			
 			Spacer()
 			
-			Button(action: {}) {
+			Button(action: { viewModel.createTribe() }) {
 				Text("Create Tribe")
 			}
 			.buttonStyle(.expanded)
@@ -42,6 +42,7 @@ struct CreateTribeView: View {
 				AppToolBar(.principal, principalTitle: "Create a Tribe")
 			}
 		}
+		.banner(data: self.$viewModel.banner)
 		.onAppear { self.focusedField = .name }
 	}
 }
