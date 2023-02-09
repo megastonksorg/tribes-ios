@@ -130,8 +130,6 @@ struct TribesView: View {
 								.background(.ultraThickMaterial)
 								.cornerRadius(10)
 								.dropShadow()
-								.dropShadow()
-								.dropShadow()
 								.padding([.top, .horizontal])
 							}
 							Spacer()

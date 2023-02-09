@@ -17,6 +17,6 @@ extension View {
 	}
 	
 	func dropShadow() -> some View {
-		shadow(color: .black.opacity(0.2), radius: 2, x: 0, y: 2)
+		shadow(color: .white.opacity(0.2), radius: 2, x: 0, y: 2)
 	}
 }
