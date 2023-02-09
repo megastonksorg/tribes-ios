@@ -247,26 +247,31 @@ struct TribesView: View {
 				}
 			}
 		case 4:
-			let size: CGFloat = sizeWidth * 0.4
-			VStack(spacing: size * 0.8) {
+			let size: CGFloat = sizeWidth * 0.46
+			VStack(spacing: size * 0.7) {
 				customHStack(
 					size: size,
 					contentA: {
 						tribeAvatar(tribe: viewModel.tribes[0], size: size)
+							.offset(y: size * 0.1)
 					},
 					contentB: {
 						tribeAvatar(tribe: viewModel.tribes[1], size: size)
+							.offset(y: size * 0.2)
 					}
 				)
 				customHStack(
 					size: size,
 					contentA: {
 						tribeAvatar(tribe: viewModel.tribes[2], size: size)
+							.offset(y: -size * 0.1)
 					},
 					contentB: {
 						tribeAvatar(tribe: viewModel.tribes[3], size: size)
+							.offset(y: size * 0.1)
 					}
 				)
+				Spacer()
 			}
 		case 5:
 			let size: CGFloat = sizeWidth * 0.4
