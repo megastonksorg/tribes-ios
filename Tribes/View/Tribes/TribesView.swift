@@ -123,7 +123,8 @@ struct TribesView: View {
 									.frame(width: 200)
 									.foregroundColor(Color.white)
 								}
-								.padding(padding)
+								.padding(.horizontal, padding)
+								.padding(.vertical, padding / 1.5)
 								.background(.ultraThickMaterial)
 								.cornerRadius(10)
 								.dropShadow()
