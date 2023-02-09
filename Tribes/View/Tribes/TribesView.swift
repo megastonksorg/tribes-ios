@@ -160,6 +160,7 @@ struct TribesView: View {
 			) {
 				if let leaveTribeVM = viewModel.leaveTribeVM {
 					LeaveTribeView(viewModel: leaveTribeVM)
+						.onDisappear { viewModel.loadTribes() }
 				}
 			}
 			.banner(data: self.$viewModel.banner)
