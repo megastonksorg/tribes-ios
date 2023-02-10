@@ -93,9 +93,9 @@ struct TribesView: View {
 									TribeNameView(name: focusedTribe.name, shouldShowEditIcon: true, fontSize: fontSize) {
 										viewModel.editTribeName()
 									}
-									.opacity(viewModel.editTribeNameText == nil ? 1.0 : 0.0)
+									.opacity(viewModel.isEditingTribeName ? 0.0 : 1.0)
 									
-									if viewModel.editTribeNameText != nil {
+									if viewModel.isEditingTribeName {
 										TextField(
 											"",
 											text: Binding(
@@ -157,6 +157,8 @@ struct TribesView: View {
 								}
 								.padding(.horizontal)
 								.transition(.asymmetric(insertion: .scale, removal: .identity))
+								.opacity(viewModel.isEditingTribeName ? 0.0 : 1.0)
+								.animation(.easeInOut, value: viewModel.isEditingTribeName)
 							}
 							Spacer()
 							Spacer()

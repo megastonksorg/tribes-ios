@@ -30,6 +30,10 @@ extension TribesView {
 		
 		@Published var isShowingTribeInvite: Bool = false
 		
+		var isEditingTribeName: Bool {
+			editTribeNameText != nil
+		}
+		
 		//Clients
 		private let apiClient: APIClient = APIClient.shared
 		private let feedbackClient: FeedbackClient = FeedbackClient.shared
