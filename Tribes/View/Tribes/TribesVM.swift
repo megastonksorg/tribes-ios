@@ -86,7 +86,7 @@ extension TribesView {
 		func updateTribeName() {
 			guard
 				let focusedTribe = self.focusedTribe,
-				let newTribeName = self.editTribeNameText
+				let newTribeName = self.editTribeNameText?.trimmingCharacters(in: .whitespacesAndNewlines)
 			else { return }
 			let updatedTribe: Tribe = Tribe(id: focusedTribe.id, name: newTribeName, members: focusedTribe.members)
 			
