@@ -22,15 +22,14 @@ struct WelcomePageView: View {
 		NavigationStack(path: $appRouter.welcomeStack) {
 			VStack(spacing: 0) {
 				TabView {
-					ForEach(0..<6, id: \.self) { num in
-						Button(action: { }) {
-							Text("Onboarding Page \(num)")
-								.font(Font.app.title3)
-								.foregroundColor(.white)
-						}
+					ForEach(OnBoardingPageView.Page.allCases) { page in
+						OnBoardingPageView(page: page)
 					}
 				}
-				.tabViewStyle(.page(indexDisplayMode: .always))
+				.tabViewStyle(.page(indexDisplayMode: .never))
+				
+				Rectangle()
+					.frame(height: 40)
 				
 				Group {
 					Button(action: { viewModel.generateNewWallet() }) {

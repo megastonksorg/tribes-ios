@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct OnBoardingPageView: View {
-	enum Page: String, CaseIterable {
+	enum Page: String, CaseIterable, Identifiable {
 		case stayConnected
 		case createTribe
 		case sendInvites
@@ -34,15 +34,23 @@ struct OnBoardingPageView: View {
 			case .sendMessages: return "Exchange secure messages with your tribe members"
 			}
 		}
+		
+		var id: String {
+			self.rawValue
+		}
 	}
 	
 	let page: Page
 	
 	var body: some View {
 		VStack {
+			Spacer()
 			header(page: page)
+			Spacer()
 			body(page: page)
+			Spacer()
 			footer(page: page)
+			Spacer()
 		}
 	}
 	
