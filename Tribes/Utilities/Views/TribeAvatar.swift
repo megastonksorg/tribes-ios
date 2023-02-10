@@ -416,7 +416,7 @@ struct TribeNameView: View {
 			}
 		}
 		.fixedSize(horizontal: false, vertical: true)
-		.buttonStyle(.insideScaling)
+		.buttonStyle(.plain)
 	}
 }
 
