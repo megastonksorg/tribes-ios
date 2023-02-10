@@ -47,9 +47,8 @@ struct AuthenticateView: View {
 			)
 			.frame(dimension: SizeConstants.profileImageFrame)
 			.padding(.top, 40)
-			.opacity(viewModel.context == .signUp ? 1.0 : 0.0)
 			
-			Text(viewModel.context == .signIn ? "Welcome Back 😀" : viewModel.user.fullName)
+			Text(viewModel.user.fullName)
 				.font(Font.app.title3)
 				.fontWeight(.semibold)
 				.foregroundColor(.white)
@@ -153,6 +152,6 @@ fileprivate struct ExpandedHStack<Content: View>: View {
 
 struct AuthenticateView_Previews: PreviewProvider {
 	static var previews: some View {
-		AuthenticateView(viewModel: .init(context: .signIn, user: User.noop))
+		AuthenticateView(viewModel: .init(user: User.noop))
 	}
 }

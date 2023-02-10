@@ -10,11 +10,6 @@ import Foundation
 
 extension AuthenticateView {
 	@MainActor class ViewModel: ObservableObject {
-		enum Context {
-			case signUp
-			case signIn
-		}
-		
 		private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 		
 		//Clients
@@ -22,15 +17,13 @@ extension AuthenticateView {
 		let keychainClient = KeychainClient.shared
 		let walletClient = WalletClient.shared
 		
-		let context: Context
 		@Published var user: User
 		
 		@Published var isLoading: Bool = false
 		@Published var isShowingAlert: Bool = false
 		@Published var banner: BannerData?
 		
-		init(context: Context, user: User) {
-			self.context = context
+		init(user: User) {
 			self.user = user
 		}
 		
