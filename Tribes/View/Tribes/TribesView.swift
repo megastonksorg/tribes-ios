@@ -11,6 +11,7 @@ import IdentifiedCollections
 struct TribesView: View {
 	@Namespace var namespace
 	
+	@FocusState private var focusedField: ViewModel.FocusField?
 	@StateObject var viewModel: ViewModel
 	@State var sizeWidth: CGFloat = UIScreen.main.bounds.maxX > 500 ? 500 :  UIScreen.main.bounds.maxX
 	
@@ -87,8 +88,9 @@ struct TribesView: View {
 								.matchedGeometryEffect(id: focusedTribe.id, in: namespace, properties: .position)
 								
 								VStack {
+									let fontSize: CGFloat =  size.getTribeNameSize() + 4
 									if viewModel.editTribeNameText == nil {
-										TribeNameView(name: focusedTribe.name, shouldShowEditIcon: true, fontSize: size.getTribeNameSize()) {
+										TribeNameView(name: focusedTribe.name, shouldShowEditIcon: true, fontSize: fontSize) {
 											viewModel.editTribeName()
 										}
 									} else {
@@ -99,12 +101,21 @@ struct TribesView: View {
 												set: { viewModel.setEditTribeNameText($0) }
 											)
 										)
-										.font(.system(size: size.getTribeNameSize(), weight: .medium, design: .rounded))
+										.font(.system(size: fontSize, weight: .medium, design: .rounded))
 										.foregroundColor(Color.app.tertiary)
+										.multilineTextAlignment(.center)
+										.focused($focusedField, equals: .editTribeName)
+										.onChange(of: self.focusedField) {
+											if $0 == nil {
+												viewModel.setEditTribeNameText(nil)
+											}
+										}
+										.onAppear { self.focusedField = .editTribeName }
 										.onDisappear { viewModel.setEditTribeNameText(nil) }
 									}
 								}
 								.padding(.top)
+								.padding(.horizontal, 20)
 								
 								let padding: CGFloat = 20
 								

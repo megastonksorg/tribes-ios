@@ -12,6 +12,12 @@ import SwiftUI
 
 extension TribesView {
 	@MainActor class ViewModel: ObservableObject {
+		enum FocusField: String, Hashable, Identifiable {
+			case editTribeName
+			
+			var id: String { self.rawValue }
+		}
+		
 		private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 		
 		@Published var banner: BannerData?
