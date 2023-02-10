@@ -25,6 +25,7 @@ protocol APIRequests {
 	func inviteToTribe(tribeID: Tribe.ID, code: String) -> AnyPublisher<SuccessResponse, APIClientError>
 	func joinTribe(pin: String, code: String) -> AnyPublisher<Tribe, APIClientError>
 	func leaveTribe(tribeID: Tribe.ID) -> AnyPublisher<SuccessResponse, APIClientError>
+	func updateTribeName(tribeID: Tribe.ID, name: String) -> AnyPublisher<String, APIClientError>
 }
 
 final class APIClient: APIRequests {
@@ -159,6 +160,19 @@ final class APIClient: APIRequests {
 			requiresAuth: true
 		)
 		return apiRequest(appRequest: leaveTribeRequest, output: SuccessResponse.self)
+	}
+	
+	func updateTribeName(tribeID: Tribe.ID, name: String) -> AnyPublisher<String, APIClientError> {
+		let updateTribeNameRequest = APPUrlRequest(
+			httpMethod: .patch,
+			pathComponents: ["tribe", "name"],
+			query: [
+				URLQueryItem(name: "id", value: tribeID),
+				URLQueryItem(name: "name", value: name)
+			],
+			requiresAuth: true
+		)
+		return apiRequest(appRequest: updateTribeNameRequest, output: String.self)
 	}
 	
 	private func apiRequest<Output: Decodable>(appRequest: APPUrlRequest, output: Output.Type) -> AnyPublisher<Output, APIClientError> {
