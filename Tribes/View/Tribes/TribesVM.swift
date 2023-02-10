@@ -83,6 +83,19 @@ extension TribesView {
 			self.editTribeNameText = text
 		}
 		
+		func updateTribeName() {
+			guard
+				let focusedTribe = self.focusedTribe,
+				let newTribeName = self.editTribeNameText
+			else { return }
+			let updatedTribe: Tribe = Tribe(id: focusedTribe.id, name: newTribeName, members: focusedTribe.members)
+			
+			self.tribes[id: updatedTribe.id] = updatedTribe
+			
+			//Send Request to server to update Tribe Name
+			loadTribes()
+		}
+		
 		func setLeaveTribeVM(_ viewModel: LeaveTribeView.ViewModel?) {
 			self.leaveTribeVM = viewModel
 		}

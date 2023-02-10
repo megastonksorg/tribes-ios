@@ -104,15 +104,11 @@ struct TribesView: View {
 											)
 										)
 										.submitLabel(.done)
+										.onSubmit { viewModel.updateTribeName() }
 										.font(.system(size: fontSize, weight: .medium, design: .rounded))
 										.foregroundColor(Color.app.tertiary)
 										.multilineTextAlignment(.center)
 										.focused($focusedField, equals: .editTribeName)
-										.onChange(of: self.focusedField) {
-											if $0 == nil {
-												viewModel.setEditTribeNameText(nil)
-											}
-										}
 										.onAppear { self.focusedField = .editTribeName }
 										.onDisappear { viewModel.setEditTribeNameText(nil) }
 									}
