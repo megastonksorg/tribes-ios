@@ -90,15 +90,33 @@ extension TribesView {
 		func updateTribeName() {
 			guard
 				let focusedTribe = self.focusedTribe,
-				let newTribeName = self.editTribeNameText?.trimmingCharacters(in: .whitespacesAndNewlines)
-			else { return }
+				let newTribeName = self.editTribeNameText?.trimmingCharacters(in: .whitespacesAndNewlines),
+				newTribeName.count > 0
+			else {
+				self.editTribeNameText = nil
+				return
+			}
 			let updatedTribe: Tribe = Tribe(id: focusedTribe.id, name: newTribeName, members: focusedTribe.members)
 			
 			self.focusedTribe = updatedTribe
 			self.tribes[id: updatedTribe.id] = updatedTribe
 			self.editTribeNameText = nil
-			//Send Request to server to update Tribe Name
-			loadTribes()
+			
+			apiClient.updateTribeName(tribeID: focusedTribe.id, name: newTribeName)
+				.receive(on: DispatchQueue.main)
+				.sink(
+					receiveCompletion: { [weak self] completion in
+						switch completion {
+							case .finished: return
+							case .failure(let error):
+							self?.banner = BannerData(error: error)
+						}
+					},
+					receiveValue: { [weak self] _ in
+						self?.loadTribes()
+					}
+				)
+				.store(in: &cancellables)
 		}
 		
 		func setLeaveTribeVM(_ viewModel: LeaveTribeView.ViewModel?) {
