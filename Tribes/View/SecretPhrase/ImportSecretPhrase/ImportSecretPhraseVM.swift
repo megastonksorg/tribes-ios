@@ -104,7 +104,7 @@ extension ImportSecretPhraseView {
 			let mnemonic: String = [
 				self.word1, self.word2, self.word3, self.word4, self.word5, self.word6,
 				self.word7, self.word8, self.word9, self.word10, self.word11, self.word12
-			].joined(separator: " ")
+			].map{ $0.trimmingCharacters(in: .whitespacesAndNewlines) }.joined(separator: " ")
 			
 			switch walletClient.importWallet(mnemonic: mnemonic) {
 			case .success(let hdWallet):
