@@ -100,7 +100,8 @@ extension TribesView {
 			guard
 				let focusedTribe = self.focusedTribe,
 				let newTribeName = self.editTribeNameText?.trimmingCharacters(in: .whitespacesAndNewlines),
-				newTribeName.count > 0
+				newTribeName.count > 0,
+				newTribeName != focusedTribe.name
 			else {
 				self.editTribeNameText = nil
 				return
