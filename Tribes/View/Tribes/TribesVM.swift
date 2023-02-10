@@ -90,8 +90,9 @@ extension TribesView {
 			else { return }
 			let updatedTribe: Tribe = Tribe(id: focusedTribe.id, name: newTribeName, members: focusedTribe.members)
 			
+			self.focusedTribe = updatedTribe
 			self.tribes[id: updatedTribe.id] = updatedTribe
-			
+			self.editTribeNameText = nil
 			//Send Request to server to update Tribe Name
 			loadTribes()
 		}
