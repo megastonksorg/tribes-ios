@@ -381,11 +381,7 @@ struct TribeAvatar: View {
 			}
 			.buttonStyle(.insideScaling)
 			if self.showName {
-				Button(action: { secondaryAction(self.tribe) }) {
-					TextView(name, style: .tribeName(nameSize))
-						.fixedSize(horizontal: false, vertical: true)
-				}
-				.buttonStyle(.insideScaling)
+				TribeNameView(name: name, fontSize: nameSize, action: { secondaryAction(self.tribe) })
 			}
 		}
 		.simultaneousGesture(
@@ -399,6 +395,26 @@ struct TribeAvatar: View {
 	@ViewBuilder
 	func userAvatar(user: TribeMember) -> some View {
 		UserAvatar(url: user.profilePhoto)
+	}
+}
+
+struct TribeNameView: View {
+	let name: String
+	let shouldShowEditIcon: Bool = false
+	let fontSize: CGFloat
+	let action: () -> ()
+	
+	var body: some View {
+		Button(action: { action() }) {
+			TextView(name, style: .tribeName(fontSize))
+				.fixedSize(horizontal: false, vertical: true)
+			if shouldShowEditIcon {
+				Image(systemName: "pencil.line")
+					.font(.system(size: fontSize, weight: .black))
+					.foregroundColor(Color.app.tertiary)
+			}
+		}
+		.buttonStyle(.insideScaling)
 	}
 }
 
