@@ -12,21 +12,25 @@ struct WelcomePageView: View {
 	
 	@EnvironmentObject var appRouter: AppRouter
 	
+	@State var currentOnboardingPage: OnBoardingPageView.Page = .stayConnected
+	
 	init(viewModel: ViewModel) {
-		UIPageControl.appearance().currentPageIndicatorTintColor = UIColor(Color.app.secondary)
-		UIPageControl.appearance().pageIndicatorTintColor = UIColor(Color.app.secondary).withAlphaComponent(0.4)
 		self._viewModel = StateObject(wrappedValue: viewModel)
 	}
 	
 	var body: some View {
 		NavigationStack(path: $appRouter.welcomeStack) {
 			VStack(spacing: 0) {
-				TabView {
+				TabView(selection: $currentOnboardingPage) {
 					ForEach(OnBoardingPageView.Page.allCases) { page in
 						OnBoardingPageView(page: page)
+							.id(page)
+							.tag(page)
 					}
 				}
 				.tabViewStyle(.page(indexDisplayMode: .never))
+				
+				currentPageIndexView(currentPage: currentOnboardingPage)
 				
 				Rectangle()
 					.frame(height: 40)
@@ -78,6 +82,24 @@ struct WelcomePageView: View {
 			}
 		}
 		.tint(Color.app.tertiary)
+	}
+	
+	@ViewBuilder
+	func currentPageIndexView(currentPage: OnBoardingPageView.Page) -> some View {
+		HStack {
+			ForEach(OnBoardingPageView.Page.allCases) { page in
+				ZStack {
+					Circle()
+						.stroke(Color.app.secondary)
+					Circle()
+						.fill(Color.app.secondary)
+						.opacity(page == currentPage ? 1.0 : 0.0)
+						.animation(.easeInOut, value: currentPage)
+				}
+				.frame(dimension: 10)
+				.id(page)
+			}
+		}
 	}
 }
 
