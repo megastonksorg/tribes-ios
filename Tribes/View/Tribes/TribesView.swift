@@ -31,7 +31,7 @@ struct TribesView: View {
 								UserAvatar(url: viewModel.user.profilePhoto)
 									.frame(dimension: 50)
 							}
-							.buttonStyle(.insideScaling)
+							.buttonStyle(.plain)
 						},
 						trailing: {
 							Menu(content: {
