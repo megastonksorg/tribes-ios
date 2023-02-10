@@ -103,6 +103,7 @@ struct TribesView: View {
 												set: { viewModel.setEditTribeNameText($0) }
 											)
 										)
+										.submitLabel(.done)
 										.font(.system(size: fontSize, weight: .medium, design: .rounded))
 										.foregroundColor(Color.app.tertiary)
 										.multilineTextAlignment(.center)
