@@ -87,13 +87,15 @@ struct TribesView: View {
 								.transition(.scale)
 								.matchedGeometryEffect(id: focusedTribe.id, in: namespace, properties: .position)
 								
-								VStack {
+								ZStack {
 									let fontSize: CGFloat =  size.getTribeNameSize() + 4
-									if viewModel.editTribeNameText == nil {
-										TribeNameView(name: focusedTribe.name, shouldShowEditIcon: true, fontSize: fontSize) {
-											viewModel.editTribeName()
-										}
-									} else {
+									
+									TribeNameView(name: focusedTribe.name, shouldShowEditIcon: true, fontSize: fontSize) {
+										viewModel.editTribeName()
+									}
+									.opacity(viewModel.editTribeNameText == nil ? 1.0 : 0.0)
+									
+									if viewModel.editTribeNameText != nil {
 										TextField(
 											"",
 											text: Binding(
@@ -156,7 +158,7 @@ struct TribesView: View {
 											.stroke(Color.app.cardStroke)
 									}
 								}
-								.padding([.top, .horizontal])
+								.padding(.horizontal)
 								.transition(.asymmetric(insertion: .scale, removal: .identity))
 							}
 							Spacer()
