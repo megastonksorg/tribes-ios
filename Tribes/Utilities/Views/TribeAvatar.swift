@@ -412,8 +412,12 @@ struct TribeNameView: View {
 					Image(systemName: "pencil.line")
 						.font(.system(size: fontSize, weight: .black))
 						.foregroundColor(Color.app.tertiary)
+						.padding(4)
+						.padding(.vertical, 4)
+						.background(Circle().fill(Color.gray.opacity(0.01)))
 				}
 			}
+			.background(Color.black.opacity(0.01))
 		}
 		.fixedSize(horizontal: false, vertical: true)
 		.buttonStyle(.plain)
