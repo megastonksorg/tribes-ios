@@ -84,6 +84,14 @@ extension TribesView {
 		}
 		
 		func setEditTribeNameText(_ text: String?) {
+			if let text = text {
+				if text.isTribeNameValid {
+					self.editTribeNameText = text
+					return
+				} else {
+					return
+				}
+			}
 			self.editTribeNameText = text
 		}
 		

@@ -45,7 +45,7 @@ extension CreateTribeView {
 		}
 		
 		func setName(_ name: String) {
-			guard name.count <= 24 else { return }
+			guard name.isTribeNameValid else { return }
 			self.name = name
 		}
 	}

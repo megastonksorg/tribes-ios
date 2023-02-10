@@ -17,4 +17,7 @@ extension String {
 		catch {}
 		return false
 	}
+	var isTribeNameValid: Bool {
+		self.count <= SizeConstants.tribeNameLimit
+	}
 }
