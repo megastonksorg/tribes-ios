@@ -71,9 +71,10 @@ struct TribesView: View {
 						VStack {
 							Spacer()
 							if let focusedTribe = viewModel.focusedTribe {
+								let size: CGFloat = 200
 								TribeAvatar(
 									tribe: focusedTribe,
-									size: 200,
+									size: size,
 									showName: false,
 									contextAction: { _ in },
 									primaryAction: { _ in },
@@ -84,6 +85,13 @@ struct TribesView: View {
 								.scaleEffect(viewModel.focusedTribe == nil ? 1.0 : 1.1)
 								.transition(.scale)
 								.matchedGeometryEffect(id: focusedTribe.id, in: namespace, properties: .position)
+								
+								VStack {
+									TribeNameView(name: focusedTribe.name, shouldShowEditIcon: true, fontSize: size.getTribeNameSize()) {
+										
+									}
+								}
+								.padding(.top)
 								
 								let padding: CGFloat = 20
 								

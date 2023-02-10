@@ -51,14 +51,7 @@ struct TribeAvatar: View {
 		self.size = size
 		self.maxSize = size * 0.8
 		self.stackSize = maxSize * 0.9
-		self.nameSize = {
-			switch size {
-			case 0..<100: return 12
-			case 100..<250: return 15
-			case 250..<400: return 18
-			default: return 22
-			}
-		}()
+		self.nameSize = { size.getTribeNameSize() }()
 		
 		self.showName = showName
 		
@@ -400,20 +393,29 @@ struct TribeAvatar: View {
 
 struct TribeNameView: View {
 	let name: String
-	let shouldShowEditIcon: Bool = false
+	let shouldShowEditIcon: Bool
 	let fontSize: CGFloat
 	let action: () -> ()
 	
+	init(name: String, shouldShowEditIcon: Bool = false, fontSize: CGFloat, action: @escaping () -> Void) {
+		self.name = name
+		self.shouldShowEditIcon = shouldShowEditIcon
+		self.fontSize = fontSize
+		self.action = action
+	}
+	
 	var body: some View {
 		Button(action: { action() }) {
-			TextView(name, style: .tribeName(fontSize))
-				.fixedSize(horizontal: false, vertical: true)
-			if shouldShowEditIcon {
-				Image(systemName: "pencil.line")
-					.font(.system(size: fontSize, weight: .black))
-					.foregroundColor(Color.app.tertiary)
+			HStack {
+				TextView(name, style: .tribeName(fontSize))
+				if shouldShowEditIcon {
+					Image(systemName: "pencil.line")
+						.font(.system(size: fontSize, weight: .black))
+						.foregroundColor(Color.app.tertiary)
+				}
 			}
 		}
+		.fixedSize(horizontal: false, vertical: true)
 		.buttonStyle(.insideScaling)
 	}
 }
