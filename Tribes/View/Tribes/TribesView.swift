@@ -87,8 +87,21 @@ struct TribesView: View {
 								.matchedGeometryEffect(id: focusedTribe.id, in: namespace, properties: .position)
 								
 								VStack {
-									TribeNameView(name: focusedTribe.name, shouldShowEditIcon: true, fontSize: size.getTribeNameSize()) {
-										
+									if viewModel.editTribeNameText == nil {
+										TribeNameView(name: focusedTribe.name, shouldShowEditIcon: true, fontSize: size.getTribeNameSize()) {
+											viewModel.editTribeName()
+										}
+									} else {
+										TextField(
+											"",
+											text: Binding(
+												get: { viewModel.editTribeNameText ?? "" },
+												set: { viewModel.setEditTribeNameText($0) }
+											)
+										)
+										.font(.system(size: size.getTribeNameSize(), weight: .medium, design: .rounded))
+										.foregroundColor(Color.app.tertiary)
+										.onDisappear { viewModel.setEditTribeNameText(nil) }
 									}
 								}
 								.padding(.top)

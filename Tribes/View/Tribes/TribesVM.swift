@@ -19,6 +19,7 @@ extension TribesView {
 		@Published var tribeInviteVM: TribeInviteView.ViewModel?
 		@Published var focusedTribe: Tribe?
 		@Published var tribes: IdentifiedArrayOf<Tribe>
+		@Published var editTribeNameText: String?
 		@Published var user: User
 		
 		@Published var isShowingTribeInvite: Bool = false
@@ -66,6 +67,14 @@ extension TribesView {
 			withAnimation(.easeInOut.speed(1.4)) {
 				self.focusedTribe = tribe
 			}
+		}
+		
+		func editTribeName() {
+			self.editTribeNameText = focusedTribe?.name ?? ""
+		}
+		
+		func setEditTribeNameText(_ text: String?) {
+			self.editTribeNameText = text
 		}
 		
 		func setLeaveTribeVM(_ viewModel: LeaveTribeView.ViewModel?) {
