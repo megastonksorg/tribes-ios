@@ -91,8 +91,9 @@ extension TribesView {
 				} else {
 					return
 				}
+			} else {
+				self.editTribeNameText = text
 			}
-			self.editTribeNameText = text
 		}
 		
 		func updateTribeName() {
