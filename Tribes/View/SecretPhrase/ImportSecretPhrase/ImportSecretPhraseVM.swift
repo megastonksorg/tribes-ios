@@ -132,7 +132,7 @@ extension ImportSecretPhraseView {
 								isOnboarded: true
 							)
 							//Ask the user to login here
-							AppState.updateAppState(with: .changeAppMode(.authentication(AuthenticateView.ViewModel(user: user))))
+							AppState.updateAppState(with: .changeAppMode(.authentication(AuthenticateView.ViewModel(context: .signIn, user: user))))
 						}
 						else {
 							//Take the user to the Account Creation Screen
