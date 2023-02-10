@@ -27,6 +27,9 @@ struct WelcomePageView: View {
 							.id(page)
 							.tag(page)
 					}
+					.introspectScrollView {
+						$0.bounces = false
+					}
 				}
 				.tabViewStyle(.page(indexDisplayMode: .never))
 				
