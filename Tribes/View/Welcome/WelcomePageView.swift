@@ -33,6 +33,10 @@ struct WelcomePageView: View {
 				}
 				.tabViewStyle(.page(indexDisplayMode: .never))
 				
+				Rectangle()
+					.fill(Color.clear)
+					.frame(height: 40)
+				
 				currentPageIndexView(currentPage: currentOnboardingPage)
 				
 				Rectangle()
