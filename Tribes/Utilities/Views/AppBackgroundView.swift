@@ -9,13 +9,30 @@ import SwiftUI
 
 struct AppBackgroundView: View {
 	var body: some View {
-		LinearGradient.background
-			.overlay(LinearGradient.black)
+		Color.app.background
 			.overlay(
-				Circle()
-					.fill(Color.app.secondary)
-					.frame(size: SizeConstants.backgroundCircle)
-					.blur(radius: 80)
+				VStack {
+					Circle()
+						.fill(Color.app.onBoardingBackground)
+						.blur(radius: 200)
+						.overlay(
+							Circle()
+								.fill(
+									LinearGradient(
+										colors: [
+											Color.white,
+											Color.app.onBoardingBackground
+										],
+										startPoint: .top,
+										endPoint: .bottom
+									)
+								)
+								.blur(radius: 120)
+								.frame(height: 200)
+								.offset(y: -100)
+						)
+					Spacer()
+				}
 			)
 			.ignoresSafeArea()
 	}

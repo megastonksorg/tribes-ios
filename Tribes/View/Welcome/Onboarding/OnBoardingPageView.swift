@@ -71,7 +71,7 @@ struct OnBoardingPageView: View {
 	func body(page: Page) -> some View {
 		switch page {
 		case .stayConnected:
-			Color.black
+			Color.clear
 		default:
 			EmptyView()
 		}
