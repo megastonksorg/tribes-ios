@@ -22,17 +22,19 @@ struct CalloutView: View {
 			.padding(10)
 			.background(
 				ZStack {
-					RoundedTriangle(radius: 4)
-						.fill(fill)
-						.frame(dimension: 26)
-						.rotationEffect(.degrees(90))
-						.offset(y: 20)
-						.dropShadow()
-						.dropShadow()
 					Capsule()
 						.fill(fill)
 				}
 			)
+			.background(alignment: .bottom) {
+				RoundedTriangle(radius: 4)
+					.fill(fill)
+					.frame(dimension: 26)
+					.rotationEffect(.degrees(90))
+					.offset(y: 18)
+					.dropShadow()
+					.dropShadow()
+			}
 	}
 }
 

@@ -94,6 +94,10 @@ struct OnBoardingPageView: View {
 					.padding(padding)
 			}
 			.frame(dimension: 240)
+			.overlay(alignment: .top) {
+				CalloutView(content: "Who is cooking that? It does not look good 😂")
+					.offset(x: 0, y: -60)
+			}
 		default:
 			EmptyView()
 		}
