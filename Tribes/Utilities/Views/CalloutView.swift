@@ -17,21 +17,22 @@ struct CalloutView: View {
 		Text(content)
 			.font(Font.app.body)
 			.foregroundColor(Color.white)
+			.multilineTextAlignment(.center)
 			.lineLimit(2)
-			.padding()
+			.padding(10)
 			.background(
-				Capsule()
-					.fill(fill)
-					.overlay(alignment: .bottom) {
-						RoundedTriangle(radius: 4)
-							.fill(fill)
-							.frame(dimension: 26)
-							.rotationEffect(.degrees(90))
-							.offset(y: 18)
-					}
+				ZStack {
+					RoundedTriangle(radius: 4)
+						.fill(fill)
+						.frame(dimension: 26)
+						.rotationEffect(.degrees(90))
+						.offset(y: 20)
+						.dropShadow()
+						.dropShadow()
+					Capsule()
+						.fill(fill)
+				}
 			)
-			.dropShadow()
-			.dropShadow()
 	}
 }
 
