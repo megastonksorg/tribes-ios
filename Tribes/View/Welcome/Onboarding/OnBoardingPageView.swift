@@ -40,11 +40,32 @@ struct OnBoardingPageView: View {
 		}
 	}
 	
+	struct Header: View {
+		let page: Page
+		var body: some View {
+			HStack {
+				Spacer()
+				TextView(text: page.header)
+				Spacer()
+			}
+		}
+	}
+	
+	struct TextView: View {
+		let text: String
+		var body: some View {
+			Text(text)
+				.font(.system(size: FontSizes.title2, weight: .semibold, design: .rounded))
+				.foregroundColor(Color.white.opacity(0.8))
+				.multilineTextAlignment(.center)
+				.padding(.horizontal)
+		}
+	}
+	
 	let page: Page
 	
 	var body: some View {
 		VStack {
-			header(page: page)
 			Spacer()
 			body(page: page)
 			Spacer()
@@ -56,24 +77,6 @@ struct OnBoardingPageView: View {
 					.opacity(0)
 				footer(page: page)
 			}
-		}
-	}
-	
-	@ViewBuilder
-	func textView(text: String) -> some View {
-		Text(text)
-			.font(.system(size: FontSizes.title2, weight: .semibold, design: .rounded))
-			.foregroundColor(Color.white.opacity(0.8))
-			.multilineTextAlignment(.center)
-			.padding(.horizontal)
-	}
-	
-	@ViewBuilder
-	func header(page: Page) -> some View {
-		HStack {
-			Spacer()
-			textView(text: page.header)
-			Spacer()
 		}
 	}
 	
@@ -105,7 +108,7 @@ struct OnBoardingPageView: View {
 	
 	@ViewBuilder
 	func footer(page: Page) -> some View {
-		textView(text: page.footer)
+		TextView(text: page.footer)
 	}
 }
 

@@ -21,6 +21,11 @@ struct WelcomePageView: View {
 	var body: some View {
 		NavigationStack(path: $appRouter.welcomeStack) {
 			VStack(spacing: 0) {
+				OnBoardingPageView.TextView(text: currentOnboardingPage.header)
+					.animation(.easeInOut, value: currentOnboardingPage)
+					.opacity(currentOnboardingPage == .stayConnected ? 0.0 : 1.0)
+					.padding(.top, 30)
+				
 				TabView(selection: $currentOnboardingPage) {
 					ForEach(OnBoardingPageView.Page.allCases) { page in
 						OnBoardingPageView(page: page)
