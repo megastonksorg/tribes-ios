@@ -119,7 +119,7 @@ struct LeaveTribeView: View {
 			}
 		}
 		.multilineTextAlignment(.center)
-		.font(Font.app.subTitle)
+		.font(Font.app.body)
 		.foregroundColor(.white)
 		.pushOutFrame()
 		.overlay(isShown: viewModel.isLoading) {

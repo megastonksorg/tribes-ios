@@ -18,7 +18,7 @@ struct ImportSecretPhraseView: View {
 		ScrollView {
 			VStack(spacing: 20) {
 				Text("Type your secret key into each box to login. You must type the key in the correct order for valid authentication")
-					.font(Font.app.subTitle)
+					.font(Font.app.body)
 					.foregroundColor(.white)
 					.multilineTextAlignment(.center)
 					.padding(.bottom, 30)
