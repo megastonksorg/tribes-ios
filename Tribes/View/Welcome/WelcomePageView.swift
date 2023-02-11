@@ -54,6 +54,10 @@ struct WelcomePageView: View {
 				.padding(.bottom)
 			}
 			.background(AppBackgroundView())
+			.safeAreaInset(edge: .top) {
+				TextView(AppConstants.appName, style: .appTitle)
+					.padding(.top)
+			}
 			.overlay(isShown: viewModel.isLoading) {
 				AppProgressView()
 			}

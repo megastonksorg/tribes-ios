@@ -10,8 +10,9 @@ import Foundation
 import SwiftUI
 
 struct AppConstants {
-	static var email: String = "hello@megastonks.com"
-	static var website: String = "tribesapp.ca"
+	static let appName: String = "Tribes"
+	static let email: String = "hello@megastonks.com"
+	static let website: String = "tribesapp.ca"
 }
 
 struct SizeConstants {

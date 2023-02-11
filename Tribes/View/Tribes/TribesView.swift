@@ -24,7 +24,7 @@ struct TribesView: View {
 				VStack {
 					SymmetricHStack(
 						content: {
-							TextView("Tribes", style: .appTitle)
+							TextView(AppConstants.appName, style: .appTitle)
 						},
 						leading: {
 							Button(action: {  }) {
