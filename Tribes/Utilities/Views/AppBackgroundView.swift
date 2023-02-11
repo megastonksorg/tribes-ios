@@ -14,7 +14,8 @@ struct AppBackgroundView: View {
 				VStack {
 					Circle()
 						.fill(Color.app.onBoardingBackground)
-						.blur(radius: 200)
+						.blur(radius: 120)
+						.offset(y: -60)
 						.overlay(
 							Circle()
 								.fill(
@@ -28,8 +29,8 @@ struct AppBackgroundView: View {
 									)
 								)
 								.blur(radius: 120)
-								.frame(height: 200)
-								.offset(y: -100)
+								.frame(height: 120)
+								.offset(y: -50)
 						)
 					Spacer()
 				}
