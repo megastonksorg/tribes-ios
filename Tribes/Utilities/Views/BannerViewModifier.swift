@@ -31,18 +31,7 @@ enum BannerType {
 	case success
 	case error
 	
-	var tintColor: Color {
-		switch self {
-		case .info:
-			return .white
-		case .success:
-			return .green.opacity(tintColorOpacity)
-		case .warning:
-			return .yellow.opacity(tintColorOpacity)
-		case .error:
-			return .red.opacity(tintColorOpacity)
-		}
-	}
+	var tintColor: Color { Color.white }
 }
 
 struct BannerViewModifier: ViewModifier {
@@ -98,8 +87,12 @@ struct BannerViewModifier: ViewModifier {
 
 					)
 					.background (
-						RoundedRectangle(cornerRadius: self.cornerRadius)
-							.fill(Color.app.black.opacity(0.6))
+						ZStack {
+							RoundedRectangle(cornerRadius: self.cornerRadius)
+								.fill(Color.app.secondary)
+							RoundedRectangle(cornerRadius: self.cornerRadius)
+								.stroke(Color.app.bannerStroke, lineWidth: 1)
+						}
 					)
 					.padding(6)
 					

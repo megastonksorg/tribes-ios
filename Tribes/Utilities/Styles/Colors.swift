@@ -19,7 +19,8 @@ extension Color.app {
 	
 	//Others
 	static let background: Color = Color.black
-	static let onBoardingBackground: Color = Color(uiColor: UIColor(hex: "B04A2B"))
+	static let backGroundOnboarding: Color = Color(uiColor: UIColor(hex: "B04A2B"))
+	static let bannerStroke: Color = Color(uiColor: UIColor(hex: "7B2111"))
 	static let black: Color = Color(uiColor: UIColor(hex: "0D1114"))
 	static let cardStroke: Color = Color.white.opacity(0.1)
 	static let divider: Color = Color(uiColor: UIColor(hex: "1C1A1B"))

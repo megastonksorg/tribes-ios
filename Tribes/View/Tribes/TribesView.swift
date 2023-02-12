@@ -417,7 +417,7 @@ struct TribesView_Previews: PreviewProvider {
 						Tribe.noop5
 					]
 				)
-				let viewModel = TribesView.ViewModel(tribes: tribes, user: User.noop)
+				let viewModel = TribesView.ViewModel(tribes: [], user: User.noop)
 				return viewModel
 			}()
 			TribesView(viewModel: viewModel)

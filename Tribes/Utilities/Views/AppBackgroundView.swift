@@ -13,7 +13,7 @@ struct AppBackgroundView: View {
 			.overlay(
 				VStack {
 					Circle()
-						.fill(Color.app.onBoardingBackground)
+						.fill(Color.app.backGroundOnboarding)
 						.blur(radius: 120)
 						.offset(y: -60)
 						.overlay(
@@ -22,7 +22,7 @@ struct AppBackgroundView: View {
 									LinearGradient(
 										colors: [
 											Color.white,
-											Color.app.onBoardingBackground
+											Color.app.backGroundOnboarding
 										],
 										startPoint: .top,
 										endPoint: .bottom
