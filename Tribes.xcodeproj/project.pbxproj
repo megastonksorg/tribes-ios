@@ -13,6 +13,7 @@
 		D015807C295E039E0087545A /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D015807B295E039E0087545A /* CameraView.swift */; };
 		D015807E295E057F0087545A /* CMSampleBuffer+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = D015807D295E057F0087545A /* CMSampleBuffer+Image.swift */; };
 		D0158080295E08570087545A /* CameraVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D015807F295E08570087545A /* CameraVM.swift */; };
+		D01A5D7F29999DB100838774 /* XButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01A5D7E29999DB100838774 /* XButton.swift */; };
 		D029D81E2957548400EA4C07 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D029D81D2957548400EA4C07 /* AppView.swift */; };
 		D030D28129573E9A0011128F /* TribesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030D28029573E9A0011128F /* TribesApp.swift */; };
 		D030D28529573E9B0011128F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D030D28429573E9B0011128F /* Assets.xcassets */; };
@@ -143,6 +144,7 @@
 		D015807B295E039E0087545A /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		D015807D295E057F0087545A /* CMSampleBuffer+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CMSampleBuffer+Image.swift"; sourceTree = "<group>"; };
 		D015807F295E08570087545A /* CameraVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraVM.swift; sourceTree = "<group>"; };
+		D01A5D7E29999DB100838774 /* XButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XButton.swift; sourceTree = "<group>"; };
 		D029D81D2957548400EA4C07 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		D030D27D29573E9A0011128F /* Tribes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tribes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D030D28029573E9A0011128F /* TribesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TribesApp.swift; sourceTree = "<group>"; };
@@ -448,6 +450,7 @@
 				D0A3F07D298083D0000308BF /* CardView.swift */,
 				D0766364298E288100946F7B /* CachedImage.swift */,
 				D07663662990389F00946F7B /* AppContextMenu.swift */,
+				D01A5D7E29999DB100838774 /* XButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -929,6 +932,7 @@
 				D0A3F0802980949B000308BF /* Animation+Extension.swift in Sources */,
 				D030D2D2295745E90011128F /* Color+Extension.swift in Sources */,
 				D030D29B295745970011128F /* AppState.swift in Sources */,
+				D01A5D7F29999DB100838774 /* XButton.swift in Sources */,
 				D0C65AA72970A7E600E527F9 /* Fonts.swift in Sources */,
 				D030D31A2957460B0011128F /* NewSecretPhraseVM.swift in Sources */,
 				D08EBF2A297FD118001B7A5C /* JoinTribeVM.swift in Sources */,
