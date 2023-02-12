@@ -104,19 +104,19 @@ struct OnBoardingPageView: View {
 				.pushOutFrame()
 			case .createTribe, .sendInvites, .shareTea:
 				imageView(page: page)
-			default:
-				EmptyView()
+			case .sendMessages:
+				imageView(page: page, shouldPad: false)
 			}
 		}
 		.frame(maxHeight: page == .stayConnected ? .infinity : 400)
 	}
 	
 	@ViewBuilder
-	func imageView(page: Page) -> some View {
+	func imageView(page: Page, shouldPad: Bool = true) -> some View {
 		Image(page.id)
 			.resizable()
 			.scaledToFit()
-			.padding(.horizontal, 40)
+			.padding(.horizontal, shouldPad ? 40 : 0)
 	}
 	
 	@ViewBuilder
@@ -138,7 +138,7 @@ struct OnBoardingPageView: View {
 
 struct OnBoardingPageView_Previews: PreviewProvider {
 	static var previews: some View {
-		OnBoardingPageView(page: .shareTea)
+		OnBoardingPageView(page: .sendMessages)
 			.preferredColorScheme(.dark)
 	}
 }
