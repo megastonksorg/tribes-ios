@@ -65,19 +65,14 @@ struct OnBoardingPageView: View {
 	let page: Page
 	
 	var body: some View {
-		VStack {
-			Spacer()
-			body(page: page)
-			Spacer()
-			Spacer()
-		}
-		.overlay(alignment: .bottom) {
-			ZStack {
-				footer(page: .stayConnected)
-					.opacity(0)
-				footer(page: page)
+		body(page: page)
+			.overlay(alignment: .bottom) {
+				ZStack {
+					footer(page: .stayConnected)
+						.opacity(0)
+					footer(page: page)
+				}
 			}
-		}
 	}
 	
 	@ViewBuilder
@@ -101,6 +96,11 @@ struct OnBoardingPageView: View {
 				CalloutView(content: "Who is cooking that? It does not look good 😂")
 					.offset(x: 0, y: -60)
 			}
+		case .createTribe:
+			Image("createTribe")
+				.resizable()
+				.scaledToFit()
+				.frame(maxHeight: 400)
 		default:
 			EmptyView()
 		}
@@ -109,6 +109,17 @@ struct OnBoardingPageView: View {
 	@ViewBuilder
 	func footer(page: Page) -> some View {
 		TextView(text: page.footer)
+			.pushOutFrame(alignment: .bottom)
+			.background(
+				Rectangle()
+					.fill(
+						LinearGradient(
+							colors: [Color.clear, Color.clear, Color.black],
+							startPoint: .center,
+							endPoint: .bottom
+						)
+					)
+			)
 	}
 }
 
