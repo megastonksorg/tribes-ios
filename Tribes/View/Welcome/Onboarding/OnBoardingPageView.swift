@@ -77,33 +77,40 @@ struct OnBoardingPageView: View {
 	
 	@ViewBuilder
 	func body(page: Page) -> some View {
-		switch page {
-		case .stayConnected:
-			let padding: CGFloat = -14
-			ZStack {
-				Circle()
-					.fill(Color.app.primary)
-					.padding(padding)
-				Image("stayConnected")
+		Group {
+			switch page {
+			case .stayConnected:
+				VStack {
+					let padding: CGFloat = -14
+					ZStack {
+						Circle()
+							.fill(Color.app.primary)
+							.padding(padding)
+						Image("stayConnected")
+							.resizable()
+							.scaledToFit()
+						Circle()
+							.stroke(Color.app.secondary, lineWidth: 6)
+							.padding(padding)
+					}
+					.frame(dimension: 240)
+					.overlay(alignment: .top) {
+						CalloutView(content: "Who is cooking that? It does not look good 😂")
+							.offset(x: 0, y: -60)
+					}
+					.offset(y: 60)
+					Spacer()
+				}
+				.pushOutFrame()
+			case .createTribe:
+				Image("createTribe")
 					.resizable()
 					.scaledToFit()
-				Circle()
-					.stroke(Color.app.secondary, lineWidth: 6)
-					.padding(padding)
+			default:
+				EmptyView()
 			}
-			.frame(dimension: 240)
-			.overlay(alignment: .top) {
-				CalloutView(content: "Who is cooking that? It does not look good 😂")
-					.offset(x: 0, y: -60)
-			}
-		case .createTribe:
-			Image("createTribe")
-				.resizable()
-				.scaledToFit()
-				.frame(maxHeight: 400)
-		default:
-			EmptyView()
 		}
+		.frame(maxHeight: page == .stayConnected ? .infinity : 400)
 	}
 	
 	@ViewBuilder
