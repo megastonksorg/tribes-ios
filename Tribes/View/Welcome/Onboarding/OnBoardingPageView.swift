@@ -77,6 +77,7 @@ struct OnBoardingPageView: View {
 	
 	@ViewBuilder
 	func body(page: Page) -> some View {
+		let imagePadding: CGFloat = 40
 		Group {
 			switch page {
 			case .stayConnected:
@@ -106,6 +107,7 @@ struct OnBoardingPageView: View {
 				Image("createTribe")
 					.resizable()
 					.scaledToFit()
+					.padding(.horizontal, imagePadding)
 			default:
 				EmptyView()
 			}
@@ -121,7 +123,7 @@ struct OnBoardingPageView: View {
 				Rectangle()
 					.fill(
 						LinearGradient(
-							colors: [Color.clear, Color.clear, Color.black],
+							colors: [Color.clear, Color.black.opacity(0.5), Color.black],
 							startPoint: .center,
 							endPoint: .bottom
 						)
@@ -132,7 +134,7 @@ struct OnBoardingPageView: View {
 
 struct OnBoardingPageView_Previews: PreviewProvider {
 	static var previews: some View {
-		OnBoardingPageView(page: .stayConnected)
+		OnBoardingPageView(page: .createTribe)
 			.preferredColorScheme(.dark)
 	}
 }
