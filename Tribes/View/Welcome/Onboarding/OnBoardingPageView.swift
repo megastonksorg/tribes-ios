@@ -71,6 +71,7 @@ struct OnBoardingPageView: View {
 					footer(page: .stayConnected)
 						.opacity(0)
 					footer(page: page)
+						.padding(.bottom, page == .stayConnected ? 20 : 0)
 				}
 			}
 	}
@@ -138,7 +139,7 @@ struct OnBoardingPageView: View {
 
 struct OnBoardingPageView_Previews: PreviewProvider {
 	static var previews: some View {
-		OnBoardingPageView(page: .sendMessages)
+		OnBoardingPageView(page: .stayConnected)
 			.preferredColorScheme(.dark)
 	}
 }

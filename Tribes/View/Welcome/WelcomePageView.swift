@@ -40,13 +40,13 @@ struct WelcomePageView: View {
 				
 				Rectangle()
 					.fill(Color.clear)
-					.frame(height: 40)
+					.frame(height: 20)
 				
 				currentPageIndexView(currentPage: currentOnboardingPage)
 				
 				Rectangle()
 					.fill(Color.clear)
-					.frame(height: 20)
+					.frame(height: 40)
 				
 				Group {
 					Button(action: { viewModel.generateNewWallet() }) {
