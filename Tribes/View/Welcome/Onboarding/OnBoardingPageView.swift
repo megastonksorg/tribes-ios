@@ -102,9 +102,7 @@ struct OnBoardingPageView: View {
 					Spacer()
 				}
 				.pushOutFrame()
-			case .createTribe:
-				imageView(page: page)
-			case .sendInvites:
+			case .createTribe, .sendInvites, .shareTea:
 				imageView(page: page)
 			default:
 				EmptyView()
@@ -140,7 +138,7 @@ struct OnBoardingPageView: View {
 
 struct OnBoardingPageView_Previews: PreviewProvider {
 	static var previews: some View {
-		OnBoardingPageView(page: .sendInvites)
+		OnBoardingPageView(page: .shareTea)
 			.preferredColorScheme(.dark)
 	}
 }
