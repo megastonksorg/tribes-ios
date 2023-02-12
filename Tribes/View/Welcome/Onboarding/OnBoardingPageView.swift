@@ -77,7 +77,6 @@ struct OnBoardingPageView: View {
 	
 	@ViewBuilder
 	func body(page: Page) -> some View {
-		let imagePadding: CGFloat = 40
 		Group {
 			switch page {
 			case .stayConnected:
@@ -87,7 +86,7 @@ struct OnBoardingPageView: View {
 						Circle()
 							.fill(Color.app.primary)
 							.padding(padding)
-						Image("stayConnected")
+						Image(page.id)
 							.resizable()
 							.scaledToFit()
 						Circle()
@@ -104,15 +103,22 @@ struct OnBoardingPageView: View {
 				}
 				.pushOutFrame()
 			case .createTribe:
-				Image("createTribe")
-					.resizable()
-					.scaledToFit()
-					.padding(.horizontal, imagePadding)
+				imageView(page: page)
+			case .sendInvites:
+				imageView(page: page)
 			default:
 				EmptyView()
 			}
 		}
 		.frame(maxHeight: page == .stayConnected ? .infinity : 400)
+	}
+	
+	@ViewBuilder
+	func imageView(page: Page) -> some View {
+		Image(page.id)
+			.resizable()
+			.scaledToFit()
+			.padding(.horizontal, 40)
 	}
 	
 	@ViewBuilder
@@ -134,7 +140,7 @@ struct OnBoardingPageView: View {
 
 struct OnBoardingPageView_Previews: PreviewProvider {
 	static var previews: some View {
-		OnBoardingPageView(page: .createTribe)
+		OnBoardingPageView(page: .sendInvites)
 			.preferredColorScheme(.dark)
 	}
 }
