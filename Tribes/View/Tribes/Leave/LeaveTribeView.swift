@@ -25,17 +25,17 @@ struct LeaveTribeView: View {
 				SymmetricHStack(
 					content: {
 						Text("\(ViewModel.confirmationTitle)?")
+							.font(Font.app.title2)
+							.fontWeight(.semibold)
+							.foregroundColor(Color.app.tertiary)
 					},
 					leading: { EmptyView() },
 					trailing: {
-						Button(action: { dismiss() }) {
-							Image(systemName: "xmark")
+						XButton {
+							dismiss()
 						}
 					}
 				)
-				.font(Font.app.title2)
-				.fontWeight(.semibold)
-				.foregroundColor(Color.app.tertiary)
 				.padding(.top)
 				
 				VStack {
