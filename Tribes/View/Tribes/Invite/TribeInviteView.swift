@@ -25,12 +25,9 @@ struct TribeInviteView: View {
 				},
 				leading: { EmptyView() },
 				trailing: {
-					Button(action: { dismissAction() }) {
-						Image(systemName: "x.circle.fill")
-							.font(Font.app.title)
-							.foregroundColor(Color.white)
+					XButton {
+						dismissAction()
 					}
-					.buttonStyle(.insideScaling)
 				}
 			)
 			
