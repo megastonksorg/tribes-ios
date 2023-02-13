@@ -8,16 +8,38 @@
 import SwiftUI
 
 struct AccountView: View {
+	
+	@StateObject var viewModel: ViewModel
+	
+	init(viewModel: ViewModel) {
+		self._viewModel = StateObject(wrappedValue: viewModel)
+	}
+	
 	var body: some View {
 		VStack {
 			
 		}
 		.pushOutFrame()
+		.background(Color.app.background)
+		.safeAreaInset(edge: .top) {
+			HStack {
+				Button(action: {}) {
+					Image(systemName: "gearshape.fill")
+				}
+				.font(Font.app.title)
+				.foregroundColor(Color.white)
+				Spacer()
+				XButton {
+					
+				}
+			}
+			.padding(.horizontal)
+		}
 	}
 }
 
 struct AccountView_Previews: PreviewProvider {
 	static var previews: some View {
-		AccountView()
+		AccountView(viewModel: .init())
 	}
 }
