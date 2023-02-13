@@ -83,6 +83,8 @@
 		D03B30A52968DB3D00F797CE /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B30A42968DB3D00F797CE /* HomeView.swift */; };
 		D047E1992982F88900F5C63A /* CodeWords.json in Resources */ = {isa = PBXBuildFile; fileRef = D047E1982982F88900F5C63A /* CodeWords.json */; };
 		D06088B42996D55000A3D383 /* OnBoardingPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06088B32996D55000A3D383 /* OnBoardingPageView.swift */; };
+		D06FDE7D2999C2EB0013A55E /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06FDE7C2999C2EB0013A55E /* AccountView.swift */; };
+		D06FDE7F2999C2F50013A55E /* AccountVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06FDE7E2999C2F50013A55E /* AccountVM.swift */; };
 		D07278B42974CCD100650A15 /* TribesVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07278B32974CCD100650A15 /* TribesVM.swift */; };
 		D07278B62974CCE000650A15 /* TribesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07278B52974CCE000650A15 /* TribesView.swift */; };
 		D07278BB2975FB9600650A15 /* CalloutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07278BA2975FB9600650A15 /* CalloutView.swift */; };
@@ -212,6 +214,8 @@
 		D03B30A42968DB3D00F797CE /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		D047E1982982F88900F5C63A /* CodeWords.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = CodeWords.json; sourceTree = "<group>"; };
 		D06088B32996D55000A3D383 /* OnBoardingPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingPageView.swift; sourceTree = "<group>"; };
+		D06FDE7C2999C2EB0013A55E /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
+		D06FDE7E2999C2F50013A55E /* AccountVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountVM.swift; sourceTree = "<group>"; };
 		D07278B32974CCD100650A15 /* TribesVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TribesVM.swift; sourceTree = "<group>"; };
 		D07278B52974CCE000650A15 /* TribesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TribesView.swift; sourceTree = "<group>"; };
 		D07278BA2975FB9600650A15 /* CalloutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalloutView.swift; sourceTree = "<group>"; };
@@ -495,6 +499,7 @@
 		D030D3002957460B0011128F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				D06FDE7B2999C15D0013A55E /* Account */,
 				D07278B22974CCAD00650A15 /* Tribes */,
 				D03B30A12968DAE700F797CE /* Home */,
 				D0D2669A296010C900A94183 /* TeaContent */,
@@ -597,6 +602,15 @@
 				D06088B32996D55000A3D383 /* OnBoardingPageView.swift */,
 			);
 			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		D06FDE7B2999C15D0013A55E /* Account */ = {
+			isa = PBXGroup;
+			children = (
+				D06FDE7C2999C2EB0013A55E /* AccountView.swift */,
+				D06FDE7E2999C2F50013A55E /* AccountVM.swift */,
+			);
+			path = Account;
 			sourceTree = "<group>";
 		};
 		D07278B22974CCAD00650A15 /* Tribes */ = {
@@ -890,6 +904,7 @@
 				D030D3192957460B0011128F /* NewSecretKeyView.swift in Sources */,
 				D0A3F0852980AA2B000308BF /* TribeInviteView.swift in Sources */,
 				D07278C2297603DC00650A15 /* ChatBubble.swift in Sources */,
+				D06FDE7F2999C2F50013A55E /* AccountVM.swift in Sources */,
 				D030D2F6295745F90011128F /* EULA.swift in Sources */,
 				D030D2D7295745E90011128F /* View+Frame.swift in Sources */,
 				D076636D2995313100946F7B /* TribesRepository.swift in Sources */,
@@ -912,6 +927,7 @@
 				D0E9F7FC298DD20F00A0400A /* CacheClient.swift in Sources */,
 				D030D2FA295745F90011128F /* User.swift in Sources */,
 				D030D2DF295745E90011128F /* MnemonicWordView.swift in Sources */,
+				D06FDE7D2999C2EB0013A55E /* AccountView.swift in Sources */,
 				D0C65AAF2970BEA100E527F9 /* SymmetricHStack.swift in Sources */,
 				D030D2FB295745F90011128F /* ResponseTypes.swift in Sources */,
 				D0A3F0832980AA0B000308BF /* TribeInviteVM.swift in Sources */,
