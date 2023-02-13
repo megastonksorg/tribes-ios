@@ -30,7 +30,7 @@ struct AccountView: View {
 					Text("Secret Key")
 					Spacer()
 				}
-				.padding(.top, 20)
+				.padding(.top, 30)
 				LazyVGrid(columns: Array(repeating: GridItem(), count: SizeConstants.phraseGridCount), alignment: .center, spacing: SizeConstants.phraseGridSpacing) {
 					ForEach(viewModel.phrase){ word in
 						MnemonicWordView(word: Binding.constant(viewModel.phrase[id: word.id]))
