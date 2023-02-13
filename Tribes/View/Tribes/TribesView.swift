@@ -27,7 +27,7 @@ struct TribesView: View {
 							TextView(AppConstants.appName, style: .appTitle)
 						},
 						leading: {
-							Button(action: {  }) {
+							Button(action: { viewModel.toggleAccountView() }) {
 								UserAvatar(url: viewModel.user.profilePhoto)
 									.frame(dimension: 50)
 							}
@@ -189,6 +189,11 @@ struct TribesView: View {
 					LeaveTribeView(viewModel: leaveTribeVM)
 						.onDisappear { viewModel.loadTribes() }
 				}
+			}
+			.fullScreenCover(
+				isPresented: $viewModel.isShowingAccountView
+			) {
+				AccountView(viewModel: AccountView.ViewModel(user: viewModel.user))
 			}
 			.onAppear { viewModel.loadTribes() }
 	}

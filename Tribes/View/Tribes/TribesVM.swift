@@ -28,6 +28,7 @@ extension TribesView {
 		@Published var editTribeNameText: String?
 		@Published var user: User
 		
+		@Published var isShowingAccountView: Bool = false
 		@Published var isShowingTribeInvite: Bool = false
 		
 		var isEditingTribeName: Bool {
@@ -68,6 +69,10 @@ extension TribesView {
 					}
 				)
 				.store(in: &cancellables)
+		}
+		
+		func toggleAccountView() {
+			self.isShowingAccountView.toggle()
 		}
 		
 		func setFocusedTribe(_ tribe: Tribe?) {

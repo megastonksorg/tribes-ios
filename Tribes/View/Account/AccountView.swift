@@ -11,6 +11,8 @@ struct AccountView: View {
 	
 	@StateObject var viewModel: ViewModel
 	
+	@Environment(\.dismiss) var dismiss
+	
 	init(viewModel: ViewModel) {
 		self._viewModel = StateObject(wrappedValue: viewModel)
 	}
@@ -40,7 +42,7 @@ struct AccountView: View {
 				.foregroundColor(Color.white)
 				Spacer()
 				XButton {
-					
+					dismiss()
 				}
 			}
 			.padding(.horizontal)
