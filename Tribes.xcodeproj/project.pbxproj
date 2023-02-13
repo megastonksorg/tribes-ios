@@ -503,7 +503,7 @@
 				D015807A295E03810087545A /* Camera */,
 				D030D3122957460B0011128F /* Profile */,
 				D030D30F2957460B0011128F /* AuthenticateView */,
-				D030D3052957460B0011128F /* SecretPhrase */,
+				D030D3052957460B0011128F /* SecretKey */,
 				D030D3012957460B0011128F /* Welcome */,
 			);
 			path = View;
@@ -519,14 +519,14 @@
 			path = Welcome;
 			sourceTree = "<group>";
 		};
-		D030D3052957460B0011128F /* SecretPhrase */ = {
+		D030D3052957460B0011128F /* SecretKey */ = {
 			isa = PBXGroup;
 			children = (
 				D030D3062957460B0011128F /* VerifySecretKey */,
 				D030D3092957460B0011128F /* NewSecretKey */,
-				D030D30C2957460B0011128F /* ImportSecretPhrase */,
+				D030D30C2957460B0011128F /* ImportSecretKey */,
 			);
-			path = SecretPhrase;
+			path = SecretKey;
 			sourceTree = "<group>";
 		};
 		D030D3062957460B0011128F /* VerifySecretKey */ = {
@@ -547,13 +547,13 @@
 			path = NewSecretKey;
 			sourceTree = "<group>";
 		};
-		D030D30C2957460B0011128F /* ImportSecretPhrase */ = {
+		D030D30C2957460B0011128F /* ImportSecretKey */ = {
 			isa = PBXGroup;
 			children = (
 				D030D30D2957460B0011128F /* ImportSecretKeyVM.swift */,
 				D030D30E2957460B0011128F /* ImportSecretKeyView.swift */,
 			);
-			path = ImportSecretPhrase;
+			path = ImportSecretKey;
 			sourceTree = "<group>";
 		};
 		D030D30F2957460B0011128F /* AuthenticateView */ = {
