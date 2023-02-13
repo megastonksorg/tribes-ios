@@ -15,7 +15,6 @@ struct XButton: View {
 				.font(Font.app.title)
 				.foregroundColor(Color.white)
 		}
-		.buttonStyle(.plain)
 	}
 }
 

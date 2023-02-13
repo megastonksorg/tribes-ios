@@ -420,7 +420,6 @@ struct TribeNameView: View {
 			.background(Color.black.opacity(0.01))
 		}
 		.fixedSize(horizontal: false, vertical: true)
-		.buttonStyle(.plain)
 	}
 }
 
