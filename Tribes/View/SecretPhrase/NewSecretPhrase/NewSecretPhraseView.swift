@@ -27,7 +27,7 @@ struct NewSecretPhraseView: View {
 					.font(Font.app.title)
 					.foregroundColor(.white)
 				
-				Text("This phrase is the only way you will be able to login to your account. Please memorize or write it down somewhere safe. \n\nIt protects your money and conversations")
+				Text("This key is the only way you will be able to login to your account. Please memorize or write it down somewhere safe. \n\nIt protects your money and conversations")
 					.font(Font.app.body)
 					.foregroundColor(.gray)
 					.padding(.horizontal)
