@@ -17,9 +17,13 @@ struct AccountView: View {
 	
 	var body: some View {
 		VStack {
-			
+			UserAvatar(url: viewModel.user.profilePhoto)
+				.frame(dimension: SizeConstants.profileImageFrame)
+			Text(viewModel.user.fullName)
+				.font(Font.app.title2)
+				.foregroundColor(.white)
 		}
-		.pushOutFrame()
+		.pushOutFrame(alignment: .top)
 		.background(Color.app.background)
 		.safeAreaInset(edge: .top) {
 			HStack {
@@ -40,6 +44,6 @@ struct AccountView: View {
 
 struct AccountView_Previews: PreviewProvider {
 	static var previews: some View {
-		AccountView(viewModel: .init())
+		AccountView(viewModel: .init(user: User.noop))
 	}
 }
