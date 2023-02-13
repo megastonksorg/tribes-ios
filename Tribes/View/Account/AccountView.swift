@@ -23,12 +23,13 @@ struct AccountView: View {
 				Text(viewModel.user.fullName)
 					.font(Font.app.title2)
 					.foregroundColor(.white)
-				WalletView(address: viewModel.user.walletAddress, copyAction: {  })
+				WalletView(address: viewModel.user.walletAddress, copyAction: { viewModel.copyAddress() })
 					.padding(.top)
 			}
 			.padding(.horizontal)
 		}
 		.pushOutFrame(alignment: .top)
+		.banner(data: self.$viewModel.banner)
 		.background(Color.app.background)
 		.safeAreaInset(edge: .top) {
 			HStack {

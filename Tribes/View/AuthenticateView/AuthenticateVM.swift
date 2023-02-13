@@ -36,7 +36,7 @@ extension AuthenticateView {
 		
 		func copyAddress() {
 			PasteboardClient.shared.copyText(user.walletAddress)
-			self.banner = BannerData(detail: "Address copied to clipboard", type: .success)
+			self.banner = BannerData(detail: AppConstants.addressCopied, type: .success)
 		}
 		
 		func cancel() {

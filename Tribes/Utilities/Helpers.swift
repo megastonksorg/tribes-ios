@@ -13,6 +13,8 @@ struct AppConstants {
 	static let appName: String = "Tribes"
 	static let email: String = "hello@megastonks.com"
 	static let website: String = "tribesapp.ca"
+	
+	static let addressCopied: String = "Address copied to clipboard"
 }
 
 struct SizeConstants {

@@ -11,8 +11,15 @@ extension AccountView {
 	@MainActor class ViewModel: ObservableObject {
 		let user: User
 		
+		@Published var banner: BannerData?
+		
 		init(user: User) {
 			self.user = user
+		}
+		
+		func copyAddress() {
+			PasteboardClient.shared.copyText(user.walletAddress)
+			self.banner = BannerData(detail: AppConstants.addressCopied, type: .success)
 		}
 	}
 }
