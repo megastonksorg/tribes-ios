@@ -85,6 +85,7 @@
 		D06088B42996D55000A3D383 /* OnBoardingPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06088B32996D55000A3D383 /* OnBoardingPageView.swift */; };
 		D06FDE7D2999C2EB0013A55E /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06FDE7C2999C2EB0013A55E /* AccountView.swift */; };
 		D06FDE7F2999C2F50013A55E /* AccountVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06FDE7E2999C2F50013A55E /* AccountVM.swift */; };
+		D06FDE81299A03210013A55E /* WalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06FDE80299A03210013A55E /* WalletView.swift */; };
 		D07278B42974CCD100650A15 /* TribesVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07278B32974CCD100650A15 /* TribesVM.swift */; };
 		D07278B62974CCE000650A15 /* TribesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07278B52974CCE000650A15 /* TribesView.swift */; };
 		D07278BB2975FB9600650A15 /* CalloutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07278BA2975FB9600650A15 /* CalloutView.swift */; };
@@ -216,6 +217,7 @@
 		D06088B32996D55000A3D383 /* OnBoardingPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingPageView.swift; sourceTree = "<group>"; };
 		D06FDE7C2999C2EB0013A55E /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		D06FDE7E2999C2F50013A55E /* AccountVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountVM.swift; sourceTree = "<group>"; };
+		D06FDE80299A03210013A55E /* WalletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletView.swift; sourceTree = "<group>"; };
 		D07278B32974CCD100650A15 /* TribesVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TribesVM.swift; sourceTree = "<group>"; };
 		D07278B52974CCE000650A15 /* TribesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TribesView.swift; sourceTree = "<group>"; };
 		D07278BA2975FB9600650A15 /* CalloutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalloutView.swift; sourceTree = "<group>"; };
@@ -455,6 +457,7 @@
 				D0766364298E288100946F7B /* CachedImage.swift */,
 				D07663662990389F00946F7B /* AppContextMenu.swift */,
 				D01A5D7E29999DB100838774 /* XButton.swift */,
+				D06FDE80299A03210013A55E /* WalletView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -877,6 +880,7 @@
 				D06088B42996D55000A3D383 /* OnBoardingPageView.swift in Sources */,
 				D0D266B3296AAD2300A94183 /* HomeContentView.swift in Sources */,
 				D030D2A6295745C20011128F /* APIClient.swift in Sources */,
+				D06FDE81299A03210013A55E /* WalletView.swift in Sources */,
 				D0A3F07E298083D0000308BF /* CardView.swift in Sources */,
 				D0D266AF296AAC4E00A94183 /* EdgeInsets+Extensions.swift in Sources */,
 				D030D2CD295745E90011128F /* Helpers.swift in Sources */,

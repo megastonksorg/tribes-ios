@@ -55,50 +55,8 @@ struct AuthenticateView: View {
 				.foregroundColor(.white)
 				.padding(.top)
 			
-			VStack(spacing: 4) {
-				ExpandedHStack {
-					Text("ETHEREUM")
-						.font(Font.app.footnote)
-						.foregroundColor(.gray)
-				}
-				
-				ExpandedHStack {
-					Text(String(stringLiteral: "$_,_ _ _._ _ USD"))
-						.font(Font.app.title3)
-						.fontWeight(.semibold)
-						.foregroundColor(.white)
-						.overlay {
-							Text(String(stringLiteral: "* * * * * * *"))
-								.offset(x: -18)
-						}
-				}
-				
-				ExpandedHStack {
-					Text("WALLET ADDRESS")
-						.font(Font.app.footnote)
-						.foregroundColor(.gray)
-				}
-				.padding(.top, 30)
-				
-				HStack {
-					Text(viewModel.user.walletAddress)
-						.font(Font.app.title3)
-						.fontWeight(.semibold)
-						.foregroundColor(.white)
-					
-					Spacer()
-					
-					Button(action: { self.viewModel.copyAddress() }) {
-						Image(systemName: "doc.on.doc.fill")
-					}
-				}
-			}
-			.foregroundColor(.white)
-			.multilineTextAlignment(.leading)
-			.lineLimit(1)
-			.padding()
-			.background(TextFieldBackgroundView())
-			.padding(.top, 60)
+			WalletView(address: viewModel.user.walletAddress, copyAction: { viewModel.copyAddress() })
+				.padding(.top, 60)
 			
 			Spacer()
 			
@@ -133,21 +91,6 @@ struct AuthenticateView: View {
 		}
 		.banner(data: self.$viewModel.banner)
 		.background(Color.app.background)
-	}
-}
-
-fileprivate struct ExpandedHStack<Content: View>: View {
-	@ViewBuilder var content: Content
-	
-	init(@ViewBuilder content: @escaping () -> Content) {
-		self.content = content()
-	}
-	
-	var body: some View {
-		HStack {
-			content
-			Spacer()
-		}
 	}
 }
 
