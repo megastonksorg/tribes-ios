@@ -20,6 +20,7 @@ struct AccountView: View {
 	var body: some View {
 		VStack {
 			VStack {
+				let isSecretKeyLocked = viewModel.isSecretKeyLocked
 				UserAvatar(url: viewModel.user.profilePhoto)
 					.frame(dimension: SizeConstants.profileImageFrame)
 				Text(viewModel.user.fullName)
@@ -38,6 +39,15 @@ struct AccountView: View {
 					}
 				}
 				.padding(.horizontal, -10)
+				.blur(radius: isSecretKeyLocked ? 6 : 0)
+				.overlay(isShown: isSecretKeyLocked) {
+					Button(action: {}) {
+						Image(systemName: "lock.circle.fill")
+							.symbolRenderingMode(.palette)
+							.foregroundStyle(Color.app.secondary, Color.white)
+							.font(.system(size: 50))
+					}
+				}
 			}
 			.font(Font.app.title2)
 			.foregroundColor(.white)

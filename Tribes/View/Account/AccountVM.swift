@@ -14,6 +14,7 @@ extension AccountView {
 		let phrase: IdentifiedArrayOf<MnemonicWord>
 		
 		@Published var banner: BannerData?
+		@Published var isSecretKeyLocked: Bool = true
 		
 		init(user: User) {
 			self.user = user
