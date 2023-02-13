@@ -17,11 +17,16 @@ struct AccountView: View {
 	
 	var body: some View {
 		VStack {
-			UserAvatar(url: viewModel.user.profilePhoto)
-				.frame(dimension: SizeConstants.profileImageFrame)
-			Text(viewModel.user.fullName)
-				.font(Font.app.title2)
-				.foregroundColor(.white)
+			VStack {
+				UserAvatar(url: viewModel.user.profilePhoto)
+					.frame(dimension: SizeConstants.profileImageFrame)
+				Text(viewModel.user.fullName)
+					.font(Font.app.title2)
+					.foregroundColor(.white)
+				WalletView(address: viewModel.user.walletAddress, copyAction: {  })
+					.padding(.top)
+			}
+			.padding(.horizontal)
 		}
 		.pushOutFrame(alignment: .top)
 		.background(Color.app.background)
