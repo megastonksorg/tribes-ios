@@ -1,5 +1,5 @@
 //
-//  NewSecretPhraseVM.swift
+//  NewSecretKeyVM.swift
 //  Tribes
 //
 //  Created by Kingsley Okeke on 2022-07-14.
@@ -9,7 +9,7 @@ import Combine
 import SwiftUI
 import IdentifiedCollections
 
-extension NewSecretPhraseView {
+extension NewSecretKeyView {
 	@MainActor class ViewModel: ObservableObject {
 		
 		//Clients

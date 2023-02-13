@@ -1,5 +1,5 @@
 //
-//  NewSecretPhraseView.swift
+//  NewSecretKeyView.swift
 //  Tribes
 //
 //  Created by Kingsley Okeke on 2022-06-28.
@@ -8,7 +8,7 @@
 import SwiftUI
 import IdentifiedCollections
 
-struct NewSecretPhraseView: View {
+struct NewSecretKeyView: View {
 	
 	@StateObject var viewModel: ViewModel = ViewModel()
 	
@@ -64,8 +64,8 @@ struct NewSecretPhraseView: View {
 	}
 }
 
-struct NewSecretPhraseView_Previews: PreviewProvider {
+struct NewSecretKeyView_Previews: PreviewProvider {
 	static var previews: some View {
-		NewSecretPhraseView()
+		NewSecretKeyView()
 	}
 }

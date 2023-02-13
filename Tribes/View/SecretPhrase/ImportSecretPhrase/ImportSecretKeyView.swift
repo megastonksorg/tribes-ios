@@ -1,5 +1,5 @@
 //
-//  ImportSecretPhraseView.swift
+//  ImportSecretKeyView.swift
 //  Tribes
 //
 //  Created by Kingsley Okeke on 2022-07-10.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ImportSecretPhraseView: View {
+struct ImportSecretKeyView: View {
 	@FocusState private var focusedField: ViewModel.Field?
 	
 	@StateObject var viewModel: ViewModel = ViewModel()
@@ -119,8 +119,8 @@ struct ImportSecretPhraseView: View {
 	}
 }
 
-struct ImportSecretPhraseView_Previews: PreviewProvider {
+struct ImportSecretKeyView_Previews: PreviewProvider {
 	static var previews: some View {
-		ImportSecretPhraseView()
+		ImportSecretKeyView()
 	}
 }

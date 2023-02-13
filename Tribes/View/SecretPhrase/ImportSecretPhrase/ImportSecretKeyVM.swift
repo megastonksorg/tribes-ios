@@ -1,5 +1,5 @@
 //
-//  ImportSecretPhraseVM.swift
+//  ImportSecretKeyVM.swift
 //  Tribes
 //
 //  Created by Kingsley Okeke on 2022-07-16.
@@ -8,7 +8,7 @@
 import Combine
 import Foundation
 
-extension ImportSecretPhraseView {
+extension ImportSecretKeyView {
 	@MainActor class ViewModel: ObservableObject {
 		
 		enum Field: Int, CaseIterable, Hashable, Identifiable {

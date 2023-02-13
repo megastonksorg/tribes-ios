@@ -76,10 +76,10 @@ struct WelcomePageView: View {
 				Group {
 					switch route {
 						case .createWallet:
-							NewSecretPhraseView()
+							NewSecretKeyView()
 								.environmentObject(appRouter)
 						case .importWallet:
-							ImportSecretPhraseView()
+							ImportSecretKeyView()
 								.environmentObject(appRouter)
 						case .verifySecretPhrase:
 							VerifySecretPhraseView()

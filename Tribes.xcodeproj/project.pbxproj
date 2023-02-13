@@ -69,12 +69,12 @@
 		D030D2FF295745F90011128F /* Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030D2F5295745F90011128F /* Wallet.swift */; };
 		D030D3152957460B0011128F /* WelcomePageVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030D3022957460B0011128F /* WelcomePageVM.swift */; };
 		D030D3162957460B0011128F /* WelcomePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030D3032957460B0011128F /* WelcomePageView.swift */; };
-		D030D3172957460B0011128F /* VerifySecretPhraseVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030D3072957460B0011128F /* VerifySecretPhraseVM.swift */; };
-		D030D3182957460B0011128F /* VerifySecretPhraseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030D3082957460B0011128F /* VerifySecretPhraseView.swift */; };
-		D030D3192957460B0011128F /* NewSecretPhraseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030D30A2957460B0011128F /* NewSecretPhraseView.swift */; };
-		D030D31A2957460B0011128F /* NewSecretPhraseVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030D30B2957460B0011128F /* NewSecretPhraseVM.swift */; };
-		D030D31B2957460B0011128F /* ImportSecretPhraseVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030D30D2957460B0011128F /* ImportSecretPhraseVM.swift */; };
-		D030D31C2957460B0011128F /* ImportSecretPhraseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030D30E2957460B0011128F /* ImportSecretPhraseView.swift */; };
+		D030D3172957460B0011128F /* VerifySecretKeyVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030D3072957460B0011128F /* VerifySecretKeyVM.swift */; };
+		D030D3182957460B0011128F /* VerifySecretKeyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030D3082957460B0011128F /* VerifySecretKeyView.swift */; };
+		D030D3192957460B0011128F /* NewSecretKeyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030D30A2957460B0011128F /* NewSecretKeyView.swift */; };
+		D030D31A2957460B0011128F /* NewSecretKeyVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030D30B2957460B0011128F /* NewSecretKeyVM.swift */; };
+		D030D31B2957460B0011128F /* ImportSecretKeyVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030D30D2957460B0011128F /* ImportSecretKeyVM.swift */; };
+		D030D31C2957460B0011128F /* ImportSecretKeyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030D30E2957460B0011128F /* ImportSecretKeyView.swift */; };
 		D030D31D2957460B0011128F /* AuthenticateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030D3102957460B0011128F /* AuthenticateView.swift */; };
 		D030D31E2957460B0011128F /* AuthenticateVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030D3112957460B0011128F /* AuthenticateVM.swift */; };
 		D030D31F2957460B0011128F /* ProfileSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030D3132957460B0011128F /* ProfileSettingsView.swift */; };
@@ -198,12 +198,12 @@
 		D030D2F5295745F90011128F /* Wallet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Wallet.swift; sourceTree = "<group>"; };
 		D030D3022957460B0011128F /* WelcomePageVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomePageVM.swift; sourceTree = "<group>"; };
 		D030D3032957460B0011128F /* WelcomePageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomePageView.swift; sourceTree = "<group>"; };
-		D030D3072957460B0011128F /* VerifySecretPhraseVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifySecretPhraseVM.swift; sourceTree = "<group>"; };
-		D030D3082957460B0011128F /* VerifySecretPhraseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifySecretPhraseView.swift; sourceTree = "<group>"; };
-		D030D30A2957460B0011128F /* NewSecretPhraseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewSecretPhraseView.swift; sourceTree = "<group>"; };
-		D030D30B2957460B0011128F /* NewSecretPhraseVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewSecretPhraseVM.swift; sourceTree = "<group>"; };
-		D030D30D2957460B0011128F /* ImportSecretPhraseVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImportSecretPhraseVM.swift; sourceTree = "<group>"; };
-		D030D30E2957460B0011128F /* ImportSecretPhraseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImportSecretPhraseView.swift; sourceTree = "<group>"; };
+		D030D3072957460B0011128F /* VerifySecretKeyVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifySecretKeyVM.swift; sourceTree = "<group>"; };
+		D030D3082957460B0011128F /* VerifySecretKeyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifySecretKeyView.swift; sourceTree = "<group>"; };
+		D030D30A2957460B0011128F /* NewSecretKeyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewSecretKeyView.swift; sourceTree = "<group>"; };
+		D030D30B2957460B0011128F /* NewSecretKeyVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewSecretKeyVM.swift; sourceTree = "<group>"; };
+		D030D30D2957460B0011128F /* ImportSecretKeyVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImportSecretKeyVM.swift; sourceTree = "<group>"; };
+		D030D30E2957460B0011128F /* ImportSecretKeyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImportSecretKeyView.swift; sourceTree = "<group>"; };
 		D030D3102957460B0011128F /* AuthenticateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticateView.swift; sourceTree = "<group>"; };
 		D030D3112957460B0011128F /* AuthenticateVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticateVM.swift; sourceTree = "<group>"; };
 		D030D3132957460B0011128F /* ProfileSettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileSettingsView.swift; sourceTree = "<group>"; };
@@ -522,36 +522,36 @@
 		D030D3052957460B0011128F /* SecretPhrase */ = {
 			isa = PBXGroup;
 			children = (
-				D030D3062957460B0011128F /* VerifySecretPhrase */,
-				D030D3092957460B0011128F /* NewSecretPhrase */,
+				D030D3062957460B0011128F /* VerifySecretKey */,
+				D030D3092957460B0011128F /* NewSecretKey */,
 				D030D30C2957460B0011128F /* ImportSecretPhrase */,
 			);
 			path = SecretPhrase;
 			sourceTree = "<group>";
 		};
-		D030D3062957460B0011128F /* VerifySecretPhrase */ = {
+		D030D3062957460B0011128F /* VerifySecretKey */ = {
 			isa = PBXGroup;
 			children = (
-				D030D3072957460B0011128F /* VerifySecretPhraseVM.swift */,
-				D030D3082957460B0011128F /* VerifySecretPhraseView.swift */,
+				D030D3072957460B0011128F /* VerifySecretKeyVM.swift */,
+				D030D3082957460B0011128F /* VerifySecretKeyView.swift */,
 			);
-			path = VerifySecretPhrase;
+			path = VerifySecretKey;
 			sourceTree = "<group>";
 		};
-		D030D3092957460B0011128F /* NewSecretPhrase */ = {
+		D030D3092957460B0011128F /* NewSecretKey */ = {
 			isa = PBXGroup;
 			children = (
-				D030D30A2957460B0011128F /* NewSecretPhraseView.swift */,
-				D030D30B2957460B0011128F /* NewSecretPhraseVM.swift */,
+				D030D30A2957460B0011128F /* NewSecretKeyView.swift */,
+				D030D30B2957460B0011128F /* NewSecretKeyVM.swift */,
 			);
-			path = NewSecretPhrase;
+			path = NewSecretKey;
 			sourceTree = "<group>";
 		};
 		D030D30C2957460B0011128F /* ImportSecretPhrase */ = {
 			isa = PBXGroup;
 			children = (
-				D030D30D2957460B0011128F /* ImportSecretPhraseVM.swift */,
-				D030D30E2957460B0011128F /* ImportSecretPhraseView.swift */,
+				D030D30D2957460B0011128F /* ImportSecretKeyVM.swift */,
+				D030D30E2957460B0011128F /* ImportSecretKeyView.swift */,
 			);
 			path = ImportSecretPhrase;
 			sourceTree = "<group>";
@@ -852,7 +852,7 @@
 				D0158080295E08570087545A /* CameraVM.swift in Sources */,
 				D0D266A9296524AC00A94183 /* Recorder.swift in Sources */,
 				D0E8519E296CC0690034AFD1 /* TribeMember.swift in Sources */,
-				D030D3182957460B0011128F /* VerifySecretPhraseView.swift in Sources */,
+				D030D3182957460B0011128F /* VerifySecretKeyView.swift in Sources */,
 				D030D2FC295745F90011128F /* Register.swift in Sources */,
 				D015807C295E039E0087545A /* CameraView.swift in Sources */,
 				D030D2DB295745E90011128F /* CornerRadiusStyle.swift in Sources */,
@@ -869,7 +869,7 @@
 				D030D2E2295745E90011128F /* AppBackgroundView.swift in Sources */,
 				D0D266B5296B542500A94183 /* View+OnBecomingVisible.swift in Sources */,
 				D0D2669C296010D600A94183 /* TeaContentVM.swift in Sources */,
-				D030D31C2957460B0011128F /* ImportSecretPhraseView.swift in Sources */,
+				D030D31C2957460B0011128F /* ImportSecretKeyView.swift in Sources */,
 				D030D31E2957460B0011128F /* AuthenticateVM.swift in Sources */,
 				D0E9F7FE298DD5F900A0400A /* Cache.swift in Sources */,
 				D0D2669729600BBA00A94183 /* DraftView.swift in Sources */,
@@ -887,7 +887,7 @@
 				D030D2F8295745F90011128F /* AppError.swift in Sources */,
 				D0D26692295FED0500A94183 /* ComposeVM.swift in Sources */,
 				D030D2E8295745E90011128F /* ImagePlaceHolderView.swift in Sources */,
-				D030D3192957460B0011128F /* NewSecretPhraseView.swift in Sources */,
+				D030D3192957460B0011128F /* NewSecretKeyView.swift in Sources */,
 				D0A3F0852980AA2B000308BF /* TribeInviteView.swift in Sources */,
 				D07278C2297603DC00650A15 /* ChatBubble.swift in Sources */,
 				D030D2F6295745F90011128F /* EULA.swift in Sources */,
@@ -922,19 +922,19 @@
 				D030D2DE295745E90011128F /* TermsAndConditionsView.swift in Sources */,
 				D0D2669E296010E000A94183 /* TeaContentView.swift in Sources */,
 				D0BFEA512987978500FB6F22 /* Publishers+Extensions.swift in Sources */,
-				D030D31B2957460B0011128F /* ImportSecretPhraseVM.swift in Sources */,
+				D030D31B2957460B0011128F /* ImportSecretKeyVM.swift in Sources */,
 				D030D2FE295745F90011128F /* Token.swift in Sources */,
 				D030D2D0295745E90011128F /* UIImage+Extensions.swift in Sources */,
 				D030D2D5295745E90011128F /* View+ReadSize.swift in Sources */,
 				D030D2DC295745E90011128F /* ButtonStyles.swift in Sources */,
-				D030D3172957460B0011128F /* VerifySecretPhraseVM.swift in Sources */,
+				D030D3172957460B0011128F /* VerifySecretKeyVM.swift in Sources */,
 				D030D2D3295745E90011128F /* Font+Extension.swift in Sources */,
 				D0A3F0802980949B000308BF /* Animation+Extension.swift in Sources */,
 				D030D2D2295745E90011128F /* Color+Extension.swift in Sources */,
 				D030D29B295745970011128F /* AppState.swift in Sources */,
 				D01A5D7F29999DB100838774 /* XButton.swift in Sources */,
 				D0C65AA72970A7E600E527F9 /* Fonts.swift in Sources */,
-				D030D31A2957460B0011128F /* NewSecretPhraseVM.swift in Sources */,
+				D030D31A2957460B0011128F /* NewSecretKeyVM.swift in Sources */,
 				D08EBF2A297FD118001B7A5C /* JoinTribeVM.swift in Sources */,
 				D0D26694295FED1000A94183 /* ComposeView.swift in Sources */,
 				D0D2669929600BC500A94183 /* DraftVM.swift in Sources */,
