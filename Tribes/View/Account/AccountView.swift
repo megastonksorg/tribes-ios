@@ -37,7 +37,7 @@ struct AccountView: View {
 							.padding(.vertical, 6)
 					}
 				}
-				.background(Color.red)
+				.padding(.horizontal, -10)
 			}
 			.font(Font.app.title2)
 			.foregroundColor(.white)
