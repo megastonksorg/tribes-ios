@@ -23,11 +23,24 @@ struct AccountView: View {
 				UserAvatar(url: viewModel.user.profilePhoto)
 					.frame(dimension: SizeConstants.profileImageFrame)
 				Text(viewModel.user.fullName)
-					.font(Font.app.title2)
-					.foregroundColor(.white)
+					.multilineTextAlignment(.center)
 				WalletView(address: viewModel.user.walletAddress, copyAction: { viewModel.copyAddress() })
 					.padding(.top)
+				HStack {
+					Text("Secret Key")
+					Spacer()
+				}
+				.padding(.top, 20)
+				LazyVGrid(columns: Array(repeating: GridItem(), count: SizeConstants.phraseGridCount), alignment: .center, spacing: SizeConstants.phraseGridSpacing) {
+					ForEach(viewModel.phrase){ word in
+						MnemonicWordView(word: Binding.constant(viewModel.phrase[id: word.id]))
+							.padding(.vertical, 6)
+					}
+				}
+				.background(Color.red)
 			}
+			.font(Font.app.title2)
+			.foregroundColor(.white)
 			.padding(.horizontal)
 		}
 		.pushOutFrame(alignment: .top)
