@@ -40,6 +40,7 @@ struct AccountView: View {
 				}
 				.padding(.horizontal, -10)
 				.blur(radius: isSecretKeyLocked ? 6 : 0)
+				.animation(.easeInOut, value: viewModel.isSecretKeyLocked)
 				.overlay(isShown: isSecretKeyLocked) {
 					Button(action: { viewModel.unlockKey() }) {
 						Image(systemName: "lock.circle.fill")

@@ -36,6 +36,9 @@ extension AccountView {
 		}
 		
 		func unlockKey() {
+		#if targetEnvironment(simulator)
+			self.isSecretKeyLocked = false
+		#else
 			let context = LAContext()
 			var error: NSError?
 			
@@ -59,6 +62,7 @@ extension AccountView {
 					self.banner = BannerData(detail: "Configure your biometric in your device settings to access your secret key", type: .error)
 				}
 			}
+		#endif
 		}
 	}
 }
