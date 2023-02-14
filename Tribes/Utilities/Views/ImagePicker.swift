@@ -38,14 +38,18 @@ struct ImagePicker: UIViewControllerRepresentable {
 
 			guard let provider = results.first?.itemProvider else { return }
 
-			if provider.canLoadObject(ofClass: UIImage.self) {
-				provider.loadObject(ofClass: UIImage.self) { item, _ in
-					if let image = item as? UIImage {
-						DispatchQueue.main.async {
-							withAnimation(.easeInOut.speed(0.4)) {
-								self.parent.image = image
+			if(provider.hasItemConformingToTypeIdentifier(UTType.image.identifier)) {
+				provider.loadInPlaceFileRepresentation(forTypeIdentifier: UTType.image.identifier) { url, _, error in
+					do {
+						if let url = url, let image = UIImage(data: try Data(contentsOf: url)) {
+							DispatchQueue.main.async {
+								withAnimation(.easeInOut.speed(0.4)) {
+									self.parent.image = image
+								}
 							}
 						}
+					} catch {
+						print("Could not load Image")
 					}
 				}
 			}
