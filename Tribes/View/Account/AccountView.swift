@@ -47,45 +47,62 @@ struct AccountView: View {
 				}
 				.foregroundColor(Color.white)
 				.multilineTextAlignment(.center)
-				
-				WalletView(address: viewModel.user.walletAddress, copyAction: { viewModel.copyAddress() })
 					.padding(.top)
-				HStack {
-					Text("Secret Key")
-					Spacer()
-				}
-				.padding(.top, 30)
-				LazyVGrid(columns: Array(repeating: GridItem(), count: SizeConstants.phraseGridCount), alignment: .center, spacing: SizeConstants.phraseGridSpacing) {
-					ForEach(viewModel.phrase){ word in
-						MnemonicWordView(word: Binding.constant(viewModel.phrase[id: word.id]))
-							.padding(.vertical, 6)
+				if isShowingSettings {
+					Button(action: {}) {
+						Text("Update")
 					}
-				}
-				.padding(.horizontal, -10)
-				.blur(radius: isSecretKeyLocked ? 6 : 0)
-				.animation(.easeInOut, value: viewModel.isSecretKeyLocked)
-				.overlay(isShown: isSecretKeyLocked) {
-					Button(action: { viewModel.unlockKey() }) {
-						Image(systemName: "lock.circle.fill")
-							.symbolRenderingMode(.palette)
-							.foregroundStyle(Color.app.secondary, Color.white)
-							.font(.system(size: 50))
+					.buttonStyle(.expanded)
+					if self.focusedField == nil {
+						Spacer()
+						Button(action: {}) {
+							Text("Delete Account")
+						}
+						.buttonStyle(.expanded(invertedStyle: true))
 					}
+				} else {
+					VStack {
+						WalletView(address: viewModel.user.walletAddress, copyAction: { viewModel.copyAddress() })
+						VStack(spacing: 0) {
+							HStack {
+								Text("Secret Key")
+								Spacer()
+							}
+							.padding(.top, 30)
+							LazyVGrid(columns: Array(repeating: GridItem(), count: SizeConstants.phraseGridCount), alignment: .center, spacing: SizeConstants.phraseGridSpacing) {
+								ForEach(viewModel.phrase){ word in
+									MnemonicWordView(word: Binding.constant(viewModel.phrase[id: word.id]))
+										.padding(.vertical, 6)
+								}
+							}
+							.padding(.horizontal, -10)
+							.blur(radius: isSecretKeyLocked ? 6 : 0)
+							.animation(.easeInOut, value: viewModel.isSecretKeyLocked)
+							.overlay(isShown: isSecretKeyLocked) {
+								Button(action: { viewModel.unlockKey() }) {
+									Image(systemName: "lock.circle.fill")
+										.symbolRenderingMode(.palette)
+										.foregroundStyle(Color.app.secondary, Color.white)
+										.font(.system(size: 50))
+								}
+							}
+							
+							Button(action: { viewModel.lockKey() }) {
+								Image(systemName: "lock.open.fill")
+									.foregroundColor(Color.app.secondary)
+									.font(.system(size: 26))
+									.padding(10)
+									.background(Circle().fill(Color.white))
+							}
+							.padding(.top)
+							.opacity(viewModel.isSecretKeyLocked ? 0.0 : 1.0)
+						}
+					}
+					.padding(.horizontal)
 				}
-				
-				Button(action: { viewModel.lockKey() }) {
-					Image(systemName: "lock.open.fill")
-						.foregroundColor(Color.app.secondary)
-						.font(.system(size: 26))
-						.padding(10)
-						.background(Circle().fill(Color.white))
-				}
-				.padding(.top)
-				.opacity(viewModel.isSecretKeyLocked ? 0.0 : 1.0)
 			}
 			.font(Font.app.title2)
 			.foregroundColor(.white)
-			.padding(.horizontal)
 			.onChange(of: viewModel.isShowingSettings) { newIsShowingSettings in
 				if newIsShowingSettings {
 					self.focusedField = .editFullName
@@ -99,7 +116,10 @@ struct AccountView: View {
 			HStack {
 				Group {
 					if isShowingSettings {
-						Button(action: { viewModel.toggleSettings() }) {
+						Button(action: {
+							self.focusedField = nil
+							viewModel.toggleSettings()
+						}) {
 							Text("Cancel")
 								.font(Font.app.title2)
 						}
