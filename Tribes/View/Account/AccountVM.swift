@@ -7,6 +7,7 @@
 
 import Foundation
 import IdentifiedCollections
+import LocalAuthentication
 
 extension AccountView {
 	@MainActor class ViewModel: ObservableObject {
@@ -28,6 +29,34 @@ extension AccountView {
 		func copyAddress() {
 			PasteboardClient.shared.copyText(user.walletAddress)
 			self.banner = BannerData(detail: AppConstants.addressCopied, type: .success)
+		}
+		
+		func lockKey() {
+			self.isSecretKeyLocked = true
+		}
+		
+		func unlockKey() {
+			let context = LAContext()
+			var error: NSError?
+
+			// check whether biometric authentication is possible
+			if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+				let reason = "Your biometric unlocks your secret key"
+				context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, authenticationError in
+					if success {
+						DispatchQueue.main.async {
+							self.isSecretKeyLocked = false
+						}
+					} else {
+						DispatchQueue.main.async {
+							self.banner = BannerData(detail: "Could not validate your biometric", type: .error)
+						}
+					}
+				}
+			} else {
+				// no biometrics
+				self.banner = BannerData(detail: "You need to configure your biometric in your device settings before you can access your secret key", type: .error)
+			}
 		}
 	}
 }

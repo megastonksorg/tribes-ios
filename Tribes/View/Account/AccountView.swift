@@ -41,7 +41,7 @@ struct AccountView: View {
 				.padding(.horizontal, -10)
 				.blur(radius: isSecretKeyLocked ? 6 : 0)
 				.overlay(isShown: isSecretKeyLocked) {
-					Button(action: {}) {
+					Button(action: { viewModel.unlockKey() }) {
 						Image(systemName: "lock.circle.fill")
 							.symbolRenderingMode(.palette)
 							.foregroundStyle(Color.app.secondary, Color.white)

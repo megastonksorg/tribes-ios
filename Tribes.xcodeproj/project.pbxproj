@@ -1097,6 +1097,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = Tribes;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				INFOPLIST_KEY_NSCameraUsageDescription = "$(EXECUTABLE_NAME) uses the camera to capture the tea you share with your tribe members";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "$(EXECUTABLE_NAME) uses your biometric to unlock your secret key";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "$(EXECUTABLE_NAME) uses the microphone to capture the audio you share with your tribe members";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1132,6 +1133,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = Tribes;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				INFOPLIST_KEY_NSCameraUsageDescription = "$(EXECUTABLE_NAME) uses the camera to capture the tea you share with your tribe members";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "$(EXECUTABLE_NAME) uses your biometric to unlock your secret key";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "$(EXECUTABLE_NAME) uses the microphone to capture the audio you share with your tribe members";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
