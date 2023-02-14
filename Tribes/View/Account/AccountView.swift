@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct AccountView: View {
-	
 	@StateObject var viewModel: ViewModel
 	
 	@Environment(\.dismiss) var dismiss
@@ -49,6 +48,16 @@ struct AccountView: View {
 							.font(.system(size: 50))
 					}
 				}
+				
+				Button(action: { viewModel.lockKey() }) {
+					Image(systemName: "lock.open.fill")
+						.foregroundColor(Color.app.secondary)
+						.font(.system(size: 26))
+						.padding(10)
+						.background(Circle().fill(Color.white))
+				}
+				.padding(.top)
+				.opacity(viewModel.isSecretKeyLocked ? 0.0 : 1.0)
 			}
 			.font(Font.app.title2)
 			.foregroundColor(.white)
