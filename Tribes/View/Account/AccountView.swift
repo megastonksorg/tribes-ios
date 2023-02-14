@@ -63,17 +63,16 @@ struct AccountView: View {
 				.multilineTextAlignment(.center)
 					.padding(.top)
 				if isShowingSettings {
+					Spacer()
 					Button(action: {}) {
 						Text("Update")
 					}
 					.buttonStyle(.expanded)
-					if self.focusedField == nil {
-						Spacer()
-						Button(action: {}) {
-							Text("Delete Account")
-						}
-						.buttonStyle(.expanded(invertedStyle: true))
+					Button(action: {}) {
+						Text("Delete Account")
 					}
+					.buttonStyle(.expanded(invertedStyle: true))
+					.padding(.bottom)
 				} else {
 					VStack {
 						WalletView(address: viewModel.user.walletAddress, copyAction: { viewModel.copyAddress() })
