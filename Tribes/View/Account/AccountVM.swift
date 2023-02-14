@@ -22,9 +22,11 @@ extension AccountView {
 		let phrase: IdentifiedArrayOf<MnemonicWord>
 		
 		@Published var editFullNameText: String = ""
+		@Published var editImage: UIImage?
 		
 		@Published var banner: BannerData?
 		@Published var isSecretKeyLocked: Bool = true
+		@Published var isShowingImagePicker: Bool = false
 		@Published var isShowingSettings: Bool = false
 		
 		init(user: User) {
@@ -49,9 +51,16 @@ extension AccountView {
 			self.banner = BannerData(detail: AppConstants.addressCopied, type: .success)
 		}
 		
+		func setIsShowingImagePicker(_ isShowing: Bool) {
+			self.isShowingImagePicker = isShowing
+		}
+		
 		func toggleSettings() {
 			withAnimation(.linear.speed(4.0)) {
 				self.isShowingSettings.toggle()
+			}
+			if !self.isShowingSettings {
+				self.editImage = nil
 			}
 		}
 		

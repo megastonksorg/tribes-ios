@@ -21,20 +21,34 @@ struct AccountView: View {
 		VStack {
 			VStack {
 				let isSecretKeyLocked = viewModel.isSecretKeyLocked
-				Button(action: {}) {
-					UserAvatar(url: viewModel.user.profilePhoto)
-						.frame(dimension: SizeConstants.profileImageFrame)
-						.overlay(isShown: isShowingSettings) {
-							Circle()
-								.fill(Color.black)
-								.opacity(isShowingSettings ? 0.6 : 0.0)
-								.transition(.opacity)
-								.overlay(
-									Image(systemName: AppConstants.editIcon)
-										.font(Font.app.title)
-										.fontWeight(.bold)
-								)
+				Button(action: { viewModel.setIsShowingImagePicker(true) }) {
+					Group {
+						if isShowingSettings {
+							if let image = viewModel.editImage {
+								Image(uiImage: image)
+									.resizable()
+									.resizable()
+									.aspectRatio(contentMode: .fill)
+									.clipShape(Circle())
+							} else {
+								UserAvatar(url: viewModel.user.profilePhoto)
+									.overlay(isShown: isShowingSettings) {
+										Circle()
+											.fill(Color.black)
+											.opacity(isShowingSettings ? 0.6 : 0.0)
+											.transition(.opacity)
+											.overlay(
+												Image(systemName: AppConstants.editIcon)
+													.font(Font.app.title)
+													.fontWeight(.bold)
+											)
+									}
+							}
+						} else {
+							UserAvatar(url: viewModel.user.profilePhoto)
 						}
+					}
+					.frame(dimension: SizeConstants.profileImageFrame)
 				}
 				.disabled(!isShowingSettings)
 				ZStack {
@@ -138,6 +152,9 @@ struct AccountView: View {
 			}
 			.foregroundColor(Color.white)
 			.padding(.horizontal)
+		}
+		.sheet(isPresented: $viewModel.isShowingImagePicker) {
+			ImagePicker(image: $viewModel.editImage)
 		}
 	}
 }
