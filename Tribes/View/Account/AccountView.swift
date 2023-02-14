@@ -17,11 +17,25 @@ struct AccountView: View {
 	}
 	
 	var body: some View {
+		let isShowingSettings: Bool = viewModel.isShowingSettings
 		VStack {
 			VStack {
 				let isSecretKeyLocked = viewModel.isSecretKeyLocked
-				UserAvatar(url: viewModel.user.profilePhoto)
-					.frame(dimension: SizeConstants.profileImageFrame)
+				Button(action: {}) {
+					UserAvatar(url: viewModel.user.profilePhoto)
+						.frame(dimension: SizeConstants.profileImageFrame)
+						.overlay(isShown: isShowingSettings) {
+							Circle()
+								.fill(Color.black.opacity(0.4))
+								.overlay(
+									Image(systemName: AppConstants.editIcon)
+										.font(Font.app.title)
+										.fontWeight(.bold)
+								)
+								.animation(.easeInOut, value: viewModel.isShowingSettings)
+						}
+				}
+				.disabled(!isShowingSettings)
 				Text(viewModel.user.fullName)
 					.multilineTextAlignment(.center)
 				WalletView(address: viewModel.user.walletAddress, copyAction: { viewModel.copyAddress() })

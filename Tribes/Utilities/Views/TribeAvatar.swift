@@ -409,7 +409,7 @@ struct TribeNameView: View {
 			HStack {
 				TextView(name, style: .tribeName(fontSize))
 				if shouldShowEditIcon {
-					Image(systemName: "pencil.line")
+					Image(systemName: AppConstants.editIcon)
 						.font(.system(size: fontSize, weight: .black))
 						.foregroundColor(Color.app.tertiary)
 						.padding(4)

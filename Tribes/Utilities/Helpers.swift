@@ -14,6 +14,7 @@ struct AppConstants {
 	static let email: String = "hello@megastonks.com"
 	static let website: String = "tribesapp.ca"
 	
+	static let editIcon: String = "pencil.line"
 	static let addressCopied: String = "Address copied to clipboard"
 }
 

@@ -16,6 +16,7 @@ extension AccountView {
 		
 		@Published var banner: BannerData?
 		@Published var isSecretKeyLocked: Bool = true
+		@Published var isShowingSettings: Bool = false
 		
 		init(user: User) {
 			self.user = user
