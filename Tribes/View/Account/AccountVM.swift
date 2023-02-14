@@ -38,7 +38,7 @@ extension AccountView {
 		func unlockKey() {
 			let context = LAContext()
 			var error: NSError?
-
+			
 			// check whether biometric authentication is possible
 			if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
 				let reason = "Your biometric unlocks your secret key"
@@ -55,7 +55,9 @@ extension AccountView {
 				}
 			} else {
 				// no biometrics
-				self.banner = BannerData(detail: "You need to configure your biometric in your device settings before you can access your secret key", type: .error)
+				DispatchQueue.main.async {
+					self.banner = BannerData(detail: "Configure your biometric in your device settings to access your secret key", type: .error)
+				}
 			}
 		}
 	}
