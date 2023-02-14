@@ -32,7 +32,6 @@ struct AccountView: View {
 										.font(Font.app.title)
 										.fontWeight(.bold)
 								)
-								.animation(.easeInOut, value: viewModel.isShowingSettings)
 						}
 				}
 				.disabled(!isShowingSettings)
@@ -82,16 +81,26 @@ struct AccountView: View {
 		.background(Color.app.background)
 		.safeAreaInset(edge: .top) {
 			HStack {
-				Button(action: {}) {
-					Image(systemName: "gearshape.fill")
+				Group {
+					if isShowingSettings {
+						Button(action: { viewModel.toggleSettings() }) {
+							Text("Cancel")
+								.font(Font.app.title2)
+						}
+					} else {
+						Button(action: { viewModel.toggleSettings() }) {
+							Image(systemName: "gearshape.fill")
+						}
+						.font(Font.app.title)
+					}
 				}
-				.font(Font.app.title)
-				.foregroundColor(Color.white)
+				.frame(height: 30)
 				Spacer()
 				XButton {
 					dismiss()
 				}
 			}
+			.foregroundColor(Color.white)
 			.padding(.horizontal)
 		}
 	}

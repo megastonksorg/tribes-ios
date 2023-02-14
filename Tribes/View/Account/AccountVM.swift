@@ -8,6 +8,7 @@
 import Foundation
 import IdentifiedCollections
 import LocalAuthentication
+import SwiftUI
 
 extension AccountView {
 	@MainActor class ViewModel: ObservableObject {
@@ -37,6 +38,10 @@ extension AccountView {
 		func copyAddress() {
 			PasteboardClient.shared.copyText(user.walletAddress)
 			self.banner = BannerData(detail: AppConstants.addressCopied, type: .success)
+		}
+		
+		func toggleSettings() {
+			self.isShowingSettings.toggle()
 		}
 		
 		@objc func lockKey() {
