@@ -30,7 +30,11 @@ extension AccountView {
 		@Published var isShowingSettings: Bool = false
 		
 		var isUpdateButtonEnabled: Bool {
-			editFullNameText.trimmingCharacters(in: .whitespaces) != user.fullName || editImage != nil
+			let trimmedName = editFullNameText.trimmingCharacters(in: .whitespacesAndNewlines)
+			if trimmedName.isValidName {
+				return trimmedName != user.fullName || editImage != nil
+			}
+			return false
 		}
 		
 		init(user: User) {
@@ -53,6 +57,12 @@ extension AccountView {
 		func copyAddress() {
 			PasteboardClient.shared.copyText(user.walletAddress)
 			self.banner = BannerData(detail: AppConstants.addressCopied, type: .success)
+		}
+		
+		func setEditFullNameText(_ text: String) {
+			if text.trimmingCharacters(in: .whitespacesAndNewlines).count < SizeConstants.fullNameHigherLimit {
+				self.editFullNameText = text
+			}
 		}
 		
 		func setIsShowingImagePicker(_ isShowing: Bool) {

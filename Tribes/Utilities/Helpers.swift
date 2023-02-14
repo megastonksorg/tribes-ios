@@ -21,6 +21,8 @@ struct AppConstants {
 struct SizeConstants {
 	static let cardInnerPadding: CGFloat = 4
 	static let cornerRadius: CGFloat = 10
+	static let fullNameLowerLimit: Int = 2
+	static let fullNameHigherLimit: Int = 25
 	static let videoFileType: AVFileType = AVFileType.mp4
 	static let imagePixelSize: CGSize = CGSize(width: 1080, height: 1920)
 	static let maxVideoRecordingDuration: Double = 20

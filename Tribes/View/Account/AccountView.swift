@@ -52,11 +52,17 @@ struct AccountView: View {
 				}
 				.disabled(!isShowingSettings)
 				ZStack {
-					TextField("", text: $viewModel.editFullNameText)
-						.focused($focusedField, equals: .editFullName)
-						.tint(Color.white)
-						.lineLimit(1)
-						.opacity(isShowingSettings ? 1.0 : 0.0)
+					TextField(
+						"",
+						text: Binding(
+							get: { viewModel.editFullNameText },
+							set: { viewModel.setEditFullNameText($0) }
+						)
+					)
+					.focused($focusedField, equals: .editFullName)
+					.tint(Color.white)
+					.lineLimit(1)
+					.opacity(isShowingSettings ? 1.0 : 0.0)
 					Text(viewModel.user.fullName)
 						.opacity(isShowingSettings ? 0.0 : 1.0)
 				}

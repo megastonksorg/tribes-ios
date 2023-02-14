@@ -11,7 +11,10 @@ extension String {
 	var isValidName: Bool {
 		do
 		{
-			let regex = try NSRegularExpression(pattern: "^[\\p{L}'-][\\p{L}' -]{2,30}$", options: .caseInsensitive)
+			let regex = try NSRegularExpression(
+				pattern: "^[\\p{L}'-][\\p{L}' -]{\(SizeConstants.fullNameLowerLimit),\(SizeConstants.fullNameHigherLimit)}$",
+				options: .caseInsensitive
+			)
 			if regex.matches(in: self, options: [], range: NSMakeRange(0, self.count)).count > 0 {return true}
 		}
 		catch {}
