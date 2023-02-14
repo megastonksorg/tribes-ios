@@ -29,6 +29,10 @@ extension AccountView {
 		@Published var isShowingImagePicker: Bool = false
 		@Published var isShowingSettings: Bool = false
 		
+		var isUpdateButtonEnabled: Bool {
+			editFullNameText.trimmingCharacters(in: .whitespaces) != user.fullName || editImage != nil
+		}
+		
 		init(user: User) {
 			self.user = user
 			self.phrase = {
