@@ -9,6 +9,8 @@ import SwiftUI
 
 @main
 struct TribesApp: App {
+	@Environment(\.scenePhase) var scenePhase
+	
 	var body: some Scene {
 		WindowGroup {
 			AppView()
@@ -17,6 +19,11 @@ struct TribesApp: App {
 						keyWindow.overrideUserInterfaceStyle = .dark
 					}
 				}
+		}
+		.onChange(of: scenePhase) { newPhase in
+			if newPhase != .active {
+				NotificationCenter.default.post(Notification(name: .appInActive, userInfo: [:]))
+			}
 		}
 	}
 }

@@ -24,6 +24,13 @@ extension AccountView {
 				let phrase: [MnemonicWord] = mnemonic.split(separator: " ").map{ MnemonicWord(text: String($0), isSelectable: false, isAlternateStyle: false) }
 				return IdentifiedArray(uniqueElements: phrase)
 			}()
+			NotificationCenter
+				.default.addObserver(
+					self,
+					selector: #selector(lockKey),
+					name: .appInActive,
+					object: nil
+				)
 		}
 		
 		func copyAddress() {
@@ -31,7 +38,7 @@ extension AccountView {
 			self.banner = BannerData(detail: AppConstants.addressCopied, type: .success)
 		}
 		
-		func lockKey() {
+		@objc func lockKey() {
 			self.isSecretKeyLocked = true
 		}
 		
