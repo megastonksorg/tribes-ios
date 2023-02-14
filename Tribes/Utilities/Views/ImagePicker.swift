@@ -47,6 +47,8 @@ struct ImagePicker: UIViewControllerRepresentable {
 									self.parent.image = image
 								}
 							}
+						} else {
+							print("Could not load Image")
 						}
 					} catch {
 						print("Could not load Image")
