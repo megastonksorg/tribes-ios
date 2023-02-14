@@ -72,8 +72,8 @@ struct ExpandedButtonStyle: ButtonStyle {
 
 extension ButtonStyle where Self == ExpandedButtonStyle {
 	static var expanded: Self { ExpandedButtonStyle() }
-	static func expanded(shouldAnimate: Bool, invertedStyle: Bool) -> Self {
-		return ExpandedButtonStyle()
+	static func expanded(shouldAnimate: Bool = true, invertedStyle: Bool) -> Self {
+		return ExpandedButtonStyle(shouldAnimate: shouldAnimate, invertedStyle: invertedStyle)
 	}
 }
 

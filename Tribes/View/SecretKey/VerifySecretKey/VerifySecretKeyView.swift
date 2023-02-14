@@ -55,7 +55,7 @@ struct VerifySecretPhraseView: View {
 				Text("Continue")
 					.fontWeight(.medium)
 			}
-			.buttonStyle(ExpandedButtonStyle(invertedStyle: false))
+			.buttonStyle(.expanded(invertedStyle: false))
 			.disabled(!self.viewModel.isContinueButtonDisabled)
 		}
 		.padding()

@@ -52,12 +52,12 @@ struct WelcomePageView: View {
 					Button(action: { viewModel.generateNewWallet() }) {
 						Text("Create a new account")
 					}
-					.buttonStyle(ExpandedButtonStyle())
+					.buttonStyle(.expanded)
 					
 					Button(action: { viewModel.importWallet() }) {
 						Text("Login to account")
 					}
-					.buttonStyle(ExpandedButtonStyle(invertedStyle: true))
+					.buttonStyle(.expanded(invertedStyle: true))
 				}
 				.textCase(.uppercase)
 				.padding(.bottom)

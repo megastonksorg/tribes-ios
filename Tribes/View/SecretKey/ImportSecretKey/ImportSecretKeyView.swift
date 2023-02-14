@@ -95,7 +95,7 @@ struct ImportSecretKeyView: View {
 			Button(action: { self.viewModel.importWallet() }) {
 				Text("Continue to login")
 			}
-			.buttonStyle(ExpandedButtonStyle())
+			.buttonStyle(.expanded)
 			.disabled(!viewModel.isContinueButtonEnabled)
 			.padding()
 			.padding(.bottom, 20)

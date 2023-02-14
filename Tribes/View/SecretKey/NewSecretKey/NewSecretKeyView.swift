@@ -55,7 +55,7 @@ struct NewSecretKeyView: View {
 					Text("I saved it somewhere safe")
 						.fontWeight(.medium)
 				}
-				.buttonStyle(ExpandedButtonStyle(invertedStyle: false))
+				.buttonStyle(.expanded(invertedStyle: false))
 			}
 		}
 		.padding()

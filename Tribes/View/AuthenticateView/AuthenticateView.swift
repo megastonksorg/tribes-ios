@@ -68,7 +68,7 @@ struct AuthenticateView: View {
 			Button(action: { viewModel.authenticate() }) {
 				Text("Authenticate")
 			}
-			.buttonStyle(ExpandedButtonStyle())
+			.buttonStyle(.expanded)
 		}
 		.padding(.horizontal)
 		.alert(
