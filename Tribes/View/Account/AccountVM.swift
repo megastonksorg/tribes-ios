@@ -12,8 +12,16 @@ import SwiftUI
 
 extension AccountView {
 	@MainActor class ViewModel: ObservableObject {
+		enum FocusField: String, Hashable, Identifiable {
+			case editFullName
+			
+			var id: String { self.rawValue }
+		}
+		
 		let user: User
 		let phrase: IdentifiedArrayOf<MnemonicWord>
+		
+		@Published var editFullNameText: String = ""
 		
 		@Published var banner: BannerData?
 		@Published var isSecretKeyLocked: Bool = true
@@ -26,6 +34,7 @@ extension AccountView {
 				let phrase: [MnemonicWord] = mnemonic.split(separator: " ").map{ MnemonicWord(text: String($0), isSelectable: false, isAlternateStyle: false) }
 				return IdentifiedArray(uniqueElements: phrase)
 			}()
+			self.editFullNameText = user.fullName
 			NotificationCenter
 				.default.addObserver(
 					self,
@@ -41,7 +50,9 @@ extension AccountView {
 		}
 		
 		func toggleSettings() {
-			self.isShowingSettings.toggle()
+			withAnimation(.linear.speed(4.0)) {
+				self.isShowingSettings.toggle()
+			}
 		}
 		
 		@objc func lockKey() {

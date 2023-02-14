@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct AccountView: View {
+	@FocusState private var focusedField: ViewModel.FocusField?
 	@StateObject var viewModel: ViewModel
-	
 	@Environment(\.dismiss) var dismiss
 	
 	init(viewModel: ViewModel) {
@@ -26,7 +26,9 @@ struct AccountView: View {
 						.frame(dimension: SizeConstants.profileImageFrame)
 						.overlay(isShown: isShowingSettings) {
 							Circle()
-								.fill(Color.black.opacity(0.4))
+								.fill(Color.black)
+								.opacity(isShowingSettings ? 0.6 : 0.0)
+								.transition(.opacity)
 								.overlay(
 									Image(systemName: AppConstants.editIcon)
 										.font(Font.app.title)
@@ -35,8 +37,17 @@ struct AccountView: View {
 						}
 				}
 				.disabled(!isShowingSettings)
-				Text(viewModel.user.fullName)
-					.multilineTextAlignment(.center)
+				ZStack {
+					TextField("", text: $viewModel.editFullNameText)
+						.opacity(isShowingSettings ? 1.0 : 0.0)
+						.focused($focusedField, equals: .editFullName)
+						.tint(Color.white)
+					Text(viewModel.user.fullName)
+						.opacity(isShowingSettings ? 0.0 : 1.0)
+				}
+				.foregroundColor(Color.white)
+				.multilineTextAlignment(.center)
+				
 				WalletView(address: viewModel.user.walletAddress, copyAction: { viewModel.copyAddress() })
 					.padding(.top)
 				HStack {
@@ -75,6 +86,11 @@ struct AccountView: View {
 			.font(Font.app.title2)
 			.foregroundColor(.white)
 			.padding(.horizontal)
+			.onChange(of: viewModel.isShowingSettings) { newIsShowingSettings in
+				if newIsShowingSettings {
+					self.focusedField = .editFullName
+				}
+			}
 		}
 		.pushOutFrame(alignment: .top)
 		.banner(data: self.$viewModel.banner)
