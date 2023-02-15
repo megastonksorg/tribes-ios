@@ -19,7 +19,7 @@ extension URLSession.DataTaskPublisher {
 					throw AppError.APIClientError.httpError(statusCode: response.statusCode, data: Data(errorMessage.message.utf8))
 				}
 				else {
-					throw AppError.APIClientError.httpError(statusCode: response.statusCode, data: data)
+					throw AppError.APIClientError.httpError(statusCode: response.statusCode, data: data.isEmpty ? "Something went wrong".data(using: .utf8)! : data)
 				}
 			} else {
 				return (data, response)
