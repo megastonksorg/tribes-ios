@@ -35,7 +35,7 @@ extension AccountView {
 		var isUpdateButtonEnabled: Bool {
 			let trimmedName = editFullNameText.trimmingCharacters(in: .whitespacesAndNewlines)
 			if trimmedName.isValidName {
-				return trimmedName != user.fullName || editImage != nil
+				return trimmedName != user.fullName.trimmingCharacters(in: .whitespacesAndNewlines) || editImage != nil
 			}
 			return false
 		}
