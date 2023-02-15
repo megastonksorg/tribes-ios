@@ -10,7 +10,7 @@ import SwiftKeychainWrapper
 
 struct SignedMessage {
 	let signature: String
-	let address: String
+	let publicKey: String
 }
 
 protocol WalletClientProtocol {
@@ -81,9 +81,9 @@ class WalletClient: WalletClientProtocol {
 		guard let signature = privateKey.sign(digest: hash, curve: .secp256k1)
 		else { return .failure(.errorSigningMessage) }
 		
-		let address = privateKey.getPublicKeySecp256k1(compressed: false).description
+		let publicKey = privateKey.getPublicKeySecp256k1(compressed: false).description
 		
-		return .success(SignedMessage(signature: signature.hexString, address: address))
+		return .success(SignedMessage(signature: signature.hexString, publicKey: publicKey))
 	}
 	
 	func verifyMnemonic(mnemonic: String) -> Result<String, WalletClientError> {
