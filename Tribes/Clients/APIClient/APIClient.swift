@@ -101,7 +101,7 @@ final class APIClient: APIRequests {
 	func updateName(fullName: String) -> AnyPublisher<String, APIClientError> {
 		let updateNameRequest = APPUrlRequest(
 			httpMethod: .post,
-			pathComponents: ["updateName"],
+			pathComponents: ["account", "updateName"],
 			query: [URLQueryItem(name: "fullName", value: fullName)],
 			requiresAuth: true
 		)
