@@ -19,6 +19,7 @@ protocol APIRequests {
 	func authenticateUser(model: AuthenticateRequest) -> AnyPublisher<AuthenticateResponse, APIClientError>
 	func registerUser(model: RegisterRequest) -> AnyPublisher<RegisterResponse, APIClientError>
 	func updateName(fullName: String) -> AnyPublisher<String, APIClientError>
+	func updateProfilePhoto(photoUrl: URL) -> AnyPublisher<URL, APIClientError>
 	func uploadImage(imageData: Data) -> AnyPublisher<URL, APIClientError>
 	//Tribe
 	func createTribe(name: String) -> AnyPublisher<Tribe, APIClientError>
@@ -106,6 +107,16 @@ final class APIClient: APIRequests {
 			requiresAuth: true
 		)
 		return apiRequest(appRequest: updateNameRequest, output: String.self)
+	}
+	
+	func updateProfilePhoto(photoUrl: URL) -> AnyPublisher<URL, APIClientError> {
+		let updatePhotoRequest = APPUrlRequest(
+			httpMethod: .post,
+			pathComponents: ["account", "updateProfilePhoto"],
+			query: [URLQueryItem(name: "photoUrl", value: photoUrl.absoluteString)],
+			requiresAuth: true
+		)
+		return apiRequest(appRequest: updatePhotoRequest, output: URL.self)
 	}
 	
 	func uploadImage(imageData: Data) -> AnyPublisher<URL, APIClientError> {
