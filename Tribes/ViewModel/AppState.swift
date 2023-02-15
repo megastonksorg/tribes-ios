@@ -24,13 +24,15 @@ fileprivate let appStateKeyNotification: String = "appState"
 		case userUpdated(User)
 	}
 	
-	let keychainClient = KeychainClient.shared
-	let tribesRepository = TribesRepository.shared
-	
 	@Published var appMode: AppMode = .welcome(WelcomePageView.ViewModel())
 	@Published var user: User?
 	
 	@Published var banner: BannerData?
+	
+	//Clients
+	let cacheClient = CacheClient.shared
+	let keychainClient = KeychainClient.shared
+	let tribesRepository = TribesRepository.shared
 	
 	init() {
 		NotificationCenter
@@ -62,6 +64,7 @@ fileprivate let appStateKeyNotification: String = "appState"
 			Task {
 				try await Task.sleep(for: .seconds(8.0))
 				keychainClient.clearAllKeys()
+				self.cacheClient.clear()
 				self.appMode = .welcome(WelcomePageView.ViewModel())
 			}
 		case .userUpdated(let user):

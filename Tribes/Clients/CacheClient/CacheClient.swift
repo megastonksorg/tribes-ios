@@ -14,6 +14,7 @@ import SwiftUI
 protocol CacheClientProtocol {
 	func get<Object: Codable>(key: String, type: Object.Type) async -> Object?
 	func set(cache: Cache) async -> Void
+	func clear()
 }
 
 extension CacheClientProtocol {
@@ -63,7 +64,7 @@ class CacheClient: CacheClientProtocol {
 		Task {
 			let fileSizes = await getSizeOfCache()
 			if fileSizes > 500_000_000 { // 500 MB
-				await clear()
+				clear()
 			}
 		}
 	}
@@ -102,7 +103,7 @@ class CacheClient: CacheClientProtocol {
 		}
 	}
 	
-	private func clear() async {
+	func clear() {
 		queue.sync { [weak self] in
 			guard let self = self else { return }
 			var files = [URL]()
