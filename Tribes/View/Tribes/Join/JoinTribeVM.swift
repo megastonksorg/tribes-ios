@@ -107,7 +107,7 @@ extension JoinTribeView {
 			case .code:
 				self.isLoading = true
 				self.apiClient
-					.joinTribe(pin: self.pin, code: self.code)
+					.joinTribe(pin: self.pin, code: self.code.trimmingCharacters(in: .whitespacesAndNewlines))
 					.receive(on: DispatchQueue.main)
 					.sink(
 						receiveCompletion: { [weak self] completion in
