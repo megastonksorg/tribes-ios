@@ -30,6 +30,7 @@ struct TribesView: View {
 							Button(action: { viewModel.toggleAccountView() }) {
 								UserAvatar(url: viewModel.user.profilePhoto)
 									.frame(dimension: 50)
+									.id(viewModel.user.profilePhoto)
 							}
 							.buttonStyle(.plain)
 						},
