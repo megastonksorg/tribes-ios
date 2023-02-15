@@ -131,6 +131,9 @@ struct AccountView: View {
 			}
 		}
 		.pushOutFrame(alignment: .top)
+		.overlay(isShown: viewModel.isUploadingImage) {
+			AppProgressView()
+		}
 		.banner(data: self.$viewModel.banner)
 		.background(Color.app.background)
 		.safeAreaInset(edge: .top) {

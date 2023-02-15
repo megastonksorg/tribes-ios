@@ -31,6 +31,7 @@ extension AccountView {
 		@Published var isSecretKeyLocked: Bool = true
 		@Published var isShowingImagePicker: Bool = false
 		@Published var isShowingSettings: Bool = false
+		@Published var isUploadingImage: Bool = false
 		
 		var isUpdateButtonEnabled: Bool {
 			let trimmedName = editFullNameText.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -107,6 +108,34 @@ extension AccountView {
 							AppState.updateAppState(with: .userUpdated(self.user))
 						}
 					)
+					.store(in: &cancellables)
+			}
+			if editImage != nil {
+				guard let resizedImage = self.editImage?.resizedTo(megaBytes: SizeConstants.imageMaxSizeInMb),
+					  let croppedImageData = resizedImage.croppedAndScaled(toFill: SizeConstants.profileImageSize).pngData() else {
+					self.banner = BannerData(detail: "Could not scale image. Please select a different image", type: .error)
+					return
+				}
+				self.isUploadingImage = true
+				self.apiClient.uploadImage(imageData: croppedImageData)
+					.flatMap { url -> AnyPublisher<URL, APIClientError>  in
+						return self.apiClient.updateProfilePhoto(photoUrl: url)
+					}
+					.receive(on: DispatchQueue.main)
+					.sink(receiveCompletion: { [weak self] completion in
+						guard let self = self else { return }
+						switch completion {
+							case .finished: return
+							case .failure(let error):
+								self.banner = BannerData(error: error)
+						}
+					}, receiveValue: { [weak self] photoUrlResponse in
+						guard let self = self else { return }
+						self.isUploadingImage = false
+						self.editImage = nil
+						self.user.profilePhoto = photoUrlResponse
+						AppState.updateAppState(with: .userUpdated(self.user))
+					})
 					.store(in: &cancellables)
 			}
 		}
