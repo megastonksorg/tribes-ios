@@ -26,9 +26,6 @@ extension ProfileSettingsView {
 			case termsAndConditions
 		}
 		
-		//Clients
-		let apiClient = APIClient.shared
-		
 		let mode: ProfileSettingsView.ViewModel.Mode
 		
 		var walletAddress: String?
@@ -70,6 +67,10 @@ extension ProfileSettingsView {
 			return !isLoading && nameValidation == .valid && walletAddress != nil && image != nil && didUserAcceptTerms
 		}
 		
+		//Clients
+		let apiClient = APIClient.shared
+		let walletClient = WalletClient.shared
+		
 		init(
 			mode: ProfileSettingsView.ViewModel.Mode,
 			shouldShowAccountNotFoundHint: Bool = false,
@@ -109,8 +110,13 @@ extension ProfileSettingsView {
 						}
 						
 						self.apiClient.uploadImage(imageData: croppedImageData)
-							.flatMap { url -> AnyPublisher<RegisterResponse, APIClientError>  in
+							.flatMap { [weak self] url -> AnyPublisher<RegisterResponse, APIClientError>  in
+								guard let self = self,
+									  let publicKey = self.walletClient.getPublicKey() else {
+									return Fail(error: APIClientError.rawError("Invalid Public Key")).eraseToAnyPublisher()
+								}
 								let registerRequestModel: RegisterRequest = RegisterRequest(
+									publicKey: publicKey,
 									walletAddress: walletAddress,
 									profilePhoto: url,
 									fullName: self.name,
