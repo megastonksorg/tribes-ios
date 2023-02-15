@@ -42,7 +42,6 @@ extension AccountView {
 		
 		//Clients
 		let apiClient: APIClient = APIClient.shared
-		let keychainClient: KeychainClient = KeychainClient.shared
 		
 		init(user: User) {
 			self.user = user

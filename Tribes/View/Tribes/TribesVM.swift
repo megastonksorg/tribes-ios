@@ -21,6 +21,7 @@ extension TribesView {
 		private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 		
 		@Published var banner: BannerData?
+		@Published var accountVM: AccountView.ViewModel
 		@Published var leaveTribeVM: LeaveTribeView.ViewModel?
 		@Published var tribeInviteVM: TribeInviteView.ViewModel?
 		@Published var focusedTribe: Tribe?
@@ -41,6 +42,7 @@ extension TribesView {
 		private let tribesRepository: TribesRepository = TribesRepository.shared
 		
 		init(tribes: IdentifiedArrayOf<Tribe> = TribesRepository.shared.getTribes(), user: User) {
+			self.accountVM = AccountView.ViewModel(user: user)
 			self.tribes = tribes
 			self.user = user
 		}

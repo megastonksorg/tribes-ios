@@ -15,4 +15,5 @@ extension Notification.Name {
 	static let popToRoot = Notification.Name("popToRoot")
 	static let updateAppState = Notification.Name("updateAppState")
 	static let appInActive = Notification.Name("appInActive")
+	static let userUpdated = Notification.Name("userUpdated")
 }

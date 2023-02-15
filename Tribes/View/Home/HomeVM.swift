@@ -18,6 +18,7 @@ extension HomeView {
 		
 		private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 		
+		@Published var user: User
 		@Published var composeVM: ComposeView.ViewModel = ComposeView.ViewModel()
 		@Published var tribesVM: TribesView.ViewModel
 		
@@ -27,11 +28,19 @@ extension HomeView {
 			}
 		}
 		
-		var user: User
+		//Clients
+		let keychainClient: KeychainClient = KeychainClient.shared
 		
 		init(user: User) {
 			self.user = user
 			self.tribesVM = TribesView.ViewModel(user: user)
+			NotificationCenter
+				.default.addObserver(
+					self,
+					selector: #selector(userUpdated),
+					name: .userUpdated,
+					object: nil
+				)
 		}
 		
 		func pageUpdated(page: Page) {
@@ -47,6 +56,13 @@ extension HomeView {
 			case .compose: return
 			case .tribes:
 				self.composeVM.cameraVM.didDisappear()
+			}
+		}
+		
+		@objc func userUpdated() {
+			if let user = keychainClient.get(key: .user) {
+				self.user = user
+				self.tribesVM.user = user
 			}
 		}
 	}

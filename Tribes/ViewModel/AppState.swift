@@ -69,7 +69,7 @@ fileprivate let appStateKeyNotification: String = "appState"
 			switch self.appMode {
 			case .home:
 				self.keychainClient.set(key: .user, value: user)
-				self.appMode = .home(HomeView.ViewModel(user: user))
+				NotificationCenter.default.post(Notification(name: .userUpdated))
 			default: return
 			}
 		}

@@ -193,7 +193,7 @@ struct TribesView: View {
 			.fullScreenCover(
 				isPresented: $viewModel.isShowingAccountView
 			) {
-				AccountView(viewModel: AccountView.ViewModel(user: viewModel.user))
+				AccountView(viewModel: viewModel.accountVM)
 			}
 			.onAppear { viewModel.loadTribes() }
 	}
