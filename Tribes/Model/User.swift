@@ -10,7 +10,7 @@ import Foundation
 struct User: Codable, Identifiable {
 	let walletAddress: String
 	var fullName: String
-	let profilePhoto: URL
+	var profilePhoto: URL
 	let currency: String
 	let acceptTerms: Bool
 	let isOnboarded: Bool

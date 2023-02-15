@@ -24,6 +24,7 @@ struct SizeConstants {
 	static let fullNameLowerLimit: Int = 2
 	static let fullNameHigherLimit: Int = 25
 	static let videoFileType: AVFileType = AVFileType.mp4
+	static let imageMaxSizeInMb: Double = 2.0
 	static let imagePixelSize: CGSize = CGSize(width: 1080, height: 1920)
 	static let maxVideoRecordingDuration: Double = 20
 	static let phraseGridSpacing: CGFloat = 10
