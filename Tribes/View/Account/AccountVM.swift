@@ -101,7 +101,7 @@ extension AccountView {
 						receiveValue: { [weak self] updatedFullName in
 							guard let self = self else { return }
 							self.user.fullName = updatedFullName
-							self.keychainClient.set(key: .user, value: self.user)
+							AppState.updateAppState(with: .userUpdated(self.user))
 						}
 					)
 					.store(in: &cancellables)

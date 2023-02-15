@@ -21,12 +21,15 @@ fileprivate let appStateKeyNotification: String = "appState"
 	enum AppAction {
 		case changeAppMode(AppMode)
 		case logUserOut
+		case userUpdated(User)
 	}
 	
 	let keychainClient = KeychainClient.shared
 	let tribesRepository = TribesRepository.shared
 	
 	@Published var appMode: AppMode = .welcome(WelcomePageView.ViewModel())
+	@Published var user: User?
+	
 	@Published var banner: BannerData?
 	
 	init() {
@@ -37,8 +40,8 @@ fileprivate let appStateKeyNotification: String = "appState"
 				name: .updateAppState,
 				object: nil
 			)
-		
 		if let user = keychainClient.get(key: .user) {
+			self.user = user
 			self.appMode = .home(HomeView.ViewModel(user: user))
 		}
 	}
@@ -60,6 +63,14 @@ fileprivate let appStateKeyNotification: String = "appState"
 				try await Task.sleep(for: .seconds(8.0))
 				keychainClient.clearAllKeys()
 				self.appMode = .welcome(WelcomePageView.ViewModel())
+			}
+		case .userUpdated(let user):
+			self.user = user
+			switch self.appMode {
+			case .home:
+				self.keychainClient.set(key: .user, value: user)
+				self.appMode = .home(HomeView.ViewModel(user: user))
+			default: return
 			}
 		}
 	}
