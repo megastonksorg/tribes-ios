@@ -74,6 +74,9 @@ extension TribesView {
 		}
 		
 		func toggleAccountView() {
+			if !self.isShowingAccountView {
+				self.accountVM = AccountView.ViewModel(user: self.user)
+			}
 			self.isShowingAccountView.toggle()
 		}
 		
