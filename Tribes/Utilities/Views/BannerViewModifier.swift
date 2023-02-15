@@ -58,6 +58,7 @@ struct BannerViewModifier: ViewModifier {
 								Text(data.title)
 									.font(Font.app.subTitle)
 									.bold()
+									.lineLimit(1)
 							}
 							
 							if (!data.detail.isEmpty) {
@@ -67,6 +68,7 @@ struct BannerViewModifier: ViewModifier {
 										.foregroundColor(data.type.tintColor)
 									Text(data.detail)
 										.font(Font.app.subTitle)
+										.lineLimit(4)
 								}
 							}
 						}
