@@ -17,17 +17,25 @@ extension AuthenticateView {
 		
 		private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 		
-		//Clients
-		let apiClient = APIClient.shared
-		let keychainClient = KeychainClient.shared
-		let walletClient = WalletClient.shared
-		
 		let context: Context
 		@Published var user: User
 		
 		@Published var isLoading: Bool = false
 		@Published var isShowingAlert: Bool = false
 		@Published var banner: BannerData?
+		
+		var alertDetail: String {
+			let baseDetail: String = "Cancelling authentication will bring you back to the welcome screen"
+			switch context {
+			case .signUp: return baseDetail + ". Your account creation will be saved"
+			case .signIn: return baseDetail
+			}
+		}
+		
+		//Clients
+		let apiClient = APIClient.shared
+		let keychainClient = KeychainClient.shared
+		let walletClient = WalletClient.shared
 		
 		init(context: Context, user: User) {
 			self.context = context

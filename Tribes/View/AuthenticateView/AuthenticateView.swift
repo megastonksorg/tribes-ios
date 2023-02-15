@@ -83,7 +83,7 @@ struct AuthenticateView: View {
 				}
 			},
 			message: {
-				Text("Cancelling authentication will bring you back to the welcome screen. Your account creation will be saved")
+				Text(viewModel.alertDetail)
 			}
 		)
 		.overlay(isShown: viewModel.isLoading) {
