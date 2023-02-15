@@ -18,6 +18,7 @@ protocol APIRequests {
 	func doesAccountExist(for walletAddress: String) -> AnyPublisher<SuccessResponse, APIClientError>
 	func authenticateUser(model: AuthenticateRequest) -> AnyPublisher<AuthenticateResponse, APIClientError>
 	func registerUser(model: RegisterRequest) -> AnyPublisher<RegisterResponse, APIClientError>
+	func updateName(fullName: String) -> AnyPublisher<String, APIClientError>
 	func uploadImage(imageData: Data) -> AnyPublisher<URL, APIClientError>
 	//Tribe
 	func createTribe(name: String) -> AnyPublisher<Tribe, APIClientError>
@@ -95,6 +96,16 @@ final class APIClient: APIRequests {
 			body: model
 		)
 		return apiRequest(appRequest: registerRequest, output: RegisterResponse.self)
+	}
+	
+	func updateName(fullName: String) -> AnyPublisher<String, APIClientError> {
+		let updateNameRequest = APPUrlRequest(
+			httpMethod: .post,
+			pathComponents: ["updateName"],
+			query: [URLQueryItem(name: "fullName", value: fullName)],
+			requiresAuth: true
+		)
+		return apiRequest(appRequest: updateNameRequest, output: String.self)
 	}
 	
 	func uploadImage(imageData: Data) -> AnyPublisher<URL, APIClientError> {
