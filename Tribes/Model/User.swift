@@ -9,7 +9,7 @@ import Foundation
 
 struct User: Codable, Identifiable {
 	let walletAddress: String
-	let fullName: String
+	var fullName: String
 	let profilePhoto: URL
 	let currency: String
 	let acceptTerms: Bool

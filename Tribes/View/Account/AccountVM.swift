@@ -5,6 +5,7 @@
 //  Created by Kingsley Okeke on 2023-02-12.
 //
 
+import Combine
 import Foundation
 import IdentifiedCollections
 import LocalAuthentication
@@ -18,11 +19,13 @@ extension AccountView {
 			var id: String { self.rawValue }
 		}
 		
-		let user: User
+		private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
+		
 		let phrase: IdentifiedArrayOf<MnemonicWord>
 		
 		@Published var editFullNameText: String = ""
 		@Published var editImage: UIImage?
+		@Published var user: User
 		
 		@Published var banner: BannerData?
 		@Published var isSecretKeyLocked: Bool = true
@@ -36,6 +39,10 @@ extension AccountView {
 			}
 			return false
 		}
+		
+		//Clients
+		let apiClient: APIClient = APIClient.shared
+		let keychainClient: KeychainClient = KeychainClient.shared
 		
 		init(user: User) {
 			self.user = user
@@ -75,6 +82,29 @@ extension AccountView {
 			}
 			if !self.isShowingSettings {
 				self.editImage = nil
+			}
+		}
+		
+		func updateFullName() {
+			guard editFullNameText.isValidName else { return }
+			if editFullNameText.trimmingCharacters(in: .whitespacesAndNewlines) != user.fullName.trimmingCharacters(in: .whitespacesAndNewlines) {
+				apiClient.updateName(fullName: editFullNameText)
+					.receive(on: DispatchQueue.main)
+					.sink(
+						receiveCompletion: { [weak self] completion in
+							switch completion {
+								case .finished: return
+								case .failure(let error):
+								self?.banner = BannerData(error: error)
+							}
+						},
+						receiveValue: { [weak self] updatedFullName in
+							guard let self = self else { return }
+							self.user.fullName = updatedFullName
+							self.keychainClient.set(key: .user, value: self.user)
+						}
+					)
+					.store(in: &cancellables)
 			}
 		}
 		

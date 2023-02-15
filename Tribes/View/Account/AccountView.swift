@@ -71,7 +71,7 @@ struct AccountView: View {
 					.padding(.top)
 				if isShowingSettings {
 					Spacer()
-					Button(action: {}) {
+					Button(action: { viewModel.updateFullName() }) {
 						Text("Update")
 					}
 					.buttonStyle(.expanded)
