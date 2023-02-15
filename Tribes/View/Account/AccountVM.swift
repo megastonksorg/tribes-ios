@@ -135,6 +135,7 @@ extension AccountView {
 						self.editImage = nil
 						self.user.profilePhoto = photoUrlResponse
 						AppState.updateAppState(with: .userUpdated(self.user))
+						self.isShowingSettings = false
 					})
 					.store(in: &cancellables)
 			}

@@ -129,6 +129,11 @@ struct AccountView: View {
 					self.focusedField = .editFullName
 				}
 			}
+			.onChange(of: viewModel.isUploadingImage) { isUploadingImage in
+				if !isUploadingImage {
+					self.focusedField = nil
+				}
+			}
 		}
 		.pushOutFrame(alignment: .top)
 		.overlay(isShown: viewModel.isUploadingImage) {
