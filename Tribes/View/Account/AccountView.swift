@@ -163,7 +163,7 @@ struct AccountView: View {
 		.sheet(isPresented: $viewModel.isShowingImagePicker) {
 			ImagePicker(image: $viewModel.editImage)
 		}
-		.onDisappear { viewModel.isShowingSettings = false }
+		.onDisappear { viewModel.didDisappear() }
 	}
 }
 

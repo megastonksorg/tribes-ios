@@ -60,6 +60,10 @@ extension AccountView {
 				)
 		}
 		
+		func didDisappear() {
+			self.isShowingSettings = false
+		}
+		
 		func copyAddress() {
 			PasteboardClient.shared.copyText(user.walletAddress)
 			self.banner = BannerData(detail: AppConstants.addressCopied, type: .success)
