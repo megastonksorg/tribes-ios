@@ -89,34 +89,16 @@ extension AccountView {
 			}
 		}
 		
-		func updateFullName() {
+		func updateUser() {
 			guard editFullNameText.isValidName else { return }
-			if editFullNameText.trimmingCharacters(in: .whitespacesAndNewlines) != user.fullName.trimmingCharacters(in: .whitespacesAndNewlines) {
-				apiClient.updateName(fullName: editFullNameText)
-					.receive(on: DispatchQueue.main)
-					.sink(
-						receiveCompletion: { [weak self] completion in
-							switch completion {
-								case .finished: return
-								case .failure(let error):
-								self?.banner = BannerData(error: error)
-							}
-						},
-						receiveValue: { [weak self] updatedFullName in
-							guard let self = self else { return }
-							self.user.fullName = updatedFullName
-							AppState.updateAppState(with: .userUpdated(self.user))
-						}
-					)
-					.store(in: &cancellables)
-			}
 			if editImage != nil {
+				self.isUploadingImage = true
 				guard let resizedImage = self.editImage?.resizedTo(megaBytes: SizeConstants.imageMaxSizeInMb),
 					  let croppedImageData = resizedImage.croppedAndScaled(toFill: SizeConstants.profileImageSize).pngData() else {
 					self.banner = BannerData(detail: "Could not scale image. Please select a different image", type: .error)
+					self.isUploadingImage = false
 					return
 				}
-				self.isUploadingImage = true
 				self.apiClient.uploadImage(imageData: croppedImageData)
 					.flatMap { url -> AnyPublisher<URL, APIClientError>  in
 						return self.apiClient.updateProfilePhoto(photoUrl: url)
@@ -137,6 +119,25 @@ extension AccountView {
 						AppState.updateAppState(with: .userUpdated(self.user))
 						self.isShowingSettings = false
 					})
+					.store(in: &cancellables)
+			}
+			if editFullNameText.trimmingCharacters(in: .whitespacesAndNewlines) != user.fullName.trimmingCharacters(in: .whitespacesAndNewlines) {
+				apiClient.updateName(fullName: editFullNameText)
+					.receive(on: DispatchQueue.main)
+					.sink(
+						receiveCompletion: { [weak self] completion in
+							switch completion {
+								case .finished: return
+								case .failure(let error):
+								self?.banner = BannerData(error: error)
+							}
+						},
+						receiveValue: { [weak self] updatedFullName in
+							guard let self = self else { return }
+							self.user.fullName = updatedFullName
+							AppState.updateAppState(with: .userUpdated(self.user))
+						}
+					)
 					.store(in: &cancellables)
 			}
 		}
