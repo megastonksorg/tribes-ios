@@ -14,6 +14,7 @@
 		D015807E295E057F0087545A /* CMSampleBuffer+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = D015807D295E057F0087545A /* CMSampleBuffer+Image.swift */; };
 		D0158080295E08570087545A /* CameraVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D015807F295E08570087545A /* CameraVM.swift */; };
 		D018C8EE299DE5C9005765A2 /* EncryptionClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D018C8ED299DE5C9005765A2 /* EncryptionClient.swift */; };
+		D018C8F8299EDF2D005765A2 /* RSAKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = D018C8F7299EDF2D005765A2 /* RSAKeys.swift */; };
 		D01A5D7F29999DB100838774 /* XButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01A5D7E29999DB100838774 /* XButton.swift */; };
 		D029D81E2957548400EA4C07 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D029D81D2957548400EA4C07 /* AppView.swift */; };
 		D030D28129573E9A0011128F /* TribesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030D28029573E9A0011128F /* TribesApp.swift */; };
@@ -149,6 +150,7 @@
 		D015807D295E057F0087545A /* CMSampleBuffer+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CMSampleBuffer+Image.swift"; sourceTree = "<group>"; };
 		D015807F295E08570087545A /* CameraVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraVM.swift; sourceTree = "<group>"; };
 		D018C8ED299DE5C9005765A2 /* EncryptionClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncryptionClient.swift; sourceTree = "<group>"; };
+		D018C8F7299EDF2D005765A2 /* RSAKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSAKeys.swift; sourceTree = "<group>"; };
 		D01A5D7E29999DB100838774 /* XButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XButton.swift; sourceTree = "<group>"; };
 		D029D81D2957548400EA4C07 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		D030D27D29573E9A0011128F /* Tribes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tribes.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -300,6 +302,7 @@
 		D018C8EC299DE5B5005765A2 /* EncryptionClient */ = {
 			isa = PBXGroup;
 			children = (
+				D018C8F7299EDF2D005765A2 /* RSAKeys.swift */,
 				D018C8ED299DE5C9005765A2 /* EncryptionClient.swift */,
 			);
 			path = EncryptionClient;
@@ -957,6 +960,7 @@
 				D030D31B2957460B0011128F /* ImportSecretKeyVM.swift in Sources */,
 				D030D2FE295745F90011128F /* Token.swift in Sources */,
 				D030D2D0295745E90011128F /* UIImage+Extensions.swift in Sources */,
+				D018C8F8299EDF2D005765A2 /* RSAKeys.swift in Sources */,
 				D030D2D5295745E90011128F /* View+ReadSize.swift in Sources */,
 				D030D2DC295745E90011128F /* ButtonStyles.swift in Sources */,
 				D030D3172957460B0011128F /* VerifySecretKeyVM.swift in Sources */,
