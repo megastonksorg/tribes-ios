@@ -1,0 +1,102 @@
+//
+//  RSAKeys.swift
+//  Tribes
+//
+//  Created by Kingsley Okeke on 2023-02-16.
+//
+
+import Foundation
+
+fileprivate let rsaKeySizeInBits: NSNumber = 2048
+fileprivate let rsaAlgorithm: SecKeyAlgorithm = .rsaEncryptionPKCS1
+
+struct RSAKeys {
+	struct PublicKey {
+		let key: SecKey
+		
+		init?(data: Data) {
+			if let key = PublicKey.loadFromData(data) {
+				self.key = key
+			}
+			return nil
+		}
+		
+		///
+		/// Takes the data and uses the public key to encrypt it.
+		/// Returns the encrypted data.
+		///
+		func encrypt(data: Data) -> Data? {
+			var error: Unmanaged<CFError>?
+			if let encryptedData: CFData = SecKeyCreateEncryptedData(self.key, rsaAlgorithm, data as CFData, &error) {
+				if error != nil {
+					return nil
+				} else {
+					return encryptedData as Data
+				}
+			} else {
+				return nil
+			}
+		}
+		
+		static func loadFromData(_ data: Data) -> SecKey? {
+			let keyDict: [NSObject : NSObject] = [
+				kSecAttrKeyType: kSecAttrKeyTypeRSA,
+				kSecAttrKeyClass: kSecAttrKeyClassPublic,
+				kSecAttrKeySizeInBits: rsaKeySizeInBits
+			]
+			return SecKeyCreateWithData(data as CFData, keyDict as CFDictionary, nil)
+		}
+	}
+	
+	struct PrivateKey {
+		let key: SecKey
+		
+		init?(data: Data) {
+			if let key = PrivateKey.loadFromData(data) {
+				self.key = key
+			}
+			return nil
+		}
+		
+		///
+		/// Takes the data and uses the private key to decrypt it.
+		/// Returns the decrypted data.
+		///
+		func decrypt(data: Data) -> Data? {
+			var error: Unmanaged<CFError>?
+			if let decryptedData: CFData = SecKeyCreateDecryptedData(key, rsaAlgorithm, data as CFData, &error) {
+				if error != nil {
+					return nil
+				} else {
+					return decryptedData as Data
+				}
+			} else {
+				return nil
+			}
+		}
+		
+		static func loadFromData(_ data: Data) -> SecKey? {
+			let keyDict: [NSObject : NSObject] = [
+				kSecAttrKeyType: kSecAttrKeyTypeRSA,
+				kSecAttrKeyClass: kSecAttrKeyClassPrivate,
+				kSecAttrKeySizeInBits: rsaKeySizeInBits
+			]
+			return SecKeyCreateWithData(data as CFData, keyDict as CFDictionary, nil)
+		}
+	}
+}
+
+fileprivate extension SecKey {
+	func exportToData() -> Data? {
+		var error: Unmanaged<CFError>?
+		if let cfData = SecKeyCopyExternalRepresentation(self, &error) {
+			if error != nil {
+				return nil
+			} else {
+				return cfData as Data
+			}
+		} else {
+			return nil
+		}
+	}
+}
