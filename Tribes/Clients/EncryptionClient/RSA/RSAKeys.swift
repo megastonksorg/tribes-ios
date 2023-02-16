@@ -14,6 +14,10 @@ struct RSAKeys {
 	struct PublicKey {
 		let key: SecKey
 		
+		init(key: SecKey) {
+			self.key = key
+		}
+		
 		init?(data: Data) {
 			if let key = PublicKey.loadFromData(data) {
 				self.key = key
@@ -51,6 +55,10 @@ struct RSAKeys {
 	struct PrivateKey {
 		let key: SecKey
 		
+		init(key: SecKey) {
+			self.key = key
+		}
+		
 		init?(data: Data) {
 			if let key = PrivateKey.loadFromData(data) {
 				self.key = key
@@ -82,6 +90,35 @@ struct RSAKeys {
 				kSecAttrKeySizeInBits: rsaKeySizeInBits
 			]
 			return SecKeyCreateWithData(data as CFData, keyDict as CFDictionary, nil)
+		}
+	}
+	
+	let privateKey: PrivateKey
+	let publicKey: PublicKey
+	
+	//Will create a brand new RSA private and public key pair for asymmetric
+	static func generateRandomRSAKeyPair() -> RSAKeys? {
+		let privateAttributes: [NSObject : Any] = [
+			kSecAttrIsPermanent: false
+		]
+		let publicAttributes: [NSObject : Any] = [:]
+		let pairAttributes: [NSObject : Any] = [
+			kSecAttrKeyType: kSecAttrKeyTypeRSA,
+			kSecAttrKeySizeInBits: rsaKeySizeInBits,
+			kSecPublicKeyAttrs: publicAttributes,
+			kSecPrivateKeyAttrs: privateAttributes
+		]
+		
+		var error: Unmanaged<CFError>?
+		if let privateKey: SecKey = SecKeyCreateRandomKey(pairAttributes as CFDictionary, &error),
+		   let publicKey: SecKey = SecKeyCopyPublicKey(privateKey) {
+			if error != nil {
+				return nil
+			} else {
+				return RSAKeys(privateKey: PrivateKey(key: privateKey), publicKey: PublicKey(key: publicKey))
+			}
+		} else {
+			return nil
 		}
 	}
 }
