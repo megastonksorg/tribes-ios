@@ -21,6 +21,7 @@ struct RSAKeys {
 		init?(data: Data) {
 			if let key = PublicKey.loadFromData(data) {
 				self.key = key
+				return
 			}
 			return nil
 		}
@@ -62,6 +63,7 @@ struct RSAKeys {
 		init?(data: Data) {
 			if let key = PrivateKey.loadFromData(data) {
 				self.key = key
+				return
 			}
 			return nil
 		}
@@ -96,7 +98,7 @@ struct RSAKeys {
 	let privateKey: PrivateKey
 	let publicKey: PublicKey
 	
-	//Will create a brand new RSA private and public key pair for asymmetric
+	//Will create a brand new RSA private and public key pair for asymmetric cryptography
 	static func generateRandomRSAKeyPair() -> RSAKeys? {
 		let privateAttributes: [NSObject : Any] = [
 			kSecAttrIsPermanent: false
@@ -123,7 +125,7 @@ struct RSAKeys {
 	}
 }
 
-fileprivate extension SecKey {
+extension SecKey {
 	func exportToData() -> Data? {
 		var error: Unmanaged<CFError>?
 		if let cfData = SecKeyCopyExternalRepresentation(self, &error) {
