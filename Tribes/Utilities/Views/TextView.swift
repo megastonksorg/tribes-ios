@@ -47,7 +47,7 @@ struct TextViewModifier: ViewModifier {
 		case .largeTitle:
 			content
 				.font(Font.app.title)
-				.foregroundColor(Color.app.tertiary)
+				.foregroundColor(.white)
 		case .pageTitle:
 			content
 				.font(Font.app.title3)
