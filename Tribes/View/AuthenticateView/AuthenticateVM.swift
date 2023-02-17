@@ -72,7 +72,7 @@ extension AuthenticateView {
 			let publicKeyString = publicKeyData.base64EncodedString()
 			switch self.walletClient.signMessage(message: publicKeyString) {
 				case .success(let signedMessage):
-				let authenticateModel = AuthenticateRequest(walletAddress: user.walletAddress, messagePublicKey: publicKeyString, signature: signedMessage.signature)
+				let authenticateModel = AuthenticateRequest(walletAddress: user.walletAddress, publicKey: publicKeyString, signature: signedMessage.signature)
 				self.apiClient.authenticateUser(model: authenticateModel)
 					.receive(on: DispatchQueue.main)
 					.sink(

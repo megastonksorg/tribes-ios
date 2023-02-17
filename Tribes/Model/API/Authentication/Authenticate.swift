@@ -9,7 +9,7 @@ import Foundation
 
 struct AuthenticateRequest: Encodable {
 	let walletAddress: String
-	let messagePublicKey: String
+	let publicKey: String
 	let signature: String
 }
 
