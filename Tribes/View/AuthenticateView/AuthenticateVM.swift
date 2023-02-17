@@ -59,43 +59,52 @@ extension AuthenticateView {
 		
 		func authenticate() {
 			self.isLoading = true
-			self.apiClient.requestAuthentication()
-				.flatMap { [unowned self] messageToSign -> AnyPublisher<AuthenticateResponse, APIClientError> in
-					switch self.walletClient.signMessage(message: messageToSign) {
-					case .success(let signedMessage):
-						let authenticateModel = AuthenticateRequest(walletAddress: user.walletAddress, signature: signedMessage.signature)
-						return self.apiClient.authenticateUser(model: authenticateModel)
-					case .failure(let error):
-						self.banner = BannerData(error: error)
-						return Empty().eraseToAnyPublisher()
-					}
-				}
-				.receive(on: DispatchQueue.main)
-				.sink(
-					receiveCompletion: { [weak self] completion in
-						switch completion {
-							case .finished: return
-							case .failure(let error):
-								self?.isLoading = false
-								self?.banner = BannerData(error: error)
+			guard
+				let rsaKeys = RSAKeys.generateRandomRSAKeyPair(),
+				let privateKeyData = rsaKeys.privateKey.key.exportToData(),
+				let publicKeyData = rsaKeys.publicKey.key.exportToData()
+			else {
+				self.banner = BannerData(error: .rawError("Something went wrong. Please try that again"))
+				self.isLoading = false
+				return
+			}
+			let privateKeyString = privateKeyData.base64EncodedString()
+			let publicKeyString = publicKeyData.base64EncodedString()
+			switch self.walletClient.signMessage(message: publicKeyString) {
+				case .success(let signedMessage):
+				let authenticateModel = AuthenticateRequest(walletAddress: user.walletAddress, messagePublicKey: publicKeyString, signature: signedMessage.signature)
+				self.apiClient.authenticateUser(model: authenticateModel)
+					.receive(on: DispatchQueue.main)
+					.sink(
+						receiveCompletion: { [weak self] completion in
+							switch completion {
+								case .finished: return
+								case .failure(let error):
+									self?.isLoading = false
+									self?.banner = BannerData(error: error)
+							}
+						},
+						receiveValue: { [weak self] authenticateResponse in
+							let user: User = User(
+								walletAddress: authenticateResponse.walletAddress,
+								fullName: authenticateResponse.fullName,
+								profilePhoto: authenticateResponse.profilePhoto,
+								currency: authenticateResponse.currency,
+								acceptTerms: authenticateResponse.acceptTerms,
+								isOnboarded: authenticateResponse.isOnboarded
+							)
+							self?.isLoading = false
+							self?.keychainClient.set(key: .user, value: user)
+							self?.keychainClient.set(key: .token, value: Token(jwt: authenticateResponse.jwtToken, refresh: authenticateResponse.refreshToken))
+							self?.keychainClient.set(key: .messageKey, value: MessageKey(privateKey: privateKeyString, publicKey: publicKeyString))
+							AppState.updateAppState(with: .changeAppMode(.home(HomeView.ViewModel(user: user))))
 						}
-					},
-					receiveValue: { [weak self] authenticateResponse in
-						let user: User = User(
-							walletAddress: authenticateResponse.walletAddress,
-							fullName: authenticateResponse.fullName,
-							profilePhoto: authenticateResponse.profilePhoto,
-							currency: authenticateResponse.currency,
-							acceptTerms: authenticateResponse.acceptTerms,
-							isOnboarded: authenticateResponse.isOnboarded
-						)
-						self?.isLoading = false
-						self?.keychainClient.set(key: .user, value: user)
-						self?.keychainClient.set(key: .token, value: Token(jwt: authenticateResponse.jwtToken, refresh: authenticateResponse.refreshToken))
-						AppState.updateAppState(with: .changeAppMode(.home(HomeView.ViewModel(user: user))))
-					}
-				)
-				.store(in: &cancellables)
+					)
+					.store(in: &cancellables)
+				case .failure(let error):
+					self.isLoading = false
+					self.banner = BannerData(error: error)
+			}
 		}
 	}
 }
