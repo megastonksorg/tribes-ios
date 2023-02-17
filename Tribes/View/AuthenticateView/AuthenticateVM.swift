@@ -93,10 +93,10 @@ extension AuthenticateView {
 								acceptTerms: authenticateResponse.acceptTerms,
 								isOnboarded: authenticateResponse.isOnboarded
 							)
-							self?.isLoading = false
 							self?.keychainClient.set(key: .user, value: user)
 							self?.keychainClient.set(key: .token, value: Token(jwt: authenticateResponse.jwtToken, refresh: authenticateResponse.refreshToken))
 							self?.keychainClient.set(key: .messageKey, value: MessageKey(privateKey: privateKeyString, publicKey: publicKeyString))
+							self?.isLoading = false
 							AppState.updateAppState(with: .changeAppMode(.home(HomeView.ViewModel(user: user))))
 						}
 					)
