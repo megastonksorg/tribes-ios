@@ -139,6 +139,6 @@ fileprivate struct NumberView: AnimatableModifier {
 					endPoint: .trailing
 				)
 			)
-			.frame(width: 80)
+			.frame(maxWidth: 90, alignment: .trailing)
 	}
 }
