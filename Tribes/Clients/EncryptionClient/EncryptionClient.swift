@@ -9,8 +9,8 @@ import CryptoKit
 import Foundation
 
 protocol EncryptionClientProtocol {
-	func encrypt(_ data: Data, for members: [TribeMember]) -> EncryptedData?
-	func decrypt(_ data: Data, key: String) -> Data?
+	func encrypt(_ data: Data, for publicKeys: [String]) -> EncryptedData?
+	func decrypt(_ data: Data, for publicKey: String, key: String) -> Data?
 }
 
 class EncryptionClient: EncryptionClientProtocol {
@@ -28,14 +28,14 @@ class EncryptionClient: EncryptionClientProtocol {
 		self.rsaKeys = RSAKeys(privateKey: privateKey, publicKey: publicKey)
 	}
 	
-	func encrypt(_ data: Data, for members: [TribeMember]) -> EncryptedData? {
+	func encrypt(_ data: Data, for publicKeys: [String]) -> EncryptedData? {
 		let symmetricKey = SymmetricKey(size: .bits256)
-		var keys: [TribeMember.ID : String] = [:]
-		members.forEach { member in
-			if let keyData = Data(base64Encoded: member.publicKey),
+		var keys: [String : String] = [:]
+		publicKeys.forEach { pubKey in
+			if let keyData = Data(base64Encoded: pubKey),
 			   let publicKey = RSAKeys.PublicKey(data: keyData),
 			   let encryptedKey = publicKey.encrypt(data: Data(symmetricKey.toBase64EncodedString().utf8)) {
-				keys[member.id] = encryptedKey.base64EncodedString()
+				keys[pubKey] = encryptedKey.base64EncodedString()
 			}
 		}
 		if let encryptedData = encryptAES(message: data, key: symmetricKey) {
@@ -45,7 +45,8 @@ class EncryptionClient: EncryptionClientProtocol {
 		}
 	}
 	
-	func decrypt(_ data: Data, key: String) -> Data? {
+	func decrypt(_ data: Data, for publicKey: String, key: String) -> Data? {
+		guard publicKey == rsaKeys.publicKey.key.exportToData()?.base64EncodedString() else { return nil }
 		if let encryptedKeyInDataFormat = Data(base64Encoded: key),
 		   let decryptedKeyInStringFormat = self.rsaKeys.privateKey.decrypt(data: encryptedKeyInDataFormat)?.base64EncodedString() {
 			return decryptAES(sealedMessage: data, key: decryptedKeyInStringFormat)

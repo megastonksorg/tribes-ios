@@ -8,6 +8,6 @@
 import Foundation
 
 struct EncryptedData {
-	let keys: [TribeMember.ID : String]
+	let keys: [String : String] //[publicKey:encryptedSymmetricKey]
 	let data: Data
 }
