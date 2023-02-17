@@ -116,7 +116,12 @@ extension TribesView {
 				self.editTribeNameText = nil
 				return
 			}
-			let updatedTribe: Tribe = Tribe(id: focusedTribe.id, name: newTribeName, members: focusedTribe.members)
+			let updatedTribe: Tribe = Tribe(
+				id: focusedTribe.id,
+				name: newTribeName,
+				timestamp: focusedTribe.timestamp,
+				members: focusedTribe.members
+			)
 			
 			self.focusedTribe = updatedTribe
 			self.tribes[id: updatedTribe.id] = updatedTribe

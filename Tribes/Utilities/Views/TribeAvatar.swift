@@ -431,6 +431,7 @@ struct TribeAvatar_Previews: PreviewProvider {
 					tribe: Tribe(
 						id: "1",
 						name: "Body does not Lie. But do not for one second think that this is",
+						timestamp: "stamp",
 						members: Array(repeating: TribeMember.noop1, count: 10)
 					),
 					size: 180,
@@ -445,6 +446,7 @@ struct TribeAvatar_Previews: PreviewProvider {
 					tribe: Tribe(
 						id: "1",
 						name: "Body does not Lie. But do not think that I would",
+						timestamp: "stamp",
 						members: Array(repeating: TribeMember.noop1, count: 10)
 					),
 					size: 180,
