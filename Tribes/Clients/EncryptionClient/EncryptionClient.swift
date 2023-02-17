@@ -10,7 +10,7 @@ import Foundation
 
 protocol EncryptionClientProtocol {
 	func encrypt(_ data: Data, for members: [TribeMember]) -> EncryptedData?
-	func decrypt(_ data: Data, key: String) -> Data
+	func decrypt(_ data: Data, key: String) -> Data?
 }
 
 class EncryptionClient: EncryptionClientProtocol {
@@ -45,8 +45,13 @@ class EncryptionClient: EncryptionClientProtocol {
 		}
 	}
 	
-	func decrypt(_ data: Data, key: String) -> Data {
-		return Data()
+	func decrypt(_ data: Data, key: String) -> Data? {
+		if let encryptedKeyInDataFormat = Data(base64Encoded: key),
+		   let decryptedKeyInStringFormat = self.rsaKeys.privateKey.decrypt(data: encryptedKeyInDataFormat)?.base64EncodedString() {
+			return decryptAES(sealedMessage: data, key: decryptedKeyInStringFormat)
+		} else {
+			return nil
+		}
 	}
 	
 	func encryptAES(message: Data, key: SymmetricKey) -> Data? {
