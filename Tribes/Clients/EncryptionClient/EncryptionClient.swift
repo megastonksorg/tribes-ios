@@ -9,7 +9,7 @@ import CryptoKit
 import Foundation
 
 protocol EncryptionClientProtocol {
-	func encrypt(_ data: Data, publicKey: String) -> Data
+	func encrypt(_ data: Data, for members: [TribeMember]) -> EncryptedData?
 	func decrypt(_ data: Data, key: String) -> Data
 }
 
@@ -28,17 +28,29 @@ class EncryptionClient: EncryptionClientProtocol {
 		self.rsaKeys = RSAKeys(privateKey: privateKey, publicKey: publicKey)
 	}
 	
-	func encrypt(_ data: Data, publicKey: String) -> Data {
-		return Data()
+	func encrypt(_ data: Data, for members: [TribeMember]) -> EncryptedData? {
+		let symmetricKey = SymmetricKey(size: .bits256)
+		var keys: [TribeMember.ID : String] = [:]
+		members.forEach { member in
+			if let keyData = Data(base64Encoded: member.publicKey),
+			   let publicKey = RSAKeys.PublicKey(data: keyData),
+			   let encryptedKey = publicKey.encrypt(data: Data(symmetricKey.toBase64EncodedString().utf8)) {
+				keys[member.id] = encryptedKey.base64EncodedString()
+			}
+		}
+		if let encryptedData = encryptAES(message: data, key: symmetricKey) {
+			return EncryptedData(keys: keys, data: encryptedData)
+		} else {
+			return nil
+		}
 	}
 	
 	func decrypt(_ data: Data, key: String) -> Data {
 		return Data()
 	}
 	
-	func encryptAES(message: Data, key: String) -> Data? {
-		guard let keyData = Data(base64Encoded: key) else { return nil }
-		let sealedMessage = try? AES.GCM.seal(message, using: SymmetricKey(data: keyData))
+	func encryptAES(message: Data, key: SymmetricKey) -> Data? {
+		let sealedMessage = try? AES.GCM.seal(message, using: key)
 		return sealedMessage?.combined
 	}
 	
