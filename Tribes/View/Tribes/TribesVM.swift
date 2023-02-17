@@ -119,7 +119,7 @@ extension TribesView {
 			let updatedTribe: Tribe = Tribe(
 				id: focusedTribe.id,
 				name: newTribeName,
-				timestamp: focusedTribe.timestamp,
+				timestampId: focusedTribe.timestampId,
 				members: focusedTribe.members
 			)
 			
