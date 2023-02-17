@@ -8,7 +8,6 @@
 import Foundation
 
 struct RegisterRequest: Encodable {
-	let publicKey: String
 	let walletAddress: String
 	let profilePhoto: URL
 	let fullName: String

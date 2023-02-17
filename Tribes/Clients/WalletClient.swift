@@ -18,7 +18,6 @@ protocol WalletClientProtocol {
 	
 	func generateNewWallet() -> Result<HDWallet, WalletClientError>
 	func getAddress(_ hdWallet: HDWallet) -> String
-	func getPublicKey() -> String?
 	func getMnemonic() -> Result<String, WalletClientError>
 	func hashMessage(message: String) -> String?
 	func importWallet(mnemonic: String) -> Result<HDWallet, WalletClientError>
@@ -42,14 +41,6 @@ class WalletClient: WalletClientProtocol {
 	
 	func getAddress(_ hdWallet: HDWallet) -> String {
 		return hdWallet.getAddressForCoin(coin: coinType)
-	}
-	
-	func getPublicKey() -> String? {
-		guard
-			let mnemonic = self.keychainClient.get(key: .mnemonic),
-			let hdWallet = HDWallet(mnemonic: mnemonic, passphrase: "")
-		else { return nil }
-		return hdWallet.getKeyForCoin(coin: coinType).getPublicKeySecp256k1(compressed: false).description
 	}
 	
 	func getMnemonic() -> Result<String, WalletClientError> {

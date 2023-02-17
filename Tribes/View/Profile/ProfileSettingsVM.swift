@@ -111,12 +111,8 @@ extension ProfileSettingsView {
 						
 						self.apiClient.uploadImage(imageData: croppedImageData)
 							.flatMap { [weak self] url -> AnyPublisher<RegisterResponse, APIClientError>  in
-								guard let self = self,
-									  let publicKey = self.walletClient.getPublicKey() else {
-									return Fail(error: APIClientError.rawError("Invalid Public Key")).eraseToAnyPublisher()
-								}
+								guard let self = self else { return Fail(error: APIClientError.rawError("Oops Something went wrong.")).eraseToAnyPublisher() }
 								let registerRequestModel: RegisterRequest = RegisterRequest(
-									publicKey: publicKey,
 									walletAddress: walletAddress,
 									profilePhoto: url,
 									fullName: self.name,
