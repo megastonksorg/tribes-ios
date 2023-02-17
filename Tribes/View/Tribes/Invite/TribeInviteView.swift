@@ -32,9 +32,18 @@ struct TribeInviteView: View {
 			)
 			
 			Spacer()
-			
-			TextView("Share your pin code for ‘\(viewModel.tribe.name)’ with a tribe member", style: .pageSubTitle)
-				.fixedSize(horizontal: false, vertical: true)
+			Group {
+				Text("Share your pin code for ")
+				+
+				Text(viewModel.tribe.name)
+					.foregroundColor(Color.app.tertiary)
+				+
+				Text(" with a tribe member")
+			}
+			.fixedSize(horizontal: false, vertical: true)
+			.font(Font.app.subHeader)
+			.foregroundColor(Color.white)
+				
 			
 			Spacer()
 			
