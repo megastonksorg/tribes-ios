@@ -118,6 +118,7 @@
 		D0C65AA72970A7E600E527F9 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C65AA62970A7E600E527F9 /* Fonts.swift */; };
 		D0C65AAD2970AC6400E527F9 /* Kreon-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D0C65AAC2970AC6400E527F9 /* Kreon-Bold.ttf */; };
 		D0C65AAF2970BEA100E527F9 /* SymmetricHStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C65AAE2970BEA100E527F9 /* SymmetricHStack.swift */; };
+		D0CED88C299F03200077A347 /* MessageKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CED88B299F03200077A347 /* MessageKey.swift */; };
 		D0D2668F295F717100A94183 /* CaptureClient+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D2668E295F717100A94183 /* CaptureClient+Utilities.swift */; };
 		D0D26692295FED0500A94183 /* ComposeVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D26691295FED0500A94183 /* ComposeVM.swift */; };
 		D0D26694295FED1000A94183 /* ComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D26693295FED1000A94183 /* ComposeView.swift */; };
@@ -252,6 +253,7 @@
 		D0C65AA62970A7E600E527F9 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		D0C65AAC2970AC6400E527F9 /* Kreon-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Kreon-Bold.ttf"; sourceTree = "<group>"; };
 		D0C65AAE2970BEA100E527F9 /* SymmetricHStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymmetricHStack.swift; sourceTree = "<group>"; };
+		D0CED88B299F03200077A347 /* MessageKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageKey.swift; sourceTree = "<group>"; };
 		D0D2668E295F717100A94183 /* CaptureClient+Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CaptureClient+Utilities.swift"; sourceTree = "<group>"; };
 		D0D26691295FED0500A94183 /* ComposeVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeVM.swift; sourceTree = "<group>"; };
 		D0D26693295FED1000A94183 /* ComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeView.swift; sourceTree = "<group>"; };
@@ -304,6 +306,7 @@
 			children = (
 				D018C8F7299EDF2D005765A2 /* RSAKeys.swift */,
 				D018C8ED299DE5C9005765A2 /* EncryptionClient.swift */,
+				D0CED88B299F03200077A347 /* MessageKey.swift */,
 			);
 			path = EncryptionClient;
 			sourceTree = "<group>";
@@ -888,6 +891,7 @@
 				D030D2FC295745F90011128F /* Register.swift in Sources */,
 				D015807C295E039E0087545A /* CameraView.swift in Sources */,
 				D030D2DB295745E90011128F /* CornerRadiusStyle.swift in Sources */,
+				D0CED88C299F03200077A347 /* MessageKey.swift in Sources */,
 				D030D2E0295745E90011128F /* TextFieldView.swift in Sources */,
 				D030D2CE295745E90011128F /* Data+Hex.swift in Sources */,
 				D08EBF1F297EBEC1001B7A5C /* KeychainClient.swift in Sources */,

@@ -14,7 +14,19 @@ protocol EncryptionClientProtocol {
 }
 
 class EncryptionClient: EncryptionClientProtocol {
+	let rsaKeys: RSAKeys
+	
 	static let shared: EncryptionClient = EncryptionClient()
+	
+	init() {
+		//The key should have been set here so it should never be nil at this point
+		let savedMessageKey = KeychainClient.shared.get(key: .messageKey)!
+		let privateKeyData = Data(base64Encoded: savedMessageKey.privateKey)!
+		let publicKeyData = Data(base64Encoded: savedMessageKey.publicKey)!
+		let privateKey = RSAKeys.PrivateKey(data: privateKeyData)!
+		let publicKey = RSAKeys.PublicKey(data: publicKeyData)!
+		self.rsaKeys = RSAKeys(privateKey: privateKey, publicKey: publicKey)
+	}
 	
 	func encrypt(_ data: Data, publicKey: String) -> Data {
 		return Data()
