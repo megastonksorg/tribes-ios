@@ -207,6 +207,7 @@ struct TribesView: View {
 			let firstCircleWidth: CGFloat = 40
 			let strokeColor: Color = Color.app.secondary
 			VStack {
+				Spacer()
 				ZStack {
 					noTribeCircle(size: 120, fillColor, strokeColor)
 						.opacity(0.4)
@@ -237,7 +238,6 @@ struct TribesView: View {
 						noTribeImage(name: "right3", size: 35)
 					}
 				}
-				
 				Text("Create Your First Tribe")
 					.font(Font.app.title2)
 					.foregroundColor(Color.app.tertiary)
@@ -246,6 +246,13 @@ struct TribesView: View {
 					.font(Font.app.footnote)
 					.foregroundColor(Color.app.tertiary)
 					.padding(.top, 2)
+				Spacer()
+			}
+			.overlay(alignment: .bottomLeading) {
+				Image("swipeForCamera")
+					.resizable()
+					.scaledToFit()
+					.frame(height: 100)
 			}
 		case 1:
 			let size: CGFloat = sizeWidth * 0.7
