@@ -92,14 +92,16 @@ struct BannerViewModifier: ViewModifier {
 
 
 					)
-					.background (
-						ZStack {
-							RoundedRectangle(cornerRadius: self.cornerRadius)
-								.fill(Color.app.secondary)
-							RoundedRectangle(cornerRadius: self.cornerRadius)
-								.stroke(Color.app.bannerStroke, lineWidth: 1)
+					.background {
+						if !data.title.isEmpty && !data.detail.isEmpty {
+							ZStack {
+								RoundedRectangle(cornerRadius: self.cornerRadius)
+									.fill(Color.app.secondary)
+								RoundedRectangle(cornerRadius: self.cornerRadius)
+									.stroke(Color.app.bannerStroke, lineWidth: 1)
+							}
 						}
-					)
+					}
 					.padding(6)
 					
 					Spacer()
