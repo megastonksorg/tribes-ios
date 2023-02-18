@@ -21,7 +21,11 @@ extension BannerData {
 		self.init(title: error.title, detail: error.errorDescription ?? "", type: .error)
 	}
 	init(error: AppError.APIClientError) {
-		self.init(detail: error.errorDescription ?? "", type: .error)
+		if error != .authExpired {
+			self.init(detail: error.errorDescription ?? "", type: .error)
+		} else {
+			self.init(detail: "", type: .info)
+		}
 	}
 }
 
