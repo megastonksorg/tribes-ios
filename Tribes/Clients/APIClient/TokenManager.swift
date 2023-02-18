@@ -16,6 +16,7 @@ extension APIClient {
 		private let decoder: JSONDecoder = JSONDecoder()
 		
 		private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
+		private var isRefreshing: Bool = false
 		private var lastRefreshed: Date?
 		
 		//Clients
@@ -26,7 +27,8 @@ extension APIClient {
 				return Future { [weak self] promise in
 					guard let self = self else { return }
 					do {
-						if self.lastRefreshed == nil || Date.now.timeIntervalSince(self.lastRefreshed ?? Date.distantPast) > 1.0 { //Only refresh if it has been more than one minute since the last refresh
+						if !self.isRefreshing && Date.now.timeIntervalSince(self.lastRefreshed ?? Date.distantPast) > 1.0 { //Only refresh if it has been more than one minute since the last refresh
+							self.isRefreshing = true
 							if let token = self.keychainClient.get(key: .token), let cookie = HTTPCookie(properties: [
 								.domain: APPUrlRequest.domain,
 								.path: "/",
@@ -40,7 +42,6 @@ extension APIClient {
 							let tokenRequest: URLRequest = try APPUrlRequest(httpMethod: .post, pathComponents: ["account", "refresh"]).urlRequest
 							
 							APIClient.shared.urlRequest(urlRequest: tokenRequest)
-								.subscribe(on: self.queue)
 								.decode(type: AuthenticateResponse.self, decoder: self.decoder)
 								.mapError{ $0 as? AppError.APIClientError ?? APIClientError.rawError($0.localizedDescription) }
 								.sink(receiveCompletion: { completion in
@@ -68,6 +69,7 @@ extension APIClient {
 									self.keychainClient.set(key: .token, value: token)
 									self.keychainClient.set(key: .user, value: user)
 									self.lastRefreshed = Date.now
+									self.isRefreshing = false
 									promise(.success(true))
 								})
 								.store(in: &self.cancellables)
