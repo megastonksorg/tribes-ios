@@ -77,7 +77,8 @@ extension APIClient {
 							promise(.success(true))
 						}
 					} catch {
-						promise(.success(false))
+						self.isRefreshing = false
+						promise(.success(true))
 					}
 				}
 			}
