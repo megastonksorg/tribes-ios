@@ -100,7 +100,7 @@ class CaptureClient:
 	}
 	
 	override init() {
-		self.captureDevice = backDevice
+		self.captureDevice = frontDevice
 		
 		super.init()
 		
