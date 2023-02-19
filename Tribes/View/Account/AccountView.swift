@@ -71,11 +71,10 @@ struct AccountView: View {
 					.padding(.top)
 				if isShowingSettings {
 					Spacer()
-					Button(action: { viewModel.updateUser() }) {
-						Text("Update")
+					Button(action: {  }) {
+						Text("Logout of Account")
 					}
 					.buttonStyle(.expanded)
-					.disabled(!viewModel.isUpdateButtonEnabled)
 					Button(action: {}) {
 						Text("Delete Account")
 					}
@@ -143,28 +142,36 @@ struct AccountView: View {
 		.background(Color.app.background)
 		.safeAreaInset(edge: .top) {
 			HStack {
-				Group {
-					if isShowingSettings {
-						Button(action: {
-							self.focusedField = nil
-							viewModel.toggleSettings()
-						}) {
-							Text("Cancel")
-								.font(Font.app.title2)
-						}
-					} else {
-						Button(action: { viewModel.toggleSettings() }) {
-							Image(systemName: "gearshape.fill")
-						}
-						.font(Font.app.title)
+				if isShowingSettings {
+					Button(action: {
+						self.focusedField = nil
+						viewModel.toggleSettings()
+					}) {
+						Text("Cancel")
+							.font(Font.app.title2)
+					}
+				} else {
+					Button(action: { viewModel.toggleSettings() }) {
+						Image(systemName: "gearshape.fill")
+					}
+					.font(Font.app.title)
+				}
+				Spacer()
+				if isShowingSettings {
+					AppToolBar(
+						.trailing,
+						trailingTitle: "Update",
+						trailingClosure: { viewModel.updateUser() }
+					)
+					.disabled(!viewModel.isUpdateButtonEnabled)
+					.opacity(viewModel.isUpdateButtonEnabled ? 1.0 : 0.5)
+				} else {
+					XButton {
+						dismiss()
 					}
 				}
-				.frame(height: 30)
-				Spacer()
-				XButton {
-					dismiss()
-				}
 			}
+			.frame(height: 30)
 			.foregroundColor(Color.white)
 			.padding(.horizontal)
 		}

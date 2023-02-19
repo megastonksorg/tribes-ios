@@ -38,6 +38,7 @@ struct AppToolBar: View {
 			case .trailing:
 				Button(action: { self.trailingClosure() }) {
 					Text(self.trailingTitle)
+						.font(Font.app.title2)
 				}
 			}
 		}
