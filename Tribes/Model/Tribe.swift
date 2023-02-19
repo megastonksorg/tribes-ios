@@ -14,12 +14,12 @@ struct Tribe: Codable, Identifiable {
 	let members: [TribeMember]
 }
 
-extension Tribe {
-	var otherMembers: [TribeMember] {
+extension Array where Element == TribeMember {
+	var others: [TribeMember] {
 		if let currentUser: User = KeychainClient.shared.get(key: .user) {
-			return members.filter({ $0.walletAddress != currentUser.walletAddress })
+			return self.filter({ $0.walletAddress != currentUser.walletAddress })
 		}
-		return members
+		return self
 	}
 }
 

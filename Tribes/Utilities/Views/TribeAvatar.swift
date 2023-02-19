@@ -40,7 +40,7 @@ struct TribeAvatar: View {
 		leaveAction: @escaping (_ tribe: Tribe) -> ()
 	) {
 		self.name = tribe.name
-		self.members = tribe.otherMembers
+		self.members = tribe.members.others
 		self.tribe = tribe
 		
 		self.size = size

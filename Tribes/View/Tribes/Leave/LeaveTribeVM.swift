@@ -33,7 +33,7 @@ extension LeaveTribeView {
 		let apiClient: APIClient = APIClient.shared
 		
 		init(tribe: Tribe) {
-			self.tribeMembers = tribe.otherMembers
+			self.tribeMembers = tribe.members.others
 			self.tribe = tribe
 		}
 		
