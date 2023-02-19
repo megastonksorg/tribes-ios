@@ -372,13 +372,25 @@ struct TribeAvatar: View {
 				TribeNameView(name: name, fontSize: nameSize, action: { secondaryAction(self.tribe) })
 			}
 		}
-		.simultaneousGesture(
-			TapGesture(count: 2)
-				.onEnded { contextAction(self.tribe) }
-				.exclusively(
-					before: TapGesture(count: 1).onEnded { primaryAction(self.tribe) }
+		.if(members.count > 0) { view in
+			view
+				.simultaneousGesture(
+					TapGesture(count: 2)
+						.onEnded { contextAction(self.tribe) }
+						.exclusively(
+							before: TapGesture(count: 1).onEnded { primaryAction(self.tribe) }
+						)
 				)
-		)
+		}
+		.if(members.count == 0) { view in
+			view
+				.simultaneousGesture(
+					TapGesture()
+						.onEnded {
+							primaryAction(self.tribe)
+						}
+				)
+		}
 		.simultaneousGesture(
 			LongPressGesture(minimumDuration: 0.5)
 				.onEnded { _ in
