@@ -64,7 +64,7 @@ struct TribeAvatar: View {
 	
 	var body: some View {
 		VStack {
-			Button(action: { primaryAction(self.tribe) }) {
+			Button(action: {  }) {
 				Circle()
 					.fill(Color.app.primary)
 					.frame(dimension: size)
@@ -377,6 +377,13 @@ struct TribeAvatar: View {
 				TribeNameView(name: name, fontSize: nameSize, action: { secondaryAction(self.tribe) })
 			}
 		}
+		.simultaneousGesture(
+			TapGesture(count: 2)
+				.onEnded { contextAction(self.tribe) }
+				.exclusively(
+					before: TapGesture(count: 1).onEnded { primaryAction(self.tribe) }
+				)
+		)
 		.simultaneousGesture(
 			LongPressGesture(minimumDuration: 0.5)
 				.onEnded { _ in
