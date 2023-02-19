@@ -379,7 +379,7 @@ struct TribeAvatar: View {
 			view
 				.simultaneousGesture(
 					TapGesture(count: 2)
-						.onEnded { contextAction(self.tribe) }
+						.onEnded { doubleTapAction(self.tribe) }
 						.exclusively(
 							before: TapGesture(count: 1).onEnded { primaryAction(self.tribe) }
 						)

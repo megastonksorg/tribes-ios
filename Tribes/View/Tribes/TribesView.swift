@@ -378,6 +378,7 @@ struct TribesView: View {
 				tribe: tribe,
 				size: size,
 				contextAction: { viewModel.setFocusedTribe($0) },
+				doubleTapAction: { viewModel.tribeDoubleTapped($0) },
 				primaryAction: { viewModel.tribePrimaryActionTapped($0) },
 				secondaryAction: { viewModel.tribeSecondaryActionTapped($0) },
 				inviteAction: { viewModel.tribeInviteActionTapped($0) },
