@@ -129,7 +129,7 @@ struct TribesView: View {
 												Image(systemName: "person.fill.badge.plus")
 											}
 										}
-										.disabled(focusedTribe.members.count + 1 >= 10)
+										.disabled(focusedTribe.members.count >= 10)
 										Rectangle()
 											.fill(Color.app.cardStroke)
 											.frame(height: 1)
