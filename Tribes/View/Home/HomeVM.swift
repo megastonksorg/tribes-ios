@@ -41,6 +41,13 @@ extension HomeView {
 					name: .userUpdated,
 					object: nil
 				)
+			NotificationCenter
+				.default.addObserver(
+					self,
+					selector: #selector(openCompose),
+					name: .openCompose,
+					object: nil
+				)
 		}
 		
 		func pageUpdated(page: Page) {
@@ -57,6 +64,10 @@ extension HomeView {
 			case .tribes:
 				self.composeVM.cameraVM.didDisappear()
 			}
+		}
+		
+		@objc func openCompose() {
+			self.currentPage = .compose
 		}
 		
 		@objc func userUpdated() {
