@@ -33,12 +33,7 @@ extension LeaveTribeView {
 		let apiClient: APIClient = APIClient.shared
 		
 		init(tribe: Tribe) {
-			self.tribeMembers = {
-				if let currentUser = KeychainClient.shared.get(key: .user) {
-					return tribe.members.filter({ $0.walletAddress != currentUser.walletAddress })
-				}
-				return tribe.members
-			}()
+			self.tribeMembers = tribe.otherMembers
 			self.tribe = tribe
 		}
 		

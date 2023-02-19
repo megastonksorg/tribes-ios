@@ -15,6 +15,15 @@ struct Tribe: Codable, Identifiable {
 }
 
 extension Tribe {
+	var otherMembers: [TribeMember] {
+		if let currentUser: User = KeychainClient.shared.get(key: .user) {
+			return members.filter({ $0.walletAddress != currentUser.walletAddress })
+		}
+		return members
+	}
+}
+
+extension Tribe {
 	static let noop1: Tribe = Tribe(
 		id: "1",
 		name: "It's The Boys",

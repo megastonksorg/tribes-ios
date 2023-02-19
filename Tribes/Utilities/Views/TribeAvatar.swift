@@ -26,7 +26,7 @@ struct TribeAvatar: View {
 	let leaveAction: (_ tribe: Tribe) -> ()
 	
 	var isInviteButtonEnabled: Bool {
-		members.count + 1 <= 10
+		tribe.members.count <= 10
 	}
 	
 	init(
@@ -40,12 +40,7 @@ struct TribeAvatar: View {
 		leaveAction: @escaping (_ tribe: Tribe) -> ()
 	) {
 		self.name = tribe.name
-		self.members = {
-			if let currentUser: User = KeychainClient.shared.get(key: .user) {
-				return tribe.members.filter({ $0.walletAddress != currentUser.walletAddress })
-			}
-			return tribe.members
-		}()
+		self.members = tribe.otherMembers
 		self.tribe = tribe
 		
 		self.size = size
