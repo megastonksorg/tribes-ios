@@ -20,6 +20,7 @@ struct TribeAvatar: View {
 	let showName: Bool
 	
 	let contextAction: (_ tribe: Tribe) -> ()
+	let doubleTapAction: (_ tribe: Tribe) -> ()
 	let primaryAction: (_ tribe: Tribe) -> ()
 	let secondaryAction: (_ tribe: Tribe) -> ()
 	let inviteAction: (_ tribe: Tribe) -> ()
@@ -34,6 +35,7 @@ struct TribeAvatar: View {
 		size: CGFloat,
 		showName: Bool = true,
 		contextAction: @escaping (_ tribe: Tribe) -> (),
+		doubleTapAction: @escaping (_ tribe: Tribe) -> () = { _ in },
 		primaryAction: @escaping (_ tribe: Tribe) -> (),
 		secondaryAction: @escaping (_ tribe: Tribe) -> (),
 		inviteAction: @escaping (_ tribe: Tribe) -> (),
@@ -51,6 +53,7 @@ struct TribeAvatar: View {
 		self.showName = showName
 		
 		self.contextAction = contextAction
+		self.doubleTapAction = doubleTapAction
 		self.primaryAction = primaryAction
 		self.secondaryAction = secondaryAction
 		self.inviteAction = inviteAction
