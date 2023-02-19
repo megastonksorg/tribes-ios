@@ -94,8 +94,8 @@ struct TribeInviteView: View {
 			Button(action: { viewModel.generatePinCode() }) {
 				TextView("Tap here to generate a new one", style: .bodyTitle)
 			}
-			.disabled(!viewModel.isCodeReady)
-			.opacity(viewModel.isCodeReady ? 1.0 : 0.5)
+			.disabled(!viewModel.canRequestNewCode)
+			.opacity(viewModel.canRequestNewCode ? 1.0 : 0.5)
 			.transition(.opacity)
 			
 			Spacer()
