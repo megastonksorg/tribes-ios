@@ -161,12 +161,15 @@ extension TribesView {
 		}
 		
 		func openCompose(_ tribe: Tribe) {
-			NotificationCenter.default.post(Notification(name: .openCompose))
+			if tribe.members.others.count > 0 {
+				NotificationCenter.default.post(Notification(name: .openCompose))
+				self.feedbackClient.medium()
+			}
 		}
 		
 		func tribePrimaryActionTapped(_ tribe: Tribe) {
 			if focusedTribe == nil {
-				if tribe.members.count == 1 {
+				if tribe.members.others.count == 0 {
 					showTribeInviteCard(tribe: tribe)
 				} else {
 					setIsShowingTribeTea(true)
