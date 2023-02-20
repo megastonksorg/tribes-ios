@@ -33,19 +33,33 @@ struct ChatView: View {
 							.font(Font.app.title2)
 							.foregroundColor(Color.gray.opacity(0.8))
 					}
-					ZStack {
-						Text("Type a message to ")
-							.foregroundColor(Color.gray)
-						+
-						Text(viewModel.tribe.name)
-							.foregroundColor(Color.app.tertiary)
+					ZStack(alignment: .leading) {
+						Group {
+							Text("Type a message to ")
+								.foregroundColor(Color.gray)
+							+
+							Text(viewModel.tribe.name)
+								.foregroundColor(Color.app.tertiary)
+						}
+						.opacity(viewModel.canSendText ? 0.0 : 1.0)
+						TextField("", text: $viewModel.text, axis: .vertical)
+							.lineLimit(1...4)
+							.foregroundColor(.white)
 					}
 					.font(Font.app.body)
 					.multilineTextAlignment(.leading)
 					.padding(.leading, 4)
 					Spacer()
-					Button(action: { dismissAction() }) {
-						Image(systemName: "xmark.circle.fill")
+					Button(
+						action: {
+							if viewModel.canSendText {
+								
+							} else {
+								dismissAction()
+							}
+						}
+					) {
+						Image(systemName: viewModel.canSendText ? "paperplane.circle.fill" : "xmark.circle.fill")
 							.font(.system(size: 30))
 							.foregroundColor(Color.app.tertiary)
 					}

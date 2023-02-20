@@ -14,6 +14,11 @@ extension ChatView {
 		@Published var tribe: Tribe
 		@Published var isShowingMember: Bool = false
 		@Published var memberToShow: TribeMember?
+		@Published var text: String = ""
+		
+		var canSendText: Bool {
+			!text.isEmpty
+		}
 		
 		init(tribe: Tribe) {
 			self.tribe = tribe
