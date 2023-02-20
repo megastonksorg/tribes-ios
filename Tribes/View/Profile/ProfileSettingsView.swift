@@ -63,7 +63,7 @@ struct ProfileSettingsView: View {
 				onCommit: { self.viewModel.complete() },
 				text: $viewModel.name
 			)
-			.autocorrectionDisabled(true)
+			.disableAutoCorrection()
 			.focused(self.$focusField, equals: .name)
 			
 			TermsAndConditionsView.StateButton(

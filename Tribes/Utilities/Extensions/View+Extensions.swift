@@ -12,6 +12,12 @@ extension View {
 		self.modifier(BannerViewModifier(data: data))
 	}
 	
+	func disableAutoCorrection() -> some View {
+		self
+			.keyboardType(.alphabet)
+			.disableAutocorrection(true)
+	}
+	
 	func visible(_ isVisible: Bool) -> some View {
 		opacity(isVisible ? 1 : 0)
 	}

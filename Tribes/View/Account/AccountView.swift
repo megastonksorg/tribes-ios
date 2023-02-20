@@ -59,6 +59,7 @@ struct AccountView: View {
 							set: { viewModel.setEditFullNameText($0) }
 						)
 					)
+					.disableAutoCorrection()
 					.focused($focusedField, equals: .editFullName)
 					.tint(Color.white)
 					.lineLimit(1)
