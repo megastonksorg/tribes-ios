@@ -13,9 +13,9 @@ import SwiftUI
 
 extension AccountView {
 	@MainActor class ViewModel: ObservableObject {
-		enum FocusField: String, Hashable, Identifiable {
+		enum FocusField: String, Hashable, Identifiable, Equatable {
 			case editFullName
-			case sheet
+			case sheetView
 			var id: String { self.rawValue }
 		}
 		
@@ -35,7 +35,7 @@ extension AccountView {
 			var body: String {
 				switch self {
 				case .imagePicker: return ""
-				case .logout: return "Please ensure you have stored your account secret somewhere safe because it will be wiped from your device.\n\n\nYou will also lose access to your conversation history with your Tribe members."
+				case .logout: return "Please ensure you have stored your account secret somewhere safe because it will be wiped from your device.\n\n\nYou will also lose access to your Tribes conversation history"
 				case .deleteAccount: return "Please ensure you have stored your account secret somewhere safe because it will be wiped from your device.\n\n\n"
 				}
 			}
@@ -70,7 +70,7 @@ extension AccountView {
 		@Published var isSecretKeyLocked: Bool = true
 		@Published var isShowingSettings: Bool = false
 		@Published var isUploadingImage: Bool = false
-		@Published var sheet: Sheet? = .deleteAccount
+		@Published var sheet: Sheet?
 		
 		var isUpdateButtonEnabled: Bool {
 			let trimmedName = editFullNameText.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -116,6 +116,7 @@ extension AccountView {
 		}
 		
 		func setSheet(_ sheet: Sheet?) {
+			self.logoutOrDeleteConfirmation = ""
 			self.sheet = sheet
 		}
 		

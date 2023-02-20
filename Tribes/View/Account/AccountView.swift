@@ -72,11 +72,11 @@ struct AccountView: View {
 					.padding(.top)
 				if isShowingSettings {
 					Spacer()
-					Button(action: {  }) {
+					Button(action: { viewModel.setSheet(.logout) }) {
 						Text("Logout")
 					}
 					.buttonStyle(.expanded)
-					Button(action: {}) {
+					Button(action: { viewModel.setSheet(.deleteAccount) }) {
 						Text("Delete Account")
 					}
 					.buttonStyle(.expanded(invertedStyle: true))
@@ -127,11 +127,6 @@ struct AccountView: View {
 			.onChange(of: viewModel.isShowingSettings) { newIsShowingSettings in
 				if newIsShowingSettings {
 					self.focusedField = .editFullName
-				}
-			}
-			.onChange(of: viewModel.sheet) { sheet in
-				if sheet != nil {
-					self.focusedField = .sheet
 				}
 			}
 			.onChange(of: viewModel.isUploadingImage) { isUploadingImage in
@@ -222,7 +217,6 @@ struct AccountView: View {
 						.padding(.top)
 						Text(sheet.body)
 							.padding(.top, 60)
-						
 						Text(sheet.requestForConfirmation)
 							.font(Font.app.title3)
 							.padding(.top)
@@ -230,15 +224,21 @@ struct AccountView: View {
 							Text(sheet.confirmationTitle)
 								.foregroundColor(Color.gray.opacity(viewModel.logoutOrDeleteConfirmation.isEmpty ? 0.4 : 0.0))
 							TextField("", text: $viewModel.logoutOrDeleteConfirmation)
-							.focused($focusedField, equals: .sheet)
+								.focused($focusedField, equals: .sheetView)
+								.onAppear {
+									DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+										self.focusedField = .sheetView
+									}
+								}
 						}
 						.font(Font.app.title)
 						.padding(.top)
 						Spacer()
-						Button(action: {}) {
+						Button(action: { }) {
 							Text(sheet.title)
 						}
 						.buttonStyle(sheet == .logout ? .expanded : .expanded(invertedStyle: true))
+						.padding(.bottom)
 					}
 					.font(Font.app.subTitle)
 					.multilineTextAlignment(.center)
