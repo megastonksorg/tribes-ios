@@ -129,6 +129,11 @@ struct AccountView: View {
 					self.focusedField = .editFullName
 				}
 			}
+			.onChange(of: viewModel.sheet) { sheet in
+				if sheet != nil {
+					self.focusedField = .sheet
+				}
+			}
 			.onChange(of: viewModel.isUploadingImage) { isUploadingImage in
 				if !isUploadingImage {
 					self.focusedField = nil

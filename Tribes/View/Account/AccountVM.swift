@@ -36,7 +36,7 @@ extension AccountView {
 				switch self {
 				case .imagePicker: return ""
 				case .logout: return "Please ensure you have stored your account secret somewhere safe because it will be wiped from your device.\n\n\nYou will also lose access to your conversation history with your Tribe members."
-				case .deleteAccount: return "Delete Account"
+				case .deleteAccount: return "Please ensure you have stored your account secret somewhere safe because it will be wiped from your device.\n\n\n"
 				}
 			}
 			
@@ -52,7 +52,7 @@ extension AccountView {
 				switch self {
 				case .imagePicker: return ""
 				case .logout: return "Type Logout below:"
-				case .deleteAccount: return "Delete Account"
+				case .deleteAccount: return "Type Delete below:"
 				}
 			}
 		}
@@ -70,7 +70,7 @@ extension AccountView {
 		@Published var isSecretKeyLocked: Bool = true
 		@Published var isShowingSettings: Bool = false
 		@Published var isUploadingImage: Bool = false
-		@Published var sheet: Sheet? = .logout
+		@Published var sheet: Sheet? = .deleteAccount
 		
 		var isUpdateButtonEnabled: Bool {
 			let trimmedName = editFullNameText.trimmingCharacters(in: .whitespacesAndNewlines)
