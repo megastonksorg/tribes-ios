@@ -58,7 +58,7 @@ struct TextViewModifier: ViewModifier {
 				.foregroundColor(Color.app.tertiary)
 		case .tribeName(let size):
 			content
-				.font(.system(size: size, weight: .medium, design: .rounded))
+				.font(.system(size: size, weight: .semibold, design: .rounded))
 				.foregroundColor(Color.app.tertiary)
 				.multilineTextAlignment(.center)
 				.lineLimit(2)
