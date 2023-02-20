@@ -12,7 +12,7 @@ struct TribeMember: Codable, Identifiable {
 	let profilePhoto: URL
 	let publicKey: String
 	let walletAddress: String
-	
+	let joined: String
 	var id: String { walletAddress }
 }
 
@@ -21,36 +21,42 @@ extension TribeMember {
 		fullName: "Kingsley Okeke",
 		profilePhoto: URL(string: "https://kingsleyokeke.blob.core.windows.net/images/1597276037537.jpeg")!,
 		publicKey: UUID().uuidString,
-		walletAddress: UUID().uuidString
+		walletAddress: UUID().uuidString,
+		joined: ""
 	)
 	static let noop2: TribeMember = TribeMember(
 		fullName: "Kingsley Okeke",
 		profilePhoto: URL(string: "https://kingsleyokeke.blob.core.windows.net/images/1597276037537.jpeg")!,
 		publicKey: UUID().uuidString,
-		walletAddress: UUID().uuidString
+		walletAddress: UUID().uuidString,
+		joined: ""
 	)
 	static let noop3: TribeMember = TribeMember(
 		fullName: "Kingsley Okeke",
 		profilePhoto: URL(string: "https://kingsleyokeke.blob.core.windows.net/images/1597276037537.jpeg")!,
 		publicKey: UUID().uuidString,
-		walletAddress: UUID().uuidString
+		walletAddress: UUID().uuidString,
+		joined: ""
 	)
 	static let noop4: TribeMember = TribeMember(
 		fullName: "Kingsley Okeke",
 		profilePhoto: URL(string: "https://kingsleyokeke.blob.core.windows.net/images/1597276037537.jpeg")!,
 		publicKey: UUID().uuidString,
-		walletAddress: UUID().uuidString
+		walletAddress: UUID().uuidString,
+		joined: ""
 	)
 	static let noop5: TribeMember = TribeMember(
 		fullName: "Kingsley Okeke",
 		profilePhoto: URL(string: "https://kingsleyokeke.blob.core.windows.net/images/1597276037537.jpeg")!,
 		publicKey: UUID().uuidString,
-		walletAddress: UUID().uuidString
+		walletAddress: UUID().uuidString,
+		joined: ""
 	)
 	static let noop6: TribeMember = TribeMember(
 		fullName: "Kingsley Okeke",
 		profilePhoto: URL(string: "https://kingsleyokeke.blob.core.windows.net/images/1597276037537.jpeg")!,
 		publicKey: UUID().uuidString,
-		walletAddress: UUID().uuidString
+		walletAddress: UUID().uuidString,
+		joined: ""
 	)
 }
