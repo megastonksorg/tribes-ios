@@ -12,9 +12,9 @@ extension View {
 		self.modifier(BannerViewModifier(data: data))
 	}
 	
-	func disableAutoCorrection() -> some View {
+	func disableAutoCorrection(isNameField: Bool) -> some View {
 		self
-			.keyboardType(.alphabet)
+			.keyboardType(isNameField ? .alphabet : .default)
 			.disableAutocorrection(true)
 	}
 	

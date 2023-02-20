@@ -28,7 +28,7 @@ struct CreateTribeView: View {
 					set: { viewModel.setName($0) }
 				)
 			)
-			.disableAutoCorrection()
+			.disableAutoCorrection(isNameField: false)
 			.focused($focusedField, equals: .name)
 			.padding(.horizontal)
 			.padding(.top, SizeConstants.subTitleSpacing * 2)

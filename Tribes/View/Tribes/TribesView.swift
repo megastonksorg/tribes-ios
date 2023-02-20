@@ -105,7 +105,7 @@ struct TribesView: View {
 												set: { viewModel.setEditTribeNameText($0) }
 											)
 										)
-										.disableAutoCorrection()
+										.disableAutoCorrection(isNameField: false)
 										.submitLabel(.done)
 										.onSubmit { viewModel.updateTribeName() }
 										.font(.system(size: fontSize, weight: .medium, design: .rounded))

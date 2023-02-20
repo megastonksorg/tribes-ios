@@ -59,7 +59,7 @@ struct AccountView: View {
 							set: { viewModel.setEditFullNameText($0) }
 						)
 					)
-					.disableAutoCorrection()
+					.disableAutoCorrection(isNameField: true)
 					.focused($focusedField, equals: .editFullName)
 					.tint(Color.white)
 					.lineLimit(1)
@@ -224,6 +224,7 @@ struct AccountView: View {
 							Text(sheet.confirmationTitle)
 								.foregroundColor(Color.gray.opacity(viewModel.logoutOrDeleteConfirmation.isEmpty ? 0.4 : 0.0))
 							TextField("", text: $viewModel.logoutOrDeleteConfirmation)
+								.tint(Color.white)
 								.focused($focusedField, equals: .sheetView)
 								.onAppear {
 									DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {

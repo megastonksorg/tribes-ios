@@ -13,7 +13,7 @@ import SwiftUI
 
 extension AccountView {
 	@MainActor class ViewModel: ObservableObject {
-		enum FocusField: String, Hashable, Identifiable, Equatable {
+		enum FocusField: String, Hashable, Identifiable {
 			case editFullName
 			case sheetView
 			var id: String { self.rawValue }
