@@ -40,7 +40,10 @@ extension Tribe {
 			TribeMember.noop3,
 			TribeMember.noop4,
 			TribeMember.noop5,
-			TribeMember.noop6
+			TribeMember.noop6,
+			TribeMember.noop7,
+			TribeMember.noop8,
+			TribeMember.noop9,
 		]
 	)
 	static let noop3: Tribe = Tribe(

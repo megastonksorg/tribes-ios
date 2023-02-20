@@ -59,4 +59,25 @@ extension TribeMember {
 		walletAddress: UUID().uuidString,
 		joined: ""
 	)
+	static let noop7: TribeMember = TribeMember(
+		fullName: "Kingsley Okeke",
+		profilePhoto: URL(string: "https://kingsleyokeke.blob.core.windows.net/images/1597276037537.jpeg")!,
+		publicKey: UUID().uuidString,
+		walletAddress: UUID().uuidString,
+		joined: ""
+	)
+	static let noop8: TribeMember = TribeMember(
+		fullName: "Kingsley Okeke",
+		profilePhoto: URL(string: "https://kingsleyokeke.blob.core.windows.net/images/1597276037537.jpeg")!,
+		publicKey: UUID().uuidString,
+		walletAddress: UUID().uuidString,
+		joined: ""
+	)
+	static let noop9: TribeMember = TribeMember(
+		fullName: "Kingsley Okeke",
+		profilePhoto: URL(string: "https://kingsleyokeke.blob.core.windows.net/images/1597276037537.jpeg")!,
+		publicKey: UUID().uuidString,
+		walletAddress: UUID().uuidString,
+		joined: ""
+	)
 }
