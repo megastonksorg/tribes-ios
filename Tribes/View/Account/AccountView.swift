@@ -237,6 +237,7 @@ struct AccountView: View {
 							Text(sheet.title)
 						}
 						.buttonStyle(sheet == .logout ? .expanded : .expanded(invertedStyle: true))
+						.disabled(!viewModel.isConfirmationButtonEnabled)
 						.padding(.bottom)
 					}
 					.font(Font.app.subTitle)

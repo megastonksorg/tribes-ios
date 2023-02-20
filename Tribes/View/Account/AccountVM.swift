@@ -80,6 +80,10 @@ extension AccountView {
 			return false
 		}
 		
+		var isConfirmationButtonEnabled: Bool {
+			return logoutOrDeleteConfirmation == sheet?.confirmationTitle
+		}
+		
 		//Clients
 		let apiClient: APIClient = APIClient.shared
 		
