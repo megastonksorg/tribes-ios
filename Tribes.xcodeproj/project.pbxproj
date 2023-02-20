@@ -114,6 +114,8 @@
 		D0AAF2DE29761F49003536C6 /* ChatType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AAF2DD29761F49003536C6 /* ChatType.swift */; };
 		D0BFEA4F298736D200FB6F22 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0BFEA4E298736D200FB6F22 /* LaunchScreen.storyboard */; };
 		D0BFEA512987978500FB6F22 /* Publishers+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BFEA502987978500FB6F22 /* Publishers+Extensions.swift */; };
+		D0C3DBF029A3FE1F0066FBB8 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C3DBEF29A3FE1F0066FBB8 /* ChatView.swift */; };
+		D0C3DBF229A3FE300066FBB8 /* ChatVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C3DBF129A3FE300066FBB8 /* ChatVM.swift */; };
 		D0C65AA32970988900E527F9 /* Tribe.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C65AA22970988900E527F9 /* Tribe.swift */; };
 		D0C65AA52970A24D00E527F9 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C65AA42970A24D00E527F9 /* TextView.swift */; };
 		D0C65AA72970A7E600E527F9 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C65AA62970A7E600E527F9 /* Fonts.swift */; };
@@ -251,6 +253,8 @@
 		D0AAF2DD29761F49003536C6 /* ChatType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatType.swift; sourceTree = "<group>"; };
 		D0BFEA4E298736D200FB6F22 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D0BFEA502987978500FB6F22 /* Publishers+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publishers+Extensions.swift"; sourceTree = "<group>"; };
+		D0C3DBEF29A3FE1F0066FBB8 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		D0C3DBF129A3FE300066FBB8 /* ChatVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatVM.swift; sourceTree = "<group>"; };
 		D0C65AA22970988900E527F9 /* Tribe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tribe.swift; sourceTree = "<group>"; };
 		D0C65AA42970A24D00E527F9 /* TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
 		D0C65AA62970A7E600E527F9 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
@@ -525,7 +529,6 @@
 		D030D3002957460B0011128F /* View */ = {
 			isa = PBXGroup;
 			children = (
-				D0C3DBEE29A3FCB20066FBB8 /* Chat */,
 				D06FDE7B2999C15D0013A55E /* Account */,
 				D07278B22974CCAD00650A15 /* Tribes */,
 				D03B30A12968DAE700F797CE /* Home */,
@@ -533,6 +536,7 @@
 				D0D2669529600BAB00A94183 /* Draft */,
 				D0D26690295FECEF00A94183 /* Compose */,
 				D015807A295E03810087545A /* Camera */,
+				D0C3DBEE29A3FCB20066FBB8 /* Chat */,
 				D030D3122957460B0011128F /* Profile */,
 				D030D30F2957460B0011128F /* Authenticate */,
 				D030D3052957460B0011128F /* SecretKey */,
@@ -709,6 +713,8 @@
 		D0C3DBEE29A3FCB20066FBB8 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				D0C3DBEF29A3FE1F0066FBB8 /* ChatView.swift */,
+				D0C3DBF129A3FE300066FBB8 /* ChatVM.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -882,6 +888,7 @@
 				D076636929948FEB00946F7B /* TokenManager.swift in Sources */,
 				D0C65AA32970988900E527F9 /* Tribe.swift in Sources */,
 				D030D2F7295745F90011128F /* MnemonicWord.swift in Sources */,
+				D0C3DBF229A3FE300066FBB8 /* ChatVM.swift in Sources */,
 				D0D2668F295F717100A94183 /* CaptureClient+Utilities.swift in Sources */,
 				D030D28129573E9A0011128F /* TribesApp.swift in Sources */,
 				D030D2A8295745C20011128F /* URLSession+Validation.swift in Sources */,
@@ -942,6 +949,7 @@
 				D0A3F0852980AA2B000308BF /* TribeInviteView.swift in Sources */,
 				D07278C2297603DC00650A15 /* ChatBubble.swift in Sources */,
 				D06FDE7F2999C2F50013A55E /* AccountVM.swift in Sources */,
+				D0C3DBF029A3FE1F0066FBB8 /* ChatView.swift in Sources */,
 				D030D2F6295745F90011128F /* EULA.swift in Sources */,
 				D030D2D7295745E90011128F /* View+Frame.swift in Sources */,
 				D076636D2995313100946F7B /* TribesRepository.swift in Sources */,
