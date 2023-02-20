@@ -10,6 +10,8 @@ import SwiftUI
 struct ChatView: View {
 	@StateObject var viewModel: ViewModel
 	
+	@State var isShowingMemberImage: Bool = false
+	
 	init(viewModel: ViewModel) {
 		self._viewModel = StateObject(wrappedValue: viewModel)
 	}
@@ -112,6 +114,8 @@ struct ChatView: View {
 			.padding()
 			UserAvatar(url: member.profilePhoto)
 				.frame(dimension: 140)
+				.opacity(self.isShowingMemberImage ? 1.0 : 0.0)
+				.transition(.opacity)
 			Spacer()
 			Group {
 				Text(member.fullName)
@@ -138,7 +142,17 @@ struct ChatView: View {
 			.padding(.bottom)
 		}
 		.multilineTextAlignment(.center)
-		.id(1)
+		.onAppear {
+			//Need this workaround because the Image view does not animate with the Card View
+			DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+				withAnimation(.easeInOut(duration: 0.5)) {
+					self.isShowingMemberImage = true
+				}
+			}
+		}
+		.onDisappear {
+			self.isShowingMemberImage = false
+		}
 	}
 }
 
