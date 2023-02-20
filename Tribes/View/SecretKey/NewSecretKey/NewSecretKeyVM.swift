@@ -33,10 +33,10 @@ extension NewSecretKeyView {
 							self.walletAddress = self.walletClient.getAddress(hdWallet)
 							self.phrase = IdentifiedArray(uniqueElements: mnemonicWords)
 						case .failure(let error):
-							self.banner = BannerData(title: error.title, detail: error.errorDescription ?? "", type: .error)
+							self.banner = BannerData(error: error)
 					}
 				case .failure(let error):
-					self.banner = BannerData(title: error.title, detail: error.errorDescription ?? "", type: .error)
+					self.banner = BannerData(error: error)
 			}
 		}
 		

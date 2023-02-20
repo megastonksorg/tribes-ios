@@ -40,7 +40,7 @@ extension VerifySecretPhraseView {
 					)
 				case .failure(let error):
 					self.phraseOptions = []
-					self.banner = BannerData(title: error.title, detail: error.errorDescription ?? "", type: .error)
+					self.banner = BannerData(error: error)
 			}
 		}
 		
@@ -81,7 +81,7 @@ extension VerifySecretPhraseView {
 					
 				case .failure(let error):
 					self.isLoading = false
-					self.banner = BannerData(title: error.title, detail: error.errorDescription ?? "", type: .error)
+					self.banner = BannerData(error: error)
 			}
 		}
 	}

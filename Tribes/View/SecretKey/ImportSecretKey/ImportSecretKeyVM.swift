@@ -118,7 +118,7 @@ extension ImportSecretKeyView {
 						case .finished: return
 						case .failure(let error):
 							self.isLoading = false
-							self.banner = BannerData(title: error.title, detail: error.errorDescription ?? "", type: .error)
+							self.banner = BannerData(error: error)
 						}
 					}, receiveValue: { response in
 						self.isLoading = false
@@ -141,7 +141,7 @@ extension ImportSecretKeyView {
 					})
 					.store(in: &cancellables)
 			case .failure(let error):
-				self.banner = BannerData(detail: error.localizedDescription, type: .error)
+				self.banner = BannerData(error: error)
 				return
 			}
 		}

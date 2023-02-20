@@ -30,7 +30,7 @@ extension WelcomePageView {
 						self.walletClient.saveMnemonic(mnemonic: wallet.mnemonic)
 						AppRouter.pushStack(stack: .welcome(.createWallet))
 				case .failure(let error):
-					self.banner = BannerData(title: error.title, detail: error.localizedDescription, type: .error)
+					self.banner = BannerData(error: error)
 				}
 			}
 			else {

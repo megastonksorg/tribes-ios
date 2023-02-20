@@ -97,7 +97,7 @@ extension ProfileSettingsView {
 					case .editing: return
 					case .creation:
 						if walletAddress == nil {
-							self.banner = BannerData(detail: "Cannot Create user without a valid wallet", type: .warning)
+							self.banner = BannerData(detail: "Cannot Create user without a valid wallet", type: .info)
 							self.isLoading = false
 						}
 						guard let walletAddress = self.walletAddress,
@@ -128,7 +128,7 @@ extension ProfileSettingsView {
 									case .finished: return
 									case .failure(let error):
 										self.isLoading = false
-										self.banner = BannerData(title: error.title, detail: error.errorDescription ?? "", type: .error)
+										self.banner = BannerData(error: error)
 								}
 							}, receiveValue: { registerResponse in
 								let user: User = User(
