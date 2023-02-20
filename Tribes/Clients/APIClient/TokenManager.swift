@@ -28,7 +28,10 @@ extension APIClient {
 					guard let self = self else { return }
 					do {
 						//Force a refresh if it has been more one minute since the last refresh
-						if Date.now.timeIntervalSince(self.lastRefreshed ?? Date.distantPast) > 1.0 {
+						if self.lastRefreshed == nil {
+							self.lastRefreshed = Date.now
+						}
+						if Date.now.timeIntervalSince(self.lastRefreshed!) > 1.0 {
 							self.isRefreshing = false
 						}
 						if !self.isRefreshing {
