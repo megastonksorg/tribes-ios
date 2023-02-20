@@ -93,7 +93,6 @@ struct LeaveTribeView: View {
 					},
 					leading: {
 						Image(systemName: "exclamationmark.circle.fill")
-							
 					},
 					trailing: { EmptyView() }
 				)

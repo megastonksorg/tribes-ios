@@ -160,7 +160,7 @@ extension TribesView {
 			setLeaveTribeVM(LeaveTribeView.ViewModel(tribe: tribe))
 		}
 		
-		func tribeDoubleTapped(_ tribe: Tribe) {
+		func openCompose(_ tribe: Tribe) {
 			NotificationCenter.default.post(Notification(name: .openCompose))
 		}
 		

@@ -112,7 +112,7 @@ struct JoinTribeView: View {
 							TribeAvatar(
 								tribe: tribe,
 								size: 260,
-								contextAction: { _ in },
+								avatarContextAction: { _ in },
 								primaryAction: {_ in},
 								secondaryAction: {_ in},
 								inviteAction: {_ in},

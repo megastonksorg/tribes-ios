@@ -79,7 +79,7 @@ struct TribesView: View {
 									tribe: focusedTribe,
 									size: size,
 									showName: false,
-									contextAction: { _ in },
+									avatarContextAction: { _ in },
 									primaryAction: { _ in },
 									secondaryAction: { _ in },
 									inviteAction: { viewModel.tribeInviteActionTapped($0) },
@@ -180,6 +180,21 @@ struct TribesView: View {
 						)
 					}
 				}
+			}
+			.overlay(isShown: viewModel.isShowingTribeTea) {
+				Color.black.opacity(0.8)
+					.transition(.opacity)
+					.overlay(
+						VideoPlayerView(
+							url: URL(string: "https://kingsleyokeke.blob.core.windows.net/videos/Untitled.mp4")!
+						)
+					)
+					.overlay(alignment: .topTrailing) {
+						XButton {
+							viewModel.setIsShowingTribeTea(false)
+						}
+						.padding()
+					}
 			}
 			.sheet(
 				isPresented: Binding(
@@ -378,8 +393,8 @@ struct TribesView: View {
 			TribeAvatar(
 				tribe: tribe,
 				size: size,
-				contextAction: { viewModel.setFocusedTribe($0) },
-				doubleTapAction: { viewModel.tribeDoubleTapped($0) },
+				avatarContextAction: { viewModel.openCompose($0) },
+				nameContextAction: { viewModel.setFocusedTribe($0) },
 				primaryAction: { viewModel.tribePrimaryActionTapped($0) },
 				secondaryAction: { viewModel.tribeSecondaryActionTapped($0) },
 				inviteAction: { viewModel.tribeInviteActionTapped($0) },

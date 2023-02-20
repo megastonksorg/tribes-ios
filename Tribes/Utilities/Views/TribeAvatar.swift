@@ -19,8 +19,10 @@ struct TribeAvatar: View {
 	
 	let showName: Bool
 	
-	let contextAction: (_ tribe: Tribe) -> ()
-	let doubleTapAction: (_ tribe: Tribe) -> ()
+	let longPressMinimumDuration: CGFloat
+	
+	let avatarContextAction: (_ tribe: Tribe) -> ()
+	let nameContextAction: (_ tribe: Tribe) -> ()
 	let primaryAction: (_ tribe: Tribe) -> ()
 	let secondaryAction: (_ tribe: Tribe) -> ()
 	let inviteAction: (_ tribe: Tribe) -> ()
@@ -30,12 +32,14 @@ struct TribeAvatar: View {
 		tribe.members.count <= 10
 	}
 	
+	@State var isSingleTapTapped: Bool = false
+	
 	init(
 		tribe: Tribe,
 		size: CGFloat,
 		showName: Bool = true,
-		contextAction: @escaping (_ tribe: Tribe) -> (),
-		doubleTapAction: @escaping (_ tribe: Tribe) -> () = { _ in },
+		avatarContextAction: @escaping (_ tribe: Tribe) -> (),
+		nameContextAction: @escaping (_ tribe: Tribe) -> () = { _ in },
 		primaryAction: @escaping (_ tribe: Tribe) -> (),
 		secondaryAction: @escaping (_ tribe: Tribe) -> (),
 		inviteAction: @escaping (_ tribe: Tribe) -> (),
@@ -52,8 +56,10 @@ struct TribeAvatar: View {
 		
 		self.showName = showName
 		
-		self.contextAction = contextAction
-		self.doubleTapAction = doubleTapAction
+		self.longPressMinimumDuration = 0.5
+		
+		self.avatarContextAction = avatarContextAction
+		self.nameContextAction = nameContextAction
 		self.primaryAction = primaryAction
 		self.secondaryAction = secondaryAction
 		self.inviteAction = inviteAction
@@ -371,35 +377,22 @@ struct TribeAvatar: View {
 					}
 			}
 			.buttonStyle(.insideScaling)
+			.simultaneousGesture(
+				LongPressGesture(minimumDuration: longPressMinimumDuration)
+					.onEnded { _ in
+						avatarContextAction(self.tribe)
+					}
+			)
 			if self.showName {
 				TribeNameView(name: name, fontSize: nameSize, action: { secondaryAction(self.tribe) })
+					.simultaneousGesture(
+						LongPressGesture(minimumDuration: longPressMinimumDuration)
+							.onEnded { _ in
+								nameContextAction(self.tribe)
+							}
+					)
 			}
 		}
-		.if(members.count > 0) { view in
-			view
-				.simultaneousGesture(
-					TapGesture(count: 2)
-						.onEnded { doubleTapAction(self.tribe) }
-						.exclusively(
-							before: TapGesture(count: 1).onEnded { primaryAction(self.tribe) }
-						)
-				)
-		}
-		.if(members.count == 0) { view in
-			view
-				.simultaneousGesture(
-					TapGesture()
-						.onEnded {
-							primaryAction(self.tribe)
-						}
-				)
-		}
-		.simultaneousGesture(
-			LongPressGesture(minimumDuration: 0.5)
-				.onEnded { _ in
-					contextAction(self.tribe)
-				}
-		)
 	}
 	
 	@ViewBuilder
@@ -452,7 +445,7 @@ struct TribeAvatar_Previews: PreviewProvider {
 						members: Array(repeating: TribeMember.noop1, count: 10)
 					),
 					size: 180,
-					contextAction: { _ in },
+					avatarContextAction: { _ in },
 					primaryAction: { _ in },
 					secondaryAction: { _ in },
 					inviteAction: {_ in },
@@ -468,7 +461,7 @@ struct TribeAvatar_Previews: PreviewProvider {
 					),
 					size: 180,
 					showName: false,
-					contextAction: { _ in },
+					avatarContextAction: { _ in },
 					primaryAction: { _ in },
 					secondaryAction: { _ in },
 					inviteAction: { _ in },
