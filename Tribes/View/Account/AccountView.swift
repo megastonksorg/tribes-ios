@@ -225,11 +225,9 @@ struct AccountView: View {
 								.foregroundColor(Color.gray.opacity(viewModel.logoutOrDeleteConfirmation.isEmpty ? 0.4 : 0.0))
 							TextField("", text: $viewModel.logoutOrDeleteConfirmation)
 								.tint(Color.white)
-								.focused($focusedField, equals: .sheetView)
-								.onAppear {
-									DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-										self.focusedField = .sheetView
-									}
+								.introspectTextField { textField in
+									//We need this because focusField does not work in a sheet here
+									textField.becomeFirstResponder()
 								}
 						}
 						.font(Font.app.title)
