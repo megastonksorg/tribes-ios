@@ -116,6 +116,7 @@
 		D0BFEA512987978500FB6F22 /* Publishers+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BFEA502987978500FB6F22 /* Publishers+Extensions.swift */; };
 		D0C3DBF029A3FE1F0066FBB8 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C3DBEF29A3FE1F0066FBB8 /* ChatView.swift */; };
 		D0C3DBF229A3FE300066FBB8 /* ChatVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C3DBF129A3FE300066FBB8 /* ChatVM.swift */; };
+		D0C3DBF429A402E90066FBB8 /* CalloutRectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C3DBF329A402E90066FBB8 /* CalloutRectangle.swift */; };
 		D0C65AA32970988900E527F9 /* Tribe.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C65AA22970988900E527F9 /* Tribe.swift */; };
 		D0C65AA52970A24D00E527F9 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C65AA42970A24D00E527F9 /* TextView.swift */; };
 		D0C65AA72970A7E600E527F9 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C65AA62970A7E600E527F9 /* Fonts.swift */; };
@@ -255,6 +256,7 @@
 		D0BFEA502987978500FB6F22 /* Publishers+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publishers+Extensions.swift"; sourceTree = "<group>"; };
 		D0C3DBEF29A3FE1F0066FBB8 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		D0C3DBF129A3FE300066FBB8 /* ChatVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatVM.swift; sourceTree = "<group>"; };
+		D0C3DBF329A402E90066FBB8 /* CalloutRectangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalloutRectangle.swift; sourceTree = "<group>"; };
 		D0C65AA22970988900E527F9 /* Tribe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tribe.swift; sourceTree = "<group>"; };
 		D0C65AA42970A24D00E527F9 /* TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
 		D0C65AA62970A7E600E527F9 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
@@ -662,6 +664,7 @@
 			children = (
 				D07278BD297602C100650A15 /* CustomRoundedRectangle.swift */,
 				D07278BF2976039600650A15 /* RoundedTriangle.swift */,
+				D0C3DBF329A402E90066FBB8 /* CalloutRectangle.swift */,
 			);
 			path = Shapes;
 			sourceTree = "<group>";
@@ -958,6 +961,7 @@
 				D07663702995C1EE00946F7B /* CGFloat+Extensions.swift in Sources */,
 				D07278BB2975FB9600650A15 /* CalloutView.swift in Sources */,
 				D01031572978D73500ACC333 /* UserAvatar.swift in Sources */,
+				D0C3DBF429A402E90066FBB8 /* CalloutRectangle.swift in Sources */,
 				D08EBF28297FD105001B7A5C /* JoinTribeView.swift in Sources */,
 				D0D266A22963459800A94183 /* VideoPlayerView.swift in Sources */,
 				D030D2E3295745E90011128F /* SlidingButtonView.swift in Sources */,
