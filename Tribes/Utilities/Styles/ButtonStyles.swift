@@ -21,9 +21,8 @@ struct ExpandedButtonStyle: ButtonStyle {
 	
 	func makeBody(configuration: Configuration) -> some View {
 		let foregroundColor: Color = {
-			if self.invertedStyle { return Color.app.tertiary }
 			if self.isEnabled {
-				return .white
+				return self.invertedStyle ? Color.app.tertiary : Color.white
 			} else {
 				return .gray
 			}
