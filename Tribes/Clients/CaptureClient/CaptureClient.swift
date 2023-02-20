@@ -78,7 +78,6 @@ class CaptureClient:
 	private var captureVideoDataOutput: AVCaptureVideoDataOutput?
 	private let captureSession: AVCaptureSession = AVCaptureSession()
 	private let captureValueSubject = PassthroughSubject<CaptureValue, Never>()
-	private var isSessionRunning: Bool = false
 	
 	private var recorder: Recorder?
 	
@@ -89,6 +88,7 @@ class CaptureClient:
 	var captureMode: CaptureMode = .imageAndVideo
 	var isCapturingImage: Bool = false
 	var isRecording: Bool = false
+	var isSessionRunning: Bool = false
 	var setupResult: SessionSetupResult = .success
 	var recorderDuration: Double = 0
 	

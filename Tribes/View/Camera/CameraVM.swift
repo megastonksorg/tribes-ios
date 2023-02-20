@@ -97,9 +97,11 @@ extension CameraView {
 		}
 		
 		func didAppear() {
-			cancelVideoRecordingAndInvalidateTimer()
-			resetCaptureValues()
-			self.captureClient.startCaptureSession()
+			if !self.captureClient.isSessionRunning {
+				cancelVideoRecordingAndInvalidateTimer()
+				resetCaptureValues()
+				self.captureClient.startCaptureSession()
+			}
 		}
 		
 		func didDisappear() {
