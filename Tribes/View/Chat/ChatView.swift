@@ -40,11 +40,20 @@ struct ChatView: View {
 				.frame(height: 14)
 			
 			VStack{
+				let tribeAvatarSize: CGFloat = 80
 				HStack {
+					ScrollView(.horizontal, showsIndicators: false) {
+						LazyHStack(alignment: .bottom) {
+							ForEach(viewModel.tribe.members) { member in
+								memberAvatar(member: member)
+							}
+						}
+					}
+					.frame(maxHeight: tribeAvatarSize + 20)
 					Spacer()
 					TribeAvatar(
 						tribe: viewModel.tribe,
-						size: 80,
+						size: tribeAvatarSize,
 						avatarContextAction: { _ in },
 						primaryAction: { _ in },
 						secondaryAction: { _ in },
@@ -54,10 +63,24 @@ struct ChatView: View {
 				}
 			}
 			.padding([.horizontal, .bottom])
+			.offset(x: 2)
 		}
 		.pushOutFrame()
 		.background(Color.app.background)
 		.ignoresSafeArea()
+	}
+	
+	@ViewBuilder
+	func memberAvatar(member: TribeMember) -> some View {
+		VStack {
+			Spacer()
+			UserAvatar(url: member.profilePhoto)
+				.frame(dimension: 50)
+			Spacer()
+			Text(member.fullName)
+				.font(.system(size: FontSizes.footnote, weight: .semibold))
+				.foregroundColor(Color.gray)
+		}
 	}
 }
 
