@@ -25,9 +25,9 @@ struct CalloutRectangle: Shape {
 		let p6 = CGPoint(x: corners.contains(.bottomRight) ? rect.maxX - radius : rect.maxX, y: rect.maxY )
 		
 		let p7 = CGPoint(x: rect.maxX * 0.90, y: rect.maxY)
-		let p8 = CGPoint(x: rect.maxX * 0.85, y: rect.maxY + 20)
+		let p8 = CGPoint(x: rect.maxX * 0.86, y: rect.maxY + 20)
 		
-		let p9 = CGPoint(x: rect.maxX * 0.80, y: rect.maxY)
+		let p9 = CGPoint(x: rect.maxX * 0.82, y: rect.maxY)
 		
 		let p10 = CGPoint(x: corners.contains(.bottomLeft) ? rect.minX + radius : rect.minX, y: rect.maxY )
 		let p11 = CGPoint(x: rect.minX, y: corners.contains(.bottomLeft) ? rect.maxY - radius : rect.maxY )
