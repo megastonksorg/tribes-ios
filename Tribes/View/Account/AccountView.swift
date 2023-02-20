@@ -220,16 +220,24 @@ struct AccountView: View {
 						Text(sheet.requestForConfirmation)
 							.font(Font.app.title3)
 							.padding(.top)
-						ZStack {
-							Text(sheet.confirmationTitle)
-								.foregroundColor(Color.gray.opacity(viewModel.logoutOrDeleteConfirmation.isEmpty ? 0.4 : 0.0))
-							TextField("", text: $viewModel.logoutOrDeleteConfirmation)
-								.tint(Color.white)
-								.introspectTextField { textField in
-									//We need this because focusField does not work in a sheet here
-									textField.becomeFirstResponder()
+						SymmetricHStack(
+							content: {
+								ZStack {
+									Text(sheet.confirmationTitle)
+										.foregroundColor(Color.gray.opacity(viewModel.logoutOrDeleteConfirmation.isEmpty ? 0.4 : 0.0))
+									TextField("", text: $viewModel.logoutOrDeleteConfirmation)
+										.tint(Color.white)
+										.introspectTextField { textField in
+											//We need this because focusField does not work in a sheet here
+											textField.becomeFirstResponder()
+										}
 								}
-						}
+							},
+							leading: {
+								Image(systemName: "exclamationmark.circle.fill")
+							},
+							trailing: { EmptyView() }
+						)
 						.font(Font.app.title)
 						.padding(.top)
 						Spacer()
