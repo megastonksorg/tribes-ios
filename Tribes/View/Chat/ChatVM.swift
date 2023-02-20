@@ -9,6 +9,10 @@ import Foundation
 
 extension ChatView {
 	@MainActor class ViewModel: ObservableObject {
+		@Published var tribe: Tribe
 		
+		init(tribe: Tribe) {
+			self.tribe = tribe
+		}
 	}
 }
