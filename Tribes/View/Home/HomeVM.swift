@@ -64,6 +64,7 @@ extension HomeView {
 		}
 		
 		@objc func openCompose() {
+			self.composeVM.cameraVM.didAppear()
 			self.currentPage = .compose
 		}
 		
