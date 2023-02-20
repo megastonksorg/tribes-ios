@@ -68,7 +68,7 @@ struct TribeAvatar: View {
 	
 	var body: some View {
 		VStack {
-			Button(action: {  }) {
+			Button(action: { primaryAction(self.tribe) }) {
 				Circle()
 					.fill(Color.app.primary)
 					.frame(dimension: size)
