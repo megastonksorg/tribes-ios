@@ -72,7 +72,7 @@ struct AccountView: View {
 				if isShowingSettings {
 					Spacer()
 					Button(action: {  }) {
-						Text("Logout of Account")
+						Text("Logout")
 					}
 					.buttonStyle(.expanded)
 					Button(action: {}) {
