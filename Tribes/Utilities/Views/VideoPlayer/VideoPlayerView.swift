@@ -38,12 +38,13 @@ struct VideoPlayerView: View {
 			
 			Image(uiImage: thumbnail)
 				.resizable()
-				.scaledToFit()
+				.scaledToFill()
 				.visible(shouldShowThumbnail)
 			
 			Color.clear
 				.preference(key: PlaybackProgressKey.self, value: playbackProgress)
 		}
+		.ignoresSafeArea()
 		.background {
 			GeometryReader { proxy in
 				Color.clear
