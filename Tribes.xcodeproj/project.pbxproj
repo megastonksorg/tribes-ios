@@ -525,6 +525,7 @@
 		D030D3002957460B0011128F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				D0C3DBEE29A3FCB20066FBB8 /* Chat */,
 				D06FDE7B2999C15D0013A55E /* Account */,
 				D07278B22974CCAD00650A15 /* Tribes */,
 				D03B30A12968DAE700F797CE /* Home */,
@@ -533,7 +534,7 @@
 				D0D26690295FECEF00A94183 /* Compose */,
 				D015807A295E03810087545A /* Camera */,
 				D030D3122957460B0011128F /* Profile */,
-				D030D30F2957460B0011128F /* AuthenticateView */,
+				D030D30F2957460B0011128F /* Authenticate */,
 				D030D3052957460B0011128F /* SecretKey */,
 				D030D3012957460B0011128F /* Welcome */,
 			);
@@ -587,13 +588,13 @@
 			path = ImportSecretKey;
 			sourceTree = "<group>";
 		};
-		D030D30F2957460B0011128F /* AuthenticateView */ = {
+		D030D30F2957460B0011128F /* Authenticate */ = {
 			isa = PBXGroup;
 			children = (
 				D030D3102957460B0011128F /* AuthenticateView.swift */,
 				D030D3112957460B0011128F /* AuthenticateVM.swift */,
 			);
-			path = AuthenticateView;
+			path = Authenticate;
 			sourceTree = "<group>";
 		};
 		D030D3122957460B0011128F /* Profile */ = {
@@ -703,6 +704,13 @@
 				D0A3F0842980AA2B000308BF /* TribeInviteView.swift */,
 			);
 			path = Invite;
+			sourceTree = "<group>";
+		};
+		D0C3DBEE29A3FCB20066FBB8 /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Chat;
 			sourceTree = "<group>";
 		};
 		D0C65AA82970A80300E527F9 /* Resources */ = {
