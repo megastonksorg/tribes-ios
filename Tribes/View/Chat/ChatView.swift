@@ -76,7 +76,7 @@ struct ChatView: View {
 				}
 			}
 			.padding([.horizontal, .bottom])
-			.padding(.bottom, 2)
+			.padding(.bottom, 10)
 			.offset(x: 2)
 		}
 		.pushOutFrame()
@@ -100,7 +100,7 @@ struct ChatView: View {
 			VStack {
 				Spacer()
 				UserAvatar(url: member.profilePhoto)
-					.frame(dimension: 50)
+					.frame(dimension: 55)
 				Spacer()
 				Text(member.fullName)
 					.font(.system(size: FontSizes.footnote, weight: .semibold))
