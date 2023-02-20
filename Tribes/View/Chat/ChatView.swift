@@ -31,22 +31,33 @@ struct ChatView: View {
 							startPoint: .top,
 							endPoint: .bottom
 						),
-						lineWidth: 2
+						lineWidth: 1.5
 					)
 			)
 			.padding(.horizontal, 4)
 			
+			Spacer()
+				.frame(height: 14)
+			
 			VStack{
 				HStack {
-					Text("Yes")
 					Spacer()
+					TribeAvatar(
+						tribe: viewModel.tribe,
+						size: 80,
+						avatarContextAction: { _ in },
+						primaryAction: { _ in },
+						secondaryAction: { _ in },
+						inviteAction: { _ in },
+						leaveAction: { _ in }
+					)
 				}
 			}
-			.frame(height: 80)
-			.padding(.horizontal)
+			.padding([.horizontal, .bottom])
 		}
 		.pushOutFrame()
 		.background(Color.app.background)
+		.ignoresSafeArea()
 	}
 }
 
