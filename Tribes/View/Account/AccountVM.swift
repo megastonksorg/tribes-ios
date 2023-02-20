@@ -15,7 +15,7 @@ extension AccountView {
 	@MainActor class ViewModel: ObservableObject {
 		enum FocusField: String, Hashable, Identifiable {
 			case editFullName
-			
+			case sheet
 			var id: String { self.rawValue }
 		}
 		
@@ -23,6 +23,38 @@ extension AccountView {
 			case imagePicker
 			case logout
 			case deleteAccount
+			
+			var title: String {
+				switch self {
+				case .imagePicker: return ""
+				case .logout: return "Logout"
+				case .deleteAccount: return "Delete Account"
+				}
+			}
+			
+			var body: String {
+				switch self {
+				case .imagePicker: return ""
+				case .logout: return "Please ensure you have stored your account secret somewhere safe because it will be wiped from your device.\n\n\nYou will also lose access to your conversation history with your Tribe members."
+				case .deleteAccount: return "Delete Account"
+				}
+			}
+			
+			var confirmationTitle: String {
+				switch self {
+				case .imagePicker: return ""
+				case .logout: return "Logout"
+				case .deleteAccount: return "Delete"
+				}
+			}
+			
+			var requestForConfirmation: String {
+				switch self {
+				case .imagePicker: return ""
+				case .logout: return "Type Logout below:"
+				case .deleteAccount: return "Delete Account"
+				}
+			}
 		}
 		
 		private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
@@ -32,12 +64,13 @@ extension AccountView {
 		@Published var editFullNameText: String = ""
 		@Published var editImage: UIImage?
 		@Published var user: User
+		@Published var logoutOrDeleteConfirmation: String = ""
 		
 		@Published var banner: BannerData?
 		@Published var isSecretKeyLocked: Bool = true
 		@Published var isShowingSettings: Bool = false
 		@Published var isUploadingImage: Bool = false
-		@Published var sheet: Sheet?
+		@Published var sheet: Sheet? = .logout
 		
 		var isUpdateButtonEnabled: Bool {
 			let trimmedName = editFullNameText.trimmingCharacters(in: .whitespacesAndNewlines)

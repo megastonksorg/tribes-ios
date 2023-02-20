@@ -182,9 +182,68 @@ struct AccountView: View {
 				set: { _ in viewModel.setSheet(nil) }
 			)
 		) {
-			ImagePicker(image: $viewModel.editImage)
+			switch viewModel.sheet {
+			case .imagePicker:
+				ImagePicker(image: $viewModel.editImage)
+			case .logout, .deleteAccount:
+				logoutAndDeleteView()
+			case .none:
+				EmptyView()
+			}
 		}
 		.onDisappear { viewModel.didDisappear() }
+	}
+	
+	@ViewBuilder
+	func logoutAndDeleteView() -> some View {
+		if let sheet = viewModel.sheet {
+			if sheet == .logout || sheet == .deleteAccount {
+				VStack {
+					VStack {
+						SymmetricHStack(
+							content: {
+								Text(sheet.title)
+									.textCase(.uppercase)
+									.font(Font.app.title3)
+									.fontWeight(.semibold)
+							},
+							leading: { EmptyView() },
+							trailing: {
+								XButton {
+									viewModel.setSheet(nil)
+								}
+							}
+						)
+						.padding(.top)
+						Text(sheet.body)
+							.padding(.top, 60)
+						
+						Text(sheet.requestForConfirmation)
+							.font(Font.app.title3)
+							.padding(.top)
+						ZStack {
+							Text(sheet.confirmationTitle)
+								.foregroundColor(Color.gray.opacity(viewModel.logoutOrDeleteConfirmation.isEmpty ? 0.4 : 0.0))
+							TextField("", text: $viewModel.logoutOrDeleteConfirmation)
+							.focused($focusedField, equals: .sheet)
+						}
+						.font(Font.app.title)
+						.padding(.top)
+						Spacer()
+						Button(action: {}) {
+							Text(sheet.title)
+						}
+						.buttonStyle(sheet == .logout ? .expanded : .expanded(invertedStyle: true))
+					}
+					.font(Font.app.subTitle)
+					.multilineTextAlignment(.center)
+					.foregroundColor(Color.white)
+					.padding(.horizontal)
+				}
+				.pushOutFrame()
+				.background(Color.app.background)
+			}
+		}
 	}
 }
 
