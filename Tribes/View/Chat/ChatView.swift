@@ -45,7 +45,7 @@ struct ChatView: View {
 					ScrollView(.horizontal, showsIndicators: false) {
 						LazyHStack(alignment: .bottom) {
 							ForEach(viewModel.tribe.members) { member in
-								memberAvatar(member: member)
+								memberAvatar(member)
 							}
 						}
 					}
@@ -68,24 +68,84 @@ struct ChatView: View {
 		.pushOutFrame()
 		.background(Color.app.background)
 		.ignoresSafeArea()
+		.cardView(
+			isShowing: $viewModel.isShowingMember,
+			dismissAction: { viewModel.dismissTribeMemberCard() }
+		) {
+			Group {
+				if let member = viewModel.memberToShow {
+					memberCard(member)
+				}
+			}
+		}
 	}
 	
 	@ViewBuilder
-	func memberAvatar(member: TribeMember) -> some View {
-		VStack {
-			Spacer()
-			UserAvatar(url: member.profilePhoto)
-				.frame(dimension: 50)
-			Spacer()
-			Text(member.fullName)
-				.font(.system(size: FontSizes.footnote, weight: .semibold))
-				.foregroundColor(Color.gray)
+	func memberAvatar(_ member: TribeMember) -> some View {
+		Button(action: { viewModel.showTribeMemberCard(member) }) {
+			VStack {
+				Spacer()
+				UserAvatar(url: member.profilePhoto)
+					.frame(dimension: 50)
+				Spacer()
+				Text(member.fullName)
+					.font(.system(size: FontSizes.footnote, weight: .semibold))
+					.foregroundColor(Color.gray)
+			}
 		}
+	}
+	
+	@ViewBuilder
+	func memberCard(_ member: TribeMember) -> some View {
+		VStack {
+			SymmetricHStack(
+				content: {
+					TextView(member.fullName, style: .pageTitle)
+				},
+				leading: { EmptyView() },
+				trailing: {
+					XButton {
+						viewModel.dismissTribeMemberCard()
+					}
+				}
+			)
+			.padding()
+			UserAvatar(url: member.profilePhoto)
+				.frame(dimension: 140)
+			Spacer()
+			Group {
+				Text(member.fullName)
+					.underline()
+				+
+				Text(" has been a member of this Tribe since \(member.joined)")
+			}
+			.font(Font.app.footnote)
+			.foregroundColor(Color.gray)
+			.padding(.bottom)
+			Button(action: {}) {
+				Text("Remove")
+					.font(Font.app.title3)
+					.textCase(.uppercase)
+					.foregroundColor(Color.app.tertiary)
+					.padding()
+					.padding(.horizontal)
+					.background(
+						RoundedRectangle(cornerRadius: SizeConstants.secondaryCornerRadius)
+							.stroke(Color.app.tertiary)
+					)
+					.fixedSize(horizontal: true, vertical: false)
+			}
+			.padding(.bottom)
+		}
+		.multilineTextAlignment(.center)
+		.id(1)
 	}
 }
 
 struct ChatView_Previews: PreviewProvider {
 	static var previews: some View {
-		ChatView(viewModel: .init(tribe: Tribe.noop2))
+		VStack {
+			ChatView(viewModel: .init(tribe: Tribe.noop2))
+		}
 	}
 }
