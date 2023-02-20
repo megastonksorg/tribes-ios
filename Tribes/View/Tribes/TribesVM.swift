@@ -31,6 +31,7 @@ extension TribesView {
 		
 		@Published var isShowingAccountView: Bool = false
 		@Published var isShowingTribeInvite: Bool = false
+		@Published var isShowingTribeTea: Bool = false
 		
 		var isEditingTribeName: Bool {
 			editTribeNameText != nil
@@ -144,6 +145,12 @@ extension TribesView {
 				.store(in: &cancellables)
 		}
 		
+		func setIsShowingTribeTea(_ isShowing: Bool) {
+			withAnimation(.easeInOut.speed(2.0)) {
+				self.isShowingTribeTea = isShowing
+			}
+		}
+		
 		func setLeaveTribeVM(_ viewModel: LeaveTribeView.ViewModel?) {
 			self.leaveTribeVM = viewModel
 		}
@@ -161,6 +168,8 @@ extension TribesView {
 			if focusedTribe == nil {
 				if tribe.members.count == 1 {
 					showTribeInviteCard(tribe: tribe)
+				} else {
+					setIsShowingTribeTea(true)
 				}
 			}
 		}
