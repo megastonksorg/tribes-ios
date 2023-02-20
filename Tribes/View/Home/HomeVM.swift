@@ -22,11 +22,7 @@ extension HomeView {
 		@Published var composeVM: ComposeView.ViewModel = ComposeView.ViewModel()
 		@Published var tribesVM: TribesView.ViewModel
 		
-		@Published var currentPage: Page = .tribes {
-			didSet {
-				pageUpdated(page: currentPage)
-			}
-		}
+		@Published var currentPage: Page = .tribes
 		
 		//Clients
 		let keychainClient: KeychainClient = KeychainClient.shared
@@ -50,7 +46,8 @@ extension HomeView {
 				)
 		}
 		
-		func pageUpdated(page: Page) {
+		func setCurrentPage(page: Page) {
+			self.currentPage = page
 			switch page {
 			case .compose: return
 			case .tribes:

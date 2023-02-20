@@ -13,6 +13,8 @@ struct HomeView: View {
 	
 	@EnvironmentObject var appRouter: AppRouter
 	
+	@State var currentPageIndex: Int = ViewModel.Page.tribes.rawValue
+	
 	init(viewModel: ViewModel) {
 		self._viewModel = StateObject(wrappedValue: viewModel)
 	}
@@ -20,10 +22,7 @@ struct HomeView: View {
 	var body: some View {
 		NavigationStack(path: $appRouter.homeStack) {
 			PageView(
-				currentPage: Binding(
-					get: { viewModel.currentPage.rawValue },
-					set: { viewModel.currentPage = ViewModel.Page(rawValue: $0)! }
-				),
+				currentPage: $currentPageIndex,
 				didNotCompleteScroll: { viewModel.didNotCompletePageScroll() }
 			) {
 				[
@@ -39,6 +38,14 @@ struct HomeView: View {
 					CreateTribeView(viewModel: CreateTribeView.ViewModel())
 				case .joinTribe:
 					JoinTribeView(viewModel: JoinTribeView.ViewModel())
+				}
+			}
+			.onChange(of: currentPageIndex) { pageIndex in
+				viewModel.setCurrentPage(page: ViewModel.Page(rawValue: pageIndex)!)
+			}
+			.onChange(of: viewModel.currentPage) { currentPage in
+				if currentPageIndex != currentPage.rawValue {
+					self.currentPageIndex = currentPage.rawValue
 				}
 			}
 		}
