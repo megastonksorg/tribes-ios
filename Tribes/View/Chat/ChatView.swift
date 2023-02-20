@@ -94,9 +94,10 @@ struct ChatView: View {
 					TribeAvatar(
 						tribe: viewModel.tribe,
 						size: tribeAvatarSize,
-						avatarContextAction: { _ in },
-						primaryAction: { _ in },
-						secondaryAction: { _ in },
+						avatarContextAction: { _ in dismissAction() },
+						nameContextAction: { _ in dismissAction() },
+						primaryAction: { _ in dismissAction() },
+						secondaryAction: { _ in dismissAction() },
 						inviteAction: { _ in },
 						leaveAction: { _ in }
 					)
