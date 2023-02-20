@@ -13,10 +13,11 @@ struct HomeView: View {
 	
 	@EnvironmentObject var appRouter: AppRouter
 	
-	@State var currentPageIndex: Int = ViewModel.Page.tribes.rawValue
+	@State var currentPageIndex: Int
 	
 	init(viewModel: ViewModel) {
 		self._viewModel = StateObject(wrappedValue: viewModel)
+		self._currentPageIndex = State(wrappedValue: viewModel.currentPage.rawValue)
 	}
 	
 	var body: some View {
