@@ -27,7 +27,11 @@ extension APIClient {
 				return Future { [weak self] promise in
 					guard let self = self else { return }
 					do {
-						if !self.isRefreshing && Date.now.timeIntervalSince(self.lastRefreshed ?? Date.distantPast) > 1.0 { //Only refresh if it has been more than one minute since the last refresh
+						//Force a refresh if it has been more one minute since the last refresh
+						if Date.now.timeIntervalSince(self.lastRefreshed ?? Date.distantPast) > 1.0 {
+							self.isRefreshing = false
+						}
+						if !self.isRefreshing {
 							self.isRefreshing = true
 							if let token = self.keychainClient.get(key: .token), let cookie = HTTPCookie(properties: [
 								.domain: APPUrlRequest.domain,
