@@ -19,6 +19,8 @@ extension CreateTribeView {
 		@Published var banner: BannerData?
 		@Published var name: String = ""
 		
+		@Published var isLoading: Bool = false
+		
 		var isCreateButtonEnabled: Bool {
 			!name.isEmpty
 		}
@@ -27,6 +29,7 @@ extension CreateTribeView {
 		private let apiClient: APIClient = APIClient.shared
 		
 		func createTribe() {
+			self.isLoading = true
 			apiClient.createTribe(name: name)
 				.receive(on: DispatchQueue.main)
 				.sink(
@@ -34,10 +37,12 @@ extension CreateTribeView {
 						switch completion {
 							case .finished: return
 							case .failure(let error):
+							self?.isLoading = false
 							self?.banner = BannerData(error: error)
 						}
 					},
 					receiveValue: { _ in
+						self.isLoading = false
 						AppRouter.popStack(stack: .home(.createTribe))
 					}
 				)

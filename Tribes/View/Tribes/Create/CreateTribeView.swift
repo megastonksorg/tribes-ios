@@ -43,6 +43,9 @@ struct CreateTribeView: View {
 			.padding(.bottom)
 		}
 		.pushOutFrame()
+		.overlay(isShown: viewModel.isLoading) {
+			AppProgressView()
+		}
 		.background(Color.app.background)
 		.toolbar {
 			ToolbarItem(placement: .principal) {
