@@ -52,7 +52,18 @@ struct ChatView: View {
 						}
 					}
 					.frame(maxHeight: tribeAvatarSize + 20)
-					Spacer()
+					.overlay(alignment: .trailing) {
+						ZStack {
+							LinearGradient(
+								colors: [.black.opacity(0.2), .black.opacity(0.6), .black],
+								startPoint: .leading,
+								endPoint: .trailing
+							)
+							.blur(radius: 2)
+							.frame(width: 30)
+						}
+						.offset(x: 4)
+					}
 					TribeAvatar(
 						tribe: viewModel.tribe,
 						size: tribeAvatarSize,
@@ -65,6 +76,7 @@ struct ChatView: View {
 				}
 			}
 			.padding([.horizontal, .bottom])
+			.padding(.bottom, 2)
 			.offset(x: 2)
 		}
 		.pushOutFrame()
