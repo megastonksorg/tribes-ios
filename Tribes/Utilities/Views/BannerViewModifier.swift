@@ -22,7 +22,7 @@ extension BannerData {
 	}
 	init(error: AppError.APIClientError) {
 		if error != .authExpired {
-			self.init(detail: error.errorDescription ?? "", type: .error)
+			self.init(detail: error.errorDescription ?? "", type: .info)
 		} else {
 			self.init(detail: "", type: .info)
 		}
@@ -93,7 +93,7 @@ struct BannerViewModifier: ViewModifier {
 
 					)
 					.background {
-						if !data.title.isEmpty && !data.detail.isEmpty {
+						if !data.title.isEmpty || !data.detail.isEmpty {
 							ZStack {
 								RoundedRectangle(cornerRadius: self.cornerRadius)
 									.fill(Color.app.secondary)
