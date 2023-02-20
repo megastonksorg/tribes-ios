@@ -8,12 +8,15 @@
 import SwiftUI
 
 struct ChatView: View {
+	var dismissAction: () -> Void
+	
 	@StateObject var viewModel: ViewModel
 	
 	@State var isShowingMemberImage: Bool = false
 	
-	init(viewModel: ViewModel) {
+	init(viewModel: ViewModel, dismissAction: @escaping () -> Void) {
 		self._viewModel = StateObject(wrappedValue: viewModel)
+		self.dismissAction = dismissAction
 	}
 	var body: some View {
 		VStack {
@@ -24,6 +27,30 @@ struct ChatView: View {
 				Text("Message")
 					.foregroundColor(.white)
 				Spacer()
+				HStack {
+					Button(action: {}) {
+						Image(systemName: "camera.fill")
+							.font(Font.app.title2)
+							.foregroundColor(Color.gray.opacity(0.8))
+					}
+					ZStack {
+						Text("Type a message to ")
+							.foregroundColor(Color.gray)
+						+
+						Text(viewModel.tribe.name)
+							.foregroundColor(Color.app.tertiary)
+					}
+					.font(Font.app.body)
+					.multilineTextAlignment(.leading)
+					.padding(.leading, 4)
+					Spacer()
+					Button(action: { dismissAction() }) {
+						Image(systemName: "xmark.circle.fill")
+							.font(.system(size: 30))
+							.foregroundColor(Color.app.tertiary)
+					}
+				}
+				.padding()
 			}
 			.background(
 				CalloutRectangle(calloutRadius: 6, radius: 20)
@@ -171,7 +198,7 @@ struct ChatView: View {
 struct ChatView_Previews: PreviewProvider {
 	static var previews: some View {
 		VStack {
-			ChatView(viewModel: .init(tribe: Tribe.noop2))
+			ChatView(viewModel: .init(tribe: Tribe.noop2), dismissAction: {})
 		}
 	}
 }
