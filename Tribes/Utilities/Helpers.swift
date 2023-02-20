@@ -21,6 +21,7 @@ struct AppConstants {
 struct SizeConstants {
 	static let cardInnerPadding: CGFloat = 4
 	static let cornerRadius: CGFloat = 10
+	static let secondaryCornerRadius: CGFloat = 15
 	static let fullNameLowerLimit: Int = 2
 	static let fullNameHigherLimit: Int = 25
 	static let videoFileType: AVFileType = AVFileType.mp4

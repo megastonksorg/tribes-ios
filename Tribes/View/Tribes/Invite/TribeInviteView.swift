@@ -108,7 +108,7 @@ struct TribeInviteView: View {
 				.padding()
 				.padding(.horizontal)
 				.background(
-					RoundedRectangle(cornerRadius: SizeConstants.cornerRadius)
+					RoundedRectangle(cornerRadius: SizeConstants.secondaryCornerRadius)
 						.fill(Color.app.secondary)
 				)
 				.fixedSize(horizontal: true, vertical: false)
