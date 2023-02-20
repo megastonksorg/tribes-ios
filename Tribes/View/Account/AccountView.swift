@@ -21,7 +21,7 @@ struct AccountView: View {
 		VStack {
 			VStack {
 				let isSecretKeyLocked = viewModel.isSecretKeyLocked
-				Button(action: { viewModel.setIsShowingImagePicker(true) }) {
+				Button(action: { viewModel.setSheet(.imagePicker) }) {
 					Group {
 						if isShowingSettings {
 							if let image = viewModel.editImage {
@@ -176,7 +176,12 @@ struct AccountView: View {
 			.foregroundColor(Color.white)
 			.padding(.horizontal)
 		}
-		.sheet(isPresented: $viewModel.isShowingImagePicker) {
+		.sheet(
+			isPresented: Binding(
+				get: { viewModel.sheet != nil },
+				set: { _ in viewModel.setSheet(nil) }
+			)
+		) {
 			ImagePicker(image: $viewModel.editImage)
 		}
 		.onDisappear { viewModel.didDisappear() }

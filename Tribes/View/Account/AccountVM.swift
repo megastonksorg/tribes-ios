@@ -19,6 +19,12 @@ extension AccountView {
 			var id: String { self.rawValue }
 		}
 		
+		enum Sheet: Equatable {
+			case imagePicker
+			case logout
+			case deleteAccount
+		}
+		
 		private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 		
 		let phrase: IdentifiedArrayOf<MnemonicWord>
@@ -29,9 +35,9 @@ extension AccountView {
 		
 		@Published var banner: BannerData?
 		@Published var isSecretKeyLocked: Bool = true
-		@Published var isShowingImagePicker: Bool = false
 		@Published var isShowingSettings: Bool = false
 		@Published var isUploadingImage: Bool = false
+		@Published var sheet: Sheet?
 		
 		var isUpdateButtonEnabled: Bool {
 			let trimmedName = editFullNameText.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -76,8 +82,8 @@ extension AccountView {
 			}
 		}
 		
-		func setIsShowingImagePicker(_ isShowing: Bool) {
-			self.isShowingImagePicker = isShowing
+		func setSheet(_ sheet: Sheet?) {
+			self.sheet = sheet
 		}
 		
 		func toggleSettings() {
