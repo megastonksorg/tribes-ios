@@ -14,17 +14,35 @@ extension ChatView {
 			case text
 		}
 		
+		var canSendText: Bool {
+			!text.isEmpty
+		}
+		
 		@Published var tribe: Tribe
 		@Published var isShowingMember: Bool = false
 		@Published var memberToShow: TribeMember?
 		@Published var text: String = ""
 		
-		var canSendText: Bool {
-			!text.isEmpty
-		}
+		@Published var keyboardHeight: CGFloat = 0
 		
 		init(tribe: Tribe) {
 			self.tribe = tribe
+			
+			//Listen for Keyboard Notifications
+			NotificationCenter.default
+				.addObserver(
+					self,
+					selector: #selector(setkeyboardHeight),
+					name: UIResponder.keyboardWillShowNotification,
+					object: nil
+				)
+			NotificationCenter.default
+				.addObserver(
+					self,
+					selector: #selector(resetKeyboardHeight),
+					name: UIResponder.keyboardWillHideNotification,
+					object: nil
+				)
 		}
 		
 		func showTribeMemberCard(_ member: TribeMember) {
@@ -39,6 +57,21 @@ extension ChatView {
 				self.isShowingMember = false
 			}
 			self.memberToShow = nil
+		}
+		
+		@objc func setkeyboardHeight(notification: NSNotification) {
+			guard let userInfo = notification.userInfo,
+				 let keyboardRect = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect
+			else { return }
+			DispatchQueue.main.async {
+				self.keyboardHeight = keyboardRect.height + 10.0
+			}
+		}
+		
+		@objc func resetKeyboardHeight() {
+			DispatchQueue.main.async {
+				self.keyboardHeight = 0
+			}
 		}
 	}
 }

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ChatView: View {
 	var dismissAction: () -> Void
+	var screenHeight: CGFloat = UIScreen.main.bounds.maxY
 	
 	@FocusState private var focusedField: ViewModel.FocusField?
 	
@@ -22,6 +23,14 @@ struct ChatView: View {
 	}
 	var body: some View {
 		VStack {
+			let height: CGFloat = {
+				if viewModel.keyboardHeight == 0 {
+					return screenHeight - 260
+				} else {
+					return screenHeight - viewModel.keyboardHeight
+				}
+			}()
+			
 			VStack {
 				Spacer()
 				HStack(alignment: .bottom) {
@@ -85,7 +94,7 @@ struct ChatView: View {
 					)
 			)
 			.padding(.horizontal, 4)
-			.offset(y: self.focusedField != .text ? -100 : 0)
+			.frame(height: height)
 			
 			Spacer()
 				.frame(height: 14)
