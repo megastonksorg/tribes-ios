@@ -36,7 +36,7 @@ struct ChatView: View {
 				ScrollView {
 					LazyVStack {
 						ForEach(0..<100) {
-							CalloutView(content: "\($0)")
+							CalloutView(content: "Okay this is a random Text. Do what you will with this.\($0)")
 							Text("\($0)")
 								.foregroundColor(.white)
 								.padding(.top)
@@ -45,6 +45,7 @@ struct ChatView: View {
 						}
 					}
 				}
+				.scrollDismissesKeyboard(.interactively)
 				HStack(alignment: .bottom) {
 					Button(
 						action: {
@@ -152,7 +153,7 @@ struct ChatView: View {
 			}
 			.padding(.horizontal)
 			.ignoresSafeArea(.keyboard)
-			.opacity(self.focusedField == .text ? 0.0 : 1.0)
+			.opacity(viewModel.keyboardHeight == 0 ? 1.0 : 0.0)
 		}
 		.background(Color.app.background)
 		.edgesIgnoringSafeArea(.top)
