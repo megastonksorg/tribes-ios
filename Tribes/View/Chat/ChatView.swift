@@ -82,11 +82,15 @@ struct ChatView: View {
 					)
 			)
 			.padding(.horizontal, 4)
+			.offset(y: self.focusedField != .text ? -100 : 0)
 			
 			Spacer()
 				.frame(height: 14)
-			
+		}
+		.pushOutFrame()
+		.background {
 			VStack{
+				Spacer()
 				let tribeAvatarSize: CGFloat = 80
 				HStack {
 					ScrollView(.horizontal, showsIndicators: false) {
@@ -122,9 +126,9 @@ struct ChatView: View {
 				}
 			}
 			.padding(.horizontal)
-			.offset(x: 2)
+			.ignoresSafeArea(.keyboard)
+			.opacity(self.focusedField == .text ? 0.0 : 1.0)
 		}
-		.pushOutFrame()
 		.background(Color.app.background)
 		.edgesIgnoringSafeArea(.top)
 		.cardView(
