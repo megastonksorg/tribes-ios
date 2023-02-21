@@ -166,7 +166,9 @@ struct ChatView: View {
 		VStack {
 			SymmetricHStack(
 				content: {
-					TextView(member.fullName, style: .pageTitle)
+					Text(member.fullName)
+						.font(Font.app.title3)
+						.foregroundColor(Color.white)
 				},
 				leading: { EmptyView() },
 				trailing: {
@@ -182,10 +184,10 @@ struct ChatView: View {
 				.transition(.opacity)
 			Spacer()
 			Group {
-				Text(member.fullName)
-					.underline()
+				Text(viewModel.tribe.name)
+					.foregroundColor(Color.app.tertiary)
 				+
-				Text(" has been a member of this Tribe since \(member.joined)")
+				Text(" member since \(member.joined)")
 			}
 			.font(Font.app.footnote)
 			.foregroundColor(Color.gray)
