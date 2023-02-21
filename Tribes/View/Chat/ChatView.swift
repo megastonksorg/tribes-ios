@@ -23,11 +23,6 @@ struct ChatView: View {
 	var body: some View {
 		VStack {
 			VStack {
-				HStack {
-					Spacer()
-				}
-				Text("Message")
-					.foregroundColor(.white)
 				Spacer()
 				HStack {
 					Button(
@@ -126,13 +121,12 @@ struct ChatView: View {
 					)
 				}
 			}
-			.padding([.horizontal, .bottom])
-			.padding(.bottom, 10)
+			.padding(.horizontal)
 			.offset(x: 2)
 		}
 		.pushOutFrame()
 		.background(Color.app.background)
-		.ignoresSafeArea()
+		.edgesIgnoringSafeArea(.top)
 		.cardView(
 			isShowing: $viewModel.isShowingMember,
 			dismissAction: { viewModel.dismissTribeMemberCard() }
