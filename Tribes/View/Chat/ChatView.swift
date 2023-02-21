@@ -24,7 +24,7 @@ struct ChatView: View {
 		VStack {
 			VStack {
 				Spacer()
-				HStack {
+				HStack(alignment: .bottom) {
 					Button(
 						action: {
 							if self.focusedField == .text {
@@ -36,6 +36,7 @@ struct ChatView: View {
 							.font(Font.app.title2)
 							.foregroundColor(Color.gray.opacity(0.8))
 					}
+					.padding(.bottom, 4)
 					ZStack(alignment: .leading) {
 						Group {
 							Text("Type a message to ")
@@ -46,6 +47,7 @@ struct ChatView: View {
 						}
 						.opacity(viewModel.canSendText ? 0.0 : 1.0)
 						TextField("", text: $viewModel.text, axis: .vertical)
+							.tint(Color.white)
 							.lineLimit(1...4)
 							.foregroundColor(.white)
 							.focused($focusedField, equals: .text)
@@ -53,6 +55,7 @@ struct ChatView: View {
 					.font(Font.app.body)
 					.multilineTextAlignment(.leading)
 					.padding(.leading, 4)
+					.padding(.bottom, 6)
 					Spacer()
 					Button(
 						action: {
