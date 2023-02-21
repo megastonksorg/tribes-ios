@@ -10,6 +10,7 @@ import SwiftUI
 struct ChatView: View {
 	var dismissAction: () -> Void
 	var screenHeight: CGFloat = UIScreen.main.bounds.maxY
+	var screenWidth: CGFloat = UIScreen.main.bounds.maxX
 	
 	@FocusState private var focusedField: ViewModel.FocusField?
 	
@@ -25,14 +26,25 @@ struct ChatView: View {
 		VStack {
 			let height: CGFloat = {
 				if viewModel.keyboardHeight == 0 {
-					return screenHeight - 260
+					return screenHeight - 150
 				} else {
 					return screenHeight - viewModel.keyboardHeight
 				}
 			}()
 			
-			VStack {
-				Spacer()
+			VStack(spacing: 0) {
+				ScrollView {
+					LazyVStack {
+						ForEach(0..<100) {
+							CalloutView(content: "\($0)")
+							Text("\($0)")
+								.foregroundColor(.white)
+								.padding(.top)
+								.pushOutFrame()
+								.id($0)
+						}
+					}
+				}
 				HStack(alignment: .bottom) {
 					Button(
 						action: {
@@ -80,7 +92,7 @@ struct ChatView: View {
 							.foregroundColor(Color.app.tertiary)
 					}
 				}
-				.padding()
+				.padding([.horizontal, .bottom])
 			}
 			.background(
 				CalloutRectangle(calloutRadius: 6, radius: 20)
@@ -94,7 +106,8 @@ struct ChatView: View {
 					)
 			)
 			.padding(.horizontal, 4)
-			.frame(height: height)
+			.frame(height: height, alignment: .top)
+			.position(x: screenWidth / 2, y: height / 2)
 			
 			Spacer()
 				.frame(height: 14)
