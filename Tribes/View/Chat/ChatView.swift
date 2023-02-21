@@ -10,6 +10,8 @@ import SwiftUI
 struct ChatView: View {
 	var dismissAction: () -> Void
 	
+	@FocusState private var focusedField: ViewModel.FocusField?
+	
 	@StateObject var viewModel: ViewModel
 	
 	@State var isShowingMemberImage: Bool = false
@@ -28,8 +30,14 @@ struct ChatView: View {
 					.foregroundColor(.white)
 				Spacer()
 				HStack {
-					Button(action: {}) {
-						Image(systemName: "camera.fill")
+					Button(
+						action: {
+							if self.focusedField == .text {
+								self.focusedField = nil
+							}
+						}
+					) {
+						Image(systemName: self.focusedField == .text ? "keyboard.chevron.compact.down" : "camera.fill")
 							.font(Font.app.title2)
 							.foregroundColor(Color.gray.opacity(0.8))
 					}
@@ -45,6 +53,7 @@ struct ChatView: View {
 						TextField("", text: $viewModel.text, axis: .vertical)
 							.lineLimit(1...4)
 							.foregroundColor(.white)
+							.focused($focusedField, equals: .text)
 					}
 					.font(Font.app.body)
 					.multilineTextAlignment(.leading)

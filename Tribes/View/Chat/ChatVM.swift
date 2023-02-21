@@ -10,6 +10,9 @@ import SwiftUI
 
 extension ChatView {
 	@MainActor class ViewModel: ObservableObject {
+		enum FocusField: Hashable {
+			case text
+		}
 		
 		@Published var tribe: Tribe
 		@Published var isShowingMember: Bool = false
