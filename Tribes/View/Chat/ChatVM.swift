@@ -32,7 +32,7 @@ extension ChatView {
 			NotificationCenter.default
 				.addObserver(
 					self,
-					selector: #selector(setkeyboardHeight),
+					selector: #selector(setKeyboardHeight),
 					name: UIResponder.keyboardWillShowNotification,
 					object: nil
 				)
@@ -59,7 +59,7 @@ extension ChatView {
 			self.memberToShow = nil
 		}
 		
-		@objc func setkeyboardHeight(notification: NSNotification) {
+		@objc func setKeyboardHeight(notification: NSNotification) {
 			guard let userInfo = notification.userInfo,
 				 let keyboardRect = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect
 			else { return }
