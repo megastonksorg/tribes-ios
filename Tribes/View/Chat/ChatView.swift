@@ -33,21 +33,30 @@ struct ChatView: View {
 			}()
 			
 			VStack(spacing: 0) {
-				ScrollView {
-					LazyVStack {
-						ForEach(0..<100) {
-							CalloutView(content: "Okay this is a random Text. Do what you will with this.\($0)")
-							Text("\($0)")
-								.foregroundColor(.white)
-								.padding(.top)
-								.pushOutFrame()
-								.id($0)
+				ScrollViewReader { readerProxy in
+					ScrollView {
+						LazyVStack {
+							ForEach(0..<100) {
+								CalloutView(content: "Okay this is a random Text. Do what you will with this.\($0)")
+								Text("\($0)")
+									.foregroundColor(.white)
+									.padding(.top)
+									.pushOutFrame()
+									.id($0)
+							}
+						}
+						.onChange(of: viewModel.keyboardHeight) {
+							if $0 != 0 {
+								readerProxy.scrollTo(99, anchor: .top)
+							}
 						}
 					}
+					.scrollDismissesKeyboard(.interactively)
 				}
-				.scrollDismissesKeyboard(.interactively)
 				HStack(alignment: .bottom) {
-					Button(action: { }) {
+					Button(action: {
+						self.focusedField = nil
+					}) {
 						Image(systemName: "camera.fill")
 							.font(Font.app.title2)
 							.foregroundColor(Color.gray.opacity(0.8))
