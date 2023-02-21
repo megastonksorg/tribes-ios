@@ -30,6 +30,7 @@ extension TribesView {
 		@Published var user: User
 		
 		@Published var isShowingAccountView: Bool = false
+		@Published var isShowingChatView: Bool = false
 		@Published var isShowingTribeInvite: Bool = false
 		@Published var isShowingTribeTea: Bool = false
 		
@@ -72,6 +73,10 @@ extension TribesView {
 					}
 				)
 				.store(in: &cancellables)
+		}
+		
+		func dismissChatView() {
+			self.isShowingChatView = false
 		}
 		
 		func toggleAccountView() {
@@ -178,7 +183,7 @@ extension TribesView {
 		}
 		
 		func tribeSecondaryActionTapped(_ tribe: Tribe) {
-			
+			self.isShowingChatView = true
 		}
 		
 		func tribeInviteActionTapped(_ tribe: Tribe) {

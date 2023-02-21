@@ -208,6 +208,11 @@ struct TribesView: View {
 				}
 			}
 			.fullScreenCover(
+				isPresented: $viewModel.isShowingChatView
+			) {
+				ChatView(viewModel: .init(tribe: Tribe.noop2), dismissAction: { viewModel.dismissChatView() })
+			}
+			.fullScreenCover(
 				isPresented: $viewModel.isShowingAccountView
 			) {
 				AccountView(viewModel: viewModel.accountVM)
