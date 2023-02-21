@@ -47,14 +47,8 @@ struct ChatView: View {
 				}
 				.scrollDismissesKeyboard(.interactively)
 				HStack(alignment: .bottom) {
-					Button(
-						action: {
-							if self.focusedField == .text {
-								self.focusedField = nil
-							}
-						}
-					) {
-						Image(systemName: self.focusedField == .text ? "keyboard.chevron.compact.down" : "camera.fill")
+					Button(action: { }) {
+						Image(systemName: "camera.fill")
 							.font(Font.app.title2)
 							.foregroundColor(Color.gray.opacity(0.8))
 					}
