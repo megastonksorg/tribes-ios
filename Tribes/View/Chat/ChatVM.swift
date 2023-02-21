@@ -64,7 +64,7 @@ extension ChatView {
 				 let keyboardRect = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect
 			else { return }
 			DispatchQueue.main.async {
-				self.keyboardHeight = keyboardRect.height + 10.0
+				self.keyboardHeight = keyboardRect.height + 12.0
 			}
 		}
 		
