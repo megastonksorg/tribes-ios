@@ -5,6 +5,7 @@
 //  Created by Kingsley Okeke on 2023-02-20.
 //
 
+import IdentifiedCollections
 import SwiftUI
 
 struct ChatView: View {
@@ -24,14 +25,6 @@ struct ChatView: View {
 	}
 	var body: some View {
 		VStack {
-			let height: CGFloat = {
-				if viewModel.keyboardHeight == 0 {
-					return screenHeight - 210
-				} else {
-					return screenHeight - viewModel.keyboardHeight - 60
-				}
-			}()
-			
 			VStack(spacing: 0) {
 				ScrollViewReader { readerProxy in
 					ScrollView {
@@ -45,9 +38,11 @@ struct ChatView: View {
 									.id($0)
 							}
 						}
-						.onChange(of: viewModel.keyboardHeight) {
-							if $0 != 0 {
-								readerProxy.scrollTo(99, anchor: .top)
+						.onChange(of: focusedField) {
+							if $0 == .text {
+								withAnimation(.easeIn) {
+									readerProxy.scrollTo(99, anchor: .top)
+								}
 							}
 						}
 					}
@@ -98,67 +93,11 @@ struct ChatView: View {
 				}
 				.padding([.horizontal, .bottom])
 			}
-			.background(
-				CalloutRectangle(calloutRadius: 6, radius: 20)
-					.stroke(
-						LinearGradient(
-							colors: [.clear, .clear, .clear, .clear, Color.app.secondary],
-							startPoint: .top,
-							endPoint: .bottom
-						),
-						lineWidth: 1.5
-					)
-			)
-			.padding(.horizontal, 4)
-			.frame(height: height, alignment: .top)
-			.position(x: screenWidth / 2, y: height / 2)
-			
-			Spacer()
-				.frame(height: 14)
-		}
-		.pushOutFrame()
-		.background {
-			VStack{
-				Spacer()
-				let tribeAvatarSize: CGFloat = 80
-				HStack {
-					ScrollView(.horizontal, showsIndicators: false) {
-						LazyHStack(alignment: .bottom) {
-							ForEach(viewModel.tribe.members) { member in
-								memberAvatar(member)
-							}
-						}
-					}
-					.frame(maxHeight: tribeAvatarSize + 20)
-					.overlay(alignment: .trailing) {
-						ZStack {
-							LinearGradient(
-								colors: [.black.opacity(0.2), .black.opacity(0.6), .black],
-								startPoint: .leading,
-								endPoint: .trailing
-							)
-							.blur(radius: 2)
-							.frame(width: 30)
-						}
-						.offset(x: 4)
-					}
-					TribeAvatar(
-						tribe: viewModel.tribe,
-						size: tribeAvatarSize,
-						avatarContextAction: { _ in dismissAction() },
-						nameContextAction: { _ in dismissAction() },
-						primaryAction: { _ in dismissAction() },
-						secondaryAction: { _ in dismissAction() },
-						inviteAction: { _ in },
-						leaveAction: { _ in }
-					)
-				}
-			}
-			.padding(.horizontal)
-			.ignoresSafeArea(.keyboard)
-			.opacity(viewModel.keyboardHeight == 0 ? 1.0 : 0.0)
 		}
 		.background(Color.app.background)
+		.safeAreaInset(edge: .top) {
+			ChatHeaderView(members: IdentifiedArrayOf(uniqueElements: viewModel.tribe.members.others))
+		}
 		.cardView(
 			isShowing: $viewModel.isShowingMember,
 			dismissAction: { viewModel.dismissTribeMemberCard() }
@@ -167,21 +106,6 @@ struct ChatView: View {
 				if let member = viewModel.memberToShow {
 					memberCard(member)
 				}
-			}
-		}
-	}
-	
-	@ViewBuilder
-	func memberAvatar(_ member: TribeMember) -> some View {
-		Button(action: { viewModel.showTribeMemberCard(member) }) {
-			VStack {
-				Spacer()
-				UserAvatar(url: member.profilePhoto)
-					.frame(dimension: 55)
-				Spacer()
-				Text(member.fullName)
-					.font(.system(size: FontSizes.footnote, weight: .semibold))
-					.foregroundColor(Color.gray)
 			}
 		}
 	}
