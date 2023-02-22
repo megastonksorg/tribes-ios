@@ -52,11 +52,13 @@ extension TribeInviteView {
 				}
 				return words
 			}()
-			self.code = codeWords.randomElement()!
 			self.tribe = tribe
 		}
 		
 		func didAppear() {
+			withAnimation(.easeIn) {
+				self.code = codeWords.randomElement()!
+			}
 			generatePinCode()
 		}
 		
