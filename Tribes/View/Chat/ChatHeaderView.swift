@@ -160,17 +160,23 @@ struct ChatHeaderView: View {
 			}
 		}
 		.frame(width: maxWidth, height: 110)
-		.background(
-			RoundedRectangle(cornerRadius: 40)
-				.stroke(
-					LinearGradient(
-						colors: [.clear, .clear, .clear, .clear, Color.app.secondary],
-						startPoint: .top,
-						endPoint: .bottom
-					),
-					lineWidth: 2.0
-				)
-		)
+		.background {
+			let cornerRadius: CGFloat = 40
+			ZStack {
+				RoundedRectangle(cornerRadius: cornerRadius)
+					.fill(Color.app.background)
+				RoundedRectangle(cornerRadius: cornerRadius)
+					.stroke(
+						LinearGradient(
+							colors: [.clear, .clear, .clear, Color.app.secondary],
+							startPoint: .top,
+							endPoint: .bottom
+						),
+						lineWidth: 2.0
+					)
+			}
+			.edgesIgnoringSafeArea(.top)
+		}
 	}
 	
 	@ViewBuilder
