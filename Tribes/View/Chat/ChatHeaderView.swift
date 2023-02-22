@@ -148,11 +148,19 @@ struct ChatHeaderView: View {
 					.offset(y: -dimension * 0.15)
 				}
 			default:
-				EmptyView()
+				ScrollView(.horizontal) {
+					LazyHGrid(rows: [GridItem(), GridItem()], spacing: 20) {
+						ForEach(members) {
+							userAvatarView($0)
+						}
+					}
+				}
+				.padding(.horizontal)
+				.padding(.bottom, 10)
 			}
 		}
 		.frame(width: maxWidth, height: 110)
-		.background(Color.red)
+		.background(Color.black)
 	}
 	
 	@ViewBuilder
