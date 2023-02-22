@@ -20,8 +20,6 @@ struct ChatHeaderView: View {
 			let dimensionB: CGFloat = maxWidth * 0.145
 			let spacingB: CGFloat = maxWidth * 0.20
 			
-			let spacingC: CGFloat = maxWidth * 0.12
-			
 			switch members.count {
 			case 0:
 				EmptyView()
@@ -71,21 +69,41 @@ struct ChatHeaderView: View {
 					.offset(y: -dimensionB * 0.3)
 				}
 			case 6:
+				let spacing: CGFloat = maxWidth * 0.12
 				VStack(spacing: 0) {
-					HStack(spacing: spacingC) {
+					HStack(spacing: spacing) {
 						userAvatarView(members[0])
 						userAvatarView(members[1])
 						userAvatarView(members[2])
 					}
 					.frame(dimension: dimensionB)
 					.offset(x: -dimensionB * 0.5)
-					HStack(spacing: spacingC) {
+					HStack(spacing: spacing) {
 						userAvatarView(members[3])
 						userAvatarView(members[4])
 						userAvatarView(members[5])
 					}
 					.frame(dimension: dimensionB)
 					.offset(x: dimensionB * 0.4, y: -dimensionB * 0.2)
+				}
+			case 7:
+				let dimension: CGFloat = maxWidth * 0.14
+				let spacing: CGFloat = maxWidth * 0.08
+				VStack(spacing: 0) {
+					HStack(spacing: spacing) {
+						userAvatarView(members[0])
+						userAvatarView(members[1])
+						userAvatarView(members[2])
+						userAvatarView(members[3])
+					}
+					.frame(dimension: dimension)
+					HStack(spacing: spacing) {
+						userAvatarView(members[4])
+						userAvatarView(members[5])
+						userAvatarView(members[6])
+					}
+					.frame(dimension: dimension)
+					.offset(y: -dimension * 0.15)
 				}
 			default:
 				EmptyView()
@@ -115,7 +133,8 @@ struct ChatHeaderView_Previews: PreviewProvider {
 							TribeMember.noop3,
 							TribeMember.noop4,
 							TribeMember.noop5,
-							TribeMember.noop6
+							TribeMember.noop6,
+							TribeMember.noop7,
 						]
 				)
 			)
