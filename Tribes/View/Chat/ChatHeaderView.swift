@@ -77,7 +77,7 @@ struct ChatHeaderView: View {
 						userAvatarView(members[2])
 					}
 					.frame(dimension: dimensionB)
-					.offset(x: -dimensionB * 0.5)
+					.offset(x: -dimensionB * 0.4)
 					HStack(spacing: spacing) {
 						userAvatarView(members[3])
 						userAvatarView(members[4])
@@ -101,6 +101,48 @@ struct ChatHeaderView: View {
 						userAvatarView(members[4])
 						userAvatarView(members[5])
 						userAvatarView(members[6])
+					}
+					.frame(dimension: dimension)
+					.offset(y: -dimension * 0.15)
+				}
+			case 8:
+				let dimension: CGFloat = maxWidth * 0.14
+				let spacing: CGFloat = maxWidth * 0.08
+				VStack(spacing: 0) {
+					HStack(spacing: spacing) {
+						userAvatarView(members[0])
+						userAvatarView(members[1])
+						userAvatarView(members[2])
+						userAvatarView(members[3])
+					}
+					.frame(dimension: dimension)
+					.offset(x: -dimension * 0.4)
+					HStack(spacing: spacing) {
+						userAvatarView(members[4])
+						userAvatarView(members[5])
+						userAvatarView(members[6])
+						userAvatarView(members[7])
+					}
+					.frame(dimension: dimension)
+					.offset(x: dimension * 0.4, y: -dimension * 0.2)
+				}
+			case 9:
+				let dimension: CGFloat = maxWidth * 0.12
+				let spacing: CGFloat = maxWidth * 0.08
+				VStack(spacing: 6) {
+					HStack(spacing: spacing) {
+						userAvatarView(members[0])
+						userAvatarView(members[1])
+						userAvatarView(members[2])
+						userAvatarView(members[3])
+						userAvatarView(members[4])
+					}
+					.frame(dimension: dimension)
+					HStack(spacing: spacing) {
+						userAvatarView(members[5])
+						userAvatarView(members[6])
+						userAvatarView(members[7])
+						userAvatarView(members[8])
 					}
 					.frame(dimension: dimension)
 					.offset(y: -dimension * 0.15)
@@ -135,6 +177,8 @@ struct ChatHeaderView_Previews: PreviewProvider {
 							TribeMember.noop5,
 							TribeMember.noop6,
 							TribeMember.noop7,
+							TribeMember.noop8,
+							TribeMember.noop9
 						]
 				)
 			)
