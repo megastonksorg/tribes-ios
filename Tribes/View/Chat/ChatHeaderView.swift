@@ -17,8 +17,10 @@ struct ChatHeaderView: View {
 			let dimensionA: CGFloat = maxWidth * 0.16
 			let spacingA: CGFloat = maxWidth * 0.04
 			
-			let dimensionB: CGFloat = maxWidth * 0.14
-			let spacingB: CGFloat = maxWidth * 0.2
+			let dimensionB: CGFloat = maxWidth * 0.145
+			let spacingB: CGFloat = maxWidth * 0.20
+			
+			let spacingC: CGFloat = maxWidth * 0.12
 			
 			switch members.count {
 			case 0:
@@ -66,14 +68,31 @@ struct ChatHeaderView: View {
 						userAvatarView(members[4])
 					}
 					.frame(dimension: dimensionB)
-					.offset(y: -dimensionB/2.4)
+					.offset(y: -dimensionB * 0.3)
+				}
+			case 6:
+				VStack(spacing: 0) {
+					HStack(spacing: spacingC) {
+						userAvatarView(members[0])
+						userAvatarView(members[1])
+						userAvatarView(members[2])
+					}
+					.frame(dimension: dimensionB)
+					.offset(x: -dimensionB * 0.5)
+					HStack(spacing: spacingC) {
+						userAvatarView(members[3])
+						userAvatarView(members[4])
+						userAvatarView(members[5])
+					}
+					.frame(dimension: dimensionB)
+					.offset(x: dimensionB * 0.4, y: -dimensionB * 0.2)
 				}
 			default:
 				EmptyView()
 			}
 		}
-		.frame(width: maxWidth, height: 100)
-		.background(Color.black)
+		.frame(width: maxWidth, height: 110)
+		.background(Color.red)
 	}
 	
 	@ViewBuilder
@@ -96,6 +115,7 @@ struct ChatHeaderView_Previews: PreviewProvider {
 							TribeMember.noop3,
 							TribeMember.noop4,
 							TribeMember.noop5,
+							TribeMember.noop6
 						]
 				)
 			)
