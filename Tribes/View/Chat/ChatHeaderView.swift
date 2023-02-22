@@ -160,7 +160,17 @@ struct ChatHeaderView: View {
 			}
 		}
 		.frame(width: maxWidth, height: 110)
-		.background(Color.black)
+		.background(
+			RoundedRectangle(cornerRadius: 40)
+				.stroke(
+					LinearGradient(
+						colors: [.clear, .clear, .clear, .clear, Color.app.secondary],
+						startPoint: .top,
+						endPoint: .bottom
+					),
+					lineWidth: 2.0
+				)
+		)
 	}
 	
 	@ViewBuilder
