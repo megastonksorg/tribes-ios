@@ -26,9 +26,9 @@ struct ChatView: View {
 		VStack {
 			let height: CGFloat = {
 				if viewModel.keyboardHeight == 0 {
-					return screenHeight - 150
+					return screenHeight - 210
 				} else {
-					return screenHeight - viewModel.keyboardHeight
+					return screenHeight - viewModel.keyboardHeight - 60
 				}
 			}()
 			
@@ -159,7 +159,6 @@ struct ChatView: View {
 			.opacity(viewModel.keyboardHeight == 0 ? 1.0 : 0.0)
 		}
 		.background(Color.app.background)
-		.edgesIgnoringSafeArea(.top)
 		.cardView(
 			isShowing: $viewModel.isShowingMember,
 			dismissAction: { viewModel.dismissTribeMemberCard() }
