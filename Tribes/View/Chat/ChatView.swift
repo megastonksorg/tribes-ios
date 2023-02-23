@@ -48,51 +48,67 @@ struct ChatView: View {
 					}
 					.scrollDismissesKeyboard(.interactively)
 				}
-				HStack(alignment: .bottom) {
-					Button(action: {
-						self.focusedField = nil
-					}) {
-						Image(systemName: "camera.fill")
-							.font(Font.app.title2)
-							.foregroundColor(Color.gray.opacity(0.8))
-					}
-					.padding(.bottom, 4)
-					ZStack(alignment: .leading) {
-						Group {
-							Text("Type a message to ")
-								.foregroundColor(Color.gray)
-							+
-							Text(viewModel.tribe.name)
-								.foregroundColor(Color.app.tertiary)
+				
+				SymmetricHStack(
+					spacing: 4,
+					content: {
+						ZStack(alignment: .leading) {
+							Group {
+								Text("Type a message to ")
+									.foregroundColor(Color.gray)
+								+
+								Text(viewModel.tribe.name)
+									.foregroundColor(Color.app.tertiary)
+							}
+							.opacity(viewModel.canSendText ? 0.0 : 1.0)
+							TextField("", text: $viewModel.text, axis: .vertical)
+								.tint(Color.white)
+								.lineLimit(1...4)
+								.foregroundColor(.white)
+								.focused($focusedField, equals: .text)
 						}
-						.opacity(viewModel.canSendText ? 0.0 : 1.0)
-						TextField("", text: $viewModel.text, axis: .vertical)
-							.tint(Color.white)
-							.lineLimit(1...4)
-							.foregroundColor(.white)
-							.focused($focusedField, equals: .text)
-					}
-					.font(Font.app.body)
-					.multilineTextAlignment(.leading)
-					.padding(.leading, 4)
-					.padding(.bottom, 6)
-					Spacer()
-					Button(
-						action: {
+						.font(Font.app.body)
+						.multilineTextAlignment(.leading)
+						.padding(.horizontal, 12)
+						.padding(.vertical, 10)
+						.background {
 							if viewModel.canSendText {
-								
-							} else {
-								dismissAction()
+								RoundedRectangle(cornerRadius: 14)
+									.stroke(Color.app.tertiary, lineWidth: 1)
 							}
 						}
-					) {
-						Image(systemName: viewModel.canSendText ? "paperplane.circle.fill" : "xmark.circle.fill")
-							.font(.system(size: 30))
-							.foregroundColor(Color.app.tertiary)
+					},
+					leading: {
+						Button(action: {
+							self.focusedField = nil
+						}) {
+							Image(systemName: "camera.fill")
+								.font(Font.app.title2)
+								.foregroundColor(Color.gray.opacity(0.8))
+						}
+						.frame(dimension: 40)
+					},
+					trailing: {
+						Button(
+							action: {
+								if viewModel.canSendText {
+
+								} else {
+									dismissAction()
+								}
+							}
+						) {
+							Image(systemName: viewModel.canSendText ? "paperplane.circle.fill" : "xmark.circle.fill")
+								.font(.system(size: 30))
+								.foregroundColor(Color.app.tertiary)
+						}
+						.frame(dimension: 40)
 					}
-				}
-				.padding([.horizontal, .bottom])
+				)
+				.padding(.horizontal)
+				.padding(.top, 4)
 			}
+			.padding(.bottom, 4)
 		}
 		.background(Color.app.background)
 		.safeAreaInset(edge: .top) {
