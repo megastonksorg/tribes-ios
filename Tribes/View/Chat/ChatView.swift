@@ -49,6 +49,8 @@ struct ChatView: View {
 					.scrollDismissesKeyboard(.interactively)
 				}
 				
+				let textFieldBarButtonSize: CGFloat = 40
+				
 				SymmetricHStack(
 					spacing: 4,
 					content: {
@@ -72,10 +74,11 @@ struct ChatView: View {
 						.padding(.horizontal, 12)
 						.padding(.vertical, 10)
 						.background {
-							if viewModel.canSendText {
-								RoundedRectangle(cornerRadius: 14)
-									.stroke(Color.app.tertiary, lineWidth: 1)
-							}
+							RoundedRectangle(cornerRadius: 14)
+								.stroke(Color.app.tertiary, lineWidth: 1)
+								.opacity(viewModel.canSendText ? 1.0 : 0.0)
+								.transition(.opacity)
+								.animation(.easeInOut, value: viewModel.canSendText)
 						}
 					},
 					leading: {
@@ -86,7 +89,7 @@ struct ChatView: View {
 								.font(Font.app.title2)
 								.foregroundColor(Color.gray.opacity(0.8))
 						}
-						.frame(dimension: 40)
+						.frame(dimension: textFieldBarButtonSize)
 					},
 					trailing: {
 						Button(
@@ -102,7 +105,7 @@ struct ChatView: View {
 								.font(.system(size: 30))
 								.foregroundColor(Color.app.tertiary)
 						}
-						.frame(dimension: 40)
+						.frame(dimension: textFieldBarButtonSize)
 					}
 				)
 				.padding(.horizontal)
