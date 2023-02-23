@@ -11,7 +11,9 @@ import SwiftUI
 struct ChatHeaderView: View {
 	let maxWidth: CGFloat = UIScreen.main.bounds.width
 	
+	let action: (TribeMember) -> Void
 	let members: IdentifiedArrayOf<TribeMember>
+	
 	var body: some View {
 		HStack() {
 			let dimensionA: CGFloat = maxWidth * 0.16
@@ -181,7 +183,7 @@ struct ChatHeaderView: View {
 	
 	@ViewBuilder
 	func userAvatarView(_ member: TribeMember) -> some View {
-		Button(action: {}) {
+		Button(action: { action(member) }) {
 			UserAvatar(url: member.profilePhoto)
 		}
 	}
@@ -191,6 +193,7 @@ struct ChatHeaderView_Previews: PreviewProvider {
 	static var previews: some View {
 		VStack {
 			ChatHeaderView(
+				action: { _ in },
 				members: IdentifiedArrayOf(
 					uniqueElements:
 						[

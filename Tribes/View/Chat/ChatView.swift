@@ -96,7 +96,12 @@ struct ChatView: View {
 		}
 		.background(Color.app.background)
 		.safeAreaInset(edge: .top) {
-			ChatHeaderView(members: IdentifiedArrayOf(uniqueElements: viewModel.tribe.members.others))
+			ChatHeaderView(
+				action: { viewModel.showTribeMemberCard($0) },
+				members: IdentifiedArrayOf(
+					uniqueElements: viewModel.tribe.members.others
+				)
+			)
 		}
 		.cardView(
 			isShowing: $viewModel.isShowingMember,
