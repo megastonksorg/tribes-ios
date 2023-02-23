@@ -97,7 +97,10 @@ struct ChatView: View {
 		.background(Color.app.background)
 		.safeAreaInset(edge: .top) {
 			ChatHeaderView(
-				action: { viewModel.showTribeMemberCard($0) },
+				action: {
+					self.focusedField = nil
+					viewModel.showTribeMemberCard($0)
+				},
 				members: IdentifiedArrayOf(
 					uniqueElements: viewModel.tribe.members.others
 				)
