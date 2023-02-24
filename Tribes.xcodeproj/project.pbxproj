@@ -13,11 +13,12 @@
 		D015807C295E039E0087545A /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D015807B295E039E0087545A /* CameraView.swift */; };
 		D015807E295E057F0087545A /* CMSampleBuffer+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = D015807D295E057F0087545A /* CMSampleBuffer+Image.swift */; };
 		D0158080295E08570087545A /* CameraVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D015807F295E08570087545A /* CameraVM.swift */; };
+		D017661629A883E4007BA165 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D017661529A883E4007BA165 /* ChatMessage.swift */; };
 		D018C8EE299DE5C9005765A2 /* EncryptionClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D018C8ED299DE5C9005765A2 /* EncryptionClient.swift */; };
 		D018C8F8299EDF2D005765A2 /* RSAKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = D018C8F7299EDF2D005765A2 /* RSAKeys.swift */; };
 		D01A5D7F29999DB100838774 /* XButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01A5D7E29999DB100838774 /* XButton.swift */; };
 		D01B8BA429A6004500C6BC1D /* ChatHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01B8BA329A6004500C6BC1D /* ChatHeaderView.swift */; };
-		D01B8BA629A81AA300C6BC1D /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01B8BA529A81AA300C6BC1D /* MessageView.swift */; };
+		D01B8BA629A81AA300C6BC1D /* ChatMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01B8BA529A81AA300C6BC1D /* ChatMessageView.swift */; };
 		D029D81E2957548400EA4C07 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D029D81D2957548400EA4C07 /* AppView.swift */; };
 		D030D28129573E9A0011128F /* TribesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030D28029573E9A0011128F /* TribesApp.swift */; };
 		D030D28529573E9B0011128F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D030D28429573E9B0011128F /* Assets.xcassets */; };
@@ -157,11 +158,12 @@
 		D015807B295E039E0087545A /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		D015807D295E057F0087545A /* CMSampleBuffer+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CMSampleBuffer+Image.swift"; sourceTree = "<group>"; };
 		D015807F295E08570087545A /* CameraVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraVM.swift; sourceTree = "<group>"; };
+		D017661529A883E4007BA165 /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
 		D018C8ED299DE5C9005765A2 /* EncryptionClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncryptionClient.swift; sourceTree = "<group>"; };
 		D018C8F7299EDF2D005765A2 /* RSAKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSAKeys.swift; sourceTree = "<group>"; };
 		D01A5D7E29999DB100838774 /* XButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XButton.swift; sourceTree = "<group>"; };
 		D01B8BA329A6004500C6BC1D /* ChatHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatHeaderView.swift; sourceTree = "<group>"; };
-		D01B8BA529A81AA300C6BC1D /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
+		D01B8BA529A81AA300C6BC1D /* ChatMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageView.swift; sourceTree = "<group>"; };
 		D029D81D2957548400EA4C07 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		D030D27D29573E9A0011128F /* Tribes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tribes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D030D28029573E9A0011128F /* TribesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TribesApp.swift; sourceTree = "<group>"; };
@@ -510,6 +512,7 @@
 				D0E8519D296CC0690034AFD1 /* TribeMember.swift */,
 				D0C65AA22970988900E527F9 /* Tribe.swift */,
 				D0AAF2DD29761F49003536C6 /* ChatType.swift */,
+				D017661529A883E4007BA165 /* ChatMessage.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -723,7 +726,7 @@
 				D0C3DBEF29A3FE1F0066FBB8 /* ChatView.swift */,
 				D0C3DBF129A3FE300066FBB8 /* ChatVM.swift */,
 				D01B8BA329A6004500C6BC1D /* ChatHeaderView.swift */,
-				D01B8BA529A81AA300C6BC1D /* MessageView.swift */,
+				D01B8BA529A81AA300C6BC1D /* ChatMessageView.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -923,7 +926,7 @@
 				D030D2DB295745E90011128F /* CornerRadiusStyle.swift in Sources */,
 				D01B8BA429A6004500C6BC1D /* ChatHeaderView.swift in Sources */,
 				D0CED88C299F03200077A347 /* MessageKey.swift in Sources */,
-				D01B8BA629A81AA300C6BC1D /* MessageView.swift in Sources */,
+				D01B8BA629A81AA300C6BC1D /* ChatMessageView.swift in Sources */,
 				D030D2E0295745E90011128F /* TextFieldView.swift in Sources */,
 				D030D2CE295745E90011128F /* Data+Hex.swift in Sources */,
 				D08EBF1F297EBEC1001B7A5C /* KeychainClient.swift in Sources */,
@@ -980,6 +983,7 @@
 				D030D2DA295745E90011128F /* NavBarTheme.swift in Sources */,
 				D030D3152957460B0011128F /* WelcomePageVM.swift in Sources */,
 				D033258329A27BE000F94834 /* View+If.swift in Sources */,
+				D017661629A883E4007BA165 /* ChatMessage.swift in Sources */,
 				D030D2AB295745C20011128F /* FeedbackClient.swift in Sources */,
 				D07278B42974CCD100650A15 /* TribesVM.swift in Sources */,
 				D0CED88E299F553D0077A347 /* EncryptedData.swift in Sources */,
