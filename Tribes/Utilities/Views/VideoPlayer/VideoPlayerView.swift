@@ -9,20 +9,17 @@ import AVFoundation
 import SwiftUI
 
 struct VideoPlayerView: View {
-	let thumbnail: UIImage
 	let url: URL
 	
 	@State private var isPlaying = false
 	@State private var shouldShowThumbnail = true
 	@State private var playbackProgress = Float(0)
+	@State private var thumbnail: UIImage? = nil
+	
+	//Clients
+	let cacheClient: CacheClient = CacheClient.shared
 	
 	init(url: URL) {
-		self.thumbnail = {
-			let imageGenerator = AVAssetImageGenerator(asset: AVAsset(url: url))
-			imageGenerator.appliesPreferredTrackTransform = true
-			let cgImage = try? imageGenerator.copyCGImage(at: CMTime(seconds: 0, preferredTimescale: 1), actualTime: nil)
-			return cgImage.map(UIImage.init) ?? .init()
-		}()
 		self.url = url
 	}
 	
@@ -36,10 +33,16 @@ struct VideoPlayerView: View {
 				onPlaybackProgressChange: { progress in playbackProgress = progress }
 			)
 			
-			Image(uiImage: thumbnail)
-				.resizable()
-				.scaledToFill()
-				.visible(shouldShowThumbnail)
+			Group {
+				if let thumbnail = self.thumbnail {
+					Image(uiImage: thumbnail)
+						.resizable()
+						.scaledToFill()
+				} else {
+					Color.gray
+				}
+			}
+			.visible(shouldShowThumbnail)
 			
 			Color.clear
 				.preference(key: PlaybackProgressKey.self, value: playbackProgress)
@@ -59,6 +62,25 @@ struct VideoPlayerView: View {
 							self.isPlaying = false
 						}
 					}
+			}
+		}
+		.onAppear {
+			loadThumbnail()
+		}
+	}
+	
+	func loadThumbnail() {
+		Task {
+			guard thumbnail == nil else { return }
+			if let imageInCache = await cacheClient.getImage(url: self.url) {
+				self.thumbnail = imageInCache
+			} else {
+				let imageGenerator = AVAssetImageGenerator(asset: AVAsset(url: url))
+				imageGenerator.appliesPreferredTrackTransform = true
+				let cgImage = try? imageGenerator.copyCGImage(at: CMTime(seconds: 0, preferredTimescale: 1), actualTime: nil)
+				let image = cgImage.map(UIImage.init) ?? .init()
+				self.thumbnail = image
+				await self.cacheClient.setImage(url: self.url, image: image)
 			}
 		}
 	}
