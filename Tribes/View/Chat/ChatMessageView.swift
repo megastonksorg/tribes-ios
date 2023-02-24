@@ -10,26 +10,49 @@ import SwiftUI
 struct ChatMessageView: View {
 	let message: ChatMessage
 	
+	@State var isShowingTimeStamp: Bool = false
+	
 	var body: some View {
-		contentView()
+		let avatarSize: CGFloat = 42
+		let spacing: CGFloat = 10
+		HStack(alignment: .top) {
+			UserAvatar(url: message.sender.profilePhoto)
+				.frame(dimension: avatarSize)
+			Spacer()
+				.frame(width: spacing)
+			VStack(alignment: .leading, spacing: 4) {
+				ZStack(alignment: .leading) {
+					Group {
+						Text(message.timeStamp, style: .relative)
+						+
+						Text(" ago")
+					}
+					.opacity(isShowingTimeStamp ? 1.0 : 0.0)
+					Text(message.sender.fullName)
+						.opacity(isShowingTimeStamp ? 0.0 : 1.0)
+				}
+				.font(Font.app.callout)
+				.foregroundColor(Color.gray)
+				contentView()
+					.onTapGesture {
+						withAnimation(.easeInOut) {
+							self.isShowingTimeStamp = true
+							DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+								self.isShowingTimeStamp = false
+							}
+						}
+					}
+			}
+		}
 	}
 	
 	@ViewBuilder
 	func contentView() -> some View {
-		HStack(alignment: .top) {
-			UserAvatar(url: message.sender.profilePhoto)
-				.frame(dimension: 42)
-			VStack(alignment: .leading, spacing: 4) {
-				Text(message.sender.fullName)
-					.font(Font.app.callout)
-					.foregroundColor(Color.gray)
-				switch message.content {
-				case .text:
-					textView(content: message.content)
-				case .imageWithCaption, .videoWithCaption:
-					EmptyView()
-				}
-			}
+		switch message.content {
+		case .text:
+			textView(content: message.content)
+		case .imageWithCaption, .videoWithCaption:
+			EmptyView()
 		}
 	}
 	
