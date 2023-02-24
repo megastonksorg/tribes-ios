@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ChatMessage {
+class ChatMessage: Identifiable {
 	enum Content {
 		case text(String?)
 		case videoWithCaption(_ videoUrl: URL?, _ caption: String?)
@@ -19,6 +19,17 @@ struct ChatMessage {
 		case outgoing
 	}
 	
+	let id: String
 	let content: Content
+	let context: ChatMessage
+	let sender: TribeMember
 	let style: Style
+	
+	init(id: String, content: Content, context: ChatMessage, sender: TribeMember, style: Style) {
+		self.id = id
+		self.content = content
+		self.context = context
+		self.sender = sender
+		self.style = style
+	}
 }
