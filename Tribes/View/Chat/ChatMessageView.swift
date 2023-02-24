@@ -48,15 +48,24 @@ struct ChatMessageView: View {
 			case .outgoing: return Color.black
 			}
 		}()
+		
 		if case .text(let text) = content {
+			let isEncrypted: Bool = text == nil
 			Text(text ?? "Message Could not decrypted")
 				.font(Font.app.subTitle)
 				.foregroundColor(foregroundColor)
 				.padding()
+				.blur(radius: isEncrypted ? 4.0 : 0.0)
 				.background(
 					CustomRoundedRectangle(cornerRadius: 30, corners: corners)
 						.fill(color)
 				)
+				.overlay(isShown: isEncrypted) {
+					Image(systemName: "lock.circle.fill")
+						.symbolRenderingMode(.palette)
+						.foregroundStyle(Color.app.secondary, Color.white)
+						.font(.system(size: 40))
+				}
 		}
 	}
 }
