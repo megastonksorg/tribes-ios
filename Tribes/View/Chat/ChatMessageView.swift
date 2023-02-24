@@ -15,9 +15,11 @@ struct ChatMessageView: View {
 	var body: some View {
 		let avatarSize: CGFloat = 42
 		let spacing: CGFloat = 10
-		HStack(alignment: .top) {
+		let isIncoming: Bool = message.style == .incoming
+		HStack(alignment: .top, spacing: 0) {
 			UserAvatar(url: message.sender.profilePhoto)
 				.frame(dimension: avatarSize)
+				.opacity(isIncoming ? 1.0 : 0.0)
 			Spacer()
 				.frame(width: spacing)
 			VStack(alignment: .leading, spacing: 4) {
@@ -28,31 +30,33 @@ struct ChatMessageView: View {
 						Text(" ago")
 					}
 					.opacity(isShowingTimeStamp ? 1.0 : 0.0)
-					Text(message.sender.fullName)
+					Text(isIncoming ? message.sender.fullName : "")
 						.opacity(isShowingTimeStamp ? 0.0 : 1.0)
 				}
 				.font(Font.app.callout)
 				.foregroundColor(Color.gray)
 				contentView()
-					.onTapGesture {
-						withAnimation(.easeInOut) {
-							self.isShowingTimeStamp = true
-							DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-								self.isShowingTimeStamp = false
-							}
-						}
-					}
 			}
 		}
 	}
 	
 	@ViewBuilder
 	func contentView() -> some View {
-		switch message.content {
-		case .text:
-			textView(content: message.content)
-		case .imageWithCaption, .videoWithCaption:
-			EmptyView()
+		Group {
+			switch message.content {
+			case .text:
+				textView(content: message.content)
+			case .imageWithCaption, .videoWithCaption:
+				EmptyView()
+			}
+		}
+		.onTapGesture {
+			withAnimation(.easeInOut) {
+				self.isShowingTimeStamp = true
+				DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+					self.isShowingTimeStamp = false
+				}
+			}
 		}
 	}
 	
@@ -84,7 +88,8 @@ struct ChatMessageView: View {
 			Text(text ?? "Message Could not decrypted")
 				.font(Font.app.subTitle)
 				.foregroundColor(foregroundColor)
-				.padding()
+				.padding(10)
+				.padding(.leading, 6)
 				.blur(radius: isEncrypted ? 4.0 : 0.0)
 				.background(
 					CustomRoundedRectangle(cornerRadius: 30, corners: corners)
@@ -102,6 +107,6 @@ struct ChatMessageView: View {
 
 struct ChatMessageView_Previews: PreviewProvider {
 	static var previews: some View {
-		ChatMessageView(message: ChatMessage.noop1)
+		ChatMessageView(message: ChatMessage.noop4)
 	}
 }
