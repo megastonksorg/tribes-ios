@@ -16,12 +16,19 @@ struct ChatMessageView: View {
 	
 	@ViewBuilder
 	func contentView() -> some View {
-		VStack(alignment: message.style == .incoming ? .leading :.trailing) {
-			switch message.content {
-			case .text:
-				textView(content: message.content)
-			case .imageWithCaption, .videoWithCaption:
-				EmptyView()
+		HStack(alignment: .top) {
+			UserAvatar(url: message.sender.profilePhoto)
+				.frame(dimension: 42)
+			VStack(alignment: .leading, spacing: 4) {
+				Text(message.sender.fullName)
+					.font(Font.app.callout)
+					.foregroundColor(Color.gray)
+				switch message.content {
+				case .text:
+					textView(content: message.content)
+				case .imageWithCaption, .videoWithCaption:
+					EmptyView()
+				}
 			}
 		}
 	}
