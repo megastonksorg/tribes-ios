@@ -14,14 +14,16 @@ struct ChatMessageView: View {
 	
 	var body: some View {
 		let avatarSize: CGFloat = 42
-		let spacing: CGFloat = 10
 		let isIncoming: Bool = message.style == .incoming
 		HStack(alignment: .top, spacing: 0) {
 			UserAvatar(url: message.sender.profilePhoto)
 				.frame(dimension: avatarSize)
 				.opacity(isIncoming ? 1.0 : 0.0)
 			Spacer()
-				.frame(width: spacing)
+				.frame(width: 10)
+			if message.style == .outgoing {
+				Spacer(minLength: 0)
+			}
 			VStack(alignment: .leading, spacing: 4) {
 				ZStack(alignment: .leading) {
 					Group {
@@ -36,6 +38,9 @@ struct ChatMessageView: View {
 				.font(Font.app.callout)
 				.foregroundColor(Color.gray)
 				contentView()
+			}
+			if message.style == .incoming {
+				Spacer(minLength: 0)
 			}
 		}
 	}
