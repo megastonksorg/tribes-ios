@@ -10,7 +10,10 @@ import SwiftUI
 struct AppProgressView: View {
 	var body: some View {
 		Color.black.opacity(0.2).ignoresSafeArea()
-			.overlay(ProgressView())
+			.overlay(
+				LoadingIndicator(speed: 0.4)
+					.frame(dimension: SizeConstants.loadingIndicatorSize)
+			)
 	}
 }
 

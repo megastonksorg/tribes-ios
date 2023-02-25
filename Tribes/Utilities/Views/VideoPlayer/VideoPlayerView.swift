@@ -35,8 +35,8 @@ struct VideoPlayerView: View {
 				}
 			}
 			.overlay(isShown: playbackProgress <= 0) {
-				CaptureLoadingIndicator(speed: 0.4)
-					.frame(dimension: 40)
+				LoadingIndicator(speed: 0.4)
+					.frame(dimension: SizeConstants.loadingIndicatorSize)
 			}
 			PlayerView(
 				url: url,

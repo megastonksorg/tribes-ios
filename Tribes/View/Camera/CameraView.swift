@@ -177,8 +177,8 @@ struct CameraView: View {
 			)
 			.opacity(isShutterButtonPressed && !isRecordingVideo ? 0.5 : 1.0)
 			.overlay(isShown: viewModel.isCapturingImage) {
-				CaptureLoadingIndicator()
-					.frame(dimension: 40)
+				LoadingIndicator(style: .media)
+					.frame(dimension: SizeConstants.loadingIndicatorSize)
 			}
 	}
 }
