@@ -21,7 +21,6 @@ struct VideoPlayerView: View {
 	
 	init(url: URL) {
 		self.url = url
-		loadThumbnail()
 	}
 	
 	var body: some View {
@@ -33,12 +32,12 @@ struct VideoPlayerView: View {
 						.scaledToFill()
 				} else {
 					Color.app.primary
-						.overlay(
-							CaptureLoadingIndicator()
-								.frame(dimension: 40)
-						)
 				}
 			}
+			.overlay(
+				CaptureLoadingIndicator(speed: 0.4)
+					.frame(dimension: 40)
+			)
 			PlayerView(
 				url: url,
 				isPlaying: isPlaying,
@@ -66,6 +65,7 @@ struct VideoPlayerView: View {
 					}
 			}
 		}
+		.onAppear { loadThumbnail() }
 	}
 	
 	func loadThumbnail() {

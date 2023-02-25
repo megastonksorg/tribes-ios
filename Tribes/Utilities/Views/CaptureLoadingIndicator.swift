@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CaptureLoadingIndicator: View {
+	var speed: CGFloat = 0.6
 	@State var isAnimating: Bool = false
 	
 	var body: some View {
@@ -16,7 +17,7 @@ struct CaptureLoadingIndicator: View {
 			.stroke(style: StrokeStyle(lineWidth: 5.00, lineCap: .round, lineJoin: .round))
 			.fill(LinearGradient(colors: [.white, .gray.opacity(0.4)], startPoint: .leading, endPoint: .trailing))
 			.rotationEffect(isAnimating ? .degrees(360): .degrees(0))
-			.animation(.linear.speed(0.6).repeatForever(autoreverses: false), value: self.isAnimating)
+			.animation(.linear.speed(speed).repeatForever(autoreverses: false), value: self.isAnimating)
 			.onAppear {
 				self.isAnimating = true
 			}
