@@ -21,10 +21,24 @@ struct VideoPlayerView: View {
 	
 	init(url: URL) {
 		self.url = url
+		loadThumbnail()
 	}
 	
 	var body: some View {
 		ZStack {
+			Group {
+				if let thumbnail = self.thumbnail {
+					Image(uiImage: thumbnail)
+						.resizable()
+						.scaledToFill()
+				} else {
+					Color.app.primary
+						.overlay(
+							CaptureLoadingIndicator()
+								.frame(dimension: 40)
+						)
+				}
+			}
 			PlayerView(
 				url: url,
 				isPlaying: isPlaying,
@@ -32,18 +46,6 @@ struct VideoPlayerView: View {
 				shouldShowThumbnail: $shouldShowThumbnail,
 				onPlaybackProgressChange: { progress in playbackProgress = progress }
 			)
-			
-			Group {
-				if let thumbnail = self.thumbnail {
-					Image(uiImage: thumbnail)
-						.resizable()
-						.scaledToFill()
-				} else {
-					Color.gray
-				}
-			}
-			.visible(shouldShowThumbnail)
-			
 			Color.clear
 				.preference(key: PlaybackProgressKey.self, value: playbackProgress)
 		}
@@ -63,9 +65,6 @@ struct VideoPlayerView: View {
 						}
 					}
 			}
-		}
-		.onAppear {
-			loadThumbnail()
 		}
 	}
 	
