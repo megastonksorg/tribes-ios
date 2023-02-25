@@ -181,21 +181,20 @@ struct TribesView: View {
 					}
 				}
 			}
-			.overlay {
+			.overlay(isShown: viewModel.isShowingTribeTea) {
 				Color.app.secondary
-					.opacity(viewModel.isShowingTribeTea ? 1.0 : 0.0)
+					.ignoresSafeArea()
 					.transition(.opacity)
-					.overlay(isShown: viewModel.isShowingTribeTea) {
+					.overlay(
 						VideoPlayerView(
 							url: URL(string: "https://kingsleyokeke.blob.core.windows.net/videos/Untitled.mp4")!
 						)
-						.overlay(alignment: .topTrailing) {
-							XButton {
-								viewModel.setIsShowingTribeTea(false)
-							}
-							.padding()
-							.padding(.trailing)
+					)
+					.overlay(alignment: .topTrailing) {
+						XButton {
+							viewModel.setIsShowingTribeTea(false)
 						}
+						.padding()
 					}
 			}
 			.sheet(
