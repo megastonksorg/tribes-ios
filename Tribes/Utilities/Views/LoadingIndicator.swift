@@ -10,7 +10,7 @@ import SwiftUI
 struct LoadingIndicator: View {
 	enum Style {
 		case base
-		case media
+		case camera
 	}
 	
 	var speed: CGFloat = 0.6
@@ -23,7 +23,7 @@ struct LoadingIndicator: View {
 			switch style {
 			case .base:
 				return Color.app.tertiary
-			case .media:
+			case .camera:
 				return Color.white
 			}
 		}()
@@ -44,7 +44,7 @@ struct LoadingIndicator_Previews: PreviewProvider {
 		VStack {
 			LoadingIndicator()
 				.frame(dimension: 40)
-			LoadingIndicator(style: .media)
+			LoadingIndicator(style: .camera)
 				.frame(dimension: 40)
 		}
 		.pushOutFrame()
