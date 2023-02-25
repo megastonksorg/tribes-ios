@@ -24,13 +24,17 @@ extension DefaultKey {
 class DefaultsClient: DefaultsClientProtocol {
 	static let shared: DefaultsClient = DefaultsClient()
 	
+	private let encoder: JSONEncoder = JSONEncoder()
+	private let decoder: JSONDecoder = JSONDecoder()
 	private let defaults: UserDefaults = UserDefaults.standard
 	
 	func get<Data>(key: DefaultKey<Data>) -> Data? where Data : Codable {
-		return defaults.object(forKey: key.name) as? Data
+		guard let dataObject = defaults.object(forKey: key.name) as? Foundation.Data else { return nil }
+		return try? self.decoder.decode(Data.self, from: dataObject)
 	}
 	
 	func set<Data>(key: DefaultKey<Data>, value: Data) where Data : Codable {
-		defaults.set(value, forKey: key.name)
+		let encodedData = try? self.encoder.encode(value)
+		defaults.set(encodedData, forKey: key.name)
 	}
 }
