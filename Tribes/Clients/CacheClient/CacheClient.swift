@@ -64,7 +64,7 @@ class CacheClient: CacheClientProtocol {
 			.sink(receiveValue: { [weak self] _ in self?.cache = [] })
 		Task {
 			let fileSizes = await getSizeOfCache()
-			if fileSizes > 500_000_000 { // 500 MB
+			if fileSizes > 1_000_000_000 { // 1 GB
 				clear()
 			}
 		}
