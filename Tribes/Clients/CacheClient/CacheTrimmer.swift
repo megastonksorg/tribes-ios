@@ -41,8 +41,8 @@ class CacheTrimmer {
 	}
 	
 	func trimStaleData() {
-		guard let oldCacheTracker = DefaultsClient.shared.get(key: .cacheTracker) else { return }
-		oldCacheTracker.forEach { tracker in
+		guard let cacheTracker = DefaultsClient.shared.get(key: .cacheTracker) else { return }
+		cacheTracker.forEach { tracker in
 			if Date.now.timeIntervalSince(tracker.lastAccessed) > cacheExpiryIntervalInSeconds {
 				Task {
 					await CacheClient.shared.delete(key: tracker.key)

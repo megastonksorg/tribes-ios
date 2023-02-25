@@ -18,16 +18,21 @@ protocol CacheClientProtocol {
 	func clear()
 }
 
+extension SHA256 {
+	static func getHash(for url: URL) -> String {
+		let hash = SHA256.hash(data: Data(url.absoluteString.utf8))
+		return hash.compactMap { String(format: "%02x", $0) }.joined()
+	}
+}
+
 extension CacheClientProtocol {
 	func setImage(url: URL, image: UIImage) async -> Void {
 		guard let pngData = image.pngData() else { return }
-		await set(cache: Cache(key: SHA256.hash(data: Data(url.absoluteString.utf8)).description, object: pngData))
+		await set(cache: Cache(key: SHA256.getHash(for: url), object: pngData))
 	}
 	
 	func getImage(url: URL) async -> UIImage? {
-		guard let imageData = await get(key: SHA256.hash(data: Data(url.absoluteString.utf8)).description, type: Data.self) else {
-			return nil
-		}
+		guard let imageData = await get(key: SHA256.getHash(for: url), type: Data.self) else { return nil }
 		return UIImage(data: imageData)
 	}
 	
