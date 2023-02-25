@@ -18,8 +18,12 @@ class CacheTrimmer {
 	static let shared: CacheTrimmer = CacheTrimmer()
 	
 	//Clients
-	let cacheClient: CacheClient = CacheClient.shared
-	let defaultsClient: DefaultsClient = DefaultsClient.shared
+	private let cacheClient: CacheClient = CacheClient.shared
+	private let defaultsClient: DefaultsClient = DefaultsClient.shared
+	
+	func resetTracker() {
+		defaultsClient.set(key: .cacheTracker, value: [])
+	}
 	
 	func fileAccessed(key: String) {
 		guard var cacheTracker = DefaultsClient.shared.get(key: .cacheTracker) else { return }
@@ -27,7 +31,7 @@ class CacheTrimmer {
 		defaultsClient.set(key: .cacheTracker, value: cacheTracker)
 	}
 	
-	func trimStaleData() {
+	private func trimStaleData() {
 		
 	}
 }

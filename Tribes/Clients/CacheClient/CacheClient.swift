@@ -51,6 +51,7 @@ class CacheClient: CacheClientProtocol {
 	private let queue = DispatchQueue(label: "com.strikingFinancial.tribes.cache.sessionQueue", target: .global())
 	
 	private var cache: IdentifiedArrayOf<Cache> = []
+	private var cacheTrimmer: CacheTrimmer = CacheTrimmer.shared
 	private var memorySubscription: AnyCancellable!
 	
 	init() {
@@ -88,6 +89,7 @@ class CacheClient: CacheClientProtocol {
 					continuation.resume(returning: nil)
 					return
 				}
+				self.cacheTrimmer.fileAccessed(key: key)
 				self.cache[id: key] = Cache(key: key, object: cachedObject)
 				continuation.resume(returning: cachedObject)
 			}
@@ -126,6 +128,7 @@ class CacheClient: CacheClientProtocol {
 			for file in files {
 				try? FileManager.default.removeItem(at: file)
 			}
+			self.cacheTrimmer.resetTracker()
 			self.cache = []
 		}
 	}
