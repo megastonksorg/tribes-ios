@@ -161,21 +161,16 @@ struct ChatHeaderView: View {
 				.padding(.bottom, 10)
 			}
 		}
-		.frame(width: maxWidth, height: 110)
+		.padding(.bottom, 8)
+		.frame(width: maxWidth, height: 100)
 		.background {
 			let cornerRadius: CGFloat = 40
+			let corners: UIRectCorner = [.bottomLeft, .bottomRight]
 			ZStack {
-				RoundedRectangle(cornerRadius: cornerRadius)
-					.fill(Color.app.background)
-				RoundedRectangle(cornerRadius: cornerRadius)
-					.stroke(
-						LinearGradient(
-							colors: [.clear, .clear, .clear, Color.app.secondary],
-							startPoint: .top,
-							endPoint: .bottom
-						),
-						lineWidth: 2.0
-					)
+				CustomRoundedRectangle(cornerRadius: cornerRadius, corners: corners)
+					.fill(.ultraThinMaterial)
+				CustomRoundedRectangle(cornerRadius: cornerRadius, corners: corners)
+					.fill(Color.app.background.opacity(0.6))
 			}
 			.edgesIgnoringSafeArea(.top)
 		}
