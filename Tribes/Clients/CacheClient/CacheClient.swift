@@ -14,6 +14,7 @@ import SwiftUI
 protocol CacheClientProtocol {
 	func get<Object: Codable>(key: String, type: Object.Type) async -> Object?
 	func set(cache: Cache) async -> Void
+	func delete(key: String) async -> Void
 	func clear()
 }
 
@@ -160,10 +161,11 @@ class CacheClient: CacheClientProtocol {
 		}
 	}
 	
-	private func delete(key: String) async {
+	func delete(key: String) async {
 		queue.sync { [weak self] in
 			guard let self = self else { return }
 			try? FileManager.default.removeItem(at: fileName(for: key))
+			self.cacheTrimmer.removeTracker(for: key)
 			self.cache.remove(id: key)
 		}
 	}
