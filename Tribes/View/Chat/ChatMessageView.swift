@@ -35,6 +35,7 @@ struct ChatMessageView: View {
 					Text(isIncoming ? message.sender.fullName : "")
 						.opacity(isShowingTimeStamp ? 0.0 : 1.0)
 				}
+				.lineLimit(1)
 				.font(Font.app.callout)
 				.foregroundColor(Color.gray)
 				contentView()
