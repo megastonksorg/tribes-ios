@@ -31,6 +31,8 @@ class WalletClient: WalletClientProtocol {
 	
 	private let passPhrase: String = ""
 	private let coinType: WalletCore.CoinType = .ethereum
+	
+	//Clients
 	private let keychainClient: KeychainClient = KeychainClient.shared
 	
 	func generateNewWallet() -> Result<HDWallet, WalletClientError> {
