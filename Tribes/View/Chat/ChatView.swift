@@ -54,14 +54,15 @@ struct ChatView: View {
 				SymmetricHStack(
 					spacing: 4,
 					content: {
-						ZStack(alignment: .leading) {
+						ZStack(alignment: .topLeading) {
 							Group {
-								Text("Type a message to ")
+								Text("Message ")
 									.foregroundColor(Color.gray)
 								+
 								Text(viewModel.tribe.name)
 									.foregroundColor(Color.app.tertiary)
 							}
+							.lineLimit(2)
 							.opacity(viewModel.canSendText ? 0.0 : 1.0)
 							TextField("", text: $viewModel.text, axis: .vertical)
 								.tint(Color.white)
