@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import IdentifiedCollections
 
 class CacheTrimmer {
 	struct CacheTracker: Codable, Identifiable {
@@ -15,24 +16,20 @@ class CacheTrimmer {
 		var id: String { key }
 	}
 	
-	static let shared: CacheTrimmer = CacheTrimmer()
-	
 	private let cacheExpiryIntervalInSeconds: Double = 864_000 //10days = 10d * 24h * 3600s
 	
 	//Clients
-	private let cacheClient: CacheClient = CacheClient.shared
 	private let defaultsClient: DefaultsClient = DefaultsClient.shared
-	
-	init () {
-		trimStaleData()
-	}
 	
 	func resetTracker() {
 		defaultsClient.set(key: .cacheTracker, value: [])
 	}
 	
 	func fileAccessed(key: String) {
-		guard var cacheTracker = DefaultsClient.shared.get(key: .cacheTracker) else { return }
+		guard var cacheTracker = DefaultsClient.shared.get(key: .cacheTracker) else {
+			defaultsClient.set(key: .cacheTracker, value: IdentifiedArrayOf(uniqueElements: [CacheTracker(key: key, lastAccessed: Date.now)]))
+			return
+		}
 		cacheTracker.updateOrAppend(CacheTracker(key: key, lastAccessed: Date.now))
 		defaultsClient.set(key: .cacheTracker, value: cacheTracker)
 	}
@@ -43,12 +40,12 @@ class CacheTrimmer {
 		defaultsClient.set(key: .cacheTracker, value: cacheTracker)
 	}
 	
-	private func trimStaleData() {
+	func trimStaleData() {
 		guard let oldCacheTracker = DefaultsClient.shared.get(key: .cacheTracker) else { return }
 		oldCacheTracker.forEach { tracker in
 			if Date.now.timeIntervalSince(tracker.lastAccessed) > cacheExpiryIntervalInSeconds {
 				Task {
-					await cacheClient.delete(key: tracker.key)
+					await CacheClient.shared.delete(key: tracker.key)
 				}
 			}
 		}

@@ -47,12 +47,12 @@ class CacheClient: CacheClientProtocol {
 	private let cacheDirectory: URL = try! FileManager.default
 		.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
 		.appendingPathComponent(cacheFolderName)
+	private let cacheTrimmer: CacheTrimmer = CacheTrimmer()
 	private let encoder: JSONEncoder = JSONEncoder()
 	private let decoder: JSONDecoder = JSONDecoder()
 	private let queue = DispatchQueue(label: "com.strikingFinancial.tribes.cache.sessionQueue", target: .global())
 	
 	private var cache: IdentifiedArrayOf<Cache> = []
-	private var cacheTrimmer: CacheTrimmer = CacheTrimmer.shared
 	private var memorySubscription: AnyCancellable!
 	
 	init() {
@@ -68,6 +68,7 @@ class CacheClient: CacheClientProtocol {
 			if fileSizes > 1_000_000_000 { // 1 GB
 				clear()
 			}
+			cacheTrimmer.trimStaleData()
 		}
 	}
 	
