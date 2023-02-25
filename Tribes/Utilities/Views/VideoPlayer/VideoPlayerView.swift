@@ -34,10 +34,10 @@ struct VideoPlayerView: View {
 					Color.app.primary
 				}
 			}
-			.overlay(
+			.overlay(isShown: playbackProgress <= 0) {
 				CaptureLoadingIndicator(speed: 0.4)
 					.frame(dimension: 40)
-			)
+			}
 			PlayerView(
 				url: url,
 				isPlaying: isPlaying,
