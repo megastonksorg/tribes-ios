@@ -8,7 +8,7 @@
 import Foundation
 import IdentifiedCollections
 
-class CacheTrimmer {
+struct CacheTrimmer {
 	struct CacheTracker: Codable, Identifiable {
 		let key: String
 		let lastAccessed: Date
