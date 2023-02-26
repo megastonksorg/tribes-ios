@@ -71,9 +71,12 @@ extension AccountView {
 		@Published var sheet: Sheet?
 		
 		var isUpdateButtonEnabled: Bool {
-			let trimmedName = editFullNameText.trimmingCharacters(in: .whitespacesAndNewlines)
-			if trimmedName.isValidName {
-				return trimmedName != user.fullName.trimmingCharacters(in: .whitespacesAndNewlines) || editImage != nil
+			if !isUploadingImage {
+				let trimmedName = editFullNameText.trimmingCharacters(in: .whitespacesAndNewlines)
+				if trimmedName.isValidName {
+					return trimmedName != user.fullName.trimmingCharacters(in: .whitespacesAndNewlines) || editImage != nil
+				}
+				return false
 			}
 			return false
 		}
