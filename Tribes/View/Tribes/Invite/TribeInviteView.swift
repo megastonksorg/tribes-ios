@@ -68,7 +68,7 @@ struct TribeInviteView: View {
 						.font(font)
 						.lineLimit(1)
 					
-					Button(action: {}) {
+					Button(action: { viewModel.copyPinCode() }) {
 						Image(systemName: "doc.on.doc.fill")
 							.font(Font.app.title3)
 							.foregroundColor(.gray)

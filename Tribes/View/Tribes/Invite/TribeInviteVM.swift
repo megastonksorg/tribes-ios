@@ -66,6 +66,10 @@ extension TribeInviteView {
 			invalidateTimer()
 		}
 		
+		func copyPinCode() {
+			PasteboardClient.shared.copyText("\(pin)-\(code)")
+		}
+		
 		func setPinCode() {
 			invalidateTimer()
 			self.didPinCodeGenerationFail = false
