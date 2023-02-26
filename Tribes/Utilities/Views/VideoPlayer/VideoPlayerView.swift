@@ -34,6 +34,7 @@ struct VideoPlayerView: View {
 					Color.app.primary
 				}
 			}
+			.ignoresSafeArea()
 			.overlay(isShown: playbackProgress <= 0) {
 				LoadingIndicator(speed: 0.4)
 					.frame(dimension: SizeConstants.loadingIndicatorSize)
