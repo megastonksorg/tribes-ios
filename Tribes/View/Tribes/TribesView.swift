@@ -61,7 +61,6 @@ struct TribesView: View {
 				}
 			}
 			.pushOutFrame()
-			.banner(data: self.$viewModel.banner)
 			.background(Color.app.background)
 			.overlay {
 				contextMenuBackground()
@@ -175,6 +174,7 @@ struct TribesView: View {
 				Group {
 					if let inviteVM = viewModel.tribeInviteVM {
 						TribeInviteView(
+							didCopyAction: { viewModel.showTribeInviteCopyBanner() },
 							dismissAction: { viewModel.dismissTribeInviteCard() },
 							viewModel: inviteVM
 						)
@@ -197,6 +197,7 @@ struct TribesView: View {
 						.padding()
 					}
 			}
+			.banner(data: self.$viewModel.banner)
 			.sheet(
 				isPresented: Binding(
 					get: { viewModel.leaveTribeVM != nil },

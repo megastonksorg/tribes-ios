@@ -8,11 +8,13 @@
 import SwiftUI
 
 struct TribeInviteView: View {
+	let didCopyAction: () -> ()
 	let dismissAction: () -> ()
 	
 	@StateObject var viewModel: ViewModel
 	
-	init(dismissAction: @escaping () -> (), viewModel: ViewModel) {
+	init(didCopyAction: @escaping () -> (), dismissAction: @escaping () -> (), viewModel: ViewModel) {
+		self.didCopyAction = didCopyAction
 		self.dismissAction = dismissAction
 		self._viewModel = StateObject(wrappedValue: viewModel)
 	}
@@ -68,7 +70,12 @@ struct TribeInviteView: View {
 						.font(font)
 						.lineLimit(1)
 					
-					Button(action: { viewModel.copyPinCode() }) {
+					Button(
+						action: {
+							viewModel.copyPinCode()
+							didCopyAction()
+							}
+					) {
 						Image(systemName: "doc.on.doc.fill")
 							.font(Font.app.title3)
 							.foregroundColor(.gray)
@@ -126,8 +133,12 @@ struct TribeInviteView: View {
 
 struct TribeInviteView_Previews: PreviewProvider {
 	static var previews: some View {
-		TribeInviteView(dismissAction: {}, viewModel: .init(tribe: Tribe.noop1))
-			.background(Color.black)
+		TribeInviteView(
+			didCopyAction: {},
+			dismissAction: {},
+			viewModel: .init(tribe: Tribe.noop1)
+		)
+		.background(Color.black)
 	}
 }
 

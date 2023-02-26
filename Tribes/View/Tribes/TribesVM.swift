@@ -53,6 +53,10 @@ extension TribesView {
 			AppRouter.pushStack(stack: .home(.createTribe))
 		}
 		
+		func showTribeInviteCopyBanner() {
+			self.banner = BannerData(detail: "Pin Code copied to clipboard", type: .success)
+		}
+		
 		func joinTribe() {
 			AppRouter.pushStack(stack: .home(.joinTribe))
 		}
