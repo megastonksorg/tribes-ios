@@ -246,7 +246,7 @@ struct AccountView: View {
 						.font(Font.app.title)
 						.padding(.top)
 						Spacer()
-						Button(action: { }) {
+						Button(action: { viewModel.executeSheetAction() }) {
 							Text(sheet.title)
 						}
 						.buttonStyle(sheet == .logout ? .expanded : .expanded(invertedStyle: true))
@@ -260,6 +260,9 @@ struct AccountView: View {
 				}
 				.pushOutFrame()
 				.background(Color.app.background)
+				.overlay(isShown: viewModel.isProcessingSheetRequest) {
+					AppProgressView()
+				}
 			}
 		}
 	}

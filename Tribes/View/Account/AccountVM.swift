@@ -69,6 +69,7 @@ extension AccountView {
 		@Published var isShowingSettings: Bool = false
 		@Published var isUpdatingImage: Bool = false
 		@Published var isUpdatingName: Bool = false
+		@Published var isProcessingSheetRequest: Bool = false
 		@Published var sheet: Sheet?
 		
 		var isUpdateButtonEnabled: Bool {
@@ -113,6 +114,16 @@ extension AccountView {
 		func copyAddress() {
 			PasteboardClient.shared.copyText(user.walletAddress)
 			self.banner = BannerData(detail: AppConstants.addressCopied, type: .success)
+		}
+		
+		func executeSheetAction() {
+			switch sheet {
+			case .logout:
+				self.isProcessingSheetRequest = true
+				AppState.updateAppState(with: .userRequestedLogout)
+			case .deleteAccount, .imagePicker, .none:
+				return
+			}
 		}
 		
 		func setEditFullNameText(_ text: String) {

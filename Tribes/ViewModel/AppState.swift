@@ -21,6 +21,7 @@ fileprivate let appStateKeyNotification: String = "appState"
 	enum AppAction {
 		case changeAppMode(AppMode)
 		case logUserOut
+		case userRequestedLogout
 		case userUpdated(User)
 	}
 	
@@ -61,12 +62,9 @@ fileprivate let appStateKeyNotification: String = "appState"
 				}
 		case .logUserOut:
 			self.banner = BannerData(timeOut: 8.0, detail: "Authentication Failed. You will be logged out soon.", type: .error)
-			Task {
-				self.cacheClient.clear()
-				self.keychainClient.clearAllKeys()
-				try await Task.sleep(for: .seconds(8.0))
-				self.appMode = .welcome(WelcomePageView.ViewModel())
-			}
+			logOut(isDelayed: true)
+		case .userRequestedLogout:
+			logOut(isDelayed: false)
 		case .userUpdated(let user):
 			self.user = user
 			switch self.appMode {
@@ -75,6 +73,19 @@ fileprivate let appStateKeyNotification: String = "appState"
 				NotificationCenter.default.post(Notification(name: .userUpdated))
 			default: return
 			}
+		}
+	}
+	
+	private func logOut(isDelayed: Bool) {
+		self.cacheClient.clear()
+		self.keychainClient.clearAllKeys()
+		if isDelayed {
+			Task {
+				try await Task.sleep(for: .seconds(8.0))
+				self.appMode = .welcome(WelcomePageView.ViewModel())
+			}
+		} else {
+			self.appMode = .welcome(WelcomePageView.ViewModel())
 		}
 	}
 	
