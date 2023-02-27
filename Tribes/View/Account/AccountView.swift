@@ -196,6 +196,9 @@ struct AccountView: View {
 				EmptyView()
 			}
 		}
+		.overlay(isShown: viewModel.isProcessingLogoutRequest) {
+			AppProgressView()
+		}
 		.onDisappear { viewModel.didDisappear() }
 	}
 	
@@ -260,9 +263,6 @@ struct AccountView: View {
 				}
 				.pushOutFrame()
 				.background(Color.app.background)
-				.overlay(isShown: viewModel.isProcessingSheetRequest) {
-					AppProgressView()
-				}
 			}
 		}
 	}

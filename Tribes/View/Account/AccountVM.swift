@@ -69,7 +69,7 @@ extension AccountView {
 		@Published var isShowingSettings: Bool = false
 		@Published var isUpdatingImage: Bool = false
 		@Published var isUpdatingName: Bool = false
-		@Published var isProcessingSheetRequest: Bool = false
+		@Published var isProcessingLogoutRequest: Bool = false
 		@Published var sheet: Sheet?
 		
 		var isUpdateButtonEnabled: Bool {
@@ -119,7 +119,8 @@ extension AccountView {
 		func executeSheetAction() {
 			switch sheet {
 			case .logout:
-				self.isProcessingSheetRequest = true
+				self.sheet = nil
+				self.isProcessingLogoutRequest = true
 				AppState.updateAppState(with: .userRequestedLogout)
 			case .deleteAccount, .imagePicker, .none:
 				return
