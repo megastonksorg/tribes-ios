@@ -82,10 +82,14 @@ fileprivate let appStateKeyNotification: String = "appState"
 		if isDelayed {
 			Task {
 				try await Task.sleep(for: .seconds(8.0))
-				self.appMode = .welcome(WelcomePageView.ViewModel())
+				DispatchQueue.main.async {
+					self.appMode = .welcome(WelcomePageView.ViewModel())
+				}
 			}
 		} else {
-			self.appMode = .welcome(WelcomePageView.ViewModel())
+			DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+				self.appMode = .welcome(WelcomePageView.ViewModel())
+			}
 		}
 	}
 	

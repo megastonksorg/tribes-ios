@@ -139,6 +139,11 @@ struct AccountView: View {
 					self.focusedField = nil
 				}
 			}
+			.onChange(of: viewModel.shouldLogout) { shouldLogout in
+				if shouldLogout {
+					self.focusedField = nil
+				}
+			}
 		}
 		.pushOutFrame(alignment: .top)
 		.overlay(isShown: viewModel.isUpdatingImage || viewModel.isUpdatingName) {
