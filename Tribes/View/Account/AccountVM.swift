@@ -136,7 +136,6 @@ extension AccountView {
 		}
 		
 		func updateUser() {
-			guard editFullNameText.isValidName else { return }
 			if editImage != nil {
 				self.isUpdatingImage = true
 				guard let resizedImage = self.editImage?.resizedTo(megaBytes: SizeConstants.imageMaxSizeInMb),
