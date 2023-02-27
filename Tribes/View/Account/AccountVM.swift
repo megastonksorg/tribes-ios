@@ -163,7 +163,7 @@ extension AccountView {
 						self.editImage = nil
 						self.user.profilePhoto = photoUrlResponse
 						AppState.updateAppState(with: .userUpdated(self.user))
-						self.isShowingSettings = false
+						self.isShowingSettings.toggle()
 					})
 					.store(in: &cancellables)
 			}
@@ -185,6 +185,9 @@ extension AccountView {
 							self.user.fullName = updatedFullName
 							self.isUpdatingName = false
 							AppState.updateAppState(with: .userUpdated(self.user))
+							withAnimation(.easeInOut(duration: 0.5)) {
+								self.isShowingSettings = false
+							}
 						}
 					)
 					.store(in: &cancellables)
