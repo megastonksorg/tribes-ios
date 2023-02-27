@@ -62,8 +62,13 @@ fileprivate let appStateKeyNotification: String = "appState"
 						self.appMode = .home(homeViewModel)
 				}
 		case .logUserOut:
-			self.banner = BannerData(timeOut: 8.0, detail: "Authentication Failed. You will be logged out soon.", type: .error)
-			logOut(isDelayed: true)
+			switch appMode {
+			case .home:
+				self.banner = BannerData(timeOut: 8.0, detail: "Authentication Failed. You will be logged out soon.", type: .error)
+				logOut(isDelayed: true)
+			default:
+				return
+			}
 		case .userRequestedLogout:
 			logOut(isDelayed: false)
 		case .userUpdated(let user):
