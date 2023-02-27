@@ -67,11 +67,12 @@ extension AccountView {
 		@Published var banner: BannerData?
 		@Published var isSecretKeyLocked: Bool = true
 		@Published var isShowingSettings: Bool = false
-		@Published var isUploadingImage: Bool = false
+		@Published var isUpdatingImage: Bool = false
+		@Published var isUpdatingName: Bool = false
 		@Published var sheet: Sheet?
 		
 		var isUpdateButtonEnabled: Bool {
-			if !isUploadingImage {
+			if !isUpdatingImage && !isUpdatingName {
 				let trimmedName = editFullNameText.trimmingCharacters(in: .whitespacesAndNewlines)
 				if trimmedName.isValidName {
 					return trimmedName != user.fullName.trimmingCharacters(in: .whitespacesAndNewlines) || editImage != nil
@@ -137,11 +138,11 @@ extension AccountView {
 		func updateUser() {
 			guard editFullNameText.isValidName else { return }
 			if editImage != nil {
-				self.isUploadingImage = true
+				self.isUpdatingImage = true
 				guard let resizedImage = self.editImage?.resizedTo(megaBytes: SizeConstants.imageMaxSizeInMb),
 					  let croppedImageData = resizedImage.croppedAndScaled(toFill: SizeConstants.profileImageSize).pngData() else {
 					self.banner = BannerData(detail: "Could not scale image. Please select a different image", type: .error)
-					self.isUploadingImage = false
+					self.isUpdatingImage = false
 					return
 				}
 				self.apiClient.uploadImage(imageData: croppedImageData)
@@ -158,7 +159,7 @@ extension AccountView {
 						}
 					}, receiveValue: { [weak self] photoUrlResponse in
 						guard let self = self else { return }
-						self.isUploadingImage = false
+						self.isUpdatingImage = false
 						self.editImage = nil
 						self.user.profilePhoto = photoUrlResponse
 						AppState.updateAppState(with: .userUpdated(self.user))
@@ -167,6 +168,7 @@ extension AccountView {
 					.store(in: &cancellables)
 			}
 			if editFullNameText.trimmingCharacters(in: .whitespacesAndNewlines) != user.fullName.trimmingCharacters(in: .whitespacesAndNewlines) {
+				self.isUpdatingName = true
 				apiClient.updateName(fullName: editFullNameText)
 					.receive(on: DispatchQueue.main)
 					.sink(
@@ -174,12 +176,14 @@ extension AccountView {
 							switch completion {
 								case .finished: return
 								case .failure(let error):
+								self?.isUpdatingName = false
 								self?.banner = BannerData(error: error)
 							}
 						},
 						receiveValue: { [weak self] updatedFullName in
 							guard let self = self else { return }
 							self.user.fullName = updatedFullName
+							self.isUpdatingName = false
 							AppState.updateAppState(with: .userUpdated(self.user))
 						}
 					)

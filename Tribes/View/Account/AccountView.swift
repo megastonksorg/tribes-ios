@@ -129,14 +129,19 @@ struct AccountView: View {
 					self.focusedField = .editFullName
 				}
 			}
-			.onChange(of: viewModel.isUploadingImage) { isUploadingImage in
-				if !isUploadingImage {
+			.onChange(of: viewModel.isUpdatingImage) { isUpdatingImage in
+				if !isUpdatingImage {
+					self.focusedField = nil
+				}
+			}
+			.onChange(of: viewModel.isUpdatingName) { isUpdatingName in
+				if !isUpdatingName {
 					self.focusedField = nil
 				}
 			}
 		}
 		.pushOutFrame(alignment: .top)
-		.overlay(isShown: viewModel.isUploadingImage) {
+		.overlay(isShown: viewModel.isUpdatingImage || viewModel.isUpdatingName) {
 			AppProgressView()
 		}
 		.banner(data: self.$viewModel.banner)
