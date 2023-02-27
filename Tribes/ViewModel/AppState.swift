@@ -7,6 +7,7 @@
 
 import Combine
 import Foundation
+import UIKit
 
 fileprivate let appStateKeyNotification: String = "appState"
 
@@ -79,6 +80,10 @@ fileprivate let appStateKeyNotification: String = "appState"
 	private func logOut(isDelayed: Bool) {
 		self.cacheClient.clear()
 		self.keychainClient.clearAllKeys()
+		//Resign Keyboard across app before logout
+		UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+		AppRouter.popToRoot(stack: .welcome())
+		AppRouter.popToRoot(stack: .home())
 		if isDelayed {
 			Task {
 				try await Task.sleep(for: .seconds(8.0))
