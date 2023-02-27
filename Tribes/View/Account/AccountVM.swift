@@ -136,8 +136,9 @@ extension AccountView {
 		}
 		
 		func updateUser() {
+			self.isUpdatingImage = true
+			self.isUpdatingName = true
 			if editImage != nil {
-				self.isUpdatingImage = true
 				guard let resizedImage = self.editImage?.resizedTo(megaBytes: SizeConstants.imageMaxSizeInMb),
 					  let croppedImageData = resizedImage.croppedAndScaled(toFill: SizeConstants.profileImageSize).pngData() else {
 					self.banner = BannerData(detail: "Could not scale image. Please select a different image", type: .error)
@@ -165,9 +166,10 @@ extension AccountView {
 						self.isShowingSettings.toggle()
 					})
 					.store(in: &cancellables)
+			} else {
+				self.isUpdatingImage = false
 			}
 			if editFullNameText.trimmingCharacters(in: .whitespacesAndNewlines) != user.fullName.trimmingCharacters(in: .whitespacesAndNewlines) {
-				self.isUpdatingName = true
 				apiClient.updateName(fullName: editFullNameText)
 					.receive(on: DispatchQueue.main)
 					.sink(
@@ -190,6 +192,8 @@ extension AccountView {
 						}
 					)
 					.store(in: &cancellables)
+			} else {
+				self.isUpdatingName = false
 			}
 		}
 		
