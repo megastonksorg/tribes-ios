@@ -144,7 +144,6 @@ struct AccountView: View {
 		.overlay(isShown: viewModel.isUpdatingImage || viewModel.isUpdatingName) {
 			AppProgressView()
 		}
-		.banner(data: self.$viewModel.banner)
 		.background(Color.app.background)
 		.safeAreaInset(edge: .top) {
 			HStack {
@@ -181,6 +180,7 @@ struct AccountView: View {
 			.foregroundColor(Color.white)
 			.padding(.horizontal)
 		}
+		.banner(data: self.$viewModel.banner)
 		.sheet(
 			isPresented: Binding(
 				get: { viewModel.sheet != nil },
