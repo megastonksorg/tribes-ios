@@ -26,12 +26,16 @@ struct DraftView: View {
 				}
 				.ignoresSafeArea()
 				.overlay(alignment: .topTrailing) {
-					Button(action: { viewModel.resetContent() }) {
-						Image(systemName: "xmark")
-							.font(Font.app.title)
-							.foregroundColor(.white)
-					}
-					.padding()
+					Color.gray.opacity(0.02)
+						.frame(dimension: 70)
+						.onTapGesture {
+							viewModel.resetContent()
+						}
+						.overlay(
+							XButton {
+								viewModel.resetContent()
+							}
+						)
 				}
 			}
 		}
