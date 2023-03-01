@@ -12,6 +12,10 @@ extension DraftView {
 	@MainActor class ViewModel: ObservableObject {
 		@Published var content: Message.Content?
 		
+		init(content: Message.Content? = nil) {
+			self.content = content
+		}
+		
 		func setContent(content: Message.Content) {
 			self.content = content
 		}

@@ -31,6 +31,7 @@ struct DraftView: View {
 							.font(Font.app.title)
 							.foregroundColor(.white)
 					}
+					.padding()
 				}
 			}
 		}
@@ -39,6 +40,6 @@ struct DraftView: View {
 
 struct DraftView_Previews: PreviewProvider {
 	static var previews: some View {
-		DraftView(viewModel: .init())
+		DraftView(viewModel: .init(content: .video(URL(string: "https://kingsleyokeke.blob.core.windows.net/videos/Untitled.mp4")!)))
 	}
 }
