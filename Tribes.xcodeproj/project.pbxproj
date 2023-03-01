@@ -93,6 +93,8 @@
 		D055BD6429AEF73D0070025D /* PostMessageRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D055BD6329AEF73D0070025D /* PostMessageRequest.swift */; };
 		D055BD6629AEF9610070025D /* MessageKeyEncrypted.swift in Sources */ = {isa = PBXBuildFile; fileRef = D055BD6529AEF9610070025D /* MessageKeyEncrypted.swift */; };
 		D055BD6829AEFDE20070025D /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = D055BD6729AEFDE20070025D /* Message.swift */; };
+		D055BD6B29AFC7AA0070025D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D055BD6A29AFC7AA0070025D /* ContentView.swift */; };
+		D055BD6D29AFC7B40070025D /* ContentVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D055BD6C29AFC7B40070025D /* ContentVM.swift */; };
 		D06088B42996D55000A3D383 /* OnBoardingPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06088B32996D55000A3D383 /* OnBoardingPageView.swift */; };
 		D06FDE7D2999C2EB0013A55E /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06FDE7C2999C2EB0013A55E /* AccountView.swift */; };
 		D06FDE7F2999C2F50013A55E /* AccountVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06FDE7E2999C2F50013A55E /* AccountVM.swift */; };
@@ -243,6 +245,8 @@
 		D055BD6329AEF73D0070025D /* PostMessageRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostMessageRequest.swift; sourceTree = "<group>"; };
 		D055BD6529AEF9610070025D /* MessageKeyEncrypted.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageKeyEncrypted.swift; sourceTree = "<group>"; };
 		D055BD6729AEFDE20070025D /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		D055BD6A29AFC7AA0070025D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		D055BD6C29AFC7B40070025D /* ContentVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentVM.swift; sourceTree = "<group>"; };
 		D06088B32996D55000A3D383 /* OnBoardingPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingPageView.swift; sourceTree = "<group>"; };
 		D06FDE7C2999C2EB0013A55E /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		D06FDE7E2999C2F50013A55E /* AccountVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountVM.swift; sourceTree = "<group>"; };
@@ -562,6 +566,7 @@
 		D030D3002957460B0011128F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				D055BD6929AFC7910070025D /* Content */,
 				D06FDE7B2999C15D0013A55E /* Account */,
 				D07278B22974CCAD00650A15 /* Tribes */,
 				D03B30A12968DAE700F797CE /* Home */,
@@ -678,6 +683,15 @@
 				D055BD6729AEFDE20070025D /* Message.swift */,
 			);
 			path = Message;
+			sourceTree = "<group>";
+		};
+		D055BD6929AFC7910070025D /* Content */ = {
+			isa = PBXGroup;
+			children = (
+				D055BD6A29AFC7AA0070025D /* ContentView.swift */,
+				D055BD6C29AFC7B40070025D /* ContentVM.swift */,
+			);
+			path = Content;
 			sourceTree = "<group>";
 		};
 		D06088B22996D4FC00A3D383 /* Onboarding */ = {
@@ -1021,6 +1035,7 @@
 				D07278BB2975FB9600650A15 /* CalloutView.swift in Sources */,
 				D01031572978D73500ACC333 /* UserAvatar.swift in Sources */,
 				D0C3DBF429A402E90066FBB8 /* CalloutRectangle.swift in Sources */,
+				D055BD6B29AFC7AA0070025D /* ContentView.swift in Sources */,
 				D08EBF28297FD105001B7A5C /* JoinTribeView.swift in Sources */,
 				D0D266A22963459800A94183 /* VideoPlayerView.swift in Sources */,
 				D030D2E3295745E90011128F /* SlidingButtonView.swift in Sources */,
@@ -1036,6 +1051,7 @@
 				D030D2AB295745C20011128F /* FeedbackClient.swift in Sources */,
 				D07278B42974CCD100650A15 /* TribesVM.swift in Sources */,
 				D0CED88E299F553D0077A347 /* EncryptedData.swift in Sources */,
+				D055BD6D29AFC7B40070025D /* ContentVM.swift in Sources */,
 				D0E9F7FC298DD20F00A0400A /* CacheClient.swift in Sources */,
 				D055BD6129AEF5680070025D /* MessageResponse.swift in Sources */,
 				D030D2FA295745F90011128F /* User.swift in Sources */,
