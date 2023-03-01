@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import IdentifiedCollections
 
 /**
  Sending a Message
@@ -16,10 +16,6 @@ import Foundation
  (4): Encrypt and append caption if the user adds one
  */
 
-protocol MessageClientProtocol {
-	
-}
+@MainActor class MessageClient: ObservableObject {
 
-class MessageClient: MessageClientProtocol {
-	
 }

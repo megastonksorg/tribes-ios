@@ -89,6 +89,7 @@
 		D03B30A32968DAFB00F797CE /* HomeVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B30A22968DAFB00F797CE /* HomeVM.swift */; };
 		D03B30A52968DB3D00F797CE /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B30A42968DB3D00F797CE /* HomeView.swift */; };
 		D047E1992982F88900F5C63A /* CodeWords.json in Resources */ = {isa = PBXBuildFile; fileRef = D047E1982982F88900F5C63A /* CodeWords.json */; };
+		D055BD6129AEF5680070025D /* MessageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D055BD6029AEF5680070025D /* MessageResponse.swift */; };
 		D06088B42996D55000A3D383 /* OnBoardingPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06088B32996D55000A3D383 /* OnBoardingPageView.swift */; };
 		D06FDE7D2999C2EB0013A55E /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06FDE7C2999C2EB0013A55E /* AccountView.swift */; };
 		D06FDE7F2999C2F50013A55E /* AccountVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06FDE7E2999C2F50013A55E /* AccountVM.swift */; };
@@ -235,6 +236,7 @@
 		D03B30A22968DAFB00F797CE /* HomeVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVM.swift; sourceTree = "<group>"; };
 		D03B30A42968DB3D00F797CE /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		D047E1982982F88900F5C63A /* CodeWords.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = CodeWords.json; sourceTree = "<group>"; };
+		D055BD6029AEF5680070025D /* MessageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageResponse.swift; sourceTree = "<group>"; };
 		D06088B32996D55000A3D383 /* OnBoardingPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingPageView.swift; sourceTree = "<group>"; };
 		D06FDE7C2999C2EB0013A55E /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		D06FDE7E2999C2F50013A55E /* AccountVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountVM.swift; sourceTree = "<group>"; };
@@ -525,10 +527,9 @@
 				D030D2F4295745F90011128F /* Token.swift */,
 				D030D2F5295745F90011128F /* Wallet.swift */,
 				D0D266A6296513D300A94183 /* TeaContent.swift */,
-				D0E8519D296CC0690034AFD1 /* TribeMember.swift */,
-				D0C65AA22970988900E527F9 /* Tribe.swift */,
 				D0AAF2DD29761F49003536C6 /* ChatType.swift */,
 				D017661529A883E4007BA165 /* ChatMessage.swift */,
+				D030D2F0295745F90011128F /* ResponseTypes.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -536,7 +537,8 @@
 		D030D2EF295745F90011128F /* API */ = {
 			isa = PBXGroup;
 			children = (
-				D030D2F0295745F90011128F /* ResponseTypes.swift */,
+				D055BD5F29AEF5540070025D /* Message */,
+				D055BD5E29AEF52A0070025D /* Tribe */,
 				D030D2F1295745F90011128F /* Authentication */,
 			);
 			path = API;
@@ -650,6 +652,23 @@
 				D0D266B2296AAD2300A94183 /* HomeContentView.swift */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		D055BD5E29AEF52A0070025D /* Tribe */ = {
+			isa = PBXGroup;
+			children = (
+				D0C65AA22970988900E527F9 /* Tribe.swift */,
+				D0E8519D296CC0690034AFD1 /* TribeMember.swift */,
+			);
+			path = Tribe;
+			sourceTree = "<group>";
+		};
+		D055BD5F29AEF5540070025D /* Message */ = {
+			isa = PBXGroup;
+			children = (
+				D055BD6029AEF5680070025D /* MessageResponse.swift */,
+			);
+			path = Message;
 			sourceTree = "<group>";
 		};
 		D06088B22996D4FC00A3D383 /* Onboarding */ = {
@@ -1007,6 +1026,7 @@
 				D07278B42974CCD100650A15 /* TribesVM.swift in Sources */,
 				D0CED88E299F553D0077A347 /* EncryptedData.swift in Sources */,
 				D0E9F7FC298DD20F00A0400A /* CacheClient.swift in Sources */,
+				D055BD6129AEF5680070025D /* MessageResponse.swift in Sources */,
 				D030D2FA295745F90011128F /* User.swift in Sources */,
 				D030D2DF295745E90011128F /* MnemonicWordView.swift in Sources */,
 				D06FDE7D2999C2EB0013A55E /* AccountView.swift in Sources */,
