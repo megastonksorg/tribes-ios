@@ -1,5 +1,5 @@
 //
-//  TeaContentView.swift
+//  TeaView.swift
 //  Tribes
 //
 //  Created by Kingsley Okeke on 2022-12-30.
@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-struct TeaContentView: View {
+struct TeaView: View {
 	
 	@StateObject var viewModel: ViewModel
 	
-	init(viewModel: TeaContentView.ViewModel) {
+	init(viewModel: TeaView.ViewModel) {
 		self._viewModel = StateObject(wrappedValue: viewModel)
 	}
 	
@@ -35,6 +35,6 @@ struct TeaContentView: View {
 
 struct TeaView_Previews: PreviewProvider {
 	static var previews: some View {
-		TeaContentView(viewModel: .init(content: .image(UIImage())))
+		TeaView(viewModel: .init(content: .image(UIImage())))
 	}
 }

@@ -1,5 +1,5 @@
 //
-//  TeaContentVM.swift
+//  TeaVM.swift
 //  Tribes
 //
 //  Created by Kingsley Okeke on 2022-12-30.
@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-extension TeaContentView {
+extension TeaView {
 	@MainActor class ViewModel: ObservableObject {
 		var content: TeaContent
 		

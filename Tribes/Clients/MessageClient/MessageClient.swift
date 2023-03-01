@@ -27,7 +27,7 @@ import IdentifiedCollections
 		var id: Tribe.ID { tribe.id }
 	}
 	
-	@Published var tribesAndMesages: IdentifiedArrayOf<TribeAndMessages> = []
+	@Published var tribesAndMessages: IdentifiedArrayOf<TribeAndMessages> = []
 	
 	init() {
 		

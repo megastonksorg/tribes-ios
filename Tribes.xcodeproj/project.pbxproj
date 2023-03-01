@@ -140,7 +140,7 @@
 		D0D2669729600BBA00A94183 /* DraftView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D2669629600BBA00A94183 /* DraftView.swift */; };
 		D0D2669929600BC500A94183 /* DraftVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D2669829600BC500A94183 /* DraftVM.swift */; };
 		D0D2669C296010D600A94183 /* TeaContentVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D2669B296010D600A94183 /* TeaContentVM.swift */; };
-		D0D2669E296010E000A94183 /* TeaContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D2669D296010E000A94183 /* TeaContentView.swift */; };
+		D0D2669E296010E000A94183 /* TeaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D2669D296010E000A94183 /* TeaView.swift */; };
 		D0D266A02960C8D400A94183 /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D2669F2960C8D400A94183 /* LoadingIndicator.swift */; };
 		D0D266A22963459800A94183 /* VideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D266A12963459800A94183 /* VideoPlayerView.swift */; };
 		D0D266A52963466200A94183 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D266A42963466200A94183 /* PlayerView.swift */; };
@@ -290,7 +290,7 @@
 		D0D2669629600BBA00A94183 /* DraftView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraftView.swift; sourceTree = "<group>"; };
 		D0D2669829600BC500A94183 /* DraftVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraftVM.swift; sourceTree = "<group>"; };
 		D0D2669B296010D600A94183 /* TeaContentVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeaContentVM.swift; sourceTree = "<group>"; };
-		D0D2669D296010E000A94183 /* TeaContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeaContentView.swift; sourceTree = "<group>"; };
+		D0D2669D296010E000A94183 /* TeaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeaView.swift; sourceTree = "<group>"; };
 		D0D2669F2960C8D400A94183 /* LoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
 		D0D266A12963459800A94183 /* VideoPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerView.swift; sourceTree = "<group>"; };
 		D0D266A42963466200A94183 /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
@@ -565,7 +565,7 @@
 				D06FDE7B2999C15D0013A55E /* Account */,
 				D07278B22974CCAD00650A15 /* Tribes */,
 				D03B30A12968DAE700F797CE /* Home */,
-				D0D2669A296010C900A94183 /* TeaContent */,
+				D0D2669A296010C900A94183 /* Tea */,
 				D0D2669529600BAB00A94183 /* Draft */,
 				D0D26690295FECEF00A94183 /* Compose */,
 				D015807A295E03810087545A /* Camera */,
@@ -821,13 +821,13 @@
 			path = Draft;
 			sourceTree = "<group>";
 		};
-		D0D2669A296010C900A94183 /* TeaContent */ = {
+		D0D2669A296010C900A94183 /* Tea */ = {
 			isa = PBXGroup;
 			children = (
 				D0D2669B296010D600A94183 /* TeaContentVM.swift */,
-				D0D2669D296010E000A94183 /* TeaContentView.swift */,
+				D0D2669D296010E000A94183 /* TeaView.swift */,
 			);
-			path = TeaContent;
+			path = Tea;
 			sourceTree = "<group>";
 		};
 		D0D266A32963464600A94183 /* VideoPlayer */ = {
@@ -1050,7 +1050,7 @@
 				D0D266A7296513D300A94183 /* TeaContent.swift in Sources */,
 				D0D266A02960C8D400A94183 /* LoadingIndicator.swift in Sources */,
 				D030D2DE295745E90011128F /* TermsAndConditionsView.swift in Sources */,
-				D0D2669E296010E000A94183 /* TeaContentView.swift in Sources */,
+				D0D2669E296010E000A94183 /* TeaView.swift in Sources */,
 				D0BFEA512987978500FB6F22 /* Publishers+Extensions.swift in Sources */,
 				D030D31B2957460B0011128F /* ImportSecretKeyVM.swift in Sources */,
 				D030D2FE295745F90011128F /* Token.swift in Sources */,

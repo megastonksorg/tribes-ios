@@ -16,8 +16,8 @@ struct DraftView: View {
 	}
 	
 	var body: some View {
-		if let teaContentVM = viewModel.teaContentVM {
-			TeaContentView(viewModel: teaContentVM)
+		if let teaVM = viewModel.teaVM {
+			TeaView(viewModel: teaVM)
 				.overlay(alignment: .topTrailing) {
 					Button(action: { viewModel.resetTeaContent() }) {
 						Image(systemName: "xmark")

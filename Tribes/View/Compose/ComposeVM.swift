@@ -16,7 +16,7 @@ extension ComposeView {
 		@Published var draftVM: DraftView.ViewModel = DraftView.ViewModel()
 		
 		var hasContentBeenCaptured: Bool {
-			draftVM.teaContentVM != nil
+			draftVM.teaVM != nil
 		}
 		
 		init() {
