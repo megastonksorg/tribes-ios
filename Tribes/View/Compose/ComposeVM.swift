@@ -13,13 +13,14 @@ extension ComposeView {
 		private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 		
 		@Published var cameraVM: CameraView.ViewModel = CameraView.ViewModel()
-		@Published var draftVM: DraftView.ViewModel = DraftView.ViewModel()
+		@Published var draftVM: DraftView.ViewModel
 		
 		var hasContentBeenCaptured: Bool {
 			draftVM.content != nil
 		}
 		
-		init() {
+		init(recipient: Tribe?) {
+			self.draftVM = DraftView.ViewModel(directRecipient: recipient)
 			cameraVM.$capturedImage
 				.sink(receiveValue: { [weak self] image in
 					guard let image = image else { return }

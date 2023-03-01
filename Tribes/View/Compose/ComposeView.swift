@@ -26,6 +26,6 @@ struct ComposeView: View {
 
 struct ComposeView_Previews: PreviewProvider {
 	static var previews: some View {
-		ComposeView(viewModel: .init())
+		ComposeView(viewModel: .init(recipient: nil))
 	}
 }

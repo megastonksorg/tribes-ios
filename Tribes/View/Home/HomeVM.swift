@@ -19,7 +19,7 @@ extension HomeView {
 		private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 		
 		@Published var user: User
-		@Published var composeVM: ComposeView.ViewModel = ComposeView.ViewModel()
+		@Published var composeVM: ComposeView.ViewModel = ComposeView.ViewModel(recipient: nil)
 		@Published var tribesVM: TribesView.ViewModel
 		
 		@Published var currentPage: Page = .tribes
