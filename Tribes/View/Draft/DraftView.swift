@@ -38,6 +38,44 @@ struct DraftView: View {
 						)
 				}
 			}
+			.safeAreaInset(edge: .bottom) {
+				if let directRecipient = viewModel.directRecipient {
+					SymmetricHStack(
+						content: {
+							tribeAvatar(tribe: directRecipient)
+						},
+						leading: { EmptyView() },
+						trailing: {
+							sendTeaButton()
+						}
+					)
+				}
+			}
+		}
+	}
+	
+	@ViewBuilder
+	func tribeAvatar(tribe: Tribe) -> some View {
+		TribeAvatar(
+			tribe: tribe,
+			size: 100,
+			avatarContextAction: { _ in },
+			primaryAction: { _ in },
+			secondaryAction: { _ in },
+			inviteAction: { _ in },
+			leaveAction: { _ in }
+		)
+	}
+	
+	@ViewBuilder
+	func sendTeaButton() -> some View {
+		Button(action: {  }) {
+			Image(systemName: "cup.and.saucer.fill")
+				.font(.system(size: 30))
+				.foregroundColor(Color.app.tertiary)
+				.padding()
+				.background(Circle().fill(Color.app.secondary))
+				.padding(.trailing)
 		}
 	}
 }
@@ -46,8 +84,8 @@ struct DraftView_Previews: PreviewProvider {
 	static var previews: some View {
 		DraftView(
 			viewModel: .init(
-				content: .video(URL(string: "https://kingsleyokeke.blob.core.windows.net/videos/Untitled.mp4")!),
-				directRecipient: nil
+				content: .image(URL(string: "https://kingsleyokeke.blob.core.windows.net/videos/Untitled.mp4")!),
+				directRecipient: Tribe.noop2
 			)
 		)
 	}
