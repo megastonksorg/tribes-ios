@@ -17,13 +17,13 @@ struct AppView: View {
 	var body: some View {
 		Group {
 			switch appState.appMode {
-				case .welcome(let welcomePageViewModel):
-					WelcomePageView(viewModel: welcomePageViewModel)
-						.environmentObject(appRouter)
-				case .authentication(let authenticationViewModel):
-					AuthenticateView(viewModel: authenticationViewModel)
-				case .home(let homeViewModel):
-					HomeView(viewModel: homeViewModel)
+			case .welcome(let welcomePageViewModel):
+				WelcomePageView(viewModel: welcomePageViewModel)
+					.environmentObject(appRouter)
+			case .authentication(let authenticationViewModel):
+				AuthenticateView(viewModel: authenticationViewModel)
+			case .home(let homeViewModel):
+				HomeView(viewModel: homeViewModel)
 					.environmentObject(appRouter)
 			}
 		}
