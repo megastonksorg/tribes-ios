@@ -8,23 +8,20 @@
 import SwiftUI
 
 struct ContentView: View {
-	let content: Message.Content
+	let imageCornerRadius: CGFloat = 10
 	
+	let content: Message.Content
 	var body: some View {
 		switch content {
 		case .text(let textString):
 			Text(textString)
 		case .image(let url):
-			let cornerRadius: CGFloat = 10
 			CachedImage(
 				url: url,
 				content: { uiImage in
-					Image(uiImage: uiImage)
-						.resizable()
-						.scaledToFill()
-						.clipShape(RoundedRectangle(cornerRadius: cornerRadius))
+					imageView(uiImage: uiImage)
 				}, placeHolder: {
-					RoundedRectangle(cornerRadius: cornerRadius)
+					RoundedRectangle(cornerRadius: imageCornerRadius)
 						.fill(Color.gray.opacity(0.2))
 						.overlay(
 							LoadingIndicator(speed: 0.4)
@@ -32,11 +29,21 @@ struct ContentView: View {
 						)
 				}
 			)
+		case .uiImage(let uiImage):
+			imageView(uiImage: uiImage)
 		case .video(let url):
 			VideoPlayerView(url: url)
 		case .systemEvent(let eventString):
 			Text(eventString)
 		}
+	}
+	
+	@ViewBuilder
+	func imageView(uiImage: UIImage) -> some View {
+		Image(uiImage: uiImage)
+			.resizable()
+			.scaledToFill()
+			.clipShape(RoundedRectangle(cornerRadius: imageCornerRadius))
 	}
 }
 

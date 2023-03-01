@@ -16,10 +16,10 @@ struct DraftView: View {
 	}
 	
 	var body: some View {
-		if let teaVM = viewModel.teaVM {
-			TeaView(viewModel: teaVM)
+		if let content = viewModel.content {
+			ContentView(content: content)
 				.overlay(alignment: .topTrailing) {
-					Button(action: { viewModel.resetTeaContent() }) {
+					Button(action: { viewModel.resetContent() }) {
 						Image(systemName: "xmark")
 							.font(Font.app.title)
 							.foregroundColor(.white)

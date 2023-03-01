@@ -18,14 +18,6 @@ struct TeaView: View {
 	var body: some View {
 		GeometryReader { proxy in
 			Group {
-				switch viewModel.content {
-				case .image(let image):
-					Image(uiImage: image)
-						.resizable()
-						.scaledToFill()
-				case .video(let url):
-					VideoPlayerView(url: url)
-				}
 			}
 			.frame(size: proxy.size)
 		}
@@ -35,6 +27,6 @@ struct TeaView: View {
 
 struct TeaView_Previews: PreviewProvider {
 	static var previews: some View {
-		TeaView(viewModel: .init(content: .image(UIImage())))
+		TeaView(viewModel: .init())
 	}
 }

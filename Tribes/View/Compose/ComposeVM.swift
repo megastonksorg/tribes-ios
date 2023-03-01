@@ -16,21 +16,21 @@ extension ComposeView {
 		@Published var draftVM: DraftView.ViewModel = DraftView.ViewModel()
 		
 		var hasContentBeenCaptured: Bool {
-			draftVM.teaVM != nil
+			draftVM.content != nil
 		}
 		
 		init() {
 			cameraVM.$capturedImage
 				.sink(receiveValue: { [weak self] image in
 					guard let image = image else { return }
-					self?.draftVM.setTeaContent(content: .image(image))
+					self?.draftVM.setContent(content: .uiImage(image))
 				})
 				.store(in: &cancellables)
 			
 			cameraVM.$capturedVideo
 				.sink(receiveValue: { [weak self] url in
 					guard let url = url else { return }
-					self?.draftVM.setTeaContent(content: .video(url))
+					self?.draftVM.setContent(content: .video(url))
 				})
 				.store(in: &cancellables)
 			

@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import IdentifiedCollections
+import UIKit
 
 class Message: Identifiable {
 	struct Reaction: Codable, Identifiable {
@@ -18,6 +20,7 @@ class Message: Identifiable {
 	enum Content {
 		case text(String)
 		case image(URL)
+		case uiImage(UIImage)
 		case video(URL)
 		case systemEvent(String)
 	}
@@ -56,4 +59,14 @@ class Message: Identifiable {
 		self.expires = expires
 		self.timeStamp = timeStamp
 	}
+}
+
+struct TribeAndMessages: Identifiable {
+	let tribe: Tribe
+	let tea: IdentifiedArrayOf<Message>
+	let chat: IdentifiedArrayOf<Message>
+	let lastReadTea: Date?
+	let lastReadChat: Date?
+	
+	var id: Tribe.ID { tribe.id }
 }

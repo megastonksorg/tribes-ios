@@ -10,10 +10,8 @@ import UIKit
 
 extension TeaView {
 	@MainActor class ViewModel: ObservableObject {
-		var content: TeaContent
 		
-		init(content: TeaContent) {
-			self.content = content
+		init() {
 		}
 	}
 }
