@@ -20,6 +20,7 @@ class MessageResponse: Codable {
 	let body: String
 	let caption: String?
 	let context: MessageResponse?
+	let deleted: Bool
 	let senderWalletAddress: String
 	let reactions: [Reaction]
 	let expires: String?
@@ -32,6 +33,7 @@ class MessageResponse: Codable {
 		body: String,
 		caption: String?,
 		context: MessageResponse?,
+		deleted: Bool,
 		senderWalletAddress: String,
 		reactions: [Reaction],
 		expires: String?,
@@ -44,6 +46,7 @@ class MessageResponse: Codable {
 		self.body = body
 		self.caption = caption
 		self.context = context
+		self.deleted = deleted
 		self.senderWalletAddress = senderWalletAddress
 		self.reactions = reactions
 		self.expires = expires
