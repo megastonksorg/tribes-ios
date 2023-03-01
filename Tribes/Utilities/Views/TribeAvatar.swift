@@ -8,6 +8,11 @@
 import SwiftUI
 
 struct TribeAvatar: View {
+	enum Context {
+		case tribesView
+		case draftView
+	}
+	
 	let name: String
 	let members: [TribeMember]
 	let tribe: Tribe

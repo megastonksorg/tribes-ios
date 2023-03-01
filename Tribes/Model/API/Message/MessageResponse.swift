@@ -10,7 +10,7 @@ import Foundation
 // MARK: - Message
 class MessageResponse: Codable {
 	struct Reaction: Codable {
-		let senderWalletAddress: String?
+		let senderWalletAddress: String
 		let content: String
 	}
 	
@@ -24,7 +24,7 @@ class MessageResponse: Codable {
 	let reactions: [Reaction]
 	let expires: String?
 	let tag, timeStamp: String
-
+	
 	init(
 		id: String,
 		keys: [MessageKeyEncrypted],

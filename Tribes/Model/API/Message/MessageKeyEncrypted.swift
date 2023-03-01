@@ -7,6 +7,9 @@
 
 import Foundation
 
-struct MessageKeyEncrypted: Codable {
-	let publicKey, encryptionKey: String
+struct MessageKeyEncrypted: Codable, Identifiable {
+	let publicKey: String
+	let encryptionKey: String
+	
+	var id: String { publicKey }
 }

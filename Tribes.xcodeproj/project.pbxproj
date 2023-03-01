@@ -92,6 +92,7 @@
 		D055BD6129AEF5680070025D /* MessageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D055BD6029AEF5680070025D /* MessageResponse.swift */; };
 		D055BD6429AEF73D0070025D /* PostMessageRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D055BD6329AEF73D0070025D /* PostMessageRequest.swift */; };
 		D055BD6629AEF9610070025D /* MessageKeyEncrypted.swift in Sources */ = {isa = PBXBuildFile; fileRef = D055BD6529AEF9610070025D /* MessageKeyEncrypted.swift */; };
+		D055BD6829AEFDE20070025D /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = D055BD6729AEFDE20070025D /* Message.swift */; };
 		D06088B42996D55000A3D383 /* OnBoardingPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06088B32996D55000A3D383 /* OnBoardingPageView.swift */; };
 		D06FDE7D2999C2EB0013A55E /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06FDE7C2999C2EB0013A55E /* AccountView.swift */; };
 		D06FDE7F2999C2F50013A55E /* AccountVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06FDE7E2999C2F50013A55E /* AccountVM.swift */; };
@@ -241,6 +242,7 @@
 		D055BD6029AEF5680070025D /* MessageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageResponse.swift; sourceTree = "<group>"; };
 		D055BD6329AEF73D0070025D /* PostMessageRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostMessageRequest.swift; sourceTree = "<group>"; };
 		D055BD6529AEF9610070025D /* MessageKeyEncrypted.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageKeyEncrypted.swift; sourceTree = "<group>"; };
+		D055BD6729AEFDE20070025D /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		D06088B32996D55000A3D383 /* OnBoardingPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingPageView.swift; sourceTree = "<group>"; };
 		D06FDE7C2999C2EB0013A55E /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		D06FDE7E2999C2F50013A55E /* AccountVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountVM.swift; sourceTree = "<group>"; };
@@ -673,6 +675,7 @@
 				D055BD6029AEF5680070025D /* MessageResponse.swift */,
 				D055BD6329AEF73D0070025D /* PostMessageRequest.swift */,
 				D055BD6529AEF9610070025D /* MessageKeyEncrypted.swift */,
+				D055BD6729AEFDE20070025D /* Message.swift */,
 			);
 			path = Message;
 			sourceTree = "<group>";
@@ -1041,6 +1044,7 @@
 				D0C65AAF2970BEA100E527F9 /* SymmetricHStack.swift in Sources */,
 				D030D2FB295745F90011128F /* ResponseTypes.swift in Sources */,
 				D0A3F0832980AA0B000308BF /* TribeInviteVM.swift in Sources */,
+				D055BD6829AEFDE20070025D /* Message.swift in Sources */,
 				D030D2A7295745C20011128F /* HttpMethod.swift in Sources */,
 				D0766365298E288100946F7B /* CachedImage.swift in Sources */,
 				D0D266A7296513D300A94183 /* TeaContent.swift in Sources */,
