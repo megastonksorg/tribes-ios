@@ -9,16 +9,13 @@ import Foundation
 
 // MARK: - Message
 class MessageResponse: Codable {
-	struct Key: Codable {
-		let publicKey, encryptionKey: String
-	}
 	struct Reaction: Codable {
 		let senderWalletAddress: String?
 		let content: String
 	}
 	
 	let id: String
-	let keys: [Key]
+	let keys: [MessageKeyEncrypted]
 	let type: String
 	let body: String
 	let caption: String?
@@ -30,7 +27,7 @@ class MessageResponse: Codable {
 
 	init(
 		id: String,
-		keys: [Key],
+		keys: [MessageKeyEncrypted],
 		type: String,
 		body: String,
 		caption: String?,
