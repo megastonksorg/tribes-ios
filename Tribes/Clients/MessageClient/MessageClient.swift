@@ -17,5 +17,19 @@ import IdentifiedCollections
  */
 
 @MainActor class MessageClient: ObservableObject {
-
+	struct TribeAndMessages: Identifiable {
+		let tribe: Tribe
+		let tea: IdentifiedArrayOf<Message>
+		let chat: IdentifiedArrayOf<Message>
+		let lastReadTea: Date?
+		let lastReadChat: Date?
+		
+		var id: Tribe.ID { tribe.id }
+	}
+	
+	@Published var tribesAndMesages: IdentifiedArrayOf<TribeAndMessages> = []
+	
+	init() {
+		
+	}
 }

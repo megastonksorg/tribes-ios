@@ -16,9 +16,9 @@ class Message: Identifiable {
 	}
 	
 	enum Content {
-		case text(String?)
-		case image(URL?)
-		case video(URL?)
+		case text(String)
+		case image(URL)
+		case video(URL)
 		case systemEvent(String)
 	}
 	
@@ -26,8 +26,10 @@ class Message: Identifiable {
 	var content: Content
 	let caption: String?
 	let context: Message?
+	let encryptedContent: Content
 	let senderId: TribeMember.ID
 	let reactions: [Reaction]
+	var isEncrypted: Bool
 	let expires: Date?
 	let timeStamp: Date
 	
@@ -36,8 +38,10 @@ class Message: Identifiable {
 		content: Content,
 		caption: String?,
 		context: Message?,
+		encryptedContent: Content,
 		senderId: TribeMember.ID,
 		reactions: [Reaction],
+		isEncrypted: Bool,
 		expires: Date?,
 		timeStamp: Date
 	) {
@@ -45,8 +49,10 @@ class Message: Identifiable {
 		self.content = content
 		self.caption = caption
 		self.context = context
+		self.encryptedContent = encryptedContent
 		self.senderId = senderId
 		self.reactions = reactions
+		self.isEncrypted = isEncrypted
 		self.expires = expires
 		self.timeStamp = timeStamp
 	}
