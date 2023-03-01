@@ -23,7 +23,7 @@ class Message: Identifiable {
 	}
 	
 	let id: String
-	var content: Content
+	let content: Content?
 	let caption: String?
 	let context: Message?
 	let encryptedContent: Content
@@ -35,7 +35,7 @@ class Message: Identifiable {
 	
 	init(
 		id: String,
-		content: Content,
+		content: Content?,
 		caption: String?,
 		context: Message?,
 		encryptedContent: Content,
