@@ -51,8 +51,8 @@ struct CameraView: View {
 			VStack {
 				HStack {
 					Button(action: { viewModel.toggleFlash() }) {
-						Image(systemName: viewModel.isFlashOn ? "bolt.fill" : "bolt.slash.fill")
-							.font(Font.app.title)
+						Image(systemName: viewModel.isFlashOn ? "bolt.circle.fill" : "bolt.slash.circle")
+							.font(.system(size: 34))
 							.foregroundColor(.white)
 							.padding(.leading, 20)
 					}
