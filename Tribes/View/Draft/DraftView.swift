@@ -17,7 +17,14 @@ struct DraftView: View {
 	
 	var body: some View {
 		if let content = viewModel.content {
-			ContentView(content: content)
+			Group {
+				GeometryReader { proxy in
+					Group {
+						ContentView(content: content)
+					}
+					.frame(size: proxy.size)
+				}
+				.ignoresSafeArea()
 				.overlay(alignment: .topTrailing) {
 					Button(action: { viewModel.resetContent() }) {
 						Image(systemName: "xmark")
@@ -25,6 +32,7 @@ struct DraftView: View {
 							.foregroundColor(.white)
 					}
 				}
+			}
 		}
 	}
 }
