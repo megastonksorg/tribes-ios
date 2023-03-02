@@ -10,6 +10,7 @@ import SwiftUI
 struct TribeAvatar: View {
 	enum Context {
 		case tribesView
+		case tribesContextView
 		case draftView
 	}
 	
@@ -23,7 +24,6 @@ struct TribeAvatar: View {
 	let size: CGFloat
 	let stackSize: CGFloat
 	
-	let showName: Bool
 	let isSelected: Bool
 	
 	let longPressMinimumDuration: CGFloat
@@ -45,7 +45,6 @@ struct TribeAvatar: View {
 		context: Context,
 		tribe: Tribe,
 		size: CGFloat,
-		showName: Bool = true,
 		isSelected: Bool = false,
 		avatarContextAction: @escaping (_ tribe: Tribe) -> () = { _ in },
 		nameContextAction: @escaping (_ tribe: Tribe) -> () = { _ in },
@@ -64,7 +63,6 @@ struct TribeAvatar: View {
 		self.stackSize = maxSize * 0.9
 		self.nameSize = { size.getTribeNameSize() }()
 		
-		self.showName = showName
 		self.isSelected = isSelected
 		
 		self.longPressMinimumDuration = 0.5
@@ -408,7 +406,8 @@ struct TribeAvatar: View {
 							}
 					)
 			}
-			if self.showName {
+			switch context {
+			case .tribesView, .draftView:
 				TribeNameView(name: name, fontSize: nameSize, action: { secondaryAction(self.tribe) })
 					.simultaneousGesture(
 						LongPressGesture(minimumDuration: longPressMinimumDuration)
@@ -416,6 +415,8 @@ struct TribeAvatar: View {
 								nameContextAction(self.tribe)
 							}
 					)
+			case .tribesContextView:
+				EmptyView()
 			}
 		}
 	}
@@ -487,7 +488,6 @@ struct TribeAvatar_Previews: PreviewProvider {
 						members: Array(repeating: TribeMember.noop1, count: 10)
 					),
 					size: 180,
-					showName: false,
 					isSelected: true,
 					avatarContextAction: { _ in },
 					primaryAction: { _ in },

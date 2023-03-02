@@ -75,10 +75,9 @@ struct TribesView: View {
 							if let focusedTribe = viewModel.focusedTribe {
 								let size: CGFloat = 200
 								TribeAvatar(
-									context: .tribesView,
+									context: .tribesContextView,
 									tribe: focusedTribe,
 									size: size,
-									showName: false,
 									avatarContextAction: { _ in },
 									primaryAction: { _ in },
 									secondaryAction: { _ in },
