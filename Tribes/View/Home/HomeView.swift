@@ -34,12 +34,15 @@ struct HomeView: View {
 			.ignoresSafeArea()
 			.navigationTitle("")
 			.navigationDestination(for: AppRouter.Route.HomeStack.self) { stack in
-				switch stack {
-				case .createTribe:
-					CreateTribeView(viewModel: CreateTribeView.ViewModel())
-				case .joinTribe:
-					JoinTribeView(viewModel: JoinTribeView.ViewModel())
+				Group {
+					switch stack {
+					case .createTribe:
+						CreateTribeView(viewModel: CreateTribeView.ViewModel())
+					case .joinTribe:
+						JoinTribeView(viewModel: JoinTribeView.ViewModel())
+					}
 				}
+				.navigationBarTitleDisplayMode(.inline)
 			}
 			.onChange(of: currentPageIndex) { pageIndex in
 				viewModel.setCurrentPage(page: ViewModel.Page(rawValue: pageIndex)!)

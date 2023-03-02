@@ -115,9 +115,7 @@ struct JoinTribeView: View {
 								size: 260,
 								avatarContextAction: { _ in },
 								primaryAction: {_ in},
-								secondaryAction: {_ in},
-								inviteAction: {_ in},
-								leaveAction: {_ in}
+								secondaryAction: {_ in}
 							)
 							Spacer()
 						}
