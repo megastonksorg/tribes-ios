@@ -15,7 +15,7 @@ extension ChatView {
 		}
 		
 		var canSendText: Bool {
-			!text.isEmpty
+			!text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
 		}
 		
 		@Published var tribe: Tribe
