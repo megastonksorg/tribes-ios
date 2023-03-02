@@ -71,6 +71,7 @@ struct DraftView: View {
 					.padding(.horizontal, 6)
 				}
 			}
+			.onAppear { viewModel.resetRecipients() }
 		}
 	}
 	

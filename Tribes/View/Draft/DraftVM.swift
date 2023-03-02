@@ -14,7 +14,7 @@ extension DraftView {
 		@Published var content: Message.Content?
 		@Published var directRecipient: Tribe?
 		@Published var selectedRecipients: IdentifiedArrayOf<Tribe> = []
-		@Published var recipients: IdentifiedArrayOf<Tribe>
+		@Published var recipients: IdentifiedArrayOf<Tribe> = []
 		
 		var canSendTea: Bool {
 			selectedRecipients.count > 0
@@ -23,10 +23,7 @@ extension DraftView {
 		init(content: Message.Content? = nil, directRecipient: Tribe?) {
 			self.content = content
 			self.directRecipient = directRecipient
-			self.recipients = IdentifiedArrayOf(uniqueElements: [Tribe.noop2, Tribe.noop3, Tribe.noop4, Tribe.noop5, Tribe.noop6]) //TribesRepository.shared.getTribes().filter { $0.members.count > 1 }
-			if let directRecipient = directRecipient {
-				self.selectedRecipients = IdentifiedArrayOf(uniqueElements: [directRecipient])
-			}
+			resetRecipients()
 		}
 		
 		func setContent(content: Message.Content) {
@@ -35,6 +32,15 @@ extension DraftView {
 		
 		func resetContent() {
 			self.content = nil
+		}
+		
+		func resetRecipients() {
+			if let directRecipient = self.directRecipient {
+				self.selectedRecipients = IdentifiedArrayOf(uniqueElements: [directRecipient])
+			} else {
+				self.recipients = TribesRepository.shared.getTribes().filter { $0.members.count > 1 }
+				self.selectedRecipients = []
+			}
 		}
 		
 		func tribeTapped(tribe: Tribe) {
