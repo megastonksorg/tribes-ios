@@ -9,7 +9,7 @@ import CryptoKit
 import Foundation
 
 protocol EncryptionClientProtocol {
-	func encrypt(_ data: Data, for publicKeys: [String]) -> EncryptedData?
+	func encrypt(_ data: Data, for publicKeys: [String], symmetricKey: SymmetricKey) -> EncryptedData?
 	func decrypt(_ data: Data, for publicKey: String, key: String) -> Data?
 }
 
@@ -28,8 +28,7 @@ class EncryptionClient: EncryptionClientProtocol {
 		self.rsaKeys = RSAKeys(privateKey: privateKey, publicKey: publicKey)
 	}
 	
-	func encrypt(_ data: Data, for publicKeys: [String]) -> EncryptedData? {
-		let symmetricKey = SymmetricKey(size: .bits256)
+	func encrypt(_ data: Data, for publicKeys: [String], symmetricKey: SymmetricKey) -> EncryptedData? {
 		var keys: [String : String] = [:]
 		publicKeys.forEach { pubKey in
 			if let keyData = Data(base64Encoded: pubKey),
