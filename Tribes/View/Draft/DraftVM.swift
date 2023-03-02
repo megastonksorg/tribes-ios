@@ -16,6 +16,10 @@ extension DraftView {
 		@Published var selectedRecipients: IdentifiedArrayOf<Tribe> = []
 		@Published var recipients: IdentifiedArrayOf<Tribe>
 		
+		var canSendTea: Bool {
+			selectedRecipients.count > 0
+		}
+		
 		init(content: Message.Content? = nil, directRecipient: Tribe?) {
 			self.content = content
 			self.directRecipient = directRecipient

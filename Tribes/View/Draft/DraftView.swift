@@ -47,6 +47,7 @@ struct DraftView: View {
 						leading: { EmptyView() },
 						trailing: {
 							sendTeaButton()
+								.opacity(viewModel.canSendTea ? 1.0 : 0.0)
 						}
 					)
 				} else {
@@ -62,8 +63,10 @@ struct DraftView: View {
 							}
 						}
 						.frame(maxHeight: 140)
-						Spacer(minLength: spacing)
-						sendTeaButton()
+						if viewModel.canSendTea {
+							Spacer(minLength: spacing)
+							sendTeaButton()
+						}
 					}
 					.padding(.horizontal, 6)
 				}
@@ -89,6 +92,7 @@ struct DraftView: View {
 		.dropShadow()
 		.dropShadow()
 		.dropShadow()
+		.opacity(viewModel.canSendTea ? 1.0 : 0.5)
 	}
 	
 	@ViewBuilder
