@@ -75,6 +75,7 @@ struct TribesView: View {
 							if let focusedTribe = viewModel.focusedTribe {
 								let size: CGFloat = 200
 								TribeAvatar(
+									context: .tribesView,
 									tribe: focusedTribe,
 									size: size,
 									showName: false,
@@ -398,6 +399,7 @@ struct TribesView: View {
 	func tribeAvatar(tribe: Tribe, size: CGFloat) -> some View {
 		if viewModel.focusedTribe?.id != tribe.id {
 			TribeAvatar(
+				context: .tribesView,
 				tribe: tribe,
 				size: size,
 				avatarContextAction: { viewModel.openCompose($0) },

@@ -110,6 +110,7 @@ struct JoinTribeView: View {
 							TextView("You Joined", style: .largeTitle)
 							Spacer()
 							TribeAvatar(
+								context: .tribesView,
 								tribe: tribe,
 								size: 260,
 								avatarContextAction: { _ in },

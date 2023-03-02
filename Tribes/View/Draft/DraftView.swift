@@ -49,6 +49,23 @@ struct DraftView: View {
 							sendTeaButton()
 						}
 					)
+				} else {
+					let spacing: CGFloat = 4
+					HStack(spacing: 0) {
+						ScrollView(.horizontal, showsIndicators: false) {
+							LazyHStack(spacing: 14) {
+								Spacer()
+									.frame(width: spacing)
+								ForEach(viewModel.recipients) {
+									tribeAvatar(tribe: $0)
+								}
+							}
+						}
+						.frame(maxHeight: 140)
+						Spacer(minLength: spacing)
+						sendTeaButton()
+					}
+					.padding(.horizontal, 6)
 				}
 			}
 		}
@@ -58,8 +75,9 @@ struct DraftView: View {
 	func tribeAvatar(tribe: Tribe) -> some View {
 		let isSelected: Bool = viewModel.selectedRecipients[id: tribe.id] != nil
 		TribeAvatar(
+			context: .draftView,
 			tribe: tribe,
-			size: 100,
+			size: 90,
 			isSelected: isSelected,
 			avatarContextAction: { _ in },
 			primaryAction: { viewModel.tribeTapped(tribe: $0) },
@@ -67,6 +85,10 @@ struct DraftView: View {
 			inviteAction: { _ in },
 			leaveAction: { _ in }
 		)
+		.dropShadow()
+		.dropShadow()
+		.dropShadow()
+		.dropShadow()
 	}
 	
 	@ViewBuilder
@@ -77,7 +99,6 @@ struct DraftView: View {
 				.foregroundColor(Color.app.tertiary)
 				.padding()
 				.background(Circle().fill(Color.app.secondary))
-				.padding(.trailing)
 		}
 	}
 }
@@ -87,7 +108,7 @@ struct DraftView_Previews: PreviewProvider {
 		DraftView(
 			viewModel: .init(
 				content: .image(URL(string: "https://kingsleyokeke.blob.core.windows.net/videos/Untitled.mp4")!),
-				directRecipient: Tribe.noop2
+				directRecipient: nil
 			)
 		)
 	}

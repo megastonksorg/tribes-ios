@@ -13,6 +13,7 @@ struct TribeAvatar: View {
 		case draftView
 	}
 	
+	let context: Context
 	let name: String
 	let members: [TribeMember]
 	let tribe: Tribe
@@ -41,6 +42,7 @@ struct TribeAvatar: View {
 	@State var isSingleTapTapped: Bool = false
 	
 	init(
+		context: Context,
 		tribe: Tribe,
 		size: CGFloat,
 		showName: Bool = true,
@@ -52,6 +54,7 @@ struct TribeAvatar: View {
 		inviteAction: @escaping (_ tribe: Tribe) -> () = { _ in },
 		leaveAction: @escaping (_ tribe: Tribe) -> () = { _ in }
 	) {
+		self.context = context
 		self.name = tribe.name
 		self.members = tribe.members.others
 		self.tribe = tribe
@@ -218,7 +221,7 @@ struct TribeAvatar: View {
 									userAvatar(user: members[1])
 										.frame(dimension: size2)
 								}
-
+								
 								VStack {
 									userAvatar(user: members[2])
 										.frame(dimension: size2)
@@ -396,12 +399,15 @@ struct TribeAvatar: View {
 					}
 			}
 			.buttonStyle(.insideScaling)
-			.simultaneousGesture(
-				LongPressGesture(minimumDuration: longPressMinimumDuration)
-					.onEnded { _ in
-						avatarContextAction(self.tribe)
-					}
-			)
+			.if(context == .tribesView) { view in
+				view
+					.simultaneousGesture(
+						LongPressGesture(minimumDuration: longPressMinimumDuration)
+							.onEnded { _ in
+								avatarContextAction(self.tribe)
+							}
+					)
+			}
 			if self.showName {
 				TribeNameView(name: name, fontSize: nameSize, action: { secondaryAction(self.tribe) })
 					.simultaneousGesture(
@@ -457,6 +463,7 @@ struct TribeAvatar_Previews: PreviewProvider {
 		VStack {
 			HStack {
 				TribeAvatar(
+					context: .tribesView,
 					tribe: Tribe(
 						id: "1",
 						name: "Body does not Lie. But do not for one second think that this is",
@@ -472,6 +479,7 @@ struct TribeAvatar_Previews: PreviewProvider {
 				)
 				Spacer()
 				TribeAvatar(
+					context: .tribesView,
 					tribe: Tribe(
 						id: "1",
 						name: "Body does not Lie. But do not think that I would",
