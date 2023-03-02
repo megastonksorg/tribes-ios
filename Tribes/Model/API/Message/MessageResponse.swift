@@ -14,11 +14,6 @@ class MessageResponse: Codable {
 		let content: String
 	}
 	
-	enum Tag: String, Codable {
-		case chat
-		case tea
-	}
-	
 	let id: String
 	let keys: [MessageKeyEncrypted]
 	let type: String
@@ -29,7 +24,7 @@ class MessageResponse: Codable {
 	let senderWalletAddress: String
 	let reactions: [Reaction]
 	let expires: String?
-	let tag: Tag
+	let tag: Message.Tag
 	let timeStamp: String
 	
 	init(
@@ -43,7 +38,7 @@ class MessageResponse: Codable {
 		senderWalletAddress: String,
 		reactions: [Reaction],
 		expires: String?,
-		tag: Tag,
+		tag: Message.Tag,
 		timeStamp: String
 	) {
 		self.id = id

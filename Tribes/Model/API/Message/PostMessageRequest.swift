@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PostMessageRequest {
+struct PostMessageRequest: Codable {
 	let body: String
 	let caption: String?
 	let type: String

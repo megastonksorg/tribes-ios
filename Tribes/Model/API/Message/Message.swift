@@ -25,6 +25,11 @@ class Message: Identifiable {
 		case systemEvent(String)
 	}
 	
+	enum Tag: String, Codable {
+		case chat
+		case tea
+	}
+	
 	let id: String
 	let content: Content?
 	let caption: String?
@@ -65,9 +70,18 @@ struct TribeAndMessages: Identifiable {
 	let tribe: Tribe
 	let chat: IdentifiedArrayOf<Message>
 	let tea: IdentifiedArrayOf<Message>
-	let pendingTea: IdentifiedArrayOf<Message>
+	let chatDrafts: IdentifiedArrayOf<MessageDraft>
+	let teaDrafts: IdentifiedArrayOf<MessageDraft>
 	let lastReadChat: Date?
 	let lastReadTea: Date?
 	
 	var id: Tribe.ID { tribe.id }
+}
+
+struct MessageDraft: Identifiable {
+	let id: UUID
+	let content: Message.Content
+	let caption: String?
+	let tag: Message.Tag
+	let tribeId: Tribe.ID
 }
