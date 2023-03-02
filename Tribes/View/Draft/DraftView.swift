@@ -46,7 +46,7 @@ struct DraftView: View {
 							.submitLabel(.done)
 							.focused($focusedField, equals: .caption)
 							.padding(.vertical, 6)
-							.frame(maxWidth: .infinity, alignment: .center)
+							.frame(maxWidth: .infinity)
 							.background(Color.app.primary.opacity(0.4))
 							.opacity(viewModel.isShowingCaption || self.focusedField == .caption ? 1.0 : 0.0)
 							.onChange(of: viewModel.caption) { newValue in
