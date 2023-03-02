@@ -11,7 +11,11 @@ import UIKit
 
 extension DraftView {
 	@MainActor class ViewModel: ObservableObject {
-		@Published var caption: String? = "Hey there! What is for dinner? Hey there! What is for dinner? Hey there! What is for dinner?"
+		enum FocusField: Hashable {
+			case caption
+		}
+		
+		@Published var caption: String = ""
 		@Published var content: Message.Content?
 		@Published var directRecipient: Tribe?
 		@Published var selectedRecipients: IdentifiedArrayOf<Tribe> = []
@@ -19,6 +23,10 @@ extension DraftView {
 		
 		var canSendTea: Bool {
 			selectedRecipients.count > 0
+		}
+		
+		var isShowingCaption: Bool {
+			!caption.isEmpty
 		}
 		
 		init(content: Message.Content? = nil, directRecipient: Tribe?) {

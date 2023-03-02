@@ -9,6 +9,8 @@ import SwiftUI
 
 struct DraftView: View {
 	
+	@FocusState private var focusedField: ViewModel.FocusField?
+	
 	@StateObject var viewModel: ViewModel
 	
 	init(viewModel: ViewModel) {
@@ -23,6 +25,38 @@ struct DraftView: View {
 						ContentView(content: content)
 					}
 					.frame(size: proxy.size)
+					.overlay(
+						Color.clear
+							.contentShape(Rectangle())
+							.onTapGesture {
+								if self.focusedField == .caption {
+									self.focusedField = nil
+								} else {
+									self.focusedField = .caption
+								}
+							}
+					)
+					.overlay {
+						let fontColor: Color = Color.white
+						TextField("", text: $viewModel.caption.max(SizeConstants.captionLimit), axis: .vertical)
+							.font(Font.app.title3)
+							.foregroundColor(fontColor)
+							.tint(fontColor)
+							.multilineTextAlignment(.center)
+							.submitLabel(.done)
+							.focused($focusedField, equals: .caption)
+							.padding(.vertical, 6)
+							.frame(maxWidth: .infinity, alignment: .center)
+							.background(Color.app.primary.opacity(0.5))
+							.opacity(viewModel.isShowingCaption || self.focusedField == .caption ? 1.0 : 0.0)
+							.onChange(of: viewModel.caption) { newValue in
+								guard let newValueLastChar = newValue.last else { return }
+								if newValueLastChar == "\n" {
+									viewModel.caption.removeLast()
+									self.focusedField = nil
+								}
+							}
+					}
 				}
 				.ignoresSafeArea()
 				.overlay(alignment: .topTrailing) {
@@ -69,17 +103,6 @@ struct DraftView: View {
 						}
 					}
 					.padding(.horizontal, 6)
-				}
-			}
-			.overlay {
-				if let caption = viewModel.caption {
-					Text(caption)
-						.font(Font.app.title3)
-						.foregroundColor(Color.white)
-						.multilineTextAlignment(.center)
-						.padding(.vertical, 6)
-						.frame(maxWidth: .infinity, alignment: .center)
-						.background(Color.app.primary.opacity(0.5))
 				}
 			}
 			.onAppear { viewModel.resetRecipients() }
