@@ -71,6 +71,17 @@ struct DraftView: View {
 					.padding(.horizontal, 6)
 				}
 			}
+			.overlay {
+				if let caption = viewModel.caption {
+					Text(caption)
+						.font(Font.app.title3)
+						.foregroundColor(Color.white)
+						.multilineTextAlignment(.center)
+						.padding(.vertical, 6)
+						.frame(maxWidth: .infinity, alignment: .center)
+						.background(Color.app.primary.opacity(0.5))
+				}
+			}
 			.onAppear { viewModel.resetRecipients() }
 		}
 	}

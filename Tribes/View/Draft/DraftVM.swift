@@ -11,6 +11,7 @@ import UIKit
 
 extension DraftView {
 	@MainActor class ViewModel: ObservableObject {
+		@Published var caption: String? = "Hey there! What is for dinner? Hey there! What is for dinner? Hey there! What is for dinner?"
 		@Published var content: Message.Content?
 		@Published var directRecipient: Tribe?
 		@Published var selectedRecipients: IdentifiedArrayOf<Tribe> = []
