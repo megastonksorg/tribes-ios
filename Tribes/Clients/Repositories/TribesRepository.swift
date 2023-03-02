@@ -34,6 +34,10 @@ class TribesRepository: TribesRepositoryProtocol {
 		}
 	}
 	
+	func getTribe(tribeId: Tribe.ID) -> Tribe? {
+		return tribes[id: tribeId]
+	}
+	
 	func getTribes() -> IdentifiedArrayOf<Tribe> {
 		return tribes
 	}
