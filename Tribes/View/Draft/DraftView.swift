@@ -103,6 +103,7 @@ struct DraftView: View {
 				.foregroundColor(Color.app.tertiary)
 				.padding()
 				.background(Circle().fill(Color.app.secondary))
+				.offset(y: -10)
 		}
 	}
 }
