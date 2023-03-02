@@ -47,7 +47,7 @@ struct DraftView: View {
 							.focused($focusedField, equals: .caption)
 							.padding(.vertical, 6)
 							.frame(maxWidth: .infinity, alignment: .center)
-							.background(Color.app.primary.opacity(0.5))
+							.background(Color.app.primary.opacity(0.4))
 							.opacity(viewModel.isShowingCaption || self.focusedField == .caption ? 1.0 : 0.0)
 							.onChange(of: viewModel.caption) { newValue in
 								guard let newValueLastChar = newValue.last else { return }
