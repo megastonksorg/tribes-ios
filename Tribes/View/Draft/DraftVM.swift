@@ -26,7 +26,7 @@ extension DraftView {
 		}
 		
 		var isShowingCaption: Bool {
-			!caption.isEmpty
+			!caption.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
 		}
 		
 		init(content: Message.Content? = nil, directRecipient: Tribe?) {

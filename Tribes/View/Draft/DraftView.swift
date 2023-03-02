@@ -50,11 +50,9 @@ struct DraftView: View {
 							.background(Color.app.primary.opacity(0.4))
 							.opacity(viewModel.isShowingCaption || self.focusedField == .caption ? 1.0 : 0.0)
 							.onChange(of: viewModel.caption) { newValue in
-								guard let newValueLastChar = newValue.last else { return }
-								if newValueLastChar == "\n" {
-									viewModel.caption.removeLast()
-									self.focusedField = nil
-								}
+								guard let indexOfNewLine = newValue.firstIndex(of: "\n") else { return }
+								viewModel.caption.remove(at: indexOfNewLine)
+								self.focusedField = nil
 							}
 					}
 				}
