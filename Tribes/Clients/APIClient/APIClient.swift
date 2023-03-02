@@ -20,6 +20,7 @@ protocol APIRequests {
 	func updateName(fullName: String) -> AnyPublisher<String, APIClientError>
 	func updateProfilePhoto(photoUrl: URL) -> AnyPublisher<URL, APIClientError>
 	func uploadImage(imageData: Data) -> AnyPublisher<URL, APIClientError>
+	func uploadVideo(videoData: Data) -> AnyPublisher<URL, APIClientError>
 	//Tribe
 	func createTribe(name: String) -> AnyPublisher<Tribe, APIClientError>
 	func getTribes() -> AnyPublisher<[Tribe], APIClientError>
@@ -117,6 +118,15 @@ final class APIClient: APIRequests {
 			body: imageData
 		)
 		return apiRequest(appRequest: imageUploadRequest, output: URL.self)
+	}
+	
+	func uploadVideo(videoData: Data) -> AnyPublisher<URL, APIClientError> {
+		let videoUploadRequest = APPUrlRequest(
+			httpMethod: .put,
+			pathComponents: ["mediaUpload", "video"],
+			body: videoData
+		)
+		return apiRequest(appRequest: videoUploadRequest, output: URL.self)
 	}
 	
 	//Tribes
