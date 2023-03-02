@@ -63,10 +63,11 @@ class Message: Identifiable {
 
 struct TribeAndMessages: Identifiable {
 	let tribe: Tribe
-	let tea: IdentifiedArrayOf<Message>
 	let chat: IdentifiedArrayOf<Message>
-	let lastReadTea: Date?
+	let tea: IdentifiedArrayOf<Message>
+	let pendingTea: IdentifiedArrayOf<Message>
 	let lastReadChat: Date?
+	let lastReadTea: Date?
 	
 	var id: Tribe.ID { tribe.id }
 }
