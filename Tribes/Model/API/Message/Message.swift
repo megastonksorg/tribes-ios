@@ -68,12 +68,12 @@ class Message: Identifiable {
 
 struct TribeAndMessages: Identifiable {
 	let tribe: Tribe
-	let chat: IdentifiedArrayOf<Message>
-	let tea: IdentifiedArrayOf<Message>
-	let chatDrafts: IdentifiedArrayOf<MessageDraft>
-	let teaDrafts: IdentifiedArrayOf<MessageDraft>
-	let lastReadChat: Date?
-	let lastReadTea: Date?
+	var chat: IdentifiedArrayOf<Message>
+	var tea: IdentifiedArrayOf<Message>
+	var chatDrafts: IdentifiedArrayOf<MessageDraft>
+	var teaDrafts: IdentifiedArrayOf<MessageDraft>
+	var lastReadChat: Date?
+	var lastReadTea: Date?
 	
 	var id: Tribe.ID { tribe.id }
 }

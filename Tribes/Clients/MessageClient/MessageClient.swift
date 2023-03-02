@@ -25,6 +25,15 @@ import IdentifiedCollections
 	}
 	
 	func postMessage(draft: MessageDraft) {
+		//Add to Draft
+		switch draft.tag {
+		case .chat:
+			self.tribesAndMessages[id: draft.tribeId]?.chatDrafts.updateOrAppend(draft)
+		case .tea:
+			self.tribesAndMessages[id: draft.tribeId]?.teaDrafts.updateOrAppend(draft)
+		}
+		
+		//Encrypt Data
 		guard let memberKeys: [String] = TribesRepository.shared.getTribe(tribeId: draft.tribeId)?.members.map({ $0.publicKey }) else { return }
 		let symmetricKey = SymmetricKey(size: .bits256)
 		let encryptedContent: EncryptedData? = {
