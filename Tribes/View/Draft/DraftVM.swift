@@ -39,7 +39,7 @@ extension DraftView {
 		
 		func tribeTapped(tribe: Tribe) {
 			if let tribe = self.selectedRecipients[id: tribe.id] {
-				self.selectedRecipients.remove(id: tribe.id)
+				self.selectedRecipients.remove(tribe)
 			} else {
 				self.selectedRecipients.append(tribe)
 			}
