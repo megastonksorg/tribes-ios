@@ -35,6 +35,7 @@ struct SizeConstants {
 	static let profileImageFrame: CGFloat = 150
 	static let profileImageSize: CGSize = CGSize(width: 400, height: 400)
 	static let subTitleSpacing: CGFloat = 50
+	static let teaCupSize: CGFloat = 30
 	static let tribeNameLimit: Int = 24
 	static let wordCornerRadius: CGFloat = 5.0
 	static let wordSize: CGSize = CGSize(width: 100, height: 30)

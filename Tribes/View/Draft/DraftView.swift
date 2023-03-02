@@ -56,12 +56,14 @@ struct DraftView: View {
 	
 	@ViewBuilder
 	func tribeAvatar(tribe: Tribe) -> some View {
+		let isSelected: Bool = viewModel.selectedRecipients[id: tribe.id] != nil
 		TribeAvatar(
 			tribe: tribe,
 			size: 100,
+			isSelected: isSelected,
 			avatarContextAction: { _ in },
-			primaryAction: { _ in },
-			secondaryAction: { _ in },
+			primaryAction: { viewModel.tribeTapped(tribe: $0) },
+			secondaryAction: { viewModel.tribeTapped(tribe: $0) },
 			inviteAction: { _ in },
 			leaveAction: { _ in }
 		)
@@ -71,7 +73,7 @@ struct DraftView: View {
 	func sendTeaButton() -> some View {
 		Button(action: {  }) {
 			Image(systemName: "cup.and.saucer.fill")
-				.font(.system(size: 30))
+				.font(.system(size: SizeConstants.teaCupSize))
 				.foregroundColor(Color.app.tertiary)
 				.padding()
 				.background(Circle().fill(Color.app.secondary))

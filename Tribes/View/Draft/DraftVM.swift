@@ -13,6 +13,7 @@ extension DraftView {
 	@MainActor class ViewModel: ObservableObject {
 		@Published var content: Message.Content?
 		@Published var directRecipient: Tribe?
+		@Published var selectedRecipients: IdentifiedArrayOf<Tribe> = []
 		@Published var recipients: IdentifiedArrayOf<Tribe>
 		
 		init(content: Message.Content? = nil, directRecipient: Tribe?) {
@@ -27,6 +28,14 @@ extension DraftView {
 		
 		func resetContent() {
 			self.content = nil
+		}
+		
+		func tribeTapped(tribe: Tribe) {
+			if let tribe = self.selectedRecipients[id: tribe.id] {
+				self.selectedRecipients.remove(id: tribe.id)
+			} else {
+				self.selectedRecipients.append(tribe)
+			}
 		}
 	}
 }

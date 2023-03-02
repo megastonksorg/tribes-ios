@@ -23,6 +23,7 @@ struct TribeAvatar: View {
 	let stackSize: CGFloat
 	
 	let showName: Bool
+	let isSelected: Bool
 	
 	let longPressMinimumDuration: CGFloat
 	
@@ -43,12 +44,13 @@ struct TribeAvatar: View {
 		tribe: Tribe,
 		size: CGFloat,
 		showName: Bool = true,
-		avatarContextAction: @escaping (_ tribe: Tribe) -> (),
+		isSelected: Bool = false,
+		avatarContextAction: @escaping (_ tribe: Tribe) -> () = { _ in },
 		nameContextAction: @escaping (_ tribe: Tribe) -> () = { _ in },
 		primaryAction: @escaping (_ tribe: Tribe) -> (),
 		secondaryAction: @escaping (_ tribe: Tribe) -> (),
-		inviteAction: @escaping (_ tribe: Tribe) -> (),
-		leaveAction: @escaping (_ tribe: Tribe) -> ()
+		inviteAction: @escaping (_ tribe: Tribe) -> () = { _ in },
+		leaveAction: @escaping (_ tribe: Tribe) -> () = { _ in }
 	) {
 		self.name = tribe.name
 		self.members = tribe.members.others
@@ -60,6 +62,7 @@ struct TribeAvatar: View {
 		self.nameSize = { size.getTribeNameSize() }()
 		
 		self.showName = showName
+		self.isSelected = isSelected
 		
 		self.longPressMinimumDuration = 0.5
 		
@@ -380,6 +383,17 @@ struct TribeAvatar: View {
 							.frame(dimension: stackSize)
 						}
 					}
+					.overlay(isShown: isSelected) {
+						ZStack {
+							Circle()
+								.fill(Color.app.primary.opacity(0.8))
+							Circle()
+								.stroke(Color.app.secondary, lineWidth: 4)
+							Image(systemName: "cup.and.saucer")
+								.font(.system(size: SizeConstants.teaCupSize))
+								.foregroundColor(Color.app.tertiary)
+						}
+					}
 			}
 			.buttonStyle(.insideScaling)
 			.simultaneousGesture(
@@ -466,6 +480,7 @@ struct TribeAvatar_Previews: PreviewProvider {
 					),
 					size: 180,
 					showName: false,
+					isSelected: true,
 					avatarContextAction: { _ in },
 					primaryAction: { _ in },
 					secondaryAction: { _ in },
