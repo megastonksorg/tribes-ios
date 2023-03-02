@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct TribeAvatar: View {
-	enum Context {
+	enum Context: Equatable {
 		case tribesView
 		case tribesContextView
-		case draftView
+		case draftView(_ isSelected: Bool)
 	}
 	
 	let context: Context
@@ -23,8 +23,6 @@ struct TribeAvatar: View {
 	let nameSize: CGFloat
 	let size: CGFloat
 	let stackSize: CGFloat
-	
-	let isSelected: Bool
 	
 	let longPressMinimumDuration: CGFloat
 	
@@ -45,7 +43,6 @@ struct TribeAvatar: View {
 		context: Context,
 		tribe: Tribe,
 		size: CGFloat,
-		isSelected: Bool = false,
 		avatarContextAction: @escaping (_ tribe: Tribe) -> () = { _ in },
 		nameContextAction: @escaping (_ tribe: Tribe) -> () = { _ in },
 		primaryAction: @escaping (_ tribe: Tribe) -> (),
@@ -62,8 +59,6 @@ struct TribeAvatar: View {
 		self.maxSize = size * 0.8
 		self.stackSize = maxSize * 0.9
 		self.nameSize = { size.getTribeNameSize() }()
-		
-		self.isSelected = isSelected
 		
 		self.longPressMinimumDuration = 0.5
 		
@@ -384,15 +379,20 @@ struct TribeAvatar: View {
 							.frame(dimension: stackSize)
 						}
 					}
-					.overlay(isShown: isSelected) {
-						ZStack {
-							Circle()
-								.fill(Color.app.primary.opacity(0.8))
-							Circle()
-								.stroke(Color.app.secondary, lineWidth: 4)
-							Image(systemName: "cup.and.saucer")
-								.font(.system(size: SizeConstants.teaCupSize))
-								.foregroundColor(Color.app.tertiary)
+					.overlay {
+						switch context {
+						case .tribesView, .tribesContextView, .draftView(false):
+							EmptyView()
+						case .draftView(true):
+							ZStack {
+								Circle()
+									.fill(Color.app.primary.opacity(0.8))
+								Circle()
+									.stroke(Color.app.secondary, lineWidth: 4)
+								Image(systemName: "cup.and.saucer")
+									.font(.system(size: SizeConstants.teaCupSize))
+									.foregroundColor(Color.app.tertiary)
+							}
 						}
 					}
 			}
@@ -488,7 +488,6 @@ struct TribeAvatar_Previews: PreviewProvider {
 						members: Array(repeating: TribeMember.noop1, count: 10)
 					),
 					size: 180,
-					isSelected: true,
 					avatarContextAction: { _ in },
 					primaryAction: { _ in },
 					secondaryAction: { _ in },

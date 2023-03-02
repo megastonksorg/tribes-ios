@@ -113,10 +113,9 @@ struct DraftView: View {
 	func tribeAvatar(tribe: Tribe) -> some View {
 		let isSelected: Bool = viewModel.selectedRecipients[id: tribe.id] != nil
 		TribeAvatar(
-			context: .draftView,
+			context: .draftView(isSelected),
 			tribe: tribe,
 			size: 90,
-			isSelected: isSelected,
 			avatarContextAction: { _ in },
 			primaryAction: { viewModel.tribeTapped(tribe: $0) },
 			secondaryAction: { viewModel.tribeTapped(tribe: $0) },
