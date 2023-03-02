@@ -22,8 +22,11 @@ extension DraftView {
 		
 		init(content: Message.Content? = nil, directRecipient: Tribe?) {
 			self.content = content
-			self.directRecipient = directRecipient
+			self.directRecipient = Tribe.noop4 //directRecipient
 			self.recipients = IdentifiedArrayOf(uniqueElements: [Tribe.noop2, Tribe.noop3, Tribe.noop4, Tribe.noop5, Tribe.noop6]) //TribesRepository.shared.getTribes().filter { $0.members.count > 1 }
+			if let directRecipient = directRecipient {
+				self.selectedRecipients = IdentifiedArrayOf(uniqueElements: [directRecipient])
+			}
 		}
 		
 		func setContent(content: Message.Content) {
