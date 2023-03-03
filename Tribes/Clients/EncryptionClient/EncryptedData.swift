@@ -8,6 +8,6 @@
 import Foundation
 
 struct EncryptedData {
-	let keys: [String : String] //[publicKey:encryptedSymmetricKey]
+	let keys: [MessageKeyEncrypted]
 	let data: Data
 }
