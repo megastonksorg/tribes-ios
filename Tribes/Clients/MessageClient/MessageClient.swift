@@ -70,12 +70,15 @@ import IdentifiedCollections
 			return encryptedString.isEmpty ? nil : encryptedString
 		}()
 		
-		guard let encryptedContent = encryptedContent else { return }
+		guard
+			let encryptedContent = encryptedContent,
+			let outgoingContentType = draft.content.outgoingType?.rawValue
+		else { return }
 		
 		var postMessageModel: PostMessage = PostMessage(
 			body: "",
 			caption: encryptedCaptionString,
-			type: draft.content.outgoingType,
+			type: outgoingContentType,
 			contextId: draft.contextId,
 			tribeId: tribe.id,
 			tribeTimeStampId: tribe.timestampId,
@@ -159,5 +162,15 @@ import IdentifiedCollections
 		self.tribesAndMessages[id: draft.tribeId]?.chatDrafts.remove(id: draft.id)
 		self.tribesAndMessages[id: draft.tribeId]?.teaDrafts.remove(id: draft.id)
 		//Still need to process the messageResponse here
+	}
+	
+	private func processMessage(messageResponse: MessageResponse) {
+		
+		switch messageResponse.tag {
+		case .chat:
+			return
+		case .tea:
+			return
+		}
 	}
 }

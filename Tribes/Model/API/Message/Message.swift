@@ -24,12 +24,19 @@ class Message: Identifiable {
 		case video(URL)
 		case systemEvent(String)
 		
-		var outgoingType: String {
+		enum `Type`: String {
+			case text
+			case image
+			case video
+			case systemEvent
+		}
+		
+		var outgoingType: `Type`? {
 			switch self {
-			case .text: return "text"
-			case .image, .imageData: return "image"
-			case .video: return "video"
-			case .systemEvent: return ""
+			case .text: return .text
+			case .image, .imageData: return .image
+			case .video: return .video
+			case .systemEvent: return nil
 			}
 		}
 	}
