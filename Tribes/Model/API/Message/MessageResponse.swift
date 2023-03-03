@@ -8,8 +8,8 @@
 import Foundation
 
 // MARK: - Message
-class MessageResponse: Codable {
-	struct Reaction: Codable {
+class MessageResponse: Decodable {
+	struct Reaction: Decodable {
 		let senderWalletAddress: String
 		let content: String
 	}
