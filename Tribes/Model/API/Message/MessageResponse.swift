@@ -16,7 +16,7 @@ class MessageResponse: Decodable {
 	
 	let id: String
 	let keys: [MessageKeyEncrypted]
-	let type: String
+	let type: Message.Content.`Type`
 	let body: String
 	let caption: String?
 	let context: MessageResponse?
@@ -30,7 +30,7 @@ class MessageResponse: Decodable {
 	init(
 		id: String,
 		keys: [MessageKeyEncrypted],
-		type: String,
+		type: Message.Content.`Type`,
 		body: String,
 		caption: String?,
 		context: MessageResponse?,

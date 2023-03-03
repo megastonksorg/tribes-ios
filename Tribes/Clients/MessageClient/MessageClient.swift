@@ -165,7 +165,6 @@ import IdentifiedCollections
 	}
 	
 	private func processMessage(messageResponse: MessageResponse) {
-		
 		switch messageResponse.tag {
 		case .chat:
 			return

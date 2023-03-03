@@ -9,7 +9,7 @@ import Foundation
 import IdentifiedCollections
 import UIKit
 
-class Message: Identifiable {
+class Message: Codable, Identifiable {
 	struct Reaction: Codable, Identifiable {
 		let memberId: TribeMember.ID
 		let content: String
@@ -17,14 +17,14 @@ class Message: Identifiable {
 		var id: TribeMember.ID { memberId }
 	}
 	
-	enum Content {
+	enum Content: Codable {
 		case text(String)
 		case image(URL)
 		case imageData(Data)
 		case video(URL)
 		case systemEvent(String)
 		
-		enum `Type`: String {
+		enum `Type`: String, Codable {
 			case text
 			case image
 			case video
