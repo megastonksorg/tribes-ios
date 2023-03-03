@@ -21,6 +21,7 @@ import IdentifiedCollections
 @MainActor class MessageClient: ObservableObject {
 	@Published var tribesAndMessages: IdentifiedArrayOf<TribeAndMessages> = []
 	
+	private var dataUploadCancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 	private var postMessageCancellables: [MessageDraft.ID : AnyCancellable] = [:]
 	
 	//Clients
@@ -83,39 +84,74 @@ import IdentifiedCollections
 		//Post Message
 		switch draft.content {
 		case .uiImage:
-			postMessageCancellables[draft.id] = self.apiClient.uploadImage(imageData: encryptedContent.data)
-				.flatMap { [weak self] url -> AnyPublisher<MessageResponse, APIClientError>  in
-					guard let self = self else { return Fail(error: APIClientError.rawError("The MessageClient could not upload your image")).eraseToAnyPublisher() }
-					postMessageModel.body = url.absoluteString
-					return self.apiClient.postMessage(model: postMessageModel, tag: draft.tag)
-				}
-				.receive(on: DispatchQueue.main)
-				.sink(receiveCompletion: { _ in }, receiveValue: { [weak self] messageResponse in
-					self?.messagePosted(draft: draft, message: messageResponse)
-				})
+			self.apiClient.uploadImage(imageData: encryptedContent.data)
+				.sink(
+					receiveCompletion: { _ in },
+					receiveValue: { [weak self] url in
+						guard let self = self else { return }
+						postMessageModel.body = url.absoluteString
+						self.postMessageCancellables[draft.id] = self.postMessage(draft: draft, model: postMessageModel, tag: draft.tag)
+					}
+				)
+				.store(in: &dataUploadCancellables)
 		case .video:
-			postMessageCancellables[draft.id] = self.apiClient.uploadVideo(videoData: encryptedContent.data)
-				.flatMap { [weak self] url -> AnyPublisher<MessageResponse, APIClientError>  in
-					guard let self = self else { return Fail(error: APIClientError.rawError("The MessageClient could not upload your video")).eraseToAnyPublisher() }
-					postMessageModel.body = url.absoluteString
-					return self.apiClient.postMessage(model: postMessageModel, tag: draft.tag)
-				}
-				.receive(on: DispatchQueue.main)
-				.sink(receiveCompletion: { _ in }, receiveValue: { [weak self] messageResponse in
-					self?.messagePosted(draft: draft, message: messageResponse)
-				})
+			self.apiClient.uploadVideo(videoData: encryptedContent.data)
+				.sink(
+					receiveCompletion: { _ in },
+					receiveValue: { [weak self] url in
+						guard let self = self else { return }
+						postMessageModel.body = url.absoluteString
+						self.postMessageCancellables[draft.id] = self.postMessage(draft: draft, model: postMessageModel, tag: draft.tag)
+					}
+				)
+				.store(in: &dataUploadCancellables)
 		case .text:
 			postMessageModel.body = String(decoding: encryptedContent.data, as: UTF8.self)
-			postMessageCancellables[draft.id] = self.apiClient.postMessage(model: postMessageModel, tag: draft.tag)
-				.receive(on: DispatchQueue.main)
-				.sink(receiveCompletion: { _ in }, receiveValue: { [weak self] messageResponse in
-					self?.messagePosted(draft: draft, message: messageResponse)
-				})
+			postMessageCancellables[draft.id] = self.postMessage(draft: draft, model: postMessageModel, tag: draft.tag)
 		case .image, .systemEvent:
 			self.tribesAndMessages[id: draft.tribeId]?.chatDrafts.remove(id: draft.id)
 			self.tribesAndMessages[id: draft.tribeId]?.teaDrafts.remove(id: draft.id)
 			return
 		}
+	}
+	
+	private func postMessage(draft: MessageDraft, model: PostMessage, tag: Message.Tag) -> AnyCancellable {
+		return self.apiClient.postMessage(model: model, tag: tag)
+			.catch { error -> AnyPublisher<MessageResponse, APIClientError> in
+				let expectedDataError: Data = Data("Invalid Tribe TimestampId".utf8)
+				let failureError: APIClientError = APIClientError.rawError("Something went wrong with the MessageClient")
+				if error == .httpError(statusCode: 400, data: expectedDataError) {
+					return TribesRepository.shared
+						.refreshTribes()
+						.flatMap { tribes -> AnyPublisher<MessageResponse, APIClientError> in
+							if let newTribeTimestampId: String = tribes[id: model.tribeId]?.timestampId {
+								let newPostMessageModel = PostMessage(
+									body: model.body,
+									caption: model.caption,
+									type: model.type,
+									contextId: model.contextId,
+									tribeId: model.tribeId,
+									tribeTimeStampId: newTribeTimestampId,
+									keys: model.keys
+								)
+								return self.apiClient.postMessage(model: newPostMessageModel, tag: tag)
+							} else {
+								return Fail(error: failureError).eraseToAnyPublisher()
+							}
+						}
+						.eraseToAnyPublisher()
+				} else {
+					return Fail(error: APIClientError.rawError("The MessageClient failed to send your message. Please try that again.")).eraseToAnyPublisher()
+				}
+			}
+			.eraseToAnyPublisher()
+			.receive(on: DispatchQueue.main)
+			.sink(
+				receiveCompletion: { _ in },
+				receiveValue: { [weak self] messageResponse in
+					self?.messagePosted(draft: draft, message: messageResponse)
+				}
+			)
 	}
 	
 	func messagePosted(draft: MessageDraft, message: MessageResponse) {
