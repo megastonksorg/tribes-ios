@@ -23,6 +23,15 @@ class Message: Identifiable {
 		case uiImage(UIImage)
 		case video(URL)
 		case systemEvent(String)
+		
+		var outgoingType: String {
+			switch self {
+			case .text: return "text"
+			case .image, .uiImage: return "image"
+			case .video: return "video"
+			case .systemEvent: return ""
+			}
+		}
 	}
 	
 	enum Tag: String, Codable {
@@ -81,6 +90,7 @@ struct TribeAndMessages: Identifiable {
 struct MessageDraft: Identifiable {
 	let id: UUID
 	let content: Message.Content
+	let contextId: Message.ID
 	let caption: String?
 	let tag: Message.Tag
 	let tribeId: Tribe.ID
