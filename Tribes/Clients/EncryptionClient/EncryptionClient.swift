@@ -14,9 +14,9 @@ protocol EncryptionClientProtocol {
 }
 
 class EncryptionClient: EncryptionClientProtocol {
-	let rsaKeys: RSAKeys
-	
 	static let shared: EncryptionClient = EncryptionClient()
+	
+	let rsaKeys: RSAKeys
 	
 	init() {
 		//The key should have been set here so it should never be nil at this point

@@ -11,9 +11,6 @@ import IdentifiedCollections
 
 extension VerifySecretPhraseView {
 	@MainActor class ViewModel: ObservableObject {
-		//Clients
-		let walletClient = WalletClient.shared
-		
 		@Published var phraseInput: IdentifiedArrayOf<MnemonicWord>
 		@Published var phraseOptions: IdentifiedArrayOf<MnemonicWord>
 		
@@ -25,6 +22,9 @@ extension VerifySecretPhraseView {
 		var isContinueButtonDisabled: Bool {
 			self.phraseOptions.isEmpty
 		}
+		
+		//Clients
+		let walletClient = WalletClient.shared
 		
 		init() {
 			self.phraseInput = MnemonicPhrase.empty

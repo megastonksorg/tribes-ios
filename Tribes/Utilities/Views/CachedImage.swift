@@ -9,13 +9,15 @@ import SwiftUI
 
 struct CachedImage<Content: View, PlaceHolder: View>: View {
 	let url: URL
-	let apiClient: APIClient = APIClient.shared
-	let cacheClient: CacheClient = CacheClient.shared
 	
 	@ViewBuilder let content: (UIImage) -> Content
 	@ViewBuilder let placeHolder: () -> PlaceHolder
 	
 	@State var image: UIImage?
+	
+	//Clients
+	let apiClient: APIClient = APIClient.shared
+	let cacheClient: CacheClient = CacheClient.shared
 	
 	init(
 		url: URL,

@@ -11,15 +11,15 @@ import Combine
 extension WelcomePageView {
 	@MainActor class ViewModel: ObservableObject {
 		
-		//Clients
-		let walletClient = WalletClient.shared
-		
 		private var hasGeneratedWallet: Bool = false
 		private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 		
 		@Published var isLoading: Bool = false
 		
 		@Published var banner: BannerData?
+		
+		//Clients
+		let walletClient = WalletClient.shared
 		
 		func generateNewWallet() {
 			self.isLoading = true

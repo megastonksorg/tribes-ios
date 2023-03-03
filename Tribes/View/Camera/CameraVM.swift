@@ -11,9 +11,6 @@ import SwiftUI
 
 extension CameraView {
 	@MainActor class ViewModel: ObservableObject {
-		
-		let permissionClient = PermissionClient.shared
-		
 		private (set) var captureClient: CaptureClient = CaptureClient()
 		
 		@Published var audioPermissionState: PermissionState
@@ -66,6 +63,9 @@ extension CameraView {
 		var videoRecordingProgress: Double {
 			captureClient.recorderDuration / SizeConstants.maxVideoRecordingDuration
 		}
+		
+		//Clients
+		let permissionClient = PermissionClient.shared
 		
 		init() {
 			self.audioPermissionState = permissionClient.checkRecordPermission()

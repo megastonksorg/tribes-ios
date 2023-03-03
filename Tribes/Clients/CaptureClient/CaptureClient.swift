@@ -99,6 +99,9 @@ class CaptureClient:
 			.eraseToAnyPublisher()
 	}
 	
+	//Clients
+	let permissionClient: PermissionClient = PermissionClient.shared
+	
 	override init() {
 		self.captureDevice = frontDevice
 		
@@ -109,7 +112,7 @@ class CaptureClient:
 	
 	private func setUp() {
 		//Check camera permission before attempting setup
-		switch PermissionClient.shared.checkCameraPermission() {
+		switch permissionClient.checkCameraPermission() {
 		case .allowed:
 			break
 		case .undetermined, .denied:
@@ -118,7 +121,7 @@ class CaptureClient:
 		}
 		
 		//Check audio permission before attempting setup
-		switch PermissionClient.shared.checkRecordPermission() {
+		switch permissionClient.checkRecordPermission() {
 		case .allowed:
 			break
 		case .undetermined, .denied:

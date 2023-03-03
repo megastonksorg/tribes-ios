@@ -31,8 +31,8 @@ extension ImportSecretKeyView {
 		}
 		
 		//Clients
-		let walletClient: WalletClient = WalletClient.shared
 		let apiClient: APIClient = APIClient.shared
+		let walletClient: WalletClient = WalletClient.shared
 		
 		private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 		

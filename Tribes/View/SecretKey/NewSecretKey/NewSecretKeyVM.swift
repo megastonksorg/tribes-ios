@@ -12,14 +12,14 @@ import IdentifiedCollections
 extension NewSecretKeyView {
 	@MainActor class ViewModel: ObservableObject {
 		
-		//Clients
-		let walletClient = WalletClient.shared
-		
 		var walletAddress: String?
 		
 		@Published var phrase: IdentifiedArrayOf<MnemonicWord> = []
 		
 		@Published var banner: BannerData?
+		
+		//Clients
+		let walletClient = WalletClient.shared
 		
 		init() {
 			switch self.walletClient.getMnemonic() {

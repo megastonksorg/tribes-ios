@@ -19,6 +19,8 @@ import IdentifiedCollections
  */
 
 @MainActor class MessageClient: ObservableObject {
+	static let shared: MessageClient = MessageClient()
+	
 	@Published var tribesAndMessages: IdentifiedArrayOf<TribeAndMessages> = []
 	
 	private var dataUploadCancellables: Set<AnyCancellable> = Set<AnyCancellable>()
@@ -154,7 +156,7 @@ import IdentifiedCollections
 			)
 	}
 	
-	func messagePosted(draft: MessageDraft, message: MessageResponse) {
+	private func messagePosted(draft: MessageDraft, message: MessageResponse) {
 		self.tribesAndMessages[id: draft.tribeId]?.chatDrafts.remove(id: draft.id)
 		self.tribesAndMessages[id: draft.tribeId]?.teaDrafts.remove(id: draft.id)
 		//Still need to process the messageResponse here
