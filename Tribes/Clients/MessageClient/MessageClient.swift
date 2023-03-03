@@ -50,8 +50,7 @@ import IdentifiedCollections
 		let symmetricKey = SymmetricKey(size: .bits256)
 		let encryptedContent: EncryptedData? = {
 			switch draft.content {
-			case .uiImage(let uiImage):
-				guard let imageData = uiImage.pngData() else { return nil }
+			case .imageData(let imageData):
 				return self.encryptionClient.encrypt(imageData, for: memberKeys, symmetricKey: symmetricKey)
 			case .text(let text):
 				return self.encryptionClient.encrypt(Data(text.utf8), for: memberKeys, symmetricKey: symmetricKey)
@@ -85,7 +84,7 @@ import IdentifiedCollections
 		
 		//Post Message
 		switch draft.content {
-		case .uiImage:
+		case .imageData:
 			self.apiClient.uploadImage(imageData: encryptedContent.data)
 				.sink(
 					receiveCompletion: { _ in },

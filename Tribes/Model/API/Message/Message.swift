@@ -20,14 +20,14 @@ class Message: Identifiable {
 	enum Content {
 		case text(String)
 		case image(URL)
-		case uiImage(UIImage)
+		case imageData(Data)
 		case video(URL)
 		case systemEvent(String)
 		
 		var outgoingType: String {
 			switch self {
 			case .text: return "text"
-			case .image, .uiImage: return "image"
+			case .image, .imageData: return "image"
 			case .video: return "video"
 			case .systemEvent: return ""
 			}

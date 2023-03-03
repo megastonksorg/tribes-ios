@@ -29,8 +29,8 @@ struct ContentView: View {
 						)
 				}
 			)
-		case .uiImage(let uiImage):
-			imageView(uiImage: uiImage)
+		case .imageData(let imageData):
+			imageView(uiImage: UIImage(data: imageData) ?? UIImage())
 		case .video(let url):
 			VideoPlayerView(url: url)
 		case .systemEvent(let eventString):

@@ -23,8 +23,11 @@ extension ComposeView {
 			self.draftVM = DraftView.ViewModel(directRecipient: recipient)
 			cameraVM.$capturedImage
 				.sink(receiveValue: { [weak self] image in
-					guard let image = image else { return }
-					self?.draftVM.setContent(content: .uiImage(image))
+					guard
+						let image = image,
+						let imageData = image.pngData()
+					else { return }
+					self?.draftVM.setContent(content: .imageData(imageData))
 				})
 				.store(in: &cancellables)
 			
