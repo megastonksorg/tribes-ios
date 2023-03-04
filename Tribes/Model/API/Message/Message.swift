@@ -55,6 +55,7 @@ class Message: Codable, Identifiable {
 	let encryptedContent: Content
 	let senderId: TribeMember.ID
 	let reactions: [Reaction]
+	let tag: Tag
 	var isEncrypted: Bool
 	let expires: Date?
 	let timeStamp: Date
@@ -69,6 +70,7 @@ class Message: Codable, Identifiable {
 		encryptedContent: Content,
 		senderId: TribeMember.ID,
 		reactions: [Reaction],
+		tag: Tag,
 		isEncrypted: Bool,
 		expires: Date?,
 		timeStamp: Date
@@ -82,6 +84,7 @@ class Message: Codable, Identifiable {
 		self.encryptedContent = encryptedContent
 		self.senderId = senderId
 		self.reactions = reactions
+		self.tag = tag
 		self.isEncrypted = isEncrypted
 		self.expires = expires
 		self.timeStamp = timeStamp
@@ -90,14 +93,29 @@ class Message: Codable, Identifiable {
 
 struct TribeAndMessages: Identifiable {
 	let tribe: Tribe
-	var chat: IdentifiedArrayOf<Message>
-	var tea: IdentifiedArrayOf<Message>
-	var chatDrafts: IdentifiedArrayOf<MessageDraft>
-	var teaDrafts: IdentifiedArrayOf<MessageDraft>
+	var messages: IdentifiedArrayOf<Message>
+	var drafts: IdentifiedArrayOf<MessageDraft>
+	
 	var lastReadChat: Date?
 	var lastReadTea: Date?
 	
 	var id: Tribe.ID { tribe.id }
+	
+	var chat: IdentifiedArrayOf<Message> {
+		messages.filter { $0.tag == .chat }
+	}
+	
+	var tea: IdentifiedArrayOf<Message> {
+		messages.filter { $0.tag == .tea }
+	}
+	
+	var chatDrafts: IdentifiedArrayOf<MessageDraft> {
+		drafts.filter { $0.tag == .chat }
+	}
+	
+	var teaDrafts: IdentifiedArrayOf<MessageDraft> {
+		drafts.filter { $0.tag == .tea }
+	}
 }
 
 struct MessageDraft: Identifiable {

@@ -36,12 +36,7 @@ import IdentifiedCollections
 	
 	func postMessage(draft: MessageDraft) {
 		//Add to Draft
-		switch draft.tag {
-		case .chat:
-			self.tribesAndMessages[id: draft.tribeId]?.chatDrafts.updateOrAppend(draft)
-		case .tea:
-			self.tribesAndMessages[id: draft.tribeId]?.teaDrafts.updateOrAppend(draft)
-		}
+		self.tribesAndMessages[id: draft.tribeId]?.drafts.updateOrAppend(draft)
 		
 		//Encrypt Data
 		guard let tribe: Tribe = TribesRepository.shared.getTribe(tribeId: draft.tribeId) else { return }
@@ -89,6 +84,7 @@ import IdentifiedCollections
 		switch draft.content {
 		case .imageData:
 			self.apiClient.uploadImage(imageData: encryptedContent.data)
+				.receive(on: DispatchQueue.main)
 				.sink(
 					receiveCompletion: { _ in },
 					receiveValue: { [weak self] url in
@@ -100,6 +96,7 @@ import IdentifiedCollections
 				.store(in: &dataUploadCancellables)
 		case .video:
 			self.apiClient.uploadVideo(videoData: encryptedContent.data)
+				.receive(on: DispatchQueue.main)
 				.sink(
 					receiveCompletion: { _ in },
 					receiveValue: { [weak self] url in
@@ -113,8 +110,7 @@ import IdentifiedCollections
 			postMessageModel.body = String(decoding: encryptedContent.data, as: UTF8.self)
 			postMessageCancellables[draft.id] = self.postMessage(draft: draft, model: postMessageModel, tag: draft.tag)
 		case .image, .systemEvent:
-			self.tribesAndMessages[id: draft.tribeId]?.chatDrafts.remove(id: draft.id)
-			self.tribesAndMessages[id: draft.tribeId]?.teaDrafts.remove(id: draft.id)
+			self.tribesAndMessages[id: draft.tribeId]?.drafts.remove(id: draft.id)
 			return
 		}
 	}
@@ -159,16 +155,10 @@ import IdentifiedCollections
 	}
 	
 	private func messagePosted(draft: MessageDraft, messageResponse: MessageResponse) {
-		self.tribesAndMessages[id: draft.tribeId]?.chatDrafts.remove(id: draft.id)
-		self.tribesAndMessages[id: draft.tribeId]?.teaDrafts.remove(id: draft.id)
+		self.tribesAndMessages[id: draft.tribeId]?.drafts.remove(id: draft.id)
 		
 		let messageToAppend: Message = mapMessageResponseToMessage(messageResponse)
-		switch messageResponse.tag {
-		case .chat:
-			self.tribesAndMessages[id: draft.tribeId]?.chat.updateOrAppend(messageToAppend)
-		case .tea:
-			self.tribesAndMessages[id: draft.tribeId]?.tea.updateOrAppend(messageToAppend)
-		}
+		self.tribesAndMessages[id: draft.tribeId]?.messages.updateOrAppend(messageToAppend)
 		//Still need to decrypt and process the messageResponse here
 	}
 	
@@ -185,6 +175,7 @@ import IdentifiedCollections
 			reactions: messageResponse.reactions.map {
 				Message.Reaction(memberId: $0.senderWalletAddress, content: $0.content)
 			},
+			tag: messageResponse.tag,
 			isEncrypted: true,
 			expires: nil, //UPDATE
 			timeStamp: Date.now //UPDATE
