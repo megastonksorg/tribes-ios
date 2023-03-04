@@ -153,15 +153,23 @@ import IdentifiedCollections
 			.sink(
 				receiveCompletion: { _ in },
 				receiveValue: { [weak self] messageResponse in
-					self?.messagePosted(draft: draft, message: messageResponse)
+					self?.messagePosted(draft: draft, messageResponse: messageResponse)
 				}
 			)
 	}
 	
-	private func messagePosted(draft: MessageDraft, message: MessageResponse) {
+	private func messagePosted(draft: MessageDraft, messageResponse: MessageResponse) {
 		self.tribesAndMessages[id: draft.tribeId]?.chatDrafts.remove(id: draft.id)
 		self.tribesAndMessages[id: draft.tribeId]?.teaDrafts.remove(id: draft.id)
-		//Still need to process the messageResponse here
+		
+		let messageToAppend: Message = mapMessageResponseToMessage(messageResponse)
+		switch messageResponse.tag {
+		case .chat:
+			self.tribesAndMessages[id: draft.tribeId]?.chat.updateOrAppend(messageToAppend)
+		case .tea:
+			self.tribesAndMessages[id: draft.tribeId]?.tea.updateOrAppend(messageToAppend)
+		}
+		//Still need to decrypt and process the messageResponse here
 	}
 	
 	private func processMessage(messageResponse: MessageResponse) {
@@ -172,4 +180,39 @@ import IdentifiedCollections
 			return
 		}
 	}
+	
+	private func mapMessageResponseToMessage(_ messageResponse: MessageResponse) -> Message {
+		return Message(
+			id: messageResponse.id,
+			content: nil,
+			caption: nil,
+			context: messageResponse.context == nil ? nil : mapMessageResponseToMessage(messageResponse),
+			encryptedCaption: messageResponse.caption,
+			encryptedContent: getContentFromMessageResponse(messageResponse),
+			senderId: messageResponse.senderWalletAddress,
+			reactions: messageResponse.reactions.map {
+				Message.Reaction(memberId: $0.senderWalletAddress, content: $0.content)
+			},
+			isEncrypted: true,
+			expires: nil, //UPDATE
+			timeStamp: Date.now //UPDATE
+		)
+	}
+	
+	private func getContentFromMessageResponse(_ messageResponse: MessageResponse) -> Message.Content {
+		switch messageResponse.type {
+		case .text:
+			return .text(messageResponse.body)
+		case .image:
+			return .image(messageResponse.body.unwrappedContentUrl)
+		case .video:
+			return .video(messageResponse.body.unwrappedContentUrl)
+		case .systemEvent:
+			return .systemEvent(messageResponse.body)
+		}
+	}
+}
+
+fileprivate extension String {
+	var unwrappedContentUrl: URL { URL(string: self) ?? URL(string: "https://invalidContent.com")! }
 }
