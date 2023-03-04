@@ -50,6 +50,7 @@ class Message: Codable, Identifiable {
 	let content: Content?
 	let caption: String?
 	let context: Message?
+	let decryptionKeys: [MessageKeyEncrypted]
 	let encryptedCaption: String?
 	let encryptedContent: Content
 	let senderId: TribeMember.ID
@@ -63,6 +64,7 @@ class Message: Codable, Identifiable {
 		content: Content?,
 		caption: String?,
 		context: Message?,
+		decryptionKeys: [MessageKeyEncrypted],
 		encryptedCaption: String?,
 		encryptedContent: Content,
 		senderId: TribeMember.ID,
@@ -75,6 +77,7 @@ class Message: Codable, Identifiable {
 		self.content = content
 		self.caption = caption
 		self.context = context
+		self.decryptionKeys = decryptionKeys
 		self.encryptedCaption = encryptedCaption
 		self.encryptedContent = encryptedContent
 		self.senderId = senderId

@@ -172,21 +172,13 @@ import IdentifiedCollections
 		//Still need to decrypt and process the messageResponse here
 	}
 	
-	private func processMessage(messageResponse: MessageResponse) {
-		switch messageResponse.tag {
-		case .chat:
-			return
-		case .tea:
-			return
-		}
-	}
-	
 	private func mapMessageResponseToMessage(_ messageResponse: MessageResponse) -> Message {
 		return Message(
 			id: messageResponse.id,
 			content: nil,
 			caption: nil,
 			context: messageResponse.context == nil ? nil : mapMessageResponseToMessage(messageResponse),
+			decryptionKeys: messageResponse.keys,
 			encryptedCaption: messageResponse.caption,
 			encryptedContent: getContentFromMessageResponse(messageResponse),
 			senderId: messageResponse.senderWalletAddress,
