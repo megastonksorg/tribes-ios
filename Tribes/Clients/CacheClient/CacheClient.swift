@@ -46,8 +46,9 @@ extension CacheClientProtocol {
 }
 
 class CacheClient: CacheClientProtocol {
-	static let cacheFolderName: String = "cache"
 	static let shared: CacheClient = CacheClient()
+	
+	static let cacheFolderName: String = "cache"
 	
 	private let cacheDirectory: URL = try! FileManager.default
 		.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)

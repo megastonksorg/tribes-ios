@@ -19,7 +19,6 @@ struct CacheTrimmer {
 	private let cacheExpiryIntervalInSeconds: Double = 864_000 //10days = 10d * 24h * 3600s
 	
 	//Clients
-	private let cacheClient: CacheClient = CacheClient.shared
 	private let defaultsClient: DefaultsClient = DefaultsClient.shared
 	
 	func resetTracker() {
