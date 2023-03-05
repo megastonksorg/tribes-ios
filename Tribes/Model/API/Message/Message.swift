@@ -48,42 +48,44 @@ class Message: Codable, Identifiable {
 		}
 		let content: Content
 		let caption: String?
-		let context: Message?
 	}
 	
 	let id: String
+	let context: Message?
 	let decryptionKeys: [MessageKeyEncrypted]
+	let encryptedBody: Body
 	let senderId: TribeMember.ID
 	let reactions: [Reaction]
 	let tag: Tag
 	let expires: Date?
 	let timeStamp: Date
-	let encryptedBody: Body
 	
-	var decryptedBody: Body?
+	var body: Body?
 	
 	var isEncrypted: Bool {
-		decryptedBody == nil
+		 body == nil
 	}
 	
 	init(
 		id: String,
+		context: Message?,
 		decryptionKeys: [MessageKeyEncrypted],
+		encryptedBody: Body,
 		senderId: TribeMember.ID,
 		reactions: [Reaction],
 		tag: Tag,
 		expires: Date?,
-		timeStamp: Date,
-		encryptedBody: Body
+		timeStamp: Date
 	) {
 		self.id = id
+		self.context = context
 		self.decryptionKeys = decryptionKeys
+		self.encryptedBody = encryptedBody
 		self.senderId = senderId
 		self.reactions = reactions
 		self.tag = tag
 		self.expires = expires
 		self.timeStamp = timeStamp
-		self.encryptedBody = encryptedBody
 	}
 }
 
