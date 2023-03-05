@@ -16,10 +16,10 @@ struct ChatHeaderView: View {
 	
 	var body: some View {
 		HStack() {
-			let dimensionA: CGFloat = maxWidth * 0.16
-			let spacingA: CGFloat = maxWidth * 0.04
+			let dimensionA: CGFloat = maxWidth * 0.14
+			let spacingA: CGFloat = maxWidth * 0.08
 			
-			let dimensionB: CGFloat = maxWidth * 0.145
+			let dimensionB: CGFloat = maxWidth * 0.11
 			let spacingB: CGFloat = maxWidth * 0.20
 			
 			switch members.count {
@@ -71,7 +71,7 @@ struct ChatHeaderView: View {
 					.offset(y: -dimensionB * 0.3)
 				}
 			case 6:
-				let spacing: CGFloat = maxWidth * 0.12
+				let spacing: CGFloat = maxWidth * 0.15
 				VStack(spacing: 0) {
 					HStack(spacing: spacing) {
 						userAvatarView(members[0])
@@ -89,8 +89,8 @@ struct ChatHeaderView: View {
 					.offset(x: dimensionB * 0.4, y: -dimensionB * 0.2)
 				}
 			case 7:
-				let dimension: CGFloat = maxWidth * 0.14
-				let spacing: CGFloat = maxWidth * 0.08
+				let dimension: CGFloat = maxWidth * 0.10
+				let spacing: CGFloat = maxWidth * 0.15
 				VStack(spacing: 0) {
 					HStack(spacing: spacing) {
 						userAvatarView(members[0])
@@ -108,8 +108,8 @@ struct ChatHeaderView: View {
 					.offset(y: -dimension * 0.15)
 				}
 			case 8:
-				let dimension: CGFloat = maxWidth * 0.14
-				let spacing: CGFloat = maxWidth * 0.08
+				let dimension: CGFloat = maxWidth * 0.10
+				let spacing: CGFloat = maxWidth * 0.10
 				VStack(spacing: 0) {
 					HStack(spacing: spacing) {
 						userAvatarView(members[0])
@@ -129,7 +129,7 @@ struct ChatHeaderView: View {
 					.offset(x: dimension * 0.4, y: -dimension * 0.2)
 				}
 			case 9:
-				let dimension: CGFloat = maxWidth * 0.12
+				let dimension: CGFloat = maxWidth * 0.10
 				let spacing: CGFloat = maxWidth * 0.08
 				VStack(spacing: 6) {
 					HStack(spacing: spacing) {
@@ -162,7 +162,7 @@ struct ChatHeaderView: View {
 			}
 		}
 		.padding(.bottom, 8)
-		.frame(width: maxWidth, height: 100)
+		.frame(width: maxWidth, height: 85)
 		.background {
 			let cornerRadius: CGFloat = 40
 			let corners: UIRectCorner = [.bottomLeft, .bottomRight]
