@@ -21,7 +21,7 @@ import IdentifiedCollections
 @MainActor class MessageClient: ObservableObject {
 	static let shared: MessageClient = MessageClient()
 	
-	@Published var tribesAndMessages: IdentifiedArrayOf<TribeMessages> = []
+	@Published var tribeMessages: IdentifiedArrayOf<TribeMessage> = []
 	
 	private var dataUploadCancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 	private var postMessageCancellables: [MessageDraft.ID : AnyCancellable] = [:]
@@ -88,16 +88,16 @@ import IdentifiedCollections
 		}
 		
 		//Update the Message in the tribesAndMessages then update it in the cache
-		if let tribeAndMessages = self.tribesAndMessages.first(where: { $0.messages.first(where: { $0.id == message.id }) != nil }) {
+		if let tribeMessage = self.tribeMessages.first(where: { $0.messages.first(where: { $0.id == message.id }) != nil }) {
 			DispatchQueue.main.async {
-				self.tribesAndMessages[id: tribeAndMessages.id]?.messages[id: message.id] = decryptedMessage
+				self.tribeMessages[id: tribeMessage.id]?.messages[id: message.id] = decryptedMessage
 			}
 		}
 	}
 	
 	func postMessage(draft: MessageDraft) {
 		//Add to Draft
-		self.tribesAndMessages[id: draft.tribeId]?.drafts.updateOrAppend(draft)
+		self.tribeMessages[id: draft.tribeId]?.drafts.updateOrAppend(draft)
 		
 		//Encrypt Data
 		guard let tribe: Tribe = TribesRepository.shared.getTribe(tribeId: draft.tribeId) else { return }
@@ -171,7 +171,7 @@ import IdentifiedCollections
 			postMessageModel.body = String(decoding: encryptedContent.data, as: UTF8.self)
 			postMessageCancellables[draft.id] = self.postMessage(draft: draft, model: postMessageModel, tag: draft.tag)
 		case .image, .systemEvent:
-			self.tribesAndMessages[id: draft.tribeId]?.drafts.remove(id: draft.id)
+			self.tribeMessages[id: draft.tribeId]?.drafts.remove(id: draft.id)
 			return
 		}
 	}
@@ -216,10 +216,10 @@ import IdentifiedCollections
 	}
 	
 	private func messagePosted(draft: MessageDraft, messageResponse: MessageResponse) {
-		self.tribesAndMessages[id: draft.tribeId]?.drafts.remove(id: draft.id)
+		self.tribeMessages[id: draft.tribeId]?.drafts.remove(id: draft.id)
 		
 		let messageToAppend: Message = mapMessageResponseToMessage(messageResponse)
-		self.tribesAndMessages[id: draft.tribeId]?.messages.updateOrAppend(messageToAppend)
+		self.tribeMessages[id: draft.tribeId]?.messages.updateOrAppend(messageToAppend)
 		//Still need to decrypt and process the messageResponse here
 	}
 	

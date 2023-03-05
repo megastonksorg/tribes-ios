@@ -89,7 +89,7 @@ class Message: Codable, Identifiable {
 	}
 }
 
-struct TribeMessages: Identifiable {
+struct TribeMessage: Identifiable {
 	let tribeId: Tribe.ID
 	var messages: IdentifiedArrayOf<Message>
 	var drafts: IdentifiedArrayOf<MessageDraft>
