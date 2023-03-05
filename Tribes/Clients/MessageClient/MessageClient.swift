@@ -21,7 +21,7 @@ import IdentifiedCollections
 @MainActor class MessageClient: ObservableObject {
 	static let shared: MessageClient = MessageClient()
 	
-	@Published var tribeMessages: IdentifiedArrayOf<TribeMessage> = []
+	@Published var tribesMessages: IdentifiedArrayOf<TribeMessage> = []
 	
 	private var dataUploadCancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 	private var postMessageCancellables: [MessageDraft.ID : AnyCancellable] = [:]
@@ -37,67 +37,73 @@ import IdentifiedCollections
 	
 	func decryptAndLoadMessageContent(_ message: Message) {
 		let decryptedMessage: Message = message
-		//Check the keys first
-		guard
-			let currentPublicKey = encryptionClient.rsaKeys.publicKey.key.exportToData()?.base64EncodedString(),
-			let messageKey = message.decryptionKeys.filter( { $0.publicKey == currentPublicKey } ).first,
-			message.isEncrypted
-		else { return }
-		
-		let decryptionKey: String = messageKey.encryptionKey
-		
-		//Decrypted Caption
-		let decryptedCaption: String? = {
-			guard
-				let caption = message.encryptedBody.caption,
-				let decryptedCaption = encryptionClient.decryptString(caption, for: currentPublicKey, key: decryptionKey)
-			else { return nil }
-			return decryptedCaption
-		}()
-		
-		//Decrypted Content
-		switch message.encryptedBody.content {
-		case .text(let encryptedText):
-			if let decryptedText = encryptionClient.decryptString(encryptedText, for: currentPublicKey, key: decryptionKey) {
-				decryptedMessage.body = Message.Body(content: .text(decryptedText), caption: decryptedCaption)
-			}
-		case .image(let urlForData):
-			Task {
+		//Check if we need to decrypt the message.
+		//If the message exists in the cache, don't decrypt. Just update the reaction because that is the only thing that could have been updated
+		Task {
+			if let tribeMessage = getTribeMessage(with: message.id) {
+				if let existingTribesMessagesInCache = await self.cacheClient.getData(key: .tribesMessages) {
+					if let messageToUpdate = existingTribesMessagesInCache[id: tribeMessage.id]?.messages.first(where: { $0.id == message.id }) {
+						messageToUpdate.reactions = message.reactions
+						updateMessageAndCache(messageToUpdate)
+					}
+				}
+			} else {
+				//Check the keys first
 				guard
-					let encryptedImageData = await self.apiClient.getMediaData(url: urlForData),
-					let decryptedImageData = self.encryptionClient.decrypt(encryptedImageData, for: currentPublicKey, key: decryptionKey)
+					let currentPublicKey = encryptionClient.rsaKeys.publicKey.key.exportToData()?.base64EncodedString(),
+					let messageKey = message.decryptionKeys.filter( { $0.publicKey == currentPublicKey } ).first,
+					message.isEncrypted
 				else { return }
 				
-				let cachedImageUrl = await self.cacheClient.set(cache: Cache(key: SHA256.getHash(for: urlForData), object: decryptedImageData))
-				decryptedMessage.body = Message.Body(content: .image(cachedImageUrl), caption: decryptedCaption)
-			}
-		case .video(let urlForData):
-			Task {
-				guard
-					let encryptedVideoData = await self.apiClient.getMediaData(url: urlForData),
-					let decryptedVideoData = self.encryptionClient.decrypt(encryptedVideoData, for: currentPublicKey, key: decryptionKey)
-				else { return }
+				let decryptionKey: String = messageKey.encryptionKey
 				
-				let cachedVideoUrl = await self.cacheClient.set(cache: Cache(key: "\(SHA256.getHash(for: urlForData)).mp4", object: decryptedVideoData))
-				decryptedMessage.body = Message.Body(content: .video(cachedVideoUrl), caption: decryptedCaption)
-			}
-		case .systemEvent(let eventText):
-			decryptedMessage.body = Message.Body(content: .systemEvent(eventText), caption: decryptedCaption)
-		case .imageData:
-			return
-		}
-		
-		//Update the Message in the tribesAndMessages then update it in the cache
-		if let tribeMessage = self.tribeMessages.first(where: { $0.messages.first(where: { $0.id == message.id }) != nil }) {
-			DispatchQueue.main.async {
-				self.tribeMessages[id: tribeMessage.id]?.messages[id: message.id] = decryptedMessage
+				//Decrypted Caption
+				let decryptedCaption: String? = {
+					guard
+						let caption = message.encryptedBody.caption,
+						let decryptedCaption = encryptionClient.decryptString(caption, for: currentPublicKey, key: decryptionKey)
+					else { return nil }
+					return decryptedCaption
+				}()
+				
+				//Decrypted Content
+				switch message.encryptedBody.content {
+				case .text(let encryptedText):
+					if let decryptedText = encryptionClient.decryptString(encryptedText, for: currentPublicKey, key: decryptionKey) {
+						decryptedMessage.body = Message.Body(content: .text(decryptedText), caption: decryptedCaption)
+						updateMessageAndCache(decryptedMessage)
+					}
+				case .image(let urlForData):
+					guard
+						let encryptedImageData = await self.apiClient.getMediaData(url: urlForData),
+						let decryptedImageData = self.encryptionClient.decrypt(encryptedImageData, for: currentPublicKey, key: decryptionKey)
+					else { return }
+					
+					let cachedImageUrl = await self.cacheClient.set(cache: Cache(key: SHA256.getHash(for: urlForData), object: decryptedImageData))
+					decryptedMessage.body = Message.Body(content: .image(cachedImageUrl), caption: decryptedCaption)
+					updateMessageAndCache(decryptedMessage)
+				case .video(let urlForData):
+					guard
+						let encryptedVideoData = await self.apiClient.getMediaData(url: urlForData),
+						let decryptedVideoData = self.encryptionClient.decrypt(encryptedVideoData, for: currentPublicKey, key: decryptionKey)
+					else { return }
+					
+					let cachedVideoUrl = await self.cacheClient.set(cache: Cache(key: "\(SHA256.getHash(for: urlForData)).mp4", object: decryptedVideoData))
+					decryptedMessage.body = Message.Body(content: .video(cachedVideoUrl), caption: decryptedCaption)
+					updateMessageAndCache(decryptedMessage)
+				case .systemEvent(let eventText):
+					decryptedMessage.body = Message.Body(content: .systemEvent(eventText), caption: decryptedCaption)
+					updateMessageAndCache(decryptedMessage)
+				case .imageData:
+					return
+				}
 			}
 		}
 	}
 	
 	func postMessage(draft: MessageDraft) {
 		//Add to Draft
-		self.tribeMessages[id: draft.tribeId]?.drafts.updateOrAppend(draft)
+		self.tribesMessages[id: draft.tribeId]?.drafts.updateOrAppend(draft)
 		
 		//Encrypt Data
 		guard let tribe: Tribe = TribesRepository.shared.getTribe(tribeId: draft.tribeId) else { return }
@@ -171,8 +177,26 @@ import IdentifiedCollections
 			postMessageModel.body = String(decoding: encryptedContent.data, as: UTF8.self)
 			postMessageCancellables[draft.id] = self.postMessage(draft: draft, model: postMessageModel, tag: draft.tag)
 		case .image, .systemEvent:
-			self.tribeMessages[id: draft.tribeId]?.drafts.remove(id: draft.id)
+			self.tribesMessages[id: draft.tribeId]?.drafts.remove(id: draft.id)
 			return
+		}
+	}
+	
+	private func getTribeMessage(with id: Message.ID) -> TribeMessage? {
+		return self.tribesMessages.first(where: { $0.messages.first(where: { $0.id == id }) != nil })
+	}
+	
+	private func updateMessageAndCache(_ message: Message) {
+		if let tribeMessage = getTribeMessage(with: message.id) {
+			DispatchQueue.main.async {
+				self.tribesMessages[id: tribeMessage.id]?.messages[id: message.id] = message
+			}
+			Task {
+				if var existingTribesMessagesInCache = await self.cacheClient.getData(key: .tribesMessages) {
+					existingTribesMessagesInCache[id: tribeMessage.id]?.messages.updateOrAppend(message)
+					await self.cacheClient.setData(key: .tribesMessages, value: existingTribesMessagesInCache)
+				}
+			}
 		}
 	}
 	
@@ -216,10 +240,10 @@ import IdentifiedCollections
 	}
 	
 	private func messagePosted(draft: MessageDraft, messageResponse: MessageResponse) {
-		self.tribeMessages[id: draft.tribeId]?.drafts.remove(id: draft.id)
+		self.tribesMessages[id: draft.tribeId]?.drafts.remove(id: draft.id)
 		
 		let messageToAppend: Message = mapMessageResponseToMessage(messageResponse)
-		self.tribeMessages[id: draft.tribeId]?.messages.updateOrAppend(messageToAppend)
+		self.tribesMessages[id: draft.tribeId]?.messages.updateOrAppend(messageToAppend)
 		//Still need to decrypt and process the messageResponse here
 	}
 	
