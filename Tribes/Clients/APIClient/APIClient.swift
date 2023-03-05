@@ -13,7 +13,7 @@ typealias APIClientError = AppError.APIClientError
 
 protocol APIRequests {
 	func getImage(url: URL) async -> UIImage?
-	func getVideoData(url: URL) async -> Data?
+	func getMediaData(url: URL) async -> Data?
 	//Authentication
 	func doesAccountExist(for walletAddress: String) -> AnyPublisher<SuccessResponse, APIClientError>
 	func authenticateUser(model: AuthenticateRequest) -> AnyPublisher<AuthenticateResponse, APIClientError>
@@ -67,7 +67,7 @@ final class APIClient: APIRequests {
 		}
 	}
 	
-	func getVideoData(url: URL) async -> Data? {
+	func getMediaData(url: URL) async -> Data? {
 		await withCheckedContinuation { continuation in
 			queue.async { [weak self] in
 				guard let self = self else { return }
