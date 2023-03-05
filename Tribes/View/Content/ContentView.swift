@@ -10,7 +10,7 @@ import SwiftUI
 struct ContentView: View {
 	let imageCornerRadius: CGFloat = 10
 	
-	let content: Message.Content
+	let content: Message.Body.Content
 	var body: some View {
 		switch content {
 		case .text(let textString):

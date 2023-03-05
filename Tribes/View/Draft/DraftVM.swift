@@ -16,7 +16,7 @@ extension DraftView {
 		}
 		
 		@Published var caption: String = ""
-		@Published var content: Message.Content?
+		@Published var content: Message.Body.Content?
 		@Published var directRecipient: Tribe?
 		@Published var selectedRecipients: IdentifiedArrayOf<Tribe> = []
 		@Published var recipients: IdentifiedArrayOf<Tribe> = []
@@ -29,13 +29,13 @@ extension DraftView {
 			!caption.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
 		}
 		
-		init(content: Message.Content? = nil, directRecipient: Tribe?) {
+		init(content: Message.Body.Content? = nil, directRecipient: Tribe?) {
 			self.content = content
 			self.directRecipient = directRecipient
 			resetRecipients()
 		}
 		
-		func setContent(content: Message.Content) {
+		func setContent(content: Message.Body.Content) {
 			self.content = content
 		}
 		
