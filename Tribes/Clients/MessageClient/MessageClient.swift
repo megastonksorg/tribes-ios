@@ -24,24 +24,74 @@ import IdentifiedCollections
 	@Published var tribesAndMessages: IdentifiedArrayOf<TribeAndMessages> = []
 	
 	private var dataUploadCancellables: Set<AnyCancellable> = Set<AnyCancellable>()
-	private var messageLoaderCancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 	private var postMessageCancellables: [MessageDraft.ID : AnyCancellable] = [:]
 	
 	//Clients
 	let apiClient: APIClient = APIClient.shared
+	let cacheClient: CacheClient = CacheClient.shared
 	let encryptionClient: EncryptionClient = EncryptionClient.shared
 	
 	init() {
 		
 	}
 	
-	func loadMessage(_ message: Message) {
-		var decryptedMessage: Message = message
+	func decryptAndLoadMessageContent(_ message: Message) {
+		let decryptedMessage: Message = message
 		//Check the keys first
 		guard
 			let currentPublicKey = encryptionClient.rsaKeys.publicKey.key.exportToData()?.base64EncodedString(),
-			let messageKey = message.decryptionKeys.filter( { $0.publicKey == currentPublicKey } ).first
+			let messageKey = message.decryptionKeys.filter( { $0.publicKey == currentPublicKey } ).first,
+			message.isEncrypted
 		else { return }
+		
+		let decryptionKey: String = messageKey.encryptionKey
+		
+		//Decrypted Caption
+		let decryptedCaption: String? = {
+			guard
+				let caption = message.encryptedBody.caption,
+				let decryptedCaption = encryptionClient.decryptString(caption, for: currentPublicKey, key: decryptionKey)
+			else { return nil }
+			return decryptedCaption
+		}()
+		
+		//Decrypted Content
+		switch message.encryptedBody.content {
+		case .text(let encryptedText):
+			if let decryptedText = encryptionClient.decryptString(encryptedText, for: currentPublicKey, key: decryptionKey) {
+				decryptedMessage.body = Message.Body(content: .text(decryptedText), caption: decryptedCaption)
+			}
+		case .image(let urlForData):
+			Task {
+				guard
+					let encryptedImageData = await self.apiClient.getMediaData(url: urlForData),
+					let decryptedImageData = self.encryptionClient.decrypt(encryptedImageData, for: currentPublicKey, key: decryptionKey)
+				else { return }
+				
+				let cachedImageUrl = await self.cacheClient.set(cache: Cache(key: SHA256.getHash(for: urlForData), object: decryptedImageData))
+				decryptedMessage.body = Message.Body(content: .image(cachedImageUrl), caption: decryptedCaption)
+			}
+		case .video(let urlForData):
+			Task {
+				guard
+					let encryptedVideoData = await self.apiClient.getMediaData(url: urlForData),
+					let decryptedVideoData = self.encryptionClient.decrypt(encryptedVideoData, for: currentPublicKey, key: decryptionKey)
+				else { return }
+				
+				let cachedVideoUrl = await self.cacheClient.set(cache: Cache(key: "\(SHA256.getHash(for: urlForData)).mp4", object: decryptedVideoData))
+				decryptedMessage.body = Message.Body(content: .video(cachedVideoUrl), caption: decryptedCaption)
+			}
+		case .systemEvent(let eventText):
+			decryptedMessage.body = Message.Body(content: .systemEvent(eventText), caption: decryptedCaption)
+		case .imageData:
+			return
+		}
+		
+		if let tribeAndMessages = self.tribesAndMessages.first(where: { $0.messages.first(where: { $0.id == message.id }) != nil }) {
+			DispatchQueue.main.async {
+				self.tribesAndMessages[id: tribeAndMessages.id]?.messages[id: message.id] = decryptedMessage
+			}
+		}
 	}
 	
 	func postMessage(draft: MessageDraft) {
@@ -175,19 +225,19 @@ import IdentifiedCollections
 	private func mapMessageResponseToMessage(_ messageResponse: MessageResponse) -> Message {
 		return Message(
 			id: messageResponse.id,
+			context: messageResponse.context == nil ? nil : mapMessageResponseToMessage(messageResponse),
 			decryptionKeys: messageResponse.keys,
+			encryptedBody: Message.Body(
+				content: getContentFromMessageResponse(messageResponse),
+				caption: messageResponse.caption
+			),
 			senderId: messageResponse.senderWalletAddress,
 			reactions: messageResponse.reactions.map {
 				Message.Reaction(memberId: $0.senderWalletAddress, content: $0.content)
 			},
 			tag: messageResponse.tag,
 			expires: nil, //UPDATE
-			timeStamp: Date.now, //UPDATE
-			encryptedBody: Message.Body(
-				content: getContentFromMessageResponse(messageResponse),
-				caption: messageResponse.caption,
-				context: messageResponse.context == nil ? nil : mapMessageResponseToMessage(messageResponse)
-			)
+			timeStamp: Date.now //UPDATE
 		)
 	}
 	
