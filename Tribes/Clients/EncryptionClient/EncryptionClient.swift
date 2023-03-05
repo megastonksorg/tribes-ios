@@ -13,6 +13,13 @@ protocol EncryptionClientProtocol {
 	func decrypt(_ data: Data, for publicKey: String, key: String) -> Data?
 }
 
+extension EncryptionClientProtocol {
+	func decryptString(_ string: String, for publicKey: String, key: String) -> String? {
+		guard let decryptedData = decrypt(Data(string.utf8), for: publicKey, key: key) else { return nil }
+		return String(decoding: decryptedData, as: UTF8.self)
+	}
+}
+
 class EncryptionClient: EncryptionClientProtocol {
 	static let shared: EncryptionClient = EncryptionClient()
 	
@@ -54,12 +61,12 @@ class EncryptionClient: EncryptionClientProtocol {
 		}
 	}
 	
-	func encryptAES(message: Data, key: SymmetricKey) -> Data? {
+	private func encryptAES(message: Data, key: SymmetricKey) -> Data? {
 		let sealedMessage = try? AES.GCM.seal(message, using: key)
 		return sealedMessage?.combined
 	}
 	
-	func decryptAES(sealedMessage: Data, key: String) -> Data? {
+	private func decryptAES(sealedMessage: Data, key: String) -> Data? {
 		let sealedBox = try? AES.GCM.SealedBox(combined: sealedMessage)
 		guard
 			let keyData = Data(base64Encoded: key),
