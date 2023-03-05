@@ -24,6 +24,7 @@ import IdentifiedCollections
 	@Published var tribesAndMessages: IdentifiedArrayOf<TribeAndMessages> = []
 	
 	private var dataUploadCancellables: Set<AnyCancellable> = Set<AnyCancellable>()
+	private var messageLoaderCancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 	private var postMessageCancellables: [MessageDraft.ID : AnyCancellable] = [:]
 	
 	//Clients
@@ -32,6 +33,15 @@ import IdentifiedCollections
 	
 	init() {
 		
+	}
+	
+	func loadMessage(_ message: Message) {
+		var decryptedMessage: Message = message
+		//Check the keys first
+		guard
+			let currentPublicKey = encryptionClient.rsaKeys.publicKey.key.exportToData()?.base64EncodedString(),
+			let messageKey = message.decryptionKeys.filter( { $0.publicKey == currentPublicKey } ).first
+		else { return }
 	}
 	
 	func postMessage(draft: MessageDraft) {
@@ -165,24 +175,23 @@ import IdentifiedCollections
 	private func mapMessageResponseToMessage(_ messageResponse: MessageResponse) -> Message {
 		return Message(
 			id: messageResponse.id,
-			content: nil,
-			caption: nil,
-			context: messageResponse.context == nil ? nil : mapMessageResponseToMessage(messageResponse),
 			decryptionKeys: messageResponse.keys,
-			encryptedCaption: messageResponse.caption,
-			encryptedContent: getContentFromMessageResponse(messageResponse),
 			senderId: messageResponse.senderWalletAddress,
 			reactions: messageResponse.reactions.map {
 				Message.Reaction(memberId: $0.senderWalletAddress, content: $0.content)
 			},
 			tag: messageResponse.tag,
-			isEncrypted: true,
 			expires: nil, //UPDATE
-			timeStamp: Date.now //UPDATE
+			timeStamp: Date.now, //UPDATE
+			encryptedBody: Message.Body(
+				content: getContentFromMessageResponse(messageResponse),
+				caption: messageResponse.caption,
+				context: messageResponse.context == nil ? nil : mapMessageResponseToMessage(messageResponse)
+			)
 		)
 	}
 	
-	private func getContentFromMessageResponse(_ messageResponse: MessageResponse) -> Message.Content {
+	private func getContentFromMessageResponse(_ messageResponse: MessageResponse) -> Message.Body.Content {
 		switch messageResponse.type {
 		case .text:
 			return .text(messageResponse.body)
