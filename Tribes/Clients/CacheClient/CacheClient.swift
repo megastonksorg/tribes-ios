@@ -13,7 +13,7 @@ import SwiftUI
 
 protocol CacheClientProtocol {
 	func get<Object: Codable>(key: String, type: Object.Type) async -> Object?
-	func set(cache: Cache) async -> Void
+	func set(cache: Cache) async -> URL
 	func delete(key: String) async -> Void
 	func clear()
 }
@@ -28,7 +28,7 @@ extension SHA256 {
 extension CacheClientProtocol {
 	func setImage(url: URL, image: UIImage) async -> Void {
 		guard let pngData = image.pngData() else { return }
-		await set(cache: Cache(key: SHA256.getHash(for: url), object: pngData))
+		await _ = set(cache: Cache(key: SHA256.getHash(for: url), object: pngData))
 	}
 	
 	func getImage(url: URL) async -> UIImage? {
@@ -36,8 +36,8 @@ extension CacheClientProtocol {
 		return UIImage(data: imageData)
 	}
 	
-	func setData<Data: Codable>(key: CacheKey<Data>, value: Data) async -> Void {
-		await set(cache: Cache(key: key.name, object: value))
+	func setData<Data: Codable>(key: CacheKey<Data>, value: Data) async -> URL {
+		return await set(cache: Cache(key: key.name, object: value))
 	}
 	
 	func getData<Data: Codable>(key: CacheKey<Data>) async -> Data? {
@@ -104,12 +104,16 @@ class CacheClient: CacheClientProtocol {
 		}
 	}
 	
-	func set(cache: Cache) async {
-		queue.sync { [weak self] in
-			guard let self = self else { return }
-			guard let data = try? self.encoder.encode(cache.object) else { return }
-			try? data.write(to: fileName(for: cache.key), options: [.atomic, .completeFileProtection])
-			self.cache[id: cache.key] = cache
+	func set(cache: Cache) async -> URL {
+		await withCheckedContinuation { continuation in
+			queue.sync { [weak self] in
+				guard let self = self else { return }
+				guard let data = try? self.encoder.encode(cache.object) else { return }
+				let filePath: URL = fileName(for: cache.key)
+				try? data.write(to: filePath, options: [.atomic, .completeFileProtection])
+				self.cache[id: cache.key] = cache
+				continuation.resume(returning: filePath)
+			}
 		}
 	}
 	
