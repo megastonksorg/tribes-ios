@@ -89,15 +89,15 @@ class Message: Codable, Identifiable {
 	}
 }
 
-struct TribeAndMessages: Identifiable {
-	let tribe: Tribe
+struct TribeMessages: Identifiable {
+	let tribeId: Tribe.ID
 	var messages: IdentifiedArrayOf<Message>
 	var drafts: IdentifiedArrayOf<MessageDraft>
 	
 	var lastReadChat: Date?
 	var lastReadTea: Date?
 	
-	var id: Tribe.ID { tribe.id }
+	var id: Tribe.ID { tribeId }
 	
 	var chat: IdentifiedArrayOf<Message> {
 		messages.filter { $0.tag == .chat }

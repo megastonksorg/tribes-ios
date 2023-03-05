@@ -21,7 +21,7 @@ import IdentifiedCollections
 @MainActor class MessageClient: ObservableObject {
 	static let shared: MessageClient = MessageClient()
 	
-	@Published var tribesAndMessages: IdentifiedArrayOf<TribeAndMessages> = []
+	@Published var tribesAndMessages: IdentifiedArrayOf<TribeMessages> = []
 	
 	private var dataUploadCancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 	private var postMessageCancellables: [MessageDraft.ID : AnyCancellable] = [:]
@@ -87,6 +87,7 @@ import IdentifiedCollections
 			return
 		}
 		
+		//Update the Message in the tribesAndMessages then update it in the cache
 		if let tribeAndMessages = self.tribesAndMessages.first(where: { $0.messages.first(where: { $0.id == message.id }) != nil }) {
 			DispatchQueue.main.async {
 				self.tribesAndMessages[id: tribeAndMessages.id]?.messages[id: message.id] = decryptedMessage
