@@ -55,11 +55,11 @@ class Message: Codable, Identifiable {
 	let decryptionKeys: [MessageKeyEncrypted]
 	let encryptedBody: Body
 	let senderId: TribeMember.ID
-	let reactions: [Reaction]
 	let tag: Tag
 	let expires: Date?
 	let timeStamp: Date
 	
+	var reactions: [Reaction]
 	var body: Body?
 	
 	var isEncrypted: Bool {
@@ -89,7 +89,7 @@ class Message: Codable, Identifiable {
 	}
 }
 
-struct TribeMessage: Identifiable {
+struct TribeMessage: Codable, Identifiable {
 	let tribeId: Tribe.ID
 	var messages: IdentifiedArrayOf<Message>
 	var drafts: IdentifiedArrayOf<MessageDraft>
@@ -116,7 +116,7 @@ struct TribeMessage: Identifiable {
 	}
 }
 
-struct MessageDraft: Identifiable {
+struct MessageDraft: Codable, Identifiable {
 	let id: UUID
 	let content: Message.Body.Content
 	let contextId: Message.ID

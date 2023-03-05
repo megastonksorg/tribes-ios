@@ -36,6 +36,7 @@ extension CacheClientProtocol {
 		return UIImage(data: imageData)
 	}
 	
+	@discardableResult
 	func setData<Data: Codable>(key: CacheKey<Data>, value: Data) async -> URL {
 		return await set(cache: Cache(key: key.name, object: value))
 	}

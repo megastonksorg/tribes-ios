@@ -21,4 +21,5 @@ struct CacheKey<Object: Codable> {
 
 extension CacheKey {
 	static var tribes: CacheKey<IdentifiedArrayOf<Tribe>> { .init(name: "tribes") }
+	static var tribesMessages: CacheKey<IdentifiedArrayOf<TribeMessage>> { .init(name: "tribesMessages") }
 }
