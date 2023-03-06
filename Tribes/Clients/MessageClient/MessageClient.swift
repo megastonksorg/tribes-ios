@@ -32,7 +32,13 @@ import IdentifiedCollections
 	let encryptionClient: EncryptionClient = EncryptionClient.shared
 	
 	init() {
-		
+		Task {
+			if let cachedTribesMessages = await cacheClient.getData(key: .tribesMessages) {
+				await MainActor.run {
+					self.tribesMessages = cachedTribesMessages
+				}
+			}
+		}
 	}
 	
 	func decryptAndLoadMessageContent(_ message: Message) {
