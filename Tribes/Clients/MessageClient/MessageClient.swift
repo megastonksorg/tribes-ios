@@ -286,7 +286,3 @@ import IdentifiedCollections
 		}
 	}
 }
-
-fileprivate extension String {
-	var unwrappedContentUrl: URL { URL(string: self) ?? URL(string: "https://invalidContent.com")! }
-}

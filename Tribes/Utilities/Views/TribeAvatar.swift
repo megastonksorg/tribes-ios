@@ -5,6 +5,7 @@
 //  Created by Kingsley Okeke on 2023-01-09.
 //
 
+import IdentifiedCollections
 import SwiftUI
 
 struct TribeAvatar: View {
@@ -16,7 +17,7 @@ struct TribeAvatar: View {
 	
 	let context: Context
 	let name: String
-	let members: [TribeMember]
+	let members: IdentifiedArrayOf<TribeMember>
 	let tribe: Tribe
 	
 	let maxSize: CGFloat
@@ -469,7 +470,7 @@ struct TribeAvatar_Previews: PreviewProvider {
 						id: "1",
 						name: "Body does not Lie. But do not for one second think that this is",
 						timestampId: "stamp",
-						members: Array(repeating: TribeMember.noop1, count: 10)
+						members: IdentifiedArray(uniqueElements: Array(repeating: TribeMember.noop1, count: 10))
 					),
 					size: 180,
 					avatarContextAction: { _ in },
@@ -485,7 +486,7 @@ struct TribeAvatar_Previews: PreviewProvider {
 						id: "1",
 						name: "Body does not Lie. But do not think that I would",
 						timestampId: "stamp",
-						members: Array(repeating: TribeMember.noop1, count: 10)
+						members:IdentifiedArray(uniqueElements: Array(repeating: TribeMember.noop1, count: 10))
 					),
 					size: 180,
 					avatarContextAction: { _ in },

@@ -20,7 +20,10 @@ extension String {
 		catch {}
 		return false
 	}
+	
 	var isTribeNameValid: Bool {
 		self.count <= SizeConstants.tribeNameLimit
 	}
+	
+	var unwrappedContentUrl: URL { URL(string: self) ?? URL(string: "https://invalidContent.com")! }
 }

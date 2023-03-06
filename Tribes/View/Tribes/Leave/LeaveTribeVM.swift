@@ -7,6 +7,7 @@
 
 import Combine
 import Foundation
+import IdentifiedCollections
 
 extension LeaveTribeView {
 	@MainActor class ViewModel: ObservableObject {
@@ -16,7 +17,7 @@ extension LeaveTribeView {
 		
 		static let confirmationTitle: String = "Leave"
 		let tribe: Tribe
-		let tribeMembers: [TribeMember]
+		let tribeMembers: IdentifiedArrayOf<TribeMember>
 		
 		var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 		

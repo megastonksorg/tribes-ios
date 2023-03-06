@@ -6,16 +6,17 @@
 //
 
 import Foundation
+import IdentifiedCollections
 
 struct Tribe: Codable, Identifiable {
 	let id: String
 	let name: String
 	let timestampId: String
-	let members: [TribeMember]
+	let members: IdentifiedArrayOf<TribeMember>
 }
 
-extension Array where Element == TribeMember {
-	var others: [TribeMember] {
+extension IdentifiedArrayOf<TribeMember> {
+	var others: IdentifiedArrayOf<TribeMember> {
 		if let currentUser: User = KeychainClient.shared.get(key: .user) {
 			return self.filter({ $0.walletAddress != currentUser.walletAddress })
 		}
