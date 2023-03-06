@@ -250,7 +250,8 @@ import IdentifiedCollections
 		
 		let messageToAppend: Message = mapMessageResponseToMessage(messageResponse)
 		self.tribesMessages[id: draft.tribeId]?.messages.updateOrAppend(messageToAppend)
-		//Still need to decrypt and process the messageResponse here
+		//Decrypt and Load Message Content
+		decryptAndLoadMessageContent(messageToAppend)
 	}
 	
 	private func mapMessageResponseToMessage(_ messageResponse: MessageResponse) -> Message {
