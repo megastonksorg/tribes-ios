@@ -61,13 +61,10 @@ struct VerifySecretPhraseView: View {
 		.padding()
 		.multilineTextAlignment(.center)
 		.background(Color.app.background)
-		.overlay(isShown: self.viewModel.banner != nil) {
-			Color.black.opacity(0.8)
-				.banner(data: $viewModel.banner)
-		}
 		.overlay(isShown: viewModel.isLoading) {
 			AppProgressView()
 		}
+		.banner(data: $viewModel.banner)
 	}
 }
 
