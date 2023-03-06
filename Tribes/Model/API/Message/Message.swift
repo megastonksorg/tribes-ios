@@ -124,3 +124,61 @@ struct MessageDraft: Codable, Identifiable {
 	let tag: Message.Tag
 	let tribeId: Tribe.ID
 }
+
+extension Message {
+	static let noopEncryptedTextChat: Message = Message(
+		id: "A",
+		context: nil,
+		decryptionKeys: [],
+		encryptedBody: Body(content: .text("ENCRYPTED TEXT"), caption: nil),
+		senderId: UUID().uuidString,
+		reactions: [],
+		tag: .chat,
+		expires: nil,
+		timeStamp: Date.now
+	)
+	static let noopEncryptedImageChat: Message = Message(
+		id: "B",
+		context: nil,
+		decryptionKeys: [],
+		encryptedBody: Body(content: .image(URL(string: "https://invalidContent.com")!), caption: nil),
+		senderId: UUID().uuidString,
+		reactions: [],
+		tag: .chat,
+		expires: nil,
+		timeStamp: Date.now
+	)
+	static let noopEncryptedVideoChat: Message = Message(
+		id: "C",
+		context: nil,
+		decryptionKeys: [],
+		encryptedBody: Body(content: .video(URL(string: "https://invalidContent.com")!), caption: nil),
+		senderId: UUID().uuidString,
+		reactions: [],
+		tag: .chat,
+		expires: nil,
+		timeStamp: Date.now
+	)
+	static let noopEncryptedImageTea: Message = Message(
+		id: "D",
+		context: nil,
+		decryptionKeys: [],
+		encryptedBody: Body(content: .image(URL(string: "https://invalidContent.com")!), caption: nil),
+		senderId: UUID().uuidString,
+		reactions: [],
+		tag: .chat,
+		expires: nil,
+		timeStamp: Date.now
+	)
+	static let noopEncryptedVideoTea: Message = Message(
+		id: "E",
+		context: nil,
+		decryptionKeys: [],
+		encryptedBody: Body(content: .video(URL(string: "https://invalidContent.com")!), caption: nil),
+		senderId: UUID().uuidString,
+		reactions: [],
+		tag: .chat,
+		expires: nil,
+		timeStamp: Date.now
+	)
+}
