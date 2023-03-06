@@ -81,7 +81,7 @@ struct BannerViewModifier: ViewModifier {
 														.font(Font.app.title)
 														.foregroundColor(data.type.tintColor)
 													Text(data.detail)
-														.font(Font.app.subTitle)
+														.font(Font.app.callout)
 														.lineLimit(4)
 												}
 											}
