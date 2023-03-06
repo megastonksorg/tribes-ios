@@ -123,6 +123,8 @@
 		D0A3F0832980AA0B000308BF /* TribeInviteVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3F0822980AA0B000308BF /* TribeInviteVM.swift */; };
 		D0A3F0852980AA2B000308BF /* TribeInviteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A3F0842980AA2B000308BF /* TribeInviteView.swift */; };
 		D0AAF2DE29761F49003536C6 /* ChatType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AAF2DD29761F49003536C6 /* ChatType.swift */; };
+		D0B0C8FE29B5AD2000ECD8CE /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B0C8FD29B5AD2000ECD8CE /* MessageView.swift */; };
+		D0B0C90029B5AD2C00ECD8CE /* MessageVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B0C8FF29B5AD2C00ECD8CE /* MessageVM.swift */; };
 		D0B47CD029AA274A00017563 /* CacheTrimmer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B47CCF29AA274A00017563 /* CacheTrimmer.swift */; };
 		D0B47CD229AA289A00017563 /* DefaultsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B47CD129AA289A00017563 /* DefaultsClient.swift */; };
 		D0BFEA4F298736D200FB6F22 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0BFEA4E298736D200FB6F22 /* LaunchScreen.storyboard */; };
@@ -275,6 +277,8 @@
 		D0A3F0822980AA0B000308BF /* TribeInviteVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TribeInviteVM.swift; sourceTree = "<group>"; };
 		D0A3F0842980AA2B000308BF /* TribeInviteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TribeInviteView.swift; sourceTree = "<group>"; };
 		D0AAF2DD29761F49003536C6 /* ChatType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatType.swift; sourceTree = "<group>"; };
+		D0B0C8FD29B5AD2000ECD8CE /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
+		D0B0C8FF29B5AD2C00ECD8CE /* MessageVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageVM.swift; sourceTree = "<group>"; };
 		D0B47CCF29AA274A00017563 /* CacheTrimmer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheTrimmer.swift; sourceTree = "<group>"; };
 		D0B47CD129AA289A00017563 /* DefaultsClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultsClient.swift; sourceTree = "<group>"; };
 		D0BFEA4E298736D200FB6F22 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -566,6 +570,7 @@
 		D030D3002957460B0011128F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				D0B0C8FC29B5ACFC00ECD8CE /* Message */,
 				D055BD6929AFC7910070025D /* Content */,
 				D06FDE7B2999C15D0013A55E /* Account */,
 				D07278B22974CCAD00650A15 /* Tribes */,
@@ -778,6 +783,15 @@
 			path = Invite;
 			sourceTree = "<group>";
 		};
+		D0B0C8FC29B5ACFC00ECD8CE /* Message */ = {
+			isa = PBXGroup;
+			children = (
+				D0B0C8FD29B5AD2000ECD8CE /* MessageView.swift */,
+				D0B0C8FF29B5AD2C00ECD8CE /* MessageVM.swift */,
+			);
+			path = Message;
+			sourceTree = "<group>";
+		};
 		D0C3DBEE29A3FCB20066FBB8 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
@@ -985,6 +999,7 @@
 				D055BD6629AEF9610070025D /* MessageKeyEncrypted.swift in Sources */,
 				D015807C295E039E0087545A /* CameraView.swift in Sources */,
 				D030D2DB295745E90011128F /* CornerRadiusStyle.swift in Sources */,
+				D0B0C8FE29B5AD2000ECD8CE /* MessageView.swift in Sources */,
 				D01B8BA429A6004500C6BC1D /* ChatHeaderView.swift in Sources */,
 				D0CED88C299F03200077A347 /* MessageKey.swift in Sources */,
 				D01B8BA629A81AA300C6BC1D /* ChatMessageView.swift in Sources */,
@@ -1053,6 +1068,7 @@
 				D0CED88E299F553D0077A347 /* EncryptedData.swift in Sources */,
 				D055BD6D29AFC7B40070025D /* ContentVM.swift in Sources */,
 				D0E9F7FC298DD20F00A0400A /* CacheClient.swift in Sources */,
+				D0B0C90029B5AD2C00ECD8CE /* MessageVM.swift in Sources */,
 				D055BD6129AEF5680070025D /* MessageResponse.swift in Sources */,
 				D030D2FA295745F90011128F /* User.swift in Sources */,
 				D030D2DF295745E90011128F /* MnemonicWordView.swift in Sources */,
