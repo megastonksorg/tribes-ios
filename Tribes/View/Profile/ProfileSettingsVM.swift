@@ -27,6 +27,7 @@ extension ProfileSettingsView {
 		}
 		
 		let mode: ProfileSettingsView.ViewModel.Mode
+		let shouldShowAccountNotFoundHint: Bool
 		
 		var walletAddress: String?
 		var user: User?
@@ -78,14 +79,17 @@ extension ProfileSettingsView {
 			walletAddress: String? = nil
 		) {
 			self.mode = mode
+			self.shouldShowAccountNotFoundHint = shouldShowAccountNotFoundHint
 			self.user = user
 			self.walletAddress = walletAddress
 			
 			if let user = user {
 				self.name = user.fullName
 			}
-			
-			if shouldShowAccountNotFoundHint {
+		}
+		
+		func didAppear() {
+			if self.shouldShowAccountNotFoundHint {
 				self.banner = BannerData(detail: "We could not find an existing account for you but don't worry, you can create one here", type: .info)
 			}
 		}

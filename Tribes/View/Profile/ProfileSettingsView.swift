@@ -114,12 +114,15 @@ struct ProfileSettingsView: View {
 				EmptyView()
 			}
 		}
-		.onAppear { self.focusField = .name }
+		.onAppear {
+			self.focusField = .name
+			self.viewModel.didAppear()
+		}
 	}
 }
 
 struct ProfileEditingView_Previews: PreviewProvider {
 	static var previews: some View {
-		ProfileSettingsView(viewModel: .init(mode: .creation))
+		ProfileSettingsView(viewModel: .init(mode: .creation, shouldShowAccountNotFoundHint: true))
 	}
 }
