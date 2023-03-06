@@ -49,6 +49,7 @@ struct DraftView: View {
 							.frame(maxWidth: .infinity)
 							.background(Color.app.primary.opacity(0.4))
 							.opacity(viewModel.isShowingCaption || self.focusedField == .caption ? 1.0 : 0.0)
+							.offset(y: focusedField == nil ? SizeConstants.teaCaptionOffset : 0.0)
 							.onChange(of: viewModel.caption) { newValue in
 								guard let indexOfNewLine = newValue.firstIndex(of: "\n") else { return }
 								viewModel.caption.remove(at: indexOfNewLine)
