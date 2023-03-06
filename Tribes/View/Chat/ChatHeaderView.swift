@@ -23,8 +23,6 @@ struct ChatHeaderView: View {
 			let spacingB: CGFloat = maxWidth * 0.20
 			
 			switch members.count {
-			case 0:
-				EmptyView()
 			case 1:
 				userAvatarView(members[0])
 					.frame(dimension: dimensionA)
