@@ -66,48 +66,49 @@ struct BannerViewModifier: ViewModifier {
 								case .error: return "x.circle.fill"
 								}
 							}()
-							VStack {
-								HStack(alignment: .center){
-									VStack {
-										if(!data.title.isEmpty){
-											Text(data.title)
-												.font(Font.app.subTitle)
-												.bold()
-												.lineLimit(1)
-										}
-										
-										if (!data.detail.isEmpty) {
-											HStack {
-												Image(systemName: symbol)
-													.font(Font.app.title)
-													.foregroundColor(data.type.tintColor)
-												Text(data.detail)
+							if isShowing {
+								VStack {
+									HStack(alignment: .center){
+										VStack {
+											if(!data.title.isEmpty){
+												Text(data.title)
 													.font(Font.app.subTitle)
-													.lineLimit(4)
+													.bold()
+													.lineLimit(1)
+											}
+											
+											if (!data.detail.isEmpty) {
+												HStack {
+													Image(systemName: symbol)
+														.font(Font.app.title)
+														.foregroundColor(data.type.tintColor)
+													Text(data.detail)
+														.font(Font.app.subTitle)
+														.lineLimit(4)
+												}
 											}
 										}
 									}
-								}
-								.foregroundColor(Color.gray)
-								.padding()
-								
-								.background {
-									if !data.title.isEmpty || !data.detail.isEmpty {
-										ZStack {
-											RoundedRectangle(cornerRadius: self.cornerRadius)
-												.fill(Color.app.background)
-											RoundedRectangle(cornerRadius: self.cornerRadius)
-												.stroke(Color.gray.opacity(0.2), lineWidth: 1)
+									.foregroundColor(Color.gray)
+									.padding()
+									.background {
+										if !data.title.isEmpty || !data.detail.isEmpty {
+											ZStack {
+												RoundedRectangle(cornerRadius: self.cornerRadius)
+													.fill(Color.app.background)
+												RoundedRectangle(cornerRadius: self.cornerRadius)
+													.stroke(Color.gray.opacity(0.2), lineWidth: 1)
+											}
 										}
 									}
+									.padding(6)
+									.scaleEffect(isShowing ? 1.0 : 0.0, anchor: .center)
 								}
-								.padding(6)
-								.scaleEffect(isShowing ? 1.0 : 0.0, anchor: .center)
-							}
-							.transition(.scale)
-							.onAppear {
-								DispatchQueue.main.asyncAfter(deadline: .now() + data.timeOut) {
-									self.dismissBanner()
+								.transition(.scale)
+								.onAppear {
+									DispatchQueue.main.asyncAfter(deadline: .now() + data.timeOut) {
+										self.dismissBanner()
+									}
 								}
 							}
 						}
