@@ -139,6 +139,7 @@
 		D0C65AAF2970BEA100E527F9 /* SymmetricHStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C65AAE2970BEA100E527F9 /* SymmetricHStack.swift */; };
 		D0CED88C299F03200077A347 /* MessageKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CED88B299F03200077A347 /* MessageKey.swift */; };
 		D0CED88E299F553D0077A347 /* EncryptedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CED88D299F553D0077A347 /* EncryptedData.swift */; };
+		D0D16EDB29B5C8080015FCD5 /* MessageTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D16EDA29B5C8080015FCD5 /* MessageTextView.swift */; };
 		D0D2668F295F717100A94183 /* CaptureClient+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D2668E295F717100A94183 /* CaptureClient+Utilities.swift */; };
 		D0D26692295FED0500A94183 /* ComposeVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D26691295FED0500A94183 /* ComposeVM.swift */; };
 		D0D26694295FED1000A94183 /* ComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D26693295FED1000A94183 /* ComposeView.swift */; };
@@ -293,6 +294,7 @@
 		D0C65AAE2970BEA100E527F9 /* SymmetricHStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymmetricHStack.swift; sourceTree = "<group>"; };
 		D0CED88B299F03200077A347 /* MessageKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageKey.swift; sourceTree = "<group>"; };
 		D0CED88D299F553D0077A347 /* EncryptedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncryptedData.swift; sourceTree = "<group>"; };
+		D0D16EDA29B5C8080015FCD5 /* MessageTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTextView.swift; sourceTree = "<group>"; };
 		D0D2668E295F717100A94183 /* CaptureClient+Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CaptureClient+Utilities.swift"; sourceTree = "<group>"; };
 		D0D26691295FED0500A94183 /* ComposeVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeVM.swift; sourceTree = "<group>"; };
 		D0D26693295FED1000A94183 /* ComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeView.swift; sourceTree = "<group>"; };
@@ -788,6 +790,7 @@
 			children = (
 				D0B0C8FD29B5AD2000ECD8CE /* MessageView.swift */,
 				D0B0C8FF29B5AD2C00ECD8CE /* MessageVM.swift */,
+				D0D16EDA29B5C8080015FCD5 /* MessageTextView.swift */,
 			);
 			path = Message;
 			sourceTree = "<group>";
@@ -1000,6 +1003,7 @@
 				D015807C295E039E0087545A /* CameraView.swift in Sources */,
 				D030D2DB295745E90011128F /* CornerRadiusStyle.swift in Sources */,
 				D0B0C8FE29B5AD2000ECD8CE /* MessageView.swift in Sources */,
+				D0D16EDB29B5C8080015FCD5 /* MessageTextView.swift in Sources */,
 				D01B8BA429A6004500C6BC1D /* ChatHeaderView.swift in Sources */,
 				D0CED88C299F03200077A347 /* MessageKey.swift in Sources */,
 				D01B8BA629A81AA300C6BC1D /* ChatMessageView.swift in Sources */,

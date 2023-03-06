@@ -16,6 +16,15 @@ struct MessageView: View {
 			
 		}
 	}
+	
+	@ViewBuilder
+	func encryptedMessageView() -> some View {
+		switch message.encryptedBody.content {
+		case .text:
+			EmptyView()
+		default: EmptyView()
+		}
+	}
 }
 
 struct MessageView_Previews: PreviewProvider {
