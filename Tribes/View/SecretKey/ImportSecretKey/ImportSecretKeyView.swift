@@ -105,10 +105,7 @@ struct ImportSecretKeyView: View {
 		.overlay(isShown: viewModel.isLoading) {
 			AppProgressView()
 		}
-		.overlay(isShown: self.viewModel.banner != nil) {
-			Color.black.opacity(0.8)
-				.banner(data: $viewModel.banner)
-		}
+		.banner(data: $viewModel.banner)
 		.onChange(of: self.focusedField) { focusedField in
 			self.viewModel.focusedField = focusedField
 		}
@@ -121,6 +118,8 @@ struct ImportSecretKeyView: View {
 
 struct ImportSecretKeyView_Previews: PreviewProvider {
 	static var previews: some View {
-		ImportSecretKeyView()
+		VStack {
+			ImportSecretKeyView()
+		}
 	}
 }
