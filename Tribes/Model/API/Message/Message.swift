@@ -10,11 +10,9 @@ import IdentifiedCollections
 import UIKit
 
 class Message: Codable, Identifiable {
-	struct Reaction: Codable, Identifiable {
-		let memberId: TribeMember.ID
-		let content: String
-		
-		var id: TribeMember.ID { memberId }
+	enum Style {
+		case incoming
+		case outgoing
 	}
 	
 	enum Tag: String, Codable {
@@ -48,6 +46,13 @@ class Message: Codable, Identifiable {
 		}
 		let content: Content
 		let caption: String?
+	}
+	
+	struct Reaction: Codable, Identifiable {
+		let memberId: TribeMember.ID
+		let content: String
+		
+		var id: TribeMember.ID { memberId }
 	}
 	
 	let id: String

@@ -17,6 +17,13 @@ struct TribeMember: Codable, Identifiable {
 }
 
 extension TribeMember {
+	static let dummyTribeMember: TribeMember = TribeMember(
+		fullName: "User Left",
+		profilePhoto: "".unwrappedContentUrl,
+		publicKey: UUID().uuidString,
+		walletAddress: "User Left",
+		joined: ""
+	)
 	static let noop1: TribeMember = TribeMember(
 		fullName: "Kingsley Okeke",
 		profilePhoto: URL(string: "https://kingsleyokeke.blob.core.windows.net/images/1597276037537.jpeg")!,
