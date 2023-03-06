@@ -52,8 +52,6 @@ struct BannerViewModifier: ViewModifier {
 					.onChange(of: self.data) { data in
 						if data != nil {
 							self.showBanner()
-						} else {
-							self.dismissBanner()
 						}
 					}
 					.safeAreaInset(edge: .top) {
