@@ -131,6 +131,7 @@ struct MessageDraft: Codable, Identifiable {
 }
 
 extension Message {
+	//Encrypted
 	static let noopEncryptedTextChat: Message = Message(
 		id: "A",
 		context: nil,
@@ -186,4 +187,21 @@ extension Message {
 		expires: nil,
 		timeStamp: Date.now
 	)
+	
+	//Decrypted
+	static let noopDecryptedTextChat: Message = {
+		let message = Message(
+			id: "F",
+			context: nil,
+			decryptionKeys: [],
+			encryptedBody: Body(content: .text("ENCRYPTED TEXT"), caption: nil),
+			senderId: UUID().uuidString,
+			reactions: [],
+			tag: .chat,
+			expires: nil,
+			timeStamp: Date.now
+		)
+		message.body = .init(content: .text("Hey there, what's for dinner? Are we still going for Italian?"), caption: nil)
+		return message
+	}()
 }
