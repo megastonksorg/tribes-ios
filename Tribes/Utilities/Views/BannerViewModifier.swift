@@ -43,94 +43,119 @@ struct BannerViewModifier: ViewModifier {
 	
 	@Binding var data: BannerData?
 	
+	@State var isShowing: Bool = false
+	
 	func body(content: Content) -> some View {
-		ZStack {
-			content
-			if let data = data {
-				let symbol: String = {
-					switch data.type {
-					case .info: return "exclamationmark.circle.fill"
-					case .success: return "checkmark.circle.fill"
-					case .warning: return "exclamationmark.circle.fill"
-					case .error: return "x.circle.fill"
+		content
+			.overlay(
+				Color.clear
+					.onChange(of: self.data) { data in
+						if data != nil {
+							self.showBanner()
+						} else {
+							self.dismissBanner()
+						}
 					}
-				}()
-				VStack {
-					HStack(alignment: .center){
-						VStack {
-							if(!data.title.isEmpty){
-								Text(data.title)
-									.font(Font.app.subTitle)
-									.bold()
-									.lineLimit(1)
+					.safeAreaInset(edge: .top) {
+						if let data = data {
+							let symbol: String = {
+								switch data.type {
+								case .info: return "exclamationmark.circle.fill"
+								case .success: return "checkmark.circle.fill"
+								case .warning: return "exclamationmark.circle.fill"
+								case .error: return "x.circle.fill"
+								}
+							}()
+							VStack {
+								HStack(alignment: .center){
+									VStack {
+										if(!data.title.isEmpty){
+											Text(data.title)
+												.font(Font.app.subTitle)
+												.bold()
+												.lineLimit(1)
+										}
+										
+										if (!data.detail.isEmpty) {
+											HStack {
+												Image(systemName: symbol)
+													.font(Font.app.title)
+													.foregroundColor(data.type.tintColor)
+												Text(data.detail)
+													.font(Font.app.subTitle)
+													.lineLimit(4)
+											}
+										}
+									}
+								}
+								.foregroundColor(Color.gray)
+								.padding()
+								
+								.background {
+									if !data.title.isEmpty || !data.detail.isEmpty {
+										ZStack {
+											RoundedRectangle(cornerRadius: self.cornerRadius)
+												.fill(Color.app.background)
+											RoundedRectangle(cornerRadius: self.cornerRadius)
+												.stroke(Color.gray.opacity(0.2), lineWidth: 1)
+										}
+									}
+								}
+								.padding(6)
+								.scaleEffect(isShowing ? 1.0 : 0.0, anchor: .center)
 							}
-							
-							if (!data.detail.isEmpty) {
-								HStack {
-									Image(systemName: symbol)
-										.font(Font.app.title)
-										.foregroundColor(data.type.tintColor)
-									Text(data.detail)
-										.font(Font.app.subTitle)
-										.lineLimit(4)
+							.transition(.scale)
+							.onAppear {
+								DispatchQueue.main.asyncAfter(deadline: .now() + data.timeOut) {
+									self.dismissBanner()
 								}
 							}
 						}
 					}
-					.foregroundColor(Color.gray)
-					.padding()
-					.gesture(
-						DragGesture(minimumDistance: 20, coordinateSpace: .local)
-							.onEnded { value in
-								let horizontalAmount = value.translation.width as CGFloat
-								let verticalAmount = value.translation.height as CGFloat
-
-								if abs(horizontalAmount) < abs(verticalAmount) {
-									self.dismissData()
-								}
-							}
-
-
-					)
-					.background {
-						if !data.title.isEmpty || !data.detail.isEmpty {
-							ZStack {
-								RoundedRectangle(cornerRadius: self.cornerRadius)
-									.fill(Color.app.background)
-								RoundedRectangle(cornerRadius: self.cornerRadius)
-									.stroke(Color.gray.opacity(0.2), lineWidth: 1)
-							}
-						}
-					}
-					.padding(6)
-					
-					Spacer()
-					
-				}
-				.onAppear {
-					DispatchQueue.main.asyncAfter(deadline: .now() + data.timeOut) {
-						self.dismissData()
-					}
-				}
-			}
+			)
+	}
+	
+	private func showBanner() {
+		withAnimation(.easeInOut) {
+			self.isShowing = true
 		}
 	}
 	
-	private func dismissData() {
-		self.data = nil
+	private func dismissBanner() {
+		withAnimation(.easeInOut) {
+			self.data = nil
+			self.isShowing = false
+		}
+	}
+}
+
+fileprivate struct BannerTestView: View {
+	@State var banner: BannerData?
+	
+	var body: some View {
+		VStack {
+			Spacer()
+			HStack {
+				Spacer()
+				Button(action: {
+					self.banner = BannerData(title: "", detail: "The request was not accepted. Please try again", type: .info)
+				}) {
+					Text("This is the Banner View")
+						.foregroundColor(.white)
+				}
+				Spacer()
+			}
+			Spacer()
+		}
+		.background(Color.black)
+		.banner(data: $banner)
 	}
 }
 
 struct BannerView_Previews: PreviewProvider {
 	static var previews: some View {
 		VStack {
-			Color.black
-				.overlay(
-					Text("This is the Banner View")
-						.foregroundColor(.white)
-				)
+			BannerTestView()
 		}
-		.background(Color.black)
-		.banner(data: Binding.constant(BannerData(title: "", detail: "The request was not accepted. Please try again", type: .info)))
 	}
 }
