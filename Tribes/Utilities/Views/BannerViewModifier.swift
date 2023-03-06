@@ -35,7 +35,7 @@ enum BannerType {
 	case success
 	case error
 	
-	var tintColor: Color { Color.white }
+	var tintColor: Color { Color.gray }
 }
 
 struct BannerViewModifier: ViewModifier {
@@ -77,7 +77,7 @@ struct BannerViewModifier: ViewModifier {
 							}
 						}
 					}
-					.foregroundColor(Color.white)
+					.foregroundColor(Color.gray)
 					.padding()
 					.gesture(
 						DragGesture(minimumDistance: 20, coordinateSpace: .local)
@@ -96,9 +96,9 @@ struct BannerViewModifier: ViewModifier {
 						if !data.title.isEmpty || !data.detail.isEmpty {
 							ZStack {
 								RoundedRectangle(cornerRadius: self.cornerRadius)
-									.fill(Color.app.secondary)
+									.fill(Color.app.background)
 								RoundedRectangle(cornerRadius: self.cornerRadius)
-									.stroke(Color.app.bannerStroke, lineWidth: 1)
+									.stroke(Color.gray.opacity(0.2), lineWidth: 1)
 							}
 						}
 					}
