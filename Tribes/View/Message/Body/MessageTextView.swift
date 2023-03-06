@@ -60,53 +60,62 @@ struct MessageTextView: View {
 	
 	@ViewBuilder
 	func contentView() -> some View {
-		if let content = model.message.body?.content {
-			Group {
-				let corners: UIRectCorner = {
-					switch model.style {
-					case .incoming: return [.topRight, .bottomLeft, .bottomRight]
-					case .outgoing: return [.topLeft, .topRight, .bottomLeft]
-					}
-				}()
-				
-				let color: Color = {
-					switch model.style {
-					case .incoming: return Color.app.secondary
-					case .outgoing: return Color.app.tertiary
-					}
-				}()
-				
-				let foregroundColor: Color = {
-					switch model.style {
-					case .incoming: return Color.white
-					case .outgoing: return Color.black
-					}
-				}()
-				
-				switch content {
-				case .text(let text):
-					Text(text)
-						.font(Font.app.subTitle)
-						.foregroundColor(foregroundColor)
-						.padding(10)
-						.padding(.leading, 6)
-						.background(
-							CustomRoundedRectangle(cornerRadius: 30, corners: corners)
-								.fill(color)
-						)
-				case .image, .imageData, .video, .systemEvent:
-					EmptyView()
-				}
+		Group {
+			if case .text(let text) = model.message.body?.content {
+				textView(text: text, isEncrypted: false)
+			} else {
+				textView(text: "Message is Encrypted. It could not be decrypted. You were not a member of the Tribe when it was sent or your keys were reset after login.", isEncrypted: true)
+					.overlay (
+						Image(systemName: "lock.circle.fill")
+							.symbolRenderingMode(.palette)
+							.foregroundStyle(Color.app.secondary, Color.white)
+							.font(.system(size: 30))
+					)
 			}
-			.onTapGesture {
-				withAnimation(.easeInOut) {
-					self.isShowingTimeStamp = true
-					DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-						self.isShowingTimeStamp = false
-					}
+		}
+		.onTapGesture {
+			withAnimation(.easeInOut) {
+				self.isShowingTimeStamp = true
+				DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+					self.isShowingTimeStamp = false
 				}
 			}
 		}
+	}
+	
+	@ViewBuilder
+	func textView(text: String, isEncrypted: Bool) -> some View {
+		let corners: UIRectCorner = {
+			switch model.style {
+			case .incoming: return [.topRight, .bottomLeft, .bottomRight]
+			case .outgoing: return [.topLeft, .topRight, .bottomLeft]
+			}
+		}()
+		
+		let color: Color = {
+			switch model.style {
+			case .incoming: return Color.app.secondary
+			case .outgoing: return Color.app.tertiary
+			}
+		}()
+		
+		let foregroundColor: Color = {
+			switch model.style {
+			case .incoming: return Color.white
+			case .outgoing: return Color.black
+			}
+		}()
+		
+		Text(text)
+			.font(Font.app.subTitle)
+			.foregroundColor(foregroundColor)
+			.padding(10)
+			.padding(.leading, 6)
+			.blur(radius: isEncrypted ? 4.0 : 0.0)
+			.background(
+				CustomRoundedRectangle(cornerRadius: 30, corners: corners)
+					.fill(color)
+			)
 	}
 }
 
