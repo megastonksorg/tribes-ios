@@ -11,7 +11,16 @@ struct MessageImageView: View {
 	let model: MessageBodyModel
 	
 	var body: some View {
-		Text("Hello, World!")
+		if model.message.isEncrypted {
+			RoundedRectangle(cornerRadius: SizeConstants.imageCornerRadius)
+				.fill(Color.gray.opacity(0.2))
+				.overlay(
+					Image(systemName: AppConstants.encryptedIcon)
+						.symbolRenderingMode(.palette)
+						.foregroundStyle(Color.app.secondary, Color.white)
+						.font(.system(size: 30))
+				)
+		}
 	}
 }
 

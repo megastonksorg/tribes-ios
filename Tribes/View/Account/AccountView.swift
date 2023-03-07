@@ -101,7 +101,7 @@ struct AccountView: View {
 							.animation(.easeInOut, value: viewModel.isSecretKeyLocked)
 							.overlay(isShown: isSecretKeyLocked) {
 								Button(action: { viewModel.unlockKey() }) {
-									Image(systemName: "lock.circle.fill")
+									Image(systemName: AppConstants.encryptedIcon)
 										.symbolRenderingMode(.palette)
 										.foregroundStyle(Color.app.secondary, Color.white)
 										.font(.system(size: 50))

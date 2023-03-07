@@ -15,6 +15,7 @@ struct AppConstants {
 	static let website: String = "tribesapp.ca"
 	
 	static let editIcon: String = "pencil.line"
+	static let encryptedIcon: String = "lock.circle.fill"
 	static let addressCopied: String = "Address copied to clipboard"
 }
 
@@ -25,6 +26,7 @@ struct SizeConstants {
 	static let fullNameLowerLimit: Int = 2
 	static let fullNameHigherLimit: Int = 25
 	static let videoFileType: AVFileType = AVFileType.mp4
+	static let imageCornerRadius: CGFloat = 10
 	static let imageMaxSizeInMb: Double = 2.0
 	static let imagePixelSize: CGSize = CGSize(width: 1080, height: 1920)
 	static let loadingIndicatorSize: CGFloat = 40

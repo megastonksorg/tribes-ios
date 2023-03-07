@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct ContentView: View {
-	let imageCornerRadius: CGFloat = 10
-	
 	let content: Message.Body.Content
 	var body: some View {
 		switch content {
@@ -21,7 +19,7 @@ struct ContentView: View {
 				content: { uiImage in
 					imageView(uiImage: uiImage)
 				}, placeHolder: {
-					RoundedRectangle(cornerRadius: imageCornerRadius)
+					RoundedRectangle(cornerRadius: SizeConstants.imageCornerRadius)
 						.fill(Color.gray.opacity(0.2))
 						.overlay(
 							LoadingIndicator(speed: 0.4)
@@ -43,7 +41,7 @@ struct ContentView: View {
 		Image(uiImage: uiImage)
 			.resizable()
 			.scaledToFill()
-			.clipShape(RoundedRectangle(cornerRadius: imageCornerRadius))
+			.clipShape(RoundedRectangle(cornerRadius: SizeConstants.imageCornerRadius))
 	}
 }
 

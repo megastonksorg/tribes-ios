@@ -66,7 +66,7 @@ struct MessageTextView: View {
 			} else {
 				textView(text: "Message is Encrypted. It could not be decrypted. You were not a member of the Tribe when it was sent or your keys were reset after login.", isEncrypted: true)
 					.overlay (
-						Image(systemName: "lock.circle.fill")
+						Image(systemName: AppConstants.encryptedIcon)
 							.symbolRenderingMode(.palette)
 							.foregroundStyle(Color.app.secondary, Color.white)
 							.font(.system(size: 30))
