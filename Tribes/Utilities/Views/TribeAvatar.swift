@@ -470,7 +470,12 @@ struct TribeAvatar_Previews: PreviewProvider {
 						id: "1",
 						name: "Body does not Lie. But do not for one second think that this is",
 						timestampId: "stamp",
-						members: IdentifiedArray(uniqueElements: Array(repeating: TribeMember.noop1, count: 10))
+						members: [
+							TribeMember.noop1,
+							TribeMember.noop2,
+							TribeMember.noop3,
+							TribeMember.noop4
+						]
 					),
 					size: 180,
 					avatarContextAction: { _ in },
@@ -486,7 +491,14 @@ struct TribeAvatar_Previews: PreviewProvider {
 						id: "1",
 						name: "Body does not Lie. But do not think that I would",
 						timestampId: "stamp",
-						members:IdentifiedArray(uniqueElements: Array(repeating: TribeMember.noop1, count: 10))
+						members: [
+							TribeMember.noop1,
+							TribeMember.noop2,
+							TribeMember.noop3,
+							TribeMember.noop4,
+							TribeMember.noop5,
+							TribeMember.noop6
+						]
 					),
 					size: 180,
 					avatarContextAction: { _ in },
