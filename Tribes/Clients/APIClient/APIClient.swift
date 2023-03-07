@@ -23,6 +23,7 @@ protocol APIRequests {
 	func uploadImage(imageData: Data) -> AnyPublisher<URL, APIClientError>
 	func uploadVideo(videoData: Data) -> AnyPublisher<URL, APIClientError>
 	//Message
+	func getMessages(tribeId: Tribe.ID) -> AnyPublisher<[MessageResponse], APIClientError>
 	func postMessage(model: PostMessage, tag: Message.Tag) -> AnyPublisher<MessageResponse, APIClientError>
 	//Tribe
 	func createTribe(name: String) -> AnyPublisher<Tribe, APIClientError>
@@ -156,6 +157,16 @@ final class APIClient: APIRequests {
 	}
 	
 	//Message
+	func getMessages(tribeId: Tribe.ID) -> AnyPublisher<[MessageResponse], APIClientError> {
+		let getMessagesRequest = APPUrlRequest(
+			httpMethod: .get,
+			pathComponents: ["message"],
+			query: [URLQueryItem(name: "tribeId", value: tribeId)],
+			requiresAuth: true
+		)
+		return apiRequest(appRequest: getMessagesRequest, output: [MessageResponse].self)
+	}
+	
 	func postMessage(model: PostMessage, tag: Message.Tag) -> AnyPublisher<MessageResponse, APIClientError> {
 		let postMessageRequest = APPUrlRequest(
 			httpMethod: .post,
