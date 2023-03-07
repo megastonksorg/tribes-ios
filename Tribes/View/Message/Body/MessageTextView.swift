@@ -70,6 +70,8 @@ struct MessageTextView: View {
 							.symbolRenderingMode(.palette)
 							.foregroundStyle(Color.app.secondary, Color.white)
 							.font(.system(size: 30))
+							.dropShadow()
+							.dropShadow()
 					)
 			}
 		}
