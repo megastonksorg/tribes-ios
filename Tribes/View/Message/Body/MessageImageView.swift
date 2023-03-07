@@ -25,7 +25,7 @@ struct MessageImageView: View {
 	var body: some View {
 		Group {
 			if model.message.isEncrypted {
-				NoContentView()
+				NoContentView(isShowingErrorTip: false)
 					.overlay(
 						Image(systemName: AppConstants.encryptedIcon)
 							.symbolRenderingMode(.palette)
@@ -47,14 +47,7 @@ struct MessageImageView: View {
 							}
 						}
 				} else {
-					NoContentView()
-						.overlay(
-							Text("Something went wrong. Please try that agaain")
-								.font(Font.app.body)
-								.foregroundColor(Color.white)
-						)
-						.dropShadow()
-						.dropShadow()
+					NoContentView(isShowingErrorTip: true)
 				}
 			}
 		}
