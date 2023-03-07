@@ -23,7 +23,7 @@ import IdentifiedCollections
 	
 	@Published var tribesMessages: IdentifiedArrayOf<TribeMessage> = []
 	
-	private var dataUploadCancellables: Set<AnyCancellable> = Set<AnyCancellable>()
+	private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 	private var postMessageCancellables: [MessageDraft.ID : AnyCancellable] = [:]
 	
 	//Clients
@@ -37,7 +37,29 @@ import IdentifiedCollections
 				await MainActor.run {
 					self.tribesMessages = cachedTribesMessages
 				}
+				refreshMessages()
+			} else {
+				refreshMessages()
 			}
+		}
+	}
+	
+	func refreshMessages() {
+		let tribes = TribesRepository.shared.getTribes()
+		tribes.forEach { tribe in
+			self.apiClient
+				.getMessages(tribeId: tribe.id)
+				.receive(on: DispatchQueue.main)
+				.sink(
+					receiveCompletion: { _ in },
+					receiveValue: { [weak self] messagesResponse in
+						guard let self = self else { return }
+						messagesResponse.forEach { messageResponse in
+							self.setAndLoadMessages(tribeId: tribe.id, messageResponse: messageResponse)
+						}
+					}
+				)
+				.store(in: &cancellables)
 		}
 	}
 	
@@ -166,7 +188,7 @@ import IdentifiedCollections
 						self.postMessageCancellables[draft.id] = self.postMessage(draft: draft, model: postMessageModel, tag: draft.tag)
 					}
 				)
-				.store(in: &dataUploadCancellables)
+				.store(in: &cancellables)
 		case .video:
 			self.apiClient.uploadVideo(videoData: encryptedContent.data)
 				.receive(on: DispatchQueue.main)
@@ -178,7 +200,7 @@ import IdentifiedCollections
 						self.postMessageCancellables[draft.id] = self.postMessage(draft: draft, model: postMessageModel, tag: draft.tag)
 					}
 				)
-				.store(in: &dataUploadCancellables)
+				.store(in: &cancellables)
 		case .text:
 			postMessageModel.body = String(decoding: encryptedContent.data, as: UTF8.self)
 			postMessageCancellables[draft.id] = self.postMessage(draft: draft, model: postMessageModel, tag: draft.tag)
@@ -247,11 +269,7 @@ import IdentifiedCollections
 	
 	private func messagePosted(draft: MessageDraft, messageResponse: MessageResponse) {
 		self.tribesMessages[id: draft.tribeId]?.drafts.remove(id: draft.id)
-		
-		let messageToAppend: Message = mapMessageResponseToMessage(messageResponse)
-		self.tribesMessages[id: draft.tribeId]?.messages.updateOrAppend(messageToAppend)
-		//Decrypt and Load Message Content
-		decryptAndLoadMessageContent(messageToAppend)
+		setAndLoadMessages(tribeId: draft.tribeId, messageResponse: messageResponse)
 	}
 	
 	private func mapMessageResponseToMessage(_ messageResponse: MessageResponse) -> Message {
@@ -271,6 +289,13 @@ import IdentifiedCollections
 			expires: nil, //UPDATE
 			timeStamp: Date.now //UPDATE
 		)
+	}
+	
+	private func setAndLoadMessages(tribeId: Tribe.ID, messageResponse: MessageResponse) {
+		let messageToAppend: Message = mapMessageResponseToMessage(messageResponse)
+		self.tribesMessages[id: tribeId]?.messages.updateOrAppend(messageToAppend)
+		//Decrypt and Load Message Content
+		decryptAndLoadMessageContent(messageToAppend)
 	}
 	
 	private func getContentFromMessageResponse(_ messageResponse: MessageResponse) -> Message.Body.Content {
