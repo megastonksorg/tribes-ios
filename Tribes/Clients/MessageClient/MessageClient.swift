@@ -54,8 +54,20 @@ import IdentifiedCollections
 					receiveCompletion: { _ in },
 					receiveValue: { [weak self] messagesResponse in
 						guard let self = self else { return }
-						messagesResponse.forEach { messageResponse in
-							self.setAndLoadMessages(tribeId: tribe.id, messageResponse: messageResponse)
+						//Remove Stale messages in tribesMessages
+						let staleMessageIds: Set<String> = Set(self.tribesMessages[id: tribe.id]?.messages.ids.elements ?? []).subtracting(Set(messagesResponse.map { $0.id }))
+						staleMessageIds.forEach { staleId in
+							self.tribesMessages.remove(id: staleId)
+						}
+						
+						Task {
+							//Update cache with the current tribesMessages to remove stale data
+							await self.cacheClient.setData(key: .tribesMessages, value: self.tribesMessages)
+							
+							//Load New Messages
+							messagesResponse.forEach { messageResponse in
+								self.setAndLoadMessages(tribeId: tribe.id, messageResponse: messageResponse)
+							}
 						}
 					}
 				)
