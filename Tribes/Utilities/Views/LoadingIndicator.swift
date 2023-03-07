@@ -11,26 +11,31 @@ struct LoadingIndicator: View {
 	enum Style {
 		case base
 		case camera
+		case tribeAvatar
 	}
 	
 	var speed: CGFloat = 0.6
 	var style: Style = .base
+	var lineWidth: CGFloat = 5.00
+	var trim: CGFloat = 0.4
 	
 	@State var isAnimating: Bool = false
 	
 	var body: some View {
-		let defaultColor: Color = {
+		let colors: [Color] = {
 			switch style {
 			case .base:
-				return Color.app.tertiary
+				return [Color.app.tertiary, Color.gray.opacity(0.4)]
 			case .camera:
-				return Color.white
+				return [Color.white, Color.gray.opacity(0.4)]
+			case .tribeAvatar:
+				return [Color.red, Color.app.secondary]
 			}
 		}()
 		Circle()
-			.trim(from: 0, to: 0.4)
-			.stroke(style: StrokeStyle(lineWidth: 5.00, lineCap: .round, lineJoin: .round))
-			.fill(LinearGradient(colors: [defaultColor, .gray.opacity(0.4)], startPoint: .leading, endPoint: .trailing))
+			.trim(from: 0, to: trim)
+			.stroke(style: StrokeStyle(lineWidth: lineWidth, lineCap: .round, lineJoin: .round))
+			.fill(LinearGradient(colors: colors, startPoint: .leading, endPoint: .trailing))
 			.rotationEffect(isAnimating ? .degrees(360): .degrees(0))
 			.animation(.linear.speed(speed).repeatForever(autoreverses: false), value: self.isAnimating)
 			.onAppear {
