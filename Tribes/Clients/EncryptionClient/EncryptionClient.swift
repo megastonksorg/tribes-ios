@@ -23,16 +23,22 @@ extension EncryptionClientProtocol {
 class EncryptionClient: EncryptionClientProtocol {
 	static let shared: EncryptionClient = EncryptionClient()
 	
-	let rsaKeys: RSAKeys
+	let rsaKeys: RSAKeys?
 	
 	init() {
 		//The key should have been set here so it should never be nil at this point
-		let savedMessageKey = KeychainClient.shared.get(key: .messageKey)!
-		let privateKeyData = Data(base64Encoded: savedMessageKey.privateKey)!
-		let publicKeyData = Data(base64Encoded: savedMessageKey.publicKey)!
-		let privateKey = RSAKeys.PrivateKey(data: privateKeyData)!
-		let publicKey = RSAKeys.PublicKey(data: publicKeyData)!
-		self.rsaKeys = RSAKeys(privateKey: privateKey, publicKey: publicKey)
+		self.rsaKeys = {
+			guard
+				let savedMessageKey = KeychainClient.shared.get(key: .messageKey),
+				let privateKeyData = Data(base64Encoded: savedMessageKey.privateKey),
+				let publicKeyData = Data(base64Encoded: savedMessageKey.publicKey),
+				let privateKey = RSAKeys.PrivateKey(data: privateKeyData),
+				let publicKey = RSAKeys.PublicKey(data: publicKeyData)
+			else {
+				return nil
+			}
+			return RSAKeys(privateKey: privateKey, publicKey: publicKey)
+		}()
 	}
 	
 	func encrypt(_ data: Data, for publicKeys: Set<String>, symmetricKey: SymmetricKey) -> EncryptedData? {
@@ -52,9 +58,12 @@ class EncryptionClient: EncryptionClientProtocol {
 	}
 	
 	func decrypt(_ data: Data, for publicKey: String, key: String) -> Data? {
-		guard publicKey == rsaKeys.publicKey.key.exportToData()?.base64EncodedString() else { return nil }
+		guard
+			let rsaKeys = self.rsaKeys,
+			publicKey == rsaKeys.publicKey.key.exportToData()?.base64EncodedString()
+		else { return nil }
 		if let encryptedKeyInDataFormat = Data(base64Encoded: key),
-		   let decryptedKeyInStringFormat = self.rsaKeys.privateKey.decrypt(data: encryptedKeyInDataFormat)?.base64EncodedString() {
+		   let decryptedKeyInStringFormat = rsaKeys.privateKey.decrypt(data: encryptedKeyInDataFormat)?.base64EncodedString() {
 			return decryptAES(sealedMessage: data, key: decryptedKeyInStringFormat)
 		} else {
 			return nil

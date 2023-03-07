@@ -149,7 +149,8 @@ import IdentifiedCollections
 			let decryptedMessage: Message = message
 			//Check the keys first
 			guard
-				let currentPublicKey = encryptionClient.rsaKeys.publicKey.key.exportToData()?.base64EncodedString(),
+				let rsaKeys = encryptionClient.rsaKeys,
+				let currentPublicKey = rsaKeys.publicKey.key.exportToData()?.base64EncodedString(),
 				let messageKey = message.decryptionKeys.filter( { $0.publicKey == currentPublicKey } ).first,
 				message.isEncrypted
 			else { return }
