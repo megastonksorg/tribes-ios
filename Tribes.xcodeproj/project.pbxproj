@@ -95,6 +95,7 @@
 		D055BD6D29AFC7B40070025D /* ContentVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D055BD6C29AFC7B40070025D /* ContentVM.swift */; };
 		D055BD6F29B0CBF40070025D /* Binding+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D055BD6E29B0CBF40070025D /* Binding+Extensions.swift */; };
 		D06088B42996D55000A3D383 /* OnBoardingPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06088B32996D55000A3D383 /* OnBoardingPageView.swift */; };
+		D063134329B6F90200CCCE13 /* MessageVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D063134229B6F90200CCCE13 /* MessageVideoView.swift */; };
 		D06FDE7D2999C2EB0013A55E /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06FDE7C2999C2EB0013A55E /* AccountView.swift */; };
 		D06FDE7F2999C2F50013A55E /* AccountVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06FDE7E2999C2F50013A55E /* AccountVM.swift */; };
 		D06FDE81299A03210013A55E /* WalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06FDE80299A03210013A55E /* WalletView.swift */; };
@@ -250,6 +251,7 @@
 		D055BD6C29AFC7B40070025D /* ContentVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentVM.swift; sourceTree = "<group>"; };
 		D055BD6E29B0CBF40070025D /* Binding+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Binding+Extensions.swift"; sourceTree = "<group>"; };
 		D06088B32996D55000A3D383 /* OnBoardingPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingPageView.swift; sourceTree = "<group>"; };
+		D063134229B6F90200CCCE13 /* MessageVideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageVideoView.swift; sourceTree = "<group>"; };
 		D06FDE7C2999C2EB0013A55E /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		D06FDE7E2999C2F50013A55E /* AccountVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountVM.swift; sourceTree = "<group>"; };
 		D06FDE80299A03210013A55E /* WalletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletView.swift; sourceTree = "<group>"; };
@@ -828,6 +830,7 @@
 				D0D16EDA29B5C8080015FCD5 /* MessageTextView.swift */,
 				D0D16EDD29B5D5DA0015FCD5 /* MessageBodyModel.swift */,
 				D0BC8EDE29B6D10800C19BBE /* MessageImageView.swift */,
+				D063134229B6F90200CCCE13 /* MessageVideoView.swift */,
 			);
 			path = Body;
 			sourceTree = "<group>";
@@ -998,6 +1001,7 @@
 				D0158079295D14880087545A /* CaptureClient.swift in Sources */,
 				D0D16EDE29B5D5DA0015FCD5 /* MessageBodyModel.swift in Sources */,
 				D08EBF25297FC508001B7A5C /* CreateTribeVM.swift in Sources */,
+				D063134329B6F90200CCCE13 /* MessageVideoView.swift in Sources */,
 				D03B30A52968DB3D00F797CE /* HomeView.swift in Sources */,
 				D0766361298C7EB500946F7B /* LeaveTribeView.swift in Sources */,
 				D030D29A295745970011128F /* AppRouter.swift in Sources */,
