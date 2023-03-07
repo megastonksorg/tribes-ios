@@ -37,6 +37,15 @@ struct MessageImageView: View {
 			} else {
 				if let uiImage = self.uiImage {
 					Image(uiImage: uiImage)
+						.resizable()
+						.scaledToFill()
+						.overlay {
+							if let caption = model.message.body?.caption {
+								Text(caption)
+									.styleForCaption()
+									.offset(y: SizeConstants.teaCaptionOffset)
+							}
+						}
 				} else {
 					noImageView()
 						.overlay(
@@ -68,7 +77,7 @@ struct MessageImageView_Previews: PreviewProvider {
 				style: .incoming,
 				message: Message.noopEncryptedImageChat
 			)
-			model.message.body = .init(content: .image("".unwrappedContentUrl), caption: "")
+			model.message.body = .init(content: .image("".unwrappedContentUrl), caption: nil)
 			return model
 		}()
 		MessageImageView(model: modelWithContent)

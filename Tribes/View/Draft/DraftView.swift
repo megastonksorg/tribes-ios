@@ -37,17 +37,10 @@ struct DraftView: View {
 							}
 					)
 					.overlay {
-						let fontColor: Color = Color.white
 						TextField("", text: $viewModel.caption.max(SizeConstants.captionLimit), axis: .vertical)
-							.font(Font.app.title3)
-							.foregroundColor(fontColor)
-							.tint(fontColor)
-							.multilineTextAlignment(.center)
+							.styleForCaption()
 							.submitLabel(.done)
 							.focused($focusedField, equals: .caption)
-							.padding(.vertical, 6)
-							.frame(maxWidth: .infinity)
-							.background(Color.app.primary.opacity(0.4))
 							.opacity(viewModel.isShowingCaption || self.focusedField == .caption ? 1.0 : 0.0)
 							.offset(y: focusedField == nil ? SizeConstants.teaCaptionOffset : 0.0)
 							.onChange(of: viewModel.caption) { newValue in

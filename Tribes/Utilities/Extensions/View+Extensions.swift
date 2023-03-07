@@ -25,4 +25,15 @@ extension View {
 	func dropShadow() -> some View {
 		shadow(color: .black.opacity(0.2), radius: 2, x: 0, y: 2)
 	}
+	
+	func styleForCaption() -> some View {
+		self
+			.font(Font.app.title3)
+			.foregroundColor(Color.white)
+			.tint(Color.white)
+			.multilineTextAlignment(.center)
+			.padding(.vertical, 6)
+			.frame(maxWidth: .infinity)
+			.background(Color.app.primary.opacity(0.4))
+	}
 }
