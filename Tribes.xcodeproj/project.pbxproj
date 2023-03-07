@@ -126,6 +126,7 @@
 		D0B0C90029B5AD2C00ECD8CE /* MessageVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B0C8FF29B5AD2C00ECD8CE /* MessageVM.swift */; };
 		D0B47CD029AA274A00017563 /* CacheTrimmer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B47CCF29AA274A00017563 /* CacheTrimmer.swift */; };
 		D0B47CD229AA289A00017563 /* DefaultsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B47CD129AA289A00017563 /* DefaultsClient.swift */; };
+		D0B90E5D29B6FAAE00EB90CD /* NoContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B90E5C29B6FAAE00EB90CD /* NoContentView.swift */; };
 		D0BC8EDF29B6D10800C19BBE /* MessageImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BC8EDE29B6D10800C19BBE /* MessageImageView.swift */; };
 		D0BFEA4F298736D200FB6F22 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0BFEA4E298736D200FB6F22 /* LaunchScreen.storyboard */; };
 		D0BFEA512987978500FB6F22 /* Publishers+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BFEA502987978500FB6F22 /* Publishers+Extensions.swift */; };
@@ -282,6 +283,7 @@
 		D0B0C8FF29B5AD2C00ECD8CE /* MessageVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageVM.swift; sourceTree = "<group>"; };
 		D0B47CCF29AA274A00017563 /* CacheTrimmer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheTrimmer.swift; sourceTree = "<group>"; };
 		D0B47CD129AA289A00017563 /* DefaultsClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultsClient.swift; sourceTree = "<group>"; };
+		D0B90E5C29B6FAAE00EB90CD /* NoContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoContentView.swift; sourceTree = "<group>"; };
 		D0BC8EDE29B6D10800C19BBE /* MessageImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageImageView.swift; sourceTree = "<group>"; };
 		D0BFEA4E298736D200FB6F22 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D0BFEA502987978500FB6F22 /* Publishers+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publishers+Extensions.swift"; sourceTree = "<group>"; };
@@ -796,6 +798,14 @@
 			path = Message;
 			sourceTree = "<group>";
 		};
+		D0B90E5B29B6FA9900EB90CD /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				D0B90E5C29B6FAAE00EB90CD /* NoContentView.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
 		D0C3DBEE29A3FCB20066FBB8 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
@@ -827,6 +837,7 @@
 		D0D16EDC29B5D5610015FCD5 /* Body */ = {
 			isa = PBXGroup;
 			children = (
+				D0B90E5B29B6FA9900EB90CD /* Utilities */,
 				D0D16EDA29B5C8080015FCD5 /* MessageTextView.swift */,
 				D0D16EDD29B5D5DA0015FCD5 /* MessageBodyModel.swift */,
 				D0BC8EDE29B6D10800C19BBE /* MessageImageView.swift */,
@@ -1038,6 +1049,7 @@
 				D030D31C2957460B0011128F /* ImportSecretKeyView.swift in Sources */,
 				D030D31E2957460B0011128F /* AuthenticateVM.swift in Sources */,
 				D0E9F7FE298DD5F900A0400A /* Cache.swift in Sources */,
+				D0B90E5D29B6FAAE00EB90CD /* NoContentView.swift in Sources */,
 				D0D2669729600BBA00A94183 /* DraftView.swift in Sources */,
 				D030D2D9295745E90011128F /* Gradients.swift in Sources */,
 				D0158076295CAE390087545A /* PermissionClient.swift in Sources */,

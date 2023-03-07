@@ -25,7 +25,7 @@ struct MessageImageView: View {
 	var body: some View {
 		Group {
 			if model.message.isEncrypted {
-				noImageView()
+				NoContentView()
 					.overlay(
 						Image(systemName: AppConstants.encryptedIcon)
 							.symbolRenderingMode(.palette)
@@ -47,7 +47,7 @@ struct MessageImageView: View {
 							}
 						}
 				} else {
-					noImageView()
+					NoContentView()
 						.overlay(
 							Text("Something went wrong. Please try that agaain")
 								.font(Font.app.body)
@@ -59,12 +59,6 @@ struct MessageImageView: View {
 			}
 		}
 		.ignoresSafeArea()
-	}
-	
-	@ViewBuilder
-	func noImageView() -> some View {
-		RoundedRectangle(cornerRadius: SizeConstants.imageCornerRadius)
-			.fill(Color.black.opacity(0.4))
 	}
 }
 
