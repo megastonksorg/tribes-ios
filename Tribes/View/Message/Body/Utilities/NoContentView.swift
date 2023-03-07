@@ -8,11 +8,19 @@
 import SwiftUI
 
 struct NoContentView: View {
-	let isShowingErrorTip: Bool
+	let isEncrypted: Bool
 	var body: some View {
 		RoundedRectangle(cornerRadius: SizeConstants.imageCornerRadius)
 			.fill(Color.black.opacity(0.4))
-			.overlay(isShown: isShowingErrorTip) {
+			.overlay(isShown: isEncrypted) {
+				Image(systemName: AppConstants.encryptedIcon)
+					.symbolRenderingMode(.palette)
+					.foregroundStyle(Color.app.secondary, Color.white)
+					.font(.system(size: 40))
+					.dropShadow()
+					.dropShadow()
+			}
+			.overlay(isShown: !isEncrypted) {
 				Text("Something went wrong. Please try that again")
 					.font(Font.app.body)
 					.foregroundColor(Color.white)
@@ -24,6 +32,7 @@ struct NoContentView: View {
 
 struct NoContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		NoContentView(isShowingErrorTip: false)
+		NoContentView(isEncrypted: true)
+		NoContentView(isEncrypted: false)
 	}
 }

@@ -25,15 +25,7 @@ struct MessageImageView: View {
 	var body: some View {
 		Group {
 			if model.message.isEncrypted {
-				NoContentView(isShowingErrorTip: false)
-					.overlay(
-						Image(systemName: AppConstants.encryptedIcon)
-							.symbolRenderingMode(.palette)
-							.foregroundStyle(Color.app.secondary, Color.white)
-							.font(.system(size: 40))
-							.dropShadow()
-							.dropShadow()
-					)
+				NoContentView(isEncrypted: true)
 			} else {
 				if let uiImage = self.uiImage {
 					Image(uiImage: uiImage)
@@ -47,7 +39,7 @@ struct MessageImageView: View {
 							}
 						}
 				} else {
-					NoContentView(isShowingErrorTip: true)
+					NoContentView(isEncrypted: false)
 				}
 			}
 		}

@@ -13,10 +13,17 @@ struct MessageVideoView: View {
 	var body: some View {
 		Group {
 			if model.message.isEncrypted {
-				NoContentView(isShowingErrorTip: false)
+				NoContentView(isEncrypted: true)
 			} else {
 				if case .video(let url) = model.message.body?.content {
 					VideoPlayerView(url: url)
+						.overlay {
+							if let caption = model.message.body?.caption {
+								Text(caption)
+									.styleForCaption()
+									.offset(y: SizeConstants.teaCaptionOffset)
+							}
+						}
 				}
 			}
 		}
