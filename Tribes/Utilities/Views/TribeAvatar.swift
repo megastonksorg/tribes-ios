@@ -38,6 +38,11 @@ struct TribeAvatar: View {
 		tribe.members.count <= 10
 	}
 	
+	var isUploadingTea: Bool = true
+	var hasUnreadTea: Bool = true
+	
+	@ObservedObject var messageClient: MessageClient = MessageClient.shared
+	
 	@State var isSingleTapTapped: Bool = false
 	
 	init(
@@ -74,8 +79,7 @@ struct TribeAvatar: View {
 	var body: some View {
 		VStack {
 			Button(action: { primaryAction(self.tribe) }) {
-				Circle()
-					.fill(Color.app.primary)
+				avatarBackground()
 					.frame(dimension: size)
 					.overlay {
 						switch members.count {
@@ -426,6 +430,27 @@ struct TribeAvatar: View {
 	func userAvatar(user: TribeMember) -> some View {
 		UserAvatar(url: user.profilePhoto)
 	}
+	
+	@ViewBuilder
+	func avatarBackground() -> some View {
+		let lineWidth: CGFloat = size * 0.03
+		ZStack {
+			Circle()
+				.fill(Color.app.primary)
+			Circle()
+				.stroke(Color.app.secondary, lineWidth: lineWidth)
+				.opacity(hasUnreadTea || isUploadingTea ? 1.0 : 0.0)
+				.transition(.opacity)
+			if isUploadingTea {
+				LoadingIndicator(
+					speed: 0.2,
+					style: .tribeAvatar,
+					lineWidth: lineWidth,
+					trim: 0.2
+				)
+			}
+		}
+	}
 }
 
 struct TribeNameView: View {
@@ -500,7 +525,7 @@ struct TribeAvatar_Previews: PreviewProvider {
 							TribeMember.noop6
 						]
 					),
-					size: 180,
+					size: 80,
 					avatarContextAction: { _ in },
 					primaryAction: { _ in },
 					secondaryAction: { _ in },
