@@ -155,7 +155,7 @@ extension TribesView {
 		}
 		
 		func setIsShowingTribeTea(_ isShowing: Bool) {
-			withAnimation(.linear(duration: 0.2)) {
+			withAnimation(.easeInOut) {
 				self.isShowingTribeTea = isShowing
 			}
 		}

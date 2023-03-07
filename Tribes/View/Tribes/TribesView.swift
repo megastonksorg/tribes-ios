@@ -184,7 +184,7 @@ struct TribesView: View {
 			.overlay(isShown: viewModel.isShowingTribeTea) {
 				Color.app.secondary
 					.ignoresSafeArea()
-					.transition(.opacity)
+					.transition(.asymmetric(insertion: .opacity, removal: .identity))
 					.overlay(
 						VideoPlayerView(
 							url: URL(string: "https://kingsleyokeke.blob.core.windows.net/videos/Untitled.mp4")!
