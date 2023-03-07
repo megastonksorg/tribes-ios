@@ -63,68 +63,90 @@ import IdentifiedCollections
 		}
 	}
 	
-	func decryptAndLoadMessageContent(_ message: Message) {
-		let decryptedMessage: Message = message
+	func isMessageContentCached(message: Message) -> Bool {
+		//Here, we assume the content is already cached if the cacheKey is nil
+		//This is because the getCacheKey function only returns a key for image and video which are the only types that need to be fetched at this moment
+		guard let cacheKey = Cache.getCacheKey(encryptedContent: message.encryptedBody.content) else { return true }
+		return CacheTrimmer().isFileTracked(key: cacheKey)
+	}
+	
+	func loadMessage(_ message: Message) {
 		//Check if we need to decrypt the message.
-		//If the message exists in the cache, don't decrypt. Just update the reaction because that is the only thing that could have been updated
+		//If the message and it's content exists in the cache, don't decrypt. Just update the reaction because that is the only thing that could have been updated
 		Task {
 			if let tribeMessage = getTribeMessage(with: message.id) {
 				if let existingTribesMessagesInCache = await self.cacheClient.getData(key: .tribesMessages) {
-					if let messageToUpdate = existingTribesMessagesInCache[id: tribeMessage.id]?.messages.first(where: { $0.id == message.id }) {
-						messageToUpdate.reactions = message.reactions
-						updateMessageAndCache(messageToUpdate)
+					if isMessageContentCached(message: message) {
+						if let messageToUpdate = existingTribesMessagesInCache[id: tribeMessage.id]?.messages.first(where: { $0.id == message.id }) {
+							messageToUpdate.reactions = message.reactions
+							updateMessageAndCache(messageToUpdate)
+						}
+					} else {
+						decryptMessage(message: message)
 					}
 				}
 			} else {
-				//Check the keys first
+				decryptMessage(message: message)
+			}
+		}
+	}
+	
+	func decryptMessage(message: Message) {
+		Task {
+			let decryptedMessage: Message = message
+			//Check the keys first
+			guard
+				let currentPublicKey = encryptionClient.rsaKeys.publicKey.key.exportToData()?.base64EncodedString(),
+				let messageKey = message.decryptionKeys.filter( { $0.publicKey == currentPublicKey } ).first,
+				message.isEncrypted
+			else { return }
+			
+			let decryptionKey: String = messageKey.encryptionKey
+			
+			//Decrypted Caption
+			let decryptedCaption: String? = {
 				guard
-					let currentPublicKey = encryptionClient.rsaKeys.publicKey.key.exportToData()?.base64EncodedString(),
-					let messageKey = message.decryptionKeys.filter( { $0.publicKey == currentPublicKey } ).first,
-					message.isEncrypted
+					let caption = message.encryptedBody.caption,
+					let decryptedCaption = encryptionClient.decryptString(caption, for: currentPublicKey, key: decryptionKey)
+				else { return nil }
+				return decryptedCaption
+			}()
+			
+			//CacheKey for Caching the message body content data
+			let cacheKey = Cache.getCacheKey(encryptedContent: message.encryptedBody.content)
+			
+			//Decrypted Content
+			switch message.encryptedBody.content {
+			case .text(let encryptedText):
+				if let decryptedText = encryptionClient.decryptString(encryptedText, for: currentPublicKey, key: decryptionKey) {
+					decryptedMessage.body = Message.Body(content: .text(decryptedText), caption: decryptedCaption)
+					updateMessageAndCache(decryptedMessage)
+				}
+			case .image(let urlForData):
+				guard
+					let encryptedImageData = await self.apiClient.getMediaData(url: urlForData),
+					let decryptedImageData = self.encryptionClient.decrypt(encryptedImageData, for: currentPublicKey, key: decryptionKey),
+					let cacheKey = cacheKey
 				else { return }
 				
-				let decryptionKey: String = messageKey.encryptionKey
+				let cachedImageUrl = await self.cacheClient.set(cache: Cache(key: cacheKey, object: decryptedImageData))
+				decryptedMessage.body = Message.Body(content: .image(cachedImageUrl), caption: decryptedCaption)
+				updateMessageAndCache(decryptedMessage)
+			case .video(let urlForData):
+				guard
+					let encryptedVideoData = await self.apiClient.getMediaData(url: urlForData),
+					let decryptedVideoData = self.encryptionClient.decrypt(encryptedVideoData, for: currentPublicKey, key: decryptionKey),
+					let cacheKey = cacheKey
+				else { return }
 				
-				//Decrypted Caption
-				let decryptedCaption: String? = {
-					guard
-						let caption = message.encryptedBody.caption,
-						let decryptedCaption = encryptionClient.decryptString(caption, for: currentPublicKey, key: decryptionKey)
-					else { return nil }
-					return decryptedCaption
-				}()
-				
-				//Decrypted Content
-				switch message.encryptedBody.content {
-				case .text(let encryptedText):
-					if let decryptedText = encryptionClient.decryptString(encryptedText, for: currentPublicKey, key: decryptionKey) {
-						decryptedMessage.body = Message.Body(content: .text(decryptedText), caption: decryptedCaption)
-						updateMessageAndCache(decryptedMessage)
-					}
-				case .image(let urlForData):
-					guard
-						let encryptedImageData = await self.apiClient.getMediaData(url: urlForData),
-						let decryptedImageData = self.encryptionClient.decrypt(encryptedImageData, for: currentPublicKey, key: decryptionKey)
-					else { return }
-					
-					let cachedImageUrl = await self.cacheClient.set(cache: Cache(key: SHA256.getHash(for: urlForData), object: decryptedImageData))
-					decryptedMessage.body = Message.Body(content: .image(cachedImageUrl), caption: decryptedCaption)
-					updateMessageAndCache(decryptedMessage)
-				case .video(let urlForData):
-					guard
-						let encryptedVideoData = await self.apiClient.getMediaData(url: urlForData),
-						let decryptedVideoData = self.encryptionClient.decrypt(encryptedVideoData, for: currentPublicKey, key: decryptionKey)
-					else { return }
-					
-					let cachedVideoUrl = await self.cacheClient.set(cache: Cache(key: "\(SHA256.getHash(for: urlForData)).mp4", object: decryptedVideoData))
-					decryptedMessage.body = Message.Body(content: .video(cachedVideoUrl), caption: decryptedCaption)
-					updateMessageAndCache(decryptedMessage)
-				case .systemEvent(let eventText):
-					decryptedMessage.body = Message.Body(content: .systemEvent(eventText), caption: decryptedCaption)
-					updateMessageAndCache(decryptedMessage)
-				case .imageData:
-					return
-				}
+				let cachedVideoUrl = await self.cacheClient.set(cache: Cache(key: cacheKey, object: decryptedVideoData))
+				decryptedMessage.body = Message.Body(content: .video(cachedVideoUrl), caption: decryptedCaption)
+				updateMessageAndCache(decryptedMessage)
+			case .systemEvent(let eventText):
+				decryptedMessage.body = Message.Body(content: .systemEvent(eventText), caption: decryptedCaption)
+				updateMessageAndCache(decryptedMessage)
+			case .imageData:
+				return
 			}
 		}
 	}
@@ -295,7 +317,7 @@ import IdentifiedCollections
 		let messageToAppend: Message = mapMessageResponseToMessage(messageResponse)
 		self.tribesMessages[id: tribeId]?.messages.updateOrAppend(messageToAppend)
 		//Decrypt and Load Message Content
-		decryptAndLoadMessageContent(messageToAppend)
+		loadMessage(messageToAppend)
 	}
 	
 	private func getContentFromMessageResponse(_ messageResponse: MessageResponse) -> Message.Body.Content {

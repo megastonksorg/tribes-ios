@@ -21,6 +21,11 @@ struct CacheTrimmer {
 	//Clients
 	private let defaultsClient: DefaultsClient = DefaultsClient.shared
 	
+	func isFileTracked(key: String) -> Bool {
+		guard let isTracked = defaultsClient.get(key: .cacheTracker)?.contains(where: { $0.key == key }) else { return false }
+		return isTracked
+	}
+	
 	func resetTracker() {
 		defaultsClient.set(key: .cacheTracker, value: [])
 	}
