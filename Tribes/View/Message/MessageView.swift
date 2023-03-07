@@ -37,7 +37,13 @@ struct MessageView: View {
 		switch message.encryptedBody.content {
 		case .text:
 			MessageTextView(model: bodyModel)
-		default:
+		case .image:
+			MessageImageView(model: bodyModel)
+		case .video:
+			MessageVideoView(model: bodyModel)
+		case .systemEvent(let text):
+			TextView(text, style: .callout)
+		case .imageData:
 			EmptyView()
 		}
 	}
