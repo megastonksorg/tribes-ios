@@ -40,7 +40,7 @@ struct SizeConstants {
 	static let teaCupSize: CGFloat = 30
 	static let teaCaptionOffset: CGFloat = 160
 	static let tribeNameLimit: Int = 24
-	static let captionLimit: Int = 140
+	static let captionLimit: Int = 100
 	static let wordCornerRadius: CGFloat = 5.0
 	static let wordSize: CGSize = CGSize(width: 100, height: 30)
 }
