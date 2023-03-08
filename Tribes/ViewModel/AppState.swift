@@ -33,6 +33,7 @@ fileprivate let appStateKeyNotification: String = "appState"
 	
 	//Clients
 	let cacheClient = CacheClient.shared
+	let keyboardClient = KeyboardClient.shared
 	let keychainClient = KeychainClient.shared
 	let tribesRepository = TribesRepository.shared
 	
@@ -86,7 +87,7 @@ fileprivate let appStateKeyNotification: String = "appState"
 		self.cacheClient.clear()
 		self.keychainClient.clearAllKeys()
 		//Resign Keyboard across app before logout
-		KeyboardClient.shared.resignKeyboard()
+		keyboardClient.resignKeyboard()
 		AppRouter.popToRoot(stack: .welcome())
 		AppRouter.popToRoot(stack: .home())
 		if isDelayed {

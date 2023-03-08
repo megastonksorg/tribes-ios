@@ -52,6 +52,9 @@ extension HomeView {
 			case .compose: return
 			case .tribes:
 				self.composeVM.cameraVM.didDisappear()
+				DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+					self.composeVM.cameraVM.didDisappear()
+				}
 			}
 		}
 		
