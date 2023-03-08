@@ -26,7 +26,7 @@ class EncryptionClient: EncryptionClientProtocol {
 	let rsaKeys: RSAKeys?
 	
 	init() {
-		//The key should have been set here so it should never be nil at this point
+		//The key should have been set here so it should never be nil at this point. This guard avoids crashes in the preview
 		self.rsaKeys = {
 			guard
 				let savedMessageKey = KeychainClient.shared.get(key: .messageKey),
