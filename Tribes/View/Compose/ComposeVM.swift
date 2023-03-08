@@ -19,8 +19,8 @@ extension ComposeView {
 			draftVM.content != nil
 		}
 		
-		init(recipient: Tribe?) {
-			self.draftVM = DraftView.ViewModel(directRecipient: recipient)
+		init() {
+			self.draftVM = DraftView.ViewModel()
 			cameraVM.$capturedImage
 				.sink(receiveValue: { [weak self] image in
 					guard
@@ -39,6 +39,10 @@ extension ComposeView {
 				.store(in: &cancellables)
 			
 			addObservers()
+		}
+		
+		func setDraftRecipient(_ directRecipient: Tribe) {
+			self.draftVM.directRecipient = directRecipient
 		}
 		
 		private func addObservers() {

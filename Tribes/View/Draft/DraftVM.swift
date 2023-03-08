@@ -29,10 +29,14 @@ extension DraftView {
 			!caption.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
 		}
 		
-		init(content: Message.Body.Content? = nil, directRecipient: Tribe?) {
+		init(content: Message.Body.Content? = nil) {
 			self.content = content
-			self.directRecipient = directRecipient
 			resetRecipients()
+		}
+		
+		func didDisappear() {
+			self.resetContent()
+			self.resetRecipients()
 		}
 		
 		func setContent(content: Message.Body.Content) {
@@ -59,6 +63,10 @@ extension DraftView {
 			} else {
 				self.selectedRecipients.append(tribe)
 			}
+		}
+		
+		func sendTea() {
+			
 		}
 	}
 }

@@ -107,6 +107,7 @@ struct DraftView: View {
 				.ignoresSafeArea(.keyboard)
 			}
 			.onAppear { viewModel.resetRecipients() }
+			.onDisappear { viewModel.didDisappear() }
 		}
 	}
 	
@@ -147,8 +148,7 @@ struct DraftView_Previews: PreviewProvider {
 	static var previews: some View {
 		DraftView(
 			viewModel: .init(
-				content: .video(URL(string: "https://kingsleyokeke.blob.core.windows.net/videos/Untitled.mp4")!),
-				directRecipient: nil
+				content: .video(URL(string: "https://kingsleyokeke.blob.core.windows.net/videos/Untitled.mp4")!)
 			)
 		)
 	}

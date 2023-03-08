@@ -19,7 +19,7 @@ extension HomeView {
 		private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 		
 		@Published var user: User
-		@Published var composeVM: ComposeView.ViewModel = ComposeView.ViewModel(recipient: nil)
+		@Published var composeVM: ComposeView.ViewModel = ComposeView.ViewModel()
 		@Published var tribesVM: TribesView.ViewModel
 		
 		@Published var currentPage: Page = .tribes
@@ -69,7 +69,7 @@ extension HomeView {
 		@objc func openCompose(notification: NSNotification) {
 			if let dict = notification.userInfo as? NSDictionary {
 				if let recipient = dict[AppConstants.composeNotificationDictionaryKey] as? Tribe {
-					self.composeVM = ComposeView.ViewModel(recipient: recipient)
+					self.composeVM.setDraftRecipient(recipient)
 					self.composeVM.cameraVM.didAppear()
 					self.currentPage = .compose
 				}
