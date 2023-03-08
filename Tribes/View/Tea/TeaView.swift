@@ -27,6 +27,6 @@ struct TeaView: View {
 
 struct TeaView_Previews: PreviewProvider {
 	static var previews: some View {
-		TeaView(viewModel: .init())
+		TeaView(viewModel: .init(tribe: Tribe.noop1))
 	}
 }
