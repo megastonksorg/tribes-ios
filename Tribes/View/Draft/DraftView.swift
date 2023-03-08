@@ -13,6 +13,8 @@ struct DraftView: View {
 	
 	@StateObject var viewModel: ViewModel
 	
+	@ObservedObject var keyboardClient: KeyboardClient = KeyboardClient.shared
+	
 	init(viewModel: ViewModel) {
 		self._viewModel = StateObject(wrappedValue: viewModel)
 	}
@@ -47,24 +49,27 @@ struct DraftView: View {
 						}
 					)
 			}
-			.overlay(
-				VStack {
-					Spacer()
-					TextField("", text: $viewModel.caption.max(SizeConstants.captionLimit), axis: .vertical)
-						.styleForCaption()
-						.submitLabel(.done)
-						.focused($focusedField, equals: .caption)
-						.opacity(viewModel.isShowingCaption || self.focusedField == .caption ? 1.0 : 0.0)
-						.offset(y: focusedField == nil ? SizeConstants.teaCaptionOffset : 0.0)
-						.animation(.easeInOut.speed(2.0), value: focusedField)
-						.onChange(of: viewModel.caption) { newValue in
-							guard let indexOfNewLine = newValue.firstIndex(of: "\n") else { return }
-							viewModel.caption.remove(at: indexOfNewLine)
-							self.focusedField = nil
-						}
-					Spacer()
-				}
-			)
+			.overlay(alignment: .bottom) {
+				let yOffset: CGFloat = {
+					if keyboardClient.height == 0 {
+						return SizeConstants.teaCaptionOffset
+					} else {
+						return keyboardClient.height - 35
+					}
+				}()
+				TextField("", text: $viewModel.caption.max(SizeConstants.captionLimit), axis: .vertical)
+					.styleForCaption()
+					.submitLabel(.done)
+					.focused($focusedField, equals: .caption)
+					.opacity(viewModel.isShowingCaption || self.focusedField == .caption ? 1.0 : 0.0)
+					.animation(.easeInOut.speed(2.0), value: focusedField)
+					.offset(y: -yOffset)
+					.onChange(of: viewModel.caption) { newValue in
+						guard let indexOfNewLine = newValue.firstIndex(of: "\n") else { return }
+						viewModel.caption.remove(at: indexOfNewLine)
+						self.focusedField = nil
+					}
+			}
 			.overlay(alignment: .bottom) {
 				Group {
 					if let directRecipient = viewModel.directRecipient {

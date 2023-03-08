@@ -11,7 +11,7 @@ import UIKit
 @MainActor class KeyboardClient: ObservableObject {
 	static let shared: KeyboardClient = KeyboardClient()
 	
-	@Published var keyboardHeight: CGFloat = 0
+	@Published var height: CGFloat = 0
 	
 	init() {
 		NotificationCenter.default
@@ -34,12 +34,16 @@ import UIKit
 	private func willShowKeyboard(notification: Notification) {
 		if let userInfo = notification.userInfo,
 			let keyboardSize = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
-			self.keyboardHeight = keyboardSize.height
+			DispatchQueue.main.async {
+				self.height = keyboardSize.height
+			}
 		}
 	}
 	
 	@objc
 	private func willHideKeyboard(notification: Notification) {
-		self.keyboardHeight = 0
+		DispatchQueue.main.async {
+			self.height = 0
+		}
 	}
 }
