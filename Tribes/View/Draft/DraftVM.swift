@@ -41,6 +41,7 @@ extension DraftView {
 		
 		func resetContent() {
 			self.content = nil
+			self.caption = ""
 		}
 		
 		func resetRecipients() {
