@@ -171,7 +171,7 @@ extension TribesView {
 		
 		func openCompose(_ tribe: Tribe) {
 			if tribe.members.others.count > 0 {
-				NotificationCenter.default.post(Notification(name: .openCompose))
+				NotificationCenter.default.post(Notification(name: .openCompose, userInfo: [AppConstants.composeNotificationDictionaryKey: tribe]))
 				self.feedbackClient.medium()
 			}
 		}

@@ -63,9 +63,14 @@ extension HomeView {
 			}
 		}
 		
-		@objc func openCompose() {
-			self.composeVM.cameraVM.didAppear()
-			self.currentPage = .compose
+		@objc func openCompose(notification: NSNotification) {
+			if let dict = notification.userInfo as? NSDictionary {
+				if let recipient = dict[AppConstants.composeNotificationDictionaryKey] as? Tribe {
+					self.composeVM = ComposeView.ViewModel(recipient: recipient)
+					self.composeVM.cameraVM.didAppear()
+					self.currentPage = .compose
+				}
+			}
 		}
 		
 		@objc func userUpdated() {

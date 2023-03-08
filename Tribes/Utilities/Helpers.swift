@@ -17,6 +17,8 @@ struct AppConstants {
 	static let editIcon: String = "pencil.line"
 	static let encryptedIcon: String = "lock.circle.fill"
 	static let addressCopied: String = "Address copied to clipboard"
+	
+	static let composeNotificationDictionaryKey: String = "recipient"
 }
 
 struct SizeConstants {
