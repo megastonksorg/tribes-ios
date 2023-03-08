@@ -29,6 +29,7 @@ struct DraftView: View {
 			.overlay(
 				Color.clear
 					.contentShape(Rectangle())
+					.frame(height: 400)
 					.onTapGesture {
 						if self.focusedField == .caption {
 							self.focusedField = nil
@@ -104,7 +105,6 @@ struct DraftView: View {
 						.padding(.horizontal, 6)
 					}
 				}
-				.ignoresSafeArea(.keyboard)
 			}
 			.onAppear { viewModel.resetRecipients() }
 			.onDisappear { viewModel.didDisappear() }
