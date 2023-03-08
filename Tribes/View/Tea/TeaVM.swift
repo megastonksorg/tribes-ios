@@ -11,10 +11,19 @@ import SwiftUI
 
 extension TeaView {
 	@MainActor class ViewModel: ObservableObject {
+		enum FocusField: Hashable {
+			case text
+		}
+		
 		let currentTribeMember: TribeMember
 		let tribe: Tribe
 		
+		var canSendText: Bool {
+			!text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+		}
+		
 		@Published var tea: IdentifiedArrayOf<Message>
+		@Published var text: String = ""
 		
 		//Clients
 		let messageClient: MessageClient = MessageClient.shared

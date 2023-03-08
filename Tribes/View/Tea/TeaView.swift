@@ -9,6 +9,8 @@ import SwiftUI
 
 struct TeaView: View {
 	
+	@FocusState private var focusedField: ViewModel.FocusField?
+	
 	@StateObject var viewModel: ViewModel
 	
 	init(viewModel: TeaView.ViewModel) {
@@ -29,6 +31,33 @@ struct TeaView: View {
 			VStack {
 				header()
 				Spacer()
+				ZStack(alignment: .topLeading) {
+					Group {
+						Text("Message ")
+							.foregroundColor(Color.white)
+						+
+						Text(viewModel.tribe.name)
+							.foregroundColor(Color.app.tertiary)
+					}
+					.lineLimit(2)
+					.opacity(viewModel.canSendText ? 0.0 : 1.0)
+					TextField("", text: $viewModel.text, axis: .vertical)
+						.tint(Color.white)
+						.lineLimit(1...4)
+						.foregroundColor(.white)
+						.focused($focusedField, equals: .text)
+				}
+				.font(Font.app.body)
+				.multilineTextAlignment(.leading)
+				.padding(.horizontal, 12)
+				.padding(.vertical, 14)
+				.background {
+					RoundedRectangle(cornerRadius: 14)
+						.stroke(Color.white, lineWidth: 1)
+						.transition(.opacity)
+				}
+				.dropShadow()
+				.dropShadow()
 			}
 			.padding(.horizontal)
 		}
