@@ -32,10 +32,10 @@ struct TeaView: View {
 		.overlay {
 			VStack {
 				let yOffset: CGFloat = {
-					if keyboardClient.keyboardHeight == 0 {
+					if keyboardClient.height == 0 {
 						return 0
 					} else {
-						return keyboardClient.keyboardHeight - 20
+						return keyboardClient.height - 25
 					}
 				}()
 				header()
