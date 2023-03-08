@@ -13,6 +13,8 @@ struct TeaView: View {
 	
 	@StateObject var viewModel: ViewModel
 	
+	@ObservedObject var keyboardClient: KeyboardClient = KeyboardClient.shared
+	
 	init(viewModel: TeaView.ViewModel) {
 		self._viewModel = StateObject(wrappedValue: viewModel)
 	}
@@ -29,7 +31,17 @@ struct TeaView: View {
 		.ignoresSafeArea()
 		.overlay {
 			VStack {
+				let yOffset: CGFloat = {
+					if keyboardClient.keyboardHeight == 0 {
+						return 0
+					} else {
+						return keyboardClient.keyboardHeight - 20
+					}
+				}()
 				header()
+				Button(action: { self.focusedField = nil }) {
+					Text("Tap Me")
+				}
 				Spacer()
 				ZStack(alignment: .topLeading) {
 					Group {
@@ -58,6 +70,7 @@ struct TeaView: View {
 				}
 				.dropShadow()
 				.dropShadow()
+				.offset(y: -yOffset)
 			}
 			.padding(.horizontal)
 		}
