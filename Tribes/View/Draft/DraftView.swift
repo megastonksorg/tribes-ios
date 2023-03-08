@@ -26,31 +26,20 @@ struct DraftView: View {
 					.submitLabel(.done)
 					.focused($focusedField, equals: .caption)
 					.opacity(viewModel.isShowingCaption || self.focusedField == .caption ? 1.0 : 0.0)
-					.offset(y: focusedField == nil ? -SizeConstants.teaCaptionOffset : 0.0)
+					.offset(y: focusedField == nil ? SizeConstants.teaCaptionOffset : 0.0)
 					.animation(.easeInOut.speed(2.0), value: focusedField)
 					.onChange(of: viewModel.caption) { newValue in
 						guard let indexOfNewLine = newValue.firstIndex(of: "\n") else { return }
 						viewModel.caption.remove(at: indexOfNewLine)
 						self.focusedField = nil
 					}
+				Spacer()
 			}
 			.background(
 				Color.clear
 					.overlay(
 						ContentView(content: content)
 					)
-					.overlay(alignment: .topTrailing) {
-						Color.gray.opacity(0.02)
-							.frame(dimension: 70)
-							.onTapGesture {
-								viewModel.resetContent()
-							}
-							.overlay(
-								XButton {
-									viewModel.resetContent()
-								}
-							)
-					}
 					.overlay(
 						Color.clear
 							.contentShape(Rectangle())
@@ -62,6 +51,18 @@ struct DraftView: View {
 								}
 							}
 					)
+					.overlay(alignment: .topTrailing) {
+						Color.gray.opacity(0.01)
+							.frame(dimension: 70)
+							.onTapGesture {
+								viewModel.resetContent()
+							}
+							.overlay(
+								XButton {
+									viewModel.resetContent()
+								}
+							)
+					}
 					.overlay(alignment: .bottom) {
 						Group {
 							if let directRecipient = viewModel.directRecipient {
