@@ -17,7 +17,10 @@ struct TeaView: View {
 	
 	var body: some View {
 		GeometryReader { proxy in
-			Group {
+			ZStack {
+				ForEach(viewModel.tea) { tea in
+					MessageView(currentTribeMember: viewModel.currentTribeMember, message: tea, tribe: viewModel.tribe)
+				}
 			}
 			.frame(size: proxy.size)
 		}

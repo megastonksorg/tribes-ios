@@ -16,6 +16,12 @@ struct Tribe: Codable, Identifiable {
 }
 
 extension IdentifiedArrayOf<TribeMember> {
+	var currentMember: TribeMember? {
+		if let currentUser: User = KeychainClient.shared.get(key: .user) {
+			return self.filter({ $0.walletAddress == currentUser.walletAddress }).first
+		}
+		return nil
+	}
 	var others: IdentifiedArrayOf<TribeMember> {
 		if let currentUser: User = KeychainClient.shared.get(key: .user) {
 			return self.filter({ $0.walletAddress != currentUser.walletAddress })
