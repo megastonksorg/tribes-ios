@@ -9,13 +9,16 @@ import SwiftUI
 
 struct TeaView: View {
 	
+	let closeButtonAction: () -> ()
+	
 	@FocusState private var focusedField: ViewModel.FocusField?
 	
 	@StateObject var viewModel: ViewModel
 	
 	@ObservedObject var keyboardClient: KeyboardClient = KeyboardClient.shared
 	
-	init(viewModel: TeaView.ViewModel) {
+	init(viewModel: TeaView.ViewModel, closeButtonAction: @escaping () -> ()) {
+		self.closeButtonAction = closeButtonAction
 		self._viewModel = StateObject(wrappedValue: viewModel)
 	}
 	
@@ -32,6 +35,7 @@ struct TeaView: View {
 			.frame(size: proxy.size)
 		}
 		.ignoresSafeArea()
+		.background(Color.app.secondary)
 		.overlay {
 			VStack {
 				let yOffset: CGFloat = {
@@ -99,6 +103,7 @@ struct TeaView: View {
 			}
 			Spacer()
 			XButton {
+				closeButtonAction()
 			}
 			.padding([.top, .leading, .bottom])
 		}
@@ -121,7 +126,7 @@ struct TeaView: View {
 
 struct TeaView_Previews: PreviewProvider {
 	static var previews: some View {
-		TeaView(viewModel: .init(tribe: Tribe.noop2))
+		TeaView(viewModel: .init(tribe: Tribe.noop2), closeButtonAction: {})
 			.preferredColorScheme(.dark)
 	}
 }

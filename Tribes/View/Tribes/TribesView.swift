@@ -182,20 +182,8 @@ struct TribesView: View {
 				}
 			}
 			.overlay(isShown: viewModel.isShowingTribeTea) {
-				Color.app.secondary
-					.ignoresSafeArea()
+				TeaView(viewModel: .init(tribe: viewModel.tribes[0]), closeButtonAction: { viewModel.setIsShowingTribeTea(false) })
 					.transition(.asymmetric(insertion: .opacity, removal: .identity))
-					.overlay(
-						VideoPlayerView(
-							url: URL(string: "https://kingsleyokeke.blob.core.windows.net/videos/Untitled.mp4")!
-						)
-					)
-					.overlay(alignment: .topTrailing) {
-						XButton {
-							viewModel.setIsShowingTribeTea(false)
-						}
-						.padding()
-					}
 			}
 			.banner(data: self.$viewModel.banner)
 			.sheet(
