@@ -19,12 +19,38 @@ struct DraftView: View {
 	
 	var body: some View {
 		if let content = viewModel.content {
-			Group {
-				GeometryReader { proxy in
-					Group {
-						ContentView(content: content)
+			VStack {
+				Spacer()
+				TextField("", text: $viewModel.caption.max(SizeConstants.captionLimit), axis: .vertical)
+					.styleForCaption()
+					.submitLabel(.done)
+					.focused($focusedField, equals: .caption)
+					.opacity(viewModel.isShowingCaption || self.focusedField == .caption ? 1.0 : 0.0)
+					.offset(y: focusedField == nil ? -SizeConstants.teaCaptionOffset : 0.0)
+					.animation(.easeInOut.speed(2.0), value: focusedField)
+					.onChange(of: viewModel.caption) { newValue in
+						guard let indexOfNewLine = newValue.firstIndex(of: "\n") else { return }
+						viewModel.caption.remove(at: indexOfNewLine)
+						self.focusedField = nil
 					}
-					.frame(size: proxy.size)
+			}
+			.background(
+				Color.clear
+					.overlay(
+						ContentView(content: content)
+					)
+					.overlay(alignment: .topTrailing) {
+						Color.gray.opacity(0.02)
+							.frame(dimension: 70)
+							.onTapGesture {
+								viewModel.resetContent()
+							}
+							.overlay(
+								XButton {
+									viewModel.resetContent()
+								}
+							)
+					}
 					.overlay(
 						Color.clear
 							.contentShape(Rectangle())
@@ -36,67 +62,43 @@ struct DraftView: View {
 								}
 							}
 					)
-					.overlay {
-						TextField("", text: $viewModel.caption.max(SizeConstants.captionLimit), axis: .vertical)
-							.styleForCaption()
-							.submitLabel(.done)
-							.focused($focusedField, equals: .caption)
-							.opacity(viewModel.isShowingCaption || self.focusedField == .caption ? 1.0 : 0.0)
-							.offset(y: focusedField == nil ? SizeConstants.teaCaptionOffset : 0.0)
-							.onChange(of: viewModel.caption) { newValue in
-								guard let indexOfNewLine = newValue.firstIndex(of: "\n") else { return }
-								viewModel.caption.remove(at: indexOfNewLine)
-								self.focusedField = nil
-							}
-					}
-				}
-				.ignoresSafeArea()
-				.overlay(alignment: .topTrailing) {
-					Color.gray.opacity(0.02)
-						.frame(dimension: 70)
-						.onTapGesture {
-							viewModel.resetContent()
-						}
-						.overlay(
-							XButton {
-								viewModel.resetContent()
-							}
-						)
-				}
-			}
-			.safeAreaInset(edge: .bottom) {
-				if let directRecipient = viewModel.directRecipient {
-					SymmetricHStack(
-						content: {
-							tribeAvatar(tribe: directRecipient)
-						},
-						leading: { EmptyView() },
-						trailing: {
-							sendTeaButton()
-								.opacity(viewModel.canSendTea ? 1.0 : 0.0)
-						}
-					)
-				} else {
-					let spacing: CGFloat = 4
-					HStack(spacing: 0) {
-						ScrollView(.horizontal, showsIndicators: false) {
-							LazyHStack(spacing: 14) {
-								Spacer()
-									.frame(width: spacing)
-								ForEach(viewModel.recipients) {
-									tribeAvatar(tribe: $0)
+					.overlay(alignment: .bottom) {
+						Group {
+							if let directRecipient = viewModel.directRecipient {
+								SymmetricHStack(
+									content: {
+										tribeAvatar(tribe: directRecipient)
+									},
+									leading: { EmptyView() },
+									trailing: {
+										sendTeaButton()
+											.opacity(viewModel.canSendTea ? 1.0 : 0.0)
+									}
+								)
+							} else {
+								let spacing: CGFloat = 4
+								HStack(spacing: 0) {
+									ScrollView(.horizontal, showsIndicators: false) {
+										LazyHStack(spacing: 14) {
+											Spacer()
+												.frame(width: spacing)
+											ForEach(viewModel.recipients) {
+												tribeAvatar(tribe: $0)
+											}
+										}
+									}
+									.frame(maxHeight: 140)
+									if viewModel.canSendTea {
+										Spacer(minLength: spacing)
+										sendTeaButton()
+									}
 								}
+								.padding(.horizontal, 6)
 							}
 						}
-						.frame(maxHeight: 140)
-						if viewModel.canSendTea {
-							Spacer(minLength: spacing)
-							sendTeaButton()
-						}
+						.ignoresSafeArea(.keyboard)
 					}
-					.padding(.horizontal, 6)
-				}
-			}
+			)
 			.onAppear { viewModel.resetRecipients() }
 		}
 	}
@@ -138,7 +140,7 @@ struct DraftView_Previews: PreviewProvider {
 	static var previews: some View {
 		DraftView(
 			viewModel: .init(
-				content: .image(URL(string: "https://kingsleyokeke.blob.core.windows.net/videos/Untitled.mp4")!),
+				content: .video(URL(string: "https://kingsleyokeke.blob.core.windows.net/videos/Untitled.mp4")!),
 				directRecipient: nil
 			)
 		)
