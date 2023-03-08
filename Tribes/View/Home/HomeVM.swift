@@ -51,7 +51,9 @@ extension HomeView {
 			switch page {
 			case .compose: return
 			case .tribes:
+				self.composeVM.setDraftRecipient(nil)
 				self.composeVM.cameraVM.didDisappear()
+				self.composeVM.draftVM.didDisappear()
 				DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
 					self.composeVM.cameraVM.didDisappear()
 				}

@@ -41,7 +41,7 @@ extension ComposeView {
 			addObservers()
 		}
 		
-		func setDraftRecipient(_ directRecipient: Tribe) {
+		func setDraftRecipient(_ directRecipient: Tribe?) {
 			self.draftVM.directRecipient = directRecipient
 		}
 		
