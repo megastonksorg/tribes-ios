@@ -38,7 +38,10 @@ struct TribeAvatar: View {
 		tribe.members.count <= 10
 	}
 	
-	var isUploadingTea: Bool = true
+	var isUploadingTea: Bool {
+		!(messageClient.tribesMessages[id: tribe.id]?.teaDrafts.isEmpty ?? true)
+	}
+	
 	var hasUnreadTea: Bool = true
 	
 	@ObservedObject var messageClient: MessageClient = MessageClient.shared
