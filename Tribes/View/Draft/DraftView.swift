@@ -63,13 +63,13 @@ struct DraftView: View {
 					.submitLabel(.done)
 					.focused($focusedField, equals: .caption)
 					.opacity(viewModel.isShowingCaption || self.focusedField == .caption ? 1.0 : 0.0)
-					.animation(.easeInOut.speed(2.0), value: focusedField)
 					.offset(y: -yOffset)
 					.onChange(of: viewModel.caption) { newValue in
 						guard let indexOfNewLine = newValue.firstIndex(of: "\n") else { return }
 						viewModel.caption.remove(at: indexOfNewLine)
 						self.focusedField = nil
 					}
+					.animation(.easeInOut.speed(1.0), value: yOffset)
 			}
 			.overlay(alignment: .bottom) {
 				Group {
