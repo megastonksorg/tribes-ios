@@ -6,12 +6,19 @@
 //
 
 import Foundation
-import UIKit
+import IdentifiedCollections
+import SwiftUI
 
 extension TeaView {
 	@MainActor class ViewModel: ObservableObject {
 		
-		init() {
+		@Published var tea: IdentifiedArrayOf<Message>
+		
+		//Clients
+		let messageClient: MessageClient = MessageClient.shared
+		
+		init(tribe: Tribe) {
+			self.tea = messageClient.tribesMessages[id: tribe.id]?.tea ?? []
 		}
 	}
 }
