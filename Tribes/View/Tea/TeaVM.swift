@@ -22,6 +22,10 @@ extension TeaView {
 			!text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
 		}
 		
+		var teaIsEmpty: Bool {
+			tea.isEmpty
+		}
+		
 		@Published var tea: IdentifiedArrayOf<Message>
 		@Published var text: String = ""
 		

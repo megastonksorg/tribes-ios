@@ -25,6 +25,9 @@ struct TeaView: View {
 				ForEach(viewModel.tea) { tea in
 					MessageView(currentTribeMember: viewModel.currentTribeMember, message: tea, tribe: viewModel.tribe)
 				}
+				if viewModel.teaIsEmpty {
+					emptyTeaView()
+				}
 			}
 			.frame(size: proxy.size)
 		}
@@ -39,38 +42,37 @@ struct TeaView: View {
 					}
 				}()
 				header()
-				Button(action: { self.focusedField = nil }) {
-					Text("Tap Me")
-				}
 				Spacer()
-				ZStack(alignment: .topLeading) {
-					Group {
-						Text("Message ")
-							.foregroundColor(Color.white)
-						+
-						Text(viewModel.tribe.name)
-							.foregroundColor(Color.app.tertiary)
+				if !viewModel.teaIsEmpty {
+					ZStack(alignment: .topLeading) {
+						Group {
+							Text("Message ")
+								.foregroundColor(Color.white)
+							+
+							Text(viewModel.tribe.name)
+								.foregroundColor(Color.app.tertiary)
+						}
+						.lineLimit(2)
+						.opacity(viewModel.canSendText ? 0.0 : 1.0)
+						TextField("", text: $viewModel.text, axis: .vertical)
+							.tint(Color.white)
+							.lineLimit(1...4)
+							.foregroundColor(.white)
+							.focused($focusedField, equals: .text)
 					}
-					.lineLimit(2)
-					.opacity(viewModel.canSendText ? 0.0 : 1.0)
-					TextField("", text: $viewModel.text, axis: .vertical)
-						.tint(Color.white)
-						.lineLimit(1...4)
-						.foregroundColor(.white)
-						.focused($focusedField, equals: .text)
+					.font(Font.app.body)
+					.multilineTextAlignment(.leading)
+					.padding(.horizontal, 12)
+					.padding(.vertical, 14)
+					.background {
+						RoundedRectangle(cornerRadius: 14)
+							.stroke(Color.white, lineWidth: 1)
+							.transition(.opacity)
+					}
+					.dropShadow()
+					.dropShadow()
+					.offset(y: -yOffset)
 				}
-				.font(Font.app.body)
-				.multilineTextAlignment(.leading)
-				.padding(.horizontal, 12)
-				.padding(.vertical, 14)
-				.background {
-					RoundedRectangle(cornerRadius: 14)
-						.stroke(Color.white, lineWidth: 1)
-						.transition(.opacity)
-				}
-				.dropShadow()
-				.dropShadow()
-				.offset(y: -yOffset)
 			}
 			.padding(.horizontal)
 		}
@@ -87,17 +89,32 @@ struct TeaView: View {
 				}
 			}
 			HStack(spacing: 0) {
-				TextView("\(viewModel.tribe.name)  •   ", style: .tribeName(16))
+				TextView("\(viewModel.tribe.name)", style: .tribeName(16))
 					.multilineTextAlignment(.leading)
 					.lineLimit(2)
-				Text("2hrs ago")
+				Text(" • 2hrs ago")
 					.font(Font.app.body)
 					.foregroundColor(Color.app.tertiary)
+					.opacity(viewModel.teaIsEmpty ? 0.0 : 1.0)
 			}
 			Spacer()
 			XButton {
 			}
 			.padding([.top, .leading, .bottom])
+		}
+	}
+	
+	@ViewBuilder
+	func emptyTeaView() -> some View {
+		VStack(spacing: 40) {
+			TextView("Looks like everyone is still asleep", style: .pageTitle)
+				.multilineTextAlignment(.center)
+			HStack {
+				TextView("Wake them up with some", style: .pageTitle)
+				Image(systemName: "cup.and.saucer.fill")
+					.font(Font.app.title)
+					.foregroundColor(Color.app.tertiary)
+			}
 		}
 	}
 }
