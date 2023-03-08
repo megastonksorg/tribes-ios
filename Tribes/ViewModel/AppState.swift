@@ -86,7 +86,7 @@ fileprivate let appStateKeyNotification: String = "appState"
 		self.cacheClient.clear()
 		self.keychainClient.clearAllKeys()
 		//Resign Keyboard across app before logout
-		UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+		KeyboardClient.shared.resignKeyboard()
 		AppRouter.popToRoot(stack: .welcome())
 		AppRouter.popToRoot(stack: .home())
 		if isDelayed {

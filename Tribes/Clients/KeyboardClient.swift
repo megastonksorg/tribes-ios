@@ -30,6 +30,10 @@ import UIKit
 			)
 	}
 	
+	func resignKeyboard() {
+		UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+	}
+	
 	@objc
 	private func willShowKeyboard(notification: Notification) {
 		if let userInfo = notification.userInfo,
