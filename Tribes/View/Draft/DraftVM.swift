@@ -91,8 +91,11 @@ extension DraftView {
 					tribeId: directRecipient.id
 				)
 				messageClient.postMessage(draft: teaDraft)
-				NotificationCenter.default.post(Notification(name: .toggleCompose))
-				self.feedbackClient.medium()
+				self.resetContent()
+				DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+					NotificationCenter.default.post(Notification(name: .toggleCompose))
+					self.feedbackClient.medium()
+				}
 			}
 			self.isLoading = false
 		}
