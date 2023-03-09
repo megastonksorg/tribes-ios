@@ -40,8 +40,8 @@ extension HomeView {
 			NotificationCenter
 				.default.addObserver(
 					self,
-					selector: #selector(openCompose),
-					name: .openCompose,
+					selector: #selector(toggleCompose),
+					name: .toggleCompose,
 					object: nil
 				)
 		}
@@ -68,13 +68,15 @@ extension HomeView {
 			}
 		}
 		
-		@objc func openCompose(notification: NSNotification) {
+		@objc func toggleCompose(notification: NSNotification) {
 			if let dict = notification.userInfo as? NSDictionary {
 				if let recipient = dict[AppConstants.composeNotificationDictionaryKey] as? Tribe {
 					self.composeVM.setDraftRecipient(recipient)
 					self.composeVM.cameraVM.didAppear()
 					self.currentPage = .compose
 				}
+			} else {
+				self.currentPage = .tribes
 			}
 		}
 		

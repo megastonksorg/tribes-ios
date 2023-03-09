@@ -33,6 +33,7 @@ extension DraftView {
 		
 		//Clients
 		let messageClient: MessageClient = MessageClient.shared
+		let feedbackClient: FeedbackClient = FeedbackClient.shared
 		
 		init(content: Message.Body.Content? = nil) {
 			self.content = content
@@ -90,6 +91,8 @@ extension DraftView {
 					tribeId: directRecipient.id
 				)
 				messageClient.postMessage(draft: teaDraft)
+				NotificationCenter.default.post(Notification(name: .toggleCompose))
+				self.feedbackClient.medium()
 			}
 		}
 	}

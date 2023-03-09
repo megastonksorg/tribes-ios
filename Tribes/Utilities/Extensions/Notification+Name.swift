@@ -10,7 +10,7 @@ import Foundation
 extension Notification.Name {
 	static let captureClientRequestedAllVideoPlaybackPausing = Notification.Name("captureClientRequestedAllVideoPlaybackPausing")
 	static let captureClientDidGrantPermissionForPlaybackResumption = Notification.Name("captureClientDidGrantPermissionForPlaybackResumption")
-	static let openCompose = Notification.Name("openCompose")
+	static let toggleCompose = Notification.Name("toggleCompose")
 	static let pushStack = Notification.Name("pushStack")
 	static let popStack = Notification.Name("popStack")
 	static let popToRoot = Notification.Name("popToRoot")
