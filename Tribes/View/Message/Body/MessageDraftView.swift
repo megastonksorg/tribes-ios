@@ -11,7 +11,7 @@ struct MessageDraftView: View {
 	let messageDraft: MessageDraft
 	let isPlaying: Bool
 	var body: some View {
-		ContentView(content: messageDraft.content, isPlaying: false)
+		ContentView(content: messageDraft.content, isPlaying: isPlaying)
 			.ignoresSafeArea()
 			.overlay {
 				if let caption = messageDraft.caption {
