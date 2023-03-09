@@ -12,8 +12,9 @@ struct MessageView: View {
 	let sender: TribeMember?
 	let style: Message.Style
 	let message: Message
+	let isPlaying: Bool
 	
-	init(currentTribeMember: TribeMember, message: Message, tribe: Tribe) {
+	init(currentTribeMember: TribeMember, message: Message, tribe: Tribe, isPlaying: Bool) {
 		let sender: TribeMember? = tribe.members[id: message.senderId]
 		self.currentTribeMember = currentTribeMember
 		self.sender = sender
@@ -25,6 +26,7 @@ struct MessageView: View {
 			}
 		}()
 		self.message = message
+		self.isPlaying = isPlaying
 	}
 	
 	var body: some View {
@@ -40,7 +42,7 @@ struct MessageView: View {
 		case .image:
 			MessageImageView(model: bodyModel)
 		case .video:
-			MessageVideoView(model: bodyModel)
+			MessageVideoView(model: bodyModel, isPlaying: isPlaying)
 		case .systemEvent(let text):
 			TextView(text, style: .callout)
 		case .imageData:
@@ -54,7 +56,8 @@ struct MessageView_Previews: PreviewProvider {
 		MessageView(
 			currentTribeMember: TribeMember.noop1,
 			message: Message.noopEncryptedTextChat,
-			tribe: Tribe.noop1
+			tribe: Tribe.noop1,
+			isPlaying: false
 		)
 	}
 }

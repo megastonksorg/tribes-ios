@@ -30,8 +30,13 @@ struct TeaView: View {
 						.opacity(draft.id == viewModel.currentDraftId ? 1.0 : 0.0)
 				}
 				ForEach(viewModel.tea) { tea in
-					MessageView(currentTribeMember: viewModel.currentTribeMember, message: tea, tribe: viewModel.tribe)
-						.opacity(tea.id == viewModel.currentTeaId ? 1.0 : 0.0)
+					MessageView(
+						currentTribeMember: viewModel.currentTribeMember,
+						message: tea,
+						tribe: viewModel.tribe,
+						isPlaying: tea.id == viewModel.currentTeaId
+					)
+					.opacity(tea.id == viewModel.currentTeaId ? 1.0 : 0.0)
 				}
 				if viewModel.isEmpty {
 					emptyTeaView()
