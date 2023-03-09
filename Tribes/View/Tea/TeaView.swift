@@ -84,6 +84,21 @@ struct TeaView: View {
 				}
 			}
 			.padding(.horizontal)
+			.background {
+				HStack(spacing: 10) {
+					Color.clear.pushOutFrame()
+						.contentShape(Rectangle())
+						.onTapGesture {
+							viewModel.previousDraftOrTea()
+						}
+					
+					Color.clear.pushOutFrame()
+						.contentShape(Rectangle())
+						.onTapGesture {
+							viewModel.nextDraftOrTea()
+						}
+				}
+			}
 		}
 	}
 	
