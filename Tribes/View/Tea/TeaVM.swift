@@ -5,6 +5,7 @@
 //  Created by Kingsley Okeke on 2022-12-30.
 //
 
+import Combine
 import Foundation
 import IdentifiedCollections
 import SwiftUI
@@ -17,6 +18,8 @@ extension TeaView {
 		
 		let currentTribeMember: TribeMember
 		let tribe: Tribe
+		
+		private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 		
 		var canSendText: Bool {
 			!text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
@@ -38,6 +41,15 @@ extension TeaView {
 			self.tribe = tribe
 			self.teaDrafts = messageClient.tribesMessages[id: tribe.id]?.teaDrafts ?? []
 			self.tea = messageClient.tribesMessages[id: tribe.id]?.tea ?? []
+			
+			self.messageClient.$tribesMessages
+				.sink(
+					receiveValue: { tribesMessages in
+						self.tea = tribesMessages[id: tribe.id]?.tea ?? []
+						self.teaDrafts = tribesMessages[id: tribe.id]?.teaDrafts ?? []
+					}
+				)
+				.store(in: &cancellables)
 		}
 	}
 }
