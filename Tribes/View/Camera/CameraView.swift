@@ -151,13 +151,13 @@ struct CameraView: View {
 				} else if viewModel.isOnPhoneCall {
 					VStack {
 						HStack {
-							Text("On a call")
-							Image(systemName: "phone.down.circle.fill")
+							Image(systemName: "phone.circle.fill")
+								.font(Font.app.title)
 								.foregroundColor(Color.green)
-								.rotationEffect(.degrees(130))
+							Text("On a call")
+								.font(Font.app.title2)
+								.foregroundColor(Color.white)
 						}
-						.font(Font.app.title2)
-						.foregroundColor(Color.white)
 					}
 					.pushOutFrame()
 					.background(Color.gray.opacity(0.8))
