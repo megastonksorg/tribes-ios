@@ -85,7 +85,6 @@ extension TeaView {
 			if let currentDraftId = currentDraftId,
 			   let currentDraftIndex = drafts.index(id: currentDraftId)
 			{
-				let firstDraftIndex: Int = 0
 				let nextDraftIndex: Int = currentDraftIndex + 1
 				
 				if nextDraftIndex < drafts.endIndex {
@@ -94,15 +93,12 @@ extension TeaView {
 					return
 				}
 				else {
-					if tea.isEmpty {
-						//If the next index is invalid and there is no tea to navigate to
-						setCurrentDraftOrTeaId(draftId: drafts[firstDraftIndex].id, teaId: nil)
-						return
-					} else {
+					if !tea.isEmpty {
 						//If the next index is invalid and there is tea to view, navigate to the first tea
 						setCurrentDraftOrTeaId(draftId: nil, teaId: tea[0].id)
 						return
 					}
+					return
 				}
 			}
 			
@@ -110,7 +106,6 @@ extension TeaView {
 			if let currentTeaId = currentTeaId,
 			   let currentTeaIndex = tea.index(id: currentTeaId)
 			{
-				let firstTeaIndex: Int = 0
 				let nextTeaIndex: Int = currentTeaIndex + 1
 				
 				if nextTeaIndex < tea.endIndex {
@@ -119,15 +114,12 @@ extension TeaView {
 					return
 				}
 				else {
-					if drafts.isEmpty {
-						//If the next index is invalid and there is no draft, navigate to the first tea
-						setCurrentDraftOrTeaId(draftId: nil, teaId: tea[firstTeaIndex].id)
-						return
-					} else {
+					if !drafts.isEmpty {
 						//If the next index is invalid and there are drafts, navigate to the first draft
 						setCurrentDraftOrTeaId(draftId: drafts[0].id, teaId: nil)
 						return
 					}
+					return
 				}
 			}
 		}
