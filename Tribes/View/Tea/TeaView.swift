@@ -25,6 +25,9 @@ struct TeaView: View {
 	var body: some View {
 		GeometryReader { proxy in
 			ZStack {
+				ForEach(viewModel.teaDrafts) { teaDraft in
+					MessageDraftView(messageDraft: teaDraft)
+				}
 				ForEach(viewModel.tea) { tea in
 					MessageView(currentTribeMember: viewModel.currentTribeMember, message: tea, tribe: viewModel.tribe)
 				}

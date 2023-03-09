@@ -26,6 +26,7 @@ extension TeaView {
 			tea.isEmpty
 		}
 		
+		@Published var teaDrafts: IdentifiedArrayOf<MessageDraft>
 		@Published var tea: IdentifiedArrayOf<Message>
 		@Published var text: String = ""
 		
@@ -35,6 +36,7 @@ extension TeaView {
 		init(tribe: Tribe) {
 			self.currentTribeMember = tribe.members.currentMember ?? TribeMember.dummyTribeMember
 			self.tribe = tribe
+			self.teaDrafts = messageClient.tribesMessages[id: tribe.id]?.teaDrafts ?? []
 			self.tea = messageClient.tribesMessages[id: tribe.id]?.tea ?? []
 		}
 	}
