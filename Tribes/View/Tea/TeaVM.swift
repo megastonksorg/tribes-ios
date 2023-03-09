@@ -25,7 +25,7 @@ extension TeaView {
 			!text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
 		}
 		
-		var teaIsEmpty: Bool {
+		var isEmpty: Bool {
 			tea.isEmpty && teaDrafts.isEmpty
 		}
 		

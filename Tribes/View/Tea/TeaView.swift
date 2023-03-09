@@ -31,7 +31,7 @@ struct TeaView: View {
 				ForEach(viewModel.tea) { tea in
 					MessageView(currentTribeMember: viewModel.currentTribeMember, message: tea, tribe: viewModel.tribe)
 				}
-				if viewModel.teaIsEmpty {
+				if viewModel.isEmpty {
 					emptyTeaView()
 				}
 			}
@@ -50,7 +50,7 @@ struct TeaView: View {
 				}()
 				header()
 				Spacer()
-				if !viewModel.teaIsEmpty {
+				if !viewModel.tea.isEmpty {
 					ZStack(alignment: .topLeading) {
 						Group {
 							Text("Message ")
@@ -102,7 +102,7 @@ struct TeaView: View {
 				Text(" • 2hrs ago")
 					.font(Font.app.body)
 					.foregroundColor(Color.app.tertiary)
-					.opacity(viewModel.teaIsEmpty ? 0.0 : 1.0)
+					.opacity(viewModel.isEmpty ? 0.0 : 1.0)
 			}
 			Spacer()
 			XButton {
