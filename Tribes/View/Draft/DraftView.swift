@@ -136,7 +136,7 @@ struct DraftView: View {
 	
 	@ViewBuilder
 	func sendTeaButton() -> some View {
-		Button(action: {  }) {
+		Button(action: { viewModel.sendTea() }) {
 			Image(systemName: "cup.and.saucer.fill")
 				.font(.system(size: SizeConstants.teaCupSize))
 				.foregroundColor(Color.app.tertiary)
