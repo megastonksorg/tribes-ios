@@ -94,6 +94,7 @@ extension DraftView {
 				NotificationCenter.default.post(Notification(name: .toggleCompose))
 				self.feedbackClient.medium()
 			}
+			self.isLoading = false
 		}
 	}
 }
