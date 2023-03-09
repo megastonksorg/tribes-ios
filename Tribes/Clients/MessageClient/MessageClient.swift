@@ -128,6 +128,7 @@ import IdentifiedCollections
 			caption: encryptedCaptionString,
 			type: outgoingContentType,
 			contextId: draft.contextId,
+			tag: draft.tag,
 			tribeId: tribe.id,
 			tribeTimeStampId: tribe.timestampId,
 			keys: encryptedContent.keys
@@ -143,7 +144,7 @@ import IdentifiedCollections
 					receiveValue: { [weak self] url in
 						guard let self = self else { return }
 						postMessageModel.body = url.absoluteString
-						self.postMessageCancellables[draft.id] = self.postMessage(draft: draft, model: postMessageModel, tag: draft.tag)
+						self.postMessageCancellables[draft.id] = self.postMessage(draft: draft, model: postMessageModel)
 					}
 				)
 				.store(in: &cancellables)
@@ -155,13 +156,13 @@ import IdentifiedCollections
 					receiveValue: { [weak self] url in
 						guard let self = self else { return }
 						postMessageModel.body = url.absoluteString
-						self.postMessageCancellables[draft.id] = self.postMessage(draft: draft, model: postMessageModel, tag: draft.tag)
+						self.postMessageCancellables[draft.id] = self.postMessage(draft: draft, model: postMessageModel)
 					}
 				)
 				.store(in: &cancellables)
 		case .text:
 			postMessageModel.body = String(decoding: encryptedContent.data, as: UTF8.self)
-			postMessageCancellables[draft.id] = self.postMessage(draft: draft, model: postMessageModel, tag: draft.tag)
+			postMessageCancellables[draft.id] = self.postMessage(draft: draft, model: postMessageModel)
 		case .image, .systemEvent:
 			self.tribesMessages[id: draft.tribeId]?.drafts.remove(id: draft.id)
 			return
@@ -264,8 +265,8 @@ import IdentifiedCollections
 		}
 	}
 	
-	private func postMessage(draft: MessageDraft, model: PostMessage, tag: Message.Tag) -> AnyCancellable {
-		return self.apiClient.postMessage(model: model, tag: tag)
+	private func postMessage(draft: MessageDraft, model: PostMessage) -> AnyCancellable {
+		return self.apiClient.postMessage(model: model)
 			.catch { error -> AnyPublisher<MessageResponse, APIClientError> in
 				let expectedDataError: Data = Data("Invalid Tribe TimestampId".utf8)
 				let failureError: APIClientError = APIClientError.rawError("Something went wrong with the MessageClient")
@@ -279,11 +280,12 @@ import IdentifiedCollections
 									caption: model.caption,
 									type: model.type,
 									contextId: model.contextId,
+									tag: model.tag,
 									tribeId: model.tribeId,
 									tribeTimeStampId: newTribeTimestampId,
 									keys: model.keys
 								)
-								return self.apiClient.postMessage(model: newPostMessageModel, tag: tag)
+								return self.apiClient.postMessage(model: newPostMessageModel)
 							} else {
 								return Fail(error: failureError).eraseToAnyPublisher()
 							}
