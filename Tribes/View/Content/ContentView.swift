@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
 	let content: Message.Body.Content
+	let isPlaying: Bool
 	var body: some View {
 		switch content {
 		case .text(let textString):
@@ -30,7 +31,7 @@ struct ContentView: View {
 		case .imageData(let imageData):
 			imageView(uiImage: UIImage(data: imageData) ?? UIImage())
 		case .video(let url):
-			VideoPlayerView(url: url, isPlaying: false)
+			VideoPlayerView(url: url, isPlaying: isPlaying)
 		case .systemEvent(let eventString):
 			Text(eventString)
 		}
@@ -47,6 +48,9 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		ContentView(content: .video(URL(string: "https://kingsleyokeke.blob.core.windows.net/videos/Untitled.mp4")!))
+		ContentView(
+			content: .video(URL(string: "https://kingsleyokeke.blob.core.windows.net/videos/Untitled.mp4")!),
+			isPlaying: false
+		)
 	}
 }
