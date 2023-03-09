@@ -42,7 +42,7 @@ struct TribeAvatar: View {
 		!(messageClient.tribesMessages[id: tribe.id]?.teaDrafts.isEmpty ?? true)
 	}
 	
-	var hasUnreadTea: Bool = true
+	var hasUnreadTea: Bool = false
 	
 	@ObservedObject var messageClient: MessageClient = MessageClient.shared
 	
