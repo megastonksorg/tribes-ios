@@ -47,6 +47,16 @@ import IdentifiedCollections
 	func refreshMessages() {
 		let tribes = TribesRepository.shared.getTribes()
 		tribes.forEach { tribe in
+			//If the tribe message does not exist, create a new one
+			if self.tribesMessages[id: tribe.id] == nil {
+				self.tribesMessages.updateOrAppend(
+					TribeMessage(
+						tribeId: tribe.id,
+						messages: [],
+						drafts: []
+					)
+				)
+			}
 			self.apiClient
 				.getMessages(tribeId: tribe.id)
 				.receive(on: DispatchQueue.main)
