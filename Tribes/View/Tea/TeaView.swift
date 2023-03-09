@@ -111,7 +111,6 @@ struct TeaView: View {
 								.font(Font.app.subHeader)
 								.foregroundColor(Color.gray)
 								.dropShadow()
-								.dropShadow()
 							Button(action: { viewModel.retryFailedDraft() }) {
 								HStack {
 									Text("Retry")
@@ -120,6 +119,7 @@ struct TeaView: View {
 								.font(Font.app.title)
 								.foregroundColor(Color.white)
 								.padding()
+								.dropShadow()
 								.dropShadow()
 							}
 						}
