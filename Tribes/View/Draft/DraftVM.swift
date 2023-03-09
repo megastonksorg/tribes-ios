@@ -21,7 +21,8 @@ extension DraftView {
 		@Published var selectedRecipients: IdentifiedArrayOf<Tribe> = []
 		@Published var recipients: IdentifiedArrayOf<Tribe> = []
 		
-		@Published var isLoading: Bool = false
+		@Published var isPlaying: Bool = true
+		@Published var isUploading: Bool = false
 		
 		var canSendTea: Bool {
 			selectedRecipients.count > 0
@@ -52,6 +53,7 @@ extension DraftView {
 		func resetContent() {
 			self.content = nil
 			self.caption = ""
+			self.isPlaying = true
 		}
 		
 		func resetRecipients() {
@@ -73,7 +75,9 @@ extension DraftView {
 		
 		func sendTea() {
 			guard let content = self.content else { return }
-			self.isLoading = true
+			//Stop playing content when the upload starts
+			self.isPlaying = false
+			self.isUploading = true
 			let caption: String? = {
 				if self.isShowingCaption {
 					return self.caption
@@ -91,13 +95,10 @@ extension DraftView {
 					tribeId: directRecipient.id
 				)
 				messageClient.postMessage(draft: teaDraft)
-				self.resetContent()
-				DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-					NotificationCenter.default.post(Notification(name: .toggleCompose))
-					self.feedbackClient.medium()
-				}
+				NotificationCenter.default.post(Notification(name: .toggleCompose))
+				self.feedbackClient.medium()
 			}
-			self.isLoading = false
+			self.isUploading = false
 		}
 	}
 }

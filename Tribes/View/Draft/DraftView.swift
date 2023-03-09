@@ -22,7 +22,7 @@ struct DraftView: View {
 	var body: some View {
 		if let content = viewModel.content {
 			GeometryReader { proxy in
-				ContentView(content: content, isPlaying: true)
+				ContentView(content: content, isPlaying: viewModel.isPlaying)
 					.frame(size: proxy.size)
 			}
 			.ignoresSafeArea()
@@ -106,7 +106,7 @@ struct DraftView: View {
 				}
 				.padding(.horizontal, 6)
 			}
-			.overlay(isShown: viewModel.isLoading) {
+			.overlay(isShown: viewModel.isUploading) {
 				AppProgressView()
 			}
 			.onAppear { viewModel.resetRecipients() }
