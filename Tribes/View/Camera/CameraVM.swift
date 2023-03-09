@@ -5,6 +5,7 @@
 //  Created by Kingsley Okeke on 2022-12-29.
 //
 
+import CallKit
 import Combine
 import Foundation
 import SwiftUI
@@ -62,6 +63,10 @@ extension CameraView {
 		
 		var videoRecordingProgress: Double {
 			captureClient.recorderDuration / SizeConstants.maxVideoRecordingDuration
+		}
+		
+		var isOnPhoneCall: Bool {
+			CXCallObserver().calls.contains { $0.hasEnded == false }
 		}
 		
 		//Clients

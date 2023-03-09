@@ -99,54 +99,69 @@ struct CameraView: View {
 				.pushOutFrame()
 				.background(Color.gray.opacity(0.8))
 			}
-			.overlay(isShown: !viewModel.isPermissionAllowed) {
-				VStack {
+			.overlay {
+				if !viewModel.isPermissionAllowed {
 					VStack {
-						Spacer()
-						let symbolSize: CGFloat = 50
-						Text(viewModel.permissionText)
-							.font(Font.app.subTitle)
-							.multilineTextAlignment(.center)
-							.padding(.bottom, 40)
-						HStack {
-							Image(systemName: "camera")
-								.font(Font.app.title)
-								.frame(dimension: symbolSize)
-							Text("Camera")
-								.padding(.leading)
+						VStack {
 							Spacer()
-							Toggle(
-								"",
-								isOn: Binding(
-									get: { return viewModel.cameraPermissionState == .allowed },
-									set: { _ in viewModel.requestCameraAccess() }
+							let symbolSize: CGFloat = 50
+							Text(viewModel.permissionText)
+								.font(Font.app.subTitle)
+								.multilineTextAlignment(.center)
+								.padding(.bottom, 40)
+							HStack {
+								Image(systemName: "camera")
+									.font(Font.app.title)
+									.frame(dimension: symbolSize)
+								Text("Camera")
+									.padding(.leading)
+								Spacer()
+								Toggle(
+									"",
+									isOn: Binding(
+										get: { return viewModel.cameraPermissionState == .allowed },
+										set: { _ in viewModel.requestCameraAccess() }
+									)
 								)
-							)
-						}
-						
-						HStack {
-							Image(systemName: "mic")
-								.font(Font.app.title)
-								.frame(dimension: symbolSize)
-							Text("Mic")
-								.padding(.leading)
+							}
+							
+							HStack {
+								Image(systemName: "mic")
+									.font(Font.app.title)
+									.frame(dimension: symbolSize)
+								Text("Mic")
+									.padding(.leading)
+								Spacer()
+								Toggle(
+									"",
+									isOn: Binding(
+										get: { return viewModel.audioPermissionState == .allowed },
+										set: { _ in viewModel.requestMicrophoneAccess() }
+									)
+								)
+							}
 							Spacer()
-							Toggle(
-								"",
-								isOn: Binding(
-									get: { return viewModel.audioPermissionState == .allowed },
-									set: { _ in viewModel.requestMicrophoneAccess() }
-								)
-							)
 						}
-						Spacer()
+						.foregroundColor(.white)
+						.tint(Color.app.secondary)
+						.padding(.horizontal, 40)
 					}
-					.foregroundColor(.white)
-					.tint(Color.app.secondary)
-					.padding(.horizontal, 40)
+					.pushOutFrame()
+					.background(Color.app.primary.opacity(0.8))
+				} else if viewModel.isOnPhoneCall {
+					VStack {
+						HStack {
+							Text("On a call")
+							Image(systemName: "phone.down.circle.fill")
+								.foregroundColor(Color.green)
+								.rotationEffect(.degrees(130))
+						}
+						.font(Font.app.title2)
+						.foregroundColor(Color.white)
+					}
+					.pushOutFrame()
+					.background(Color.gray.opacity(0.8))
 				}
-				.pushOutFrame()
-				.background(Color.app.primary.opacity(0.8))
 			}
 		}
 		.onBecomingVisible { viewModel.didAppear() }
