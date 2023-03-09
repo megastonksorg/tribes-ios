@@ -26,7 +26,7 @@ extension TeaView {
 		}
 		
 		var teaIsEmpty: Bool {
-			tea.isEmpty
+			tea.isEmpty && teaDrafts.isEmpty
 		}
 		
 		@Published var teaDrafts: IdentifiedArrayOf<MessageDraft>
