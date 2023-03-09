@@ -124,7 +124,7 @@ struct TribeMessage: Codable, Identifiable {
 struct MessageDraft: Codable, Identifiable {
 	let id: UUID
 	let content: Message.Body.Content
-	let contextId: Message.ID
+	let contextId: Message.ID?
 	let caption: String?
 	let tag: Message.Tag
 	let tribeId: Tribe.ID
