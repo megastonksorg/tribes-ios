@@ -102,9 +102,12 @@ struct DraftView: View {
 								sendTeaButton()
 							}
 						}
-						.padding(.horizontal, 6)
 					}
 				}
+				.padding(.horizontal, 6)
+			}
+			.overlay(isShown: viewModel.isLoading) {
+				AppProgressView()
 			}
 			.onAppear { viewModel.resetRecipients() }
 			.onDisappear { viewModel.didDisappear() }

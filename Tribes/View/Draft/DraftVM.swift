@@ -21,6 +21,8 @@ extension DraftView {
 		@Published var selectedRecipients: IdentifiedArrayOf<Tribe> = []
 		@Published var recipients: IdentifiedArrayOf<Tribe> = []
 		
+		@Published var isLoading: Bool = false
+		
 		var canSendTea: Bool {
 			selectedRecipients.count > 0
 		}
@@ -28,6 +30,9 @@ extension DraftView {
 		var isShowingCaption: Bool {
 			!caption.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
 		}
+		
+		//Clients
+		let messageClient: MessageClient = MessageClient.shared
 		
 		init(content: Message.Body.Content? = nil) {
 			self.content = content
@@ -66,7 +71,26 @@ extension DraftView {
 		}
 		
 		func sendTea() {
-			
+			guard let content = self.content else { return }
+			self.isLoading = true
+			let caption: String? = {
+				if self.isShowingCaption {
+					return self.caption
+				} else {
+					return nil
+				}
+			}()
+			if let directRecipient = self.directRecipient {
+				let teaDraft = MessageDraft(
+					id: UUID(),
+					content: content,
+					contextId: nil,
+					caption: caption,
+					tag: .tea,
+					tribeId: directRecipient.id
+				)
+				messageClient.postMessage(draft: teaDraft)
+			}
 		}
 	}
 }
