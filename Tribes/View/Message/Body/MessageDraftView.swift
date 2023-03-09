@@ -20,30 +20,6 @@ struct MessageDraftView: View {
 						.offset(y: SizeConstants.teaCaptionOffset)
 				}
 			}
-			.overlay {
-				switch draft.status {
-				case .uploading:
-					EmptyView()
-				case .failedToUpload:
-					VStack {
-						Text("Something went wrong")
-							.font(Font.app.subHeader)
-							.foregroundColor(Color.gray)
-							.dropShadow()
-							.dropShadow()
-						Button(action: { MessageClient.shared.postMessage(draft: draft) }) {
-							HStack {
-								Text("Retry")
-								Image(systemName: "arrow.counterclockwise.circle.fill")
-							}
-							.font(Font.app.title)
-							.foregroundColor(Color.white)
-							.padding()
-							.dropShadow()
-						}
-					}
-				}
-			}
 	}
 }
 

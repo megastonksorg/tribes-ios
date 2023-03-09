@@ -103,6 +103,29 @@ struct TeaView: View {
 							viewModel.nextDraftOrTea()
 						}
 				}
+				.overlay {
+					if let currentDraftId = viewModel.currentDraftId,
+					   let currentDraft = viewModel.drafts[id: currentDraftId] {
+						VStack {
+							Text("Something went wrong")
+								.font(Font.app.subHeader)
+								.foregroundColor(Color.gray)
+								.dropShadow()
+								.dropShadow()
+							Button(action: { viewModel.retryFailedDraft() }) {
+								HStack {
+									Text("Retry")
+									Image(systemName: "arrow.counterclockwise.circle.fill")
+								}
+								.font(Font.app.title)
+								.foregroundColor(Color.white)
+								.padding()
+								.dropShadow()
+							}
+						}
+						.opacity(currentDraft.status == .failedToUpload ? 1.0 : 0.0)
+					}
+				}
 			}
 		}
 	}

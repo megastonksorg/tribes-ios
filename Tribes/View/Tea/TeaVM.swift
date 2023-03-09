@@ -162,5 +162,13 @@ extension TeaView {
 				}
 			}
 		}
+		
+		func retryFailedDraft() {
+			if let failedDraftId = currentDraftId {
+				if let failedDraft = self.drafts[id: failedDraftId] {
+					MessageClient.shared.postMessage(draft: failedDraft)
+				}
+			}
+		}
 	}
 }
