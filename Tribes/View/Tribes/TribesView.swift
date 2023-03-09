@@ -181,9 +181,14 @@ struct TribesView: View {
 					}
 				}
 			}
-			.overlay(isShown: viewModel.isShowingTribeTea) {
-				TeaView(viewModel: .init(tribe: viewModel.tribes[0]), closeButtonAction: { viewModel.setIsShowingTribeTea(false) })
+			.overlay(isShown: viewModel.currentTeaTribe != nil) {
+				if let currentTeaTribe = viewModel.currentTeaTribe {
+					TeaView(
+						viewModel: TeaView.ViewModel(tribe: currentTeaTribe),
+						closeButtonAction: { viewModel.setCurrentTeaTribe(nil) }
+					)
 					.transition(.asymmetric(insertion: .opacity, removal: .identity))
+				}
 			}
 			.banner(data: self.$viewModel.banner)
 			.sheet(

@@ -28,11 +28,11 @@ extension TribesView {
 		@Published var tribes: IdentifiedArrayOf<Tribe>
 		@Published var editTribeNameText: String?
 		@Published var user: User
+		@Published var currentTeaTribe: Tribe?
 		
 		@Published var isShowingAccountView: Bool = false
 		@Published var isShowingChatView: Bool = false
 		@Published var isShowingTribeInvite: Bool = false
-		@Published var isShowingTribeTea: Bool = false
 		
 		var isEditingTribeName: Bool {
 			editTribeNameText != nil
@@ -154,9 +154,9 @@ extension TribesView {
 				.store(in: &cancellables)
 		}
 		
-		func setIsShowingTribeTea(_ isShowing: Bool) {
+		func setCurrentTeaTribe(_ tribe: Tribe?) {
 			withAnimation(.easeInOut) {
-				self.isShowingTribeTea = isShowing
+				self.currentTeaTribe = tribe
 			}
 		}
 		
@@ -181,7 +181,7 @@ extension TribesView {
 				if tribe.members.others.count == 0 {
 					showTribeInviteCard(tribe: tribe)
 				} else {
-					setIsShowingTribeTea(true)
+					setCurrentTeaTribe(tribe)
 				}
 			}
 		}
