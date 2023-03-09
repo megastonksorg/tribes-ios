@@ -267,44 +267,28 @@ import IdentifiedCollections
 	
 	private func postMessage(draft: MessageDraft, model: PostMessage) -> AnyCancellable {
 		return self.apiClient.postMessage(model: model)
-			.catch { error -> AnyPublisher<MessageResponse, APIClientError> in
-				let expectedDataError: Data = Data("Invalid Tribe TimestampId".utf8)
-				let failureError: APIClientError = APIClientError.rawError("Something went wrong with the MessageClient")
-				if error == .httpError(statusCode: 400, data: expectedDataError) {
-					return TribesRepository.shared
-						.refreshTribes()
-						.flatMap { tribes -> AnyPublisher<MessageResponse, APIClientError> in
-							if let newTribeTimestampId: String = tribes[id: model.tribeId]?.timestampId {
-								let newPostMessageModel = PostMessage(
-									body: model.body,
-									caption: model.caption,
-									type: model.type,
-									contextId: model.contextId,
-									tag: model.tag,
-									tribeId: model.tribeId,
-									tribeTimestampId: newTribeTimestampId,
-									keys: model.keys
-								)
-								return self.apiClient.postMessage(model: newPostMessageModel)
-							} else {
-								return Fail(error: failureError).eraseToAnyPublisher()
-							}
-						}
-						.eraseToAnyPublisher()
-				} else {
-					return Fail(error: APIClientError.rawError("The MessageClient failed to send your message. Please try that again.")).eraseToAnyPublisher()
-				}
-			}
-			.eraseToAnyPublisher()
 			.receive(on: DispatchQueue.main)
 			.sink(
 				receiveCompletion: { completion in
 					switch completion {
 					case .finished: return
-					case .failure:
-						var failedDraft = draft
-						failedDraft.status = .failedToUpload
-						self.tribesMessages[id: draft.tribeId]?.drafts.updateOrAppend(failedDraft)
+					case .failure(let error):
+						let expectedDataError: Data = Data("Invalid Tribe TimestampId".utf8)
+						if error == .httpError(statusCode: 400, data: expectedDataError) {
+							TribesRepository.shared
+								.refreshTribes()
+								.sink(
+									receiveCompletion: { _ in },
+									receiveValue: { _ in
+										self.postMessage(draft: draft)
+									}
+								)
+								.store(in: &self.cancellables)
+						} else {
+							var failedDraft = draft
+							failedDraft.status = .failedToUpload
+							self.tribesMessages[id: draft.tribeId]?.drafts.updateOrAppend(failedDraft)
+						}
 					}
 				},
 				receiveValue: { [weak self] messageResponse in
