@@ -87,6 +87,8 @@ import IdentifiedCollections
 	
 	func postMessage(draft: MessageDraft) {
 		//Add to Draft
+		var draft = draft
+		draft.status = .uploading
 		self.tribesMessages[id: draft.tribeId]?.drafts.updateOrAppend(draft)
 		
 		//Encrypt Data
@@ -294,7 +296,15 @@ import IdentifiedCollections
 			.eraseToAnyPublisher()
 			.receive(on: DispatchQueue.main)
 			.sink(
-				receiveCompletion: { _ in },
+				receiveCompletion: { completion in
+					switch completion {
+					case .finished: return
+					case .failure:
+						var failedDraft = draft
+						failedDraft.status = .failedToUpload
+						self.tribesMessages[id: draft.tribeId]?.drafts.updateOrAppend(failedDraft)
+					}
+				},
 				receiveValue: { [weak self] messageResponse in
 					self?.messagePosted(draft: draft, messageResponse: messageResponse)
 				}
