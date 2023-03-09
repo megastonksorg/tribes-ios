@@ -12,7 +12,6 @@ struct VideoPlayerView: View {
 	let url: URL
 	let isPlaying: Bool
 	
-	@State private var didStartPlaying = false
 	@State private var shouldShowThumbnail = true
 	@State private var playbackProgress = Float(0)
 	@State private var thumbnail: UIImage? = nil
@@ -37,7 +36,7 @@ struct VideoPlayerView: View {
 				}
 			}
 			.ignoresSafeArea()
-			.overlay(isShown: !didStartPlaying) {
+			.overlay(isShown: thumbnail == nil && !isPlaying) {
 				LoadingIndicator(speed: 0.4)
 					.frame(dimension: SizeConstants.loadingIndicatorSize)
 			}
@@ -53,11 +52,6 @@ struct VideoPlayerView: View {
 		}
 		.ignoresSafeArea()
 		.onAppear { loadThumbnail() }
-		.onChange(of: playbackProgress) { progress in
-			if !didStartPlaying && progress > 0 {
-				didStartPlaying = true
-			}
-		}
 	}
 	
 	func loadThumbnail() {
