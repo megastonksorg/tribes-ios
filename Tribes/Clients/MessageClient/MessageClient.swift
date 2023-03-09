@@ -128,9 +128,9 @@ import IdentifiedCollections
 			caption: encryptedCaptionString,
 			type: outgoingContentType,
 			contextId: draft.contextId,
-			tag: draft.tag,
+			tag: draft.tag.rawValue,
 			tribeId: tribe.id,
-			tribeTimeStampId: tribe.timestampId,
+			tribeTimestampId: tribe.timestampId,
 			keys: encryptedContent.keys
 		)
 		
@@ -282,7 +282,7 @@ import IdentifiedCollections
 									contextId: model.contextId,
 									tag: model.tag,
 									tribeId: model.tribeId,
-									tribeTimeStampId: newTribeTimestampId,
+									tribeTimestampId: newTribeTimestampId,
 									keys: model.keys
 								)
 								return self.apiClient.postMessage(model: newPostMessageModel)

@@ -12,8 +12,8 @@ struct PostMessage: Codable {
 	let caption: String?
 	let type: String
 	let contextId: String?
-	let tag: Message.Tag
+	let tag: String
 	let tribeId: Tribe.ID
-	let tribeTimeStampId: String
+	let tribeTimestampId: String
 	let keys: [MessageKeyEncrypted]
 }
