@@ -10,8 +10,8 @@ import SwiftUI
 
 struct VideoPlayerView: View {
 	let url: URL
+	let isPlaying: Bool
 	
-	@State private var isPlaying = false
 	@State private var didStartPlaying = false
 	@State private var shouldShowThumbnail = true
 	@State private var playbackProgress = Float(0)
@@ -20,8 +20,9 @@ struct VideoPlayerView: View {
 	//Clients
 	let cacheClient: CacheClient = CacheClient.shared
 	
-	init(url: URL) {
+	init(url: URL, isPlaying: Bool) {
 		self.url = url
+		self.isPlaying = isPlaying
 	}
 	
 	var body: some View {
@@ -51,22 +52,6 @@ struct VideoPlayerView: View {
 				.preference(key: PlaybackProgressKey.self, value: playbackProgress)
 		}
 		.ignoresSafeArea()
-		.background {
-			GeometryReader { proxy in
-				Color.clear
-					.preference(
-						key: PlayerVisibilityKey.self,
-						value: proxy.frame(in: .global).maxX > UIScreen.main.bounds.maxX * 0.8
-					)
-					.onPreferenceChange(PlayerVisibilityKey.self) { isVisible in
-						if isVisible {
-							self.isPlaying = true
-						} else {
-							self.isPlaying = false
-						}
-					}
-			}
-		}
 		.onAppear { loadThumbnail() }
 		.onChange(of: playbackProgress) { progress in
 			if !didStartPlaying && progress > 0 {
@@ -95,14 +80,10 @@ struct VideoPlayerView: View {
 struct VideoPlayerView_Previews: PreviewProvider {
 	static var previews: some View {
 		VideoPlayerView(
-			url: URL(string: "https://kingsleyokeke.blob.core.windows.net/megastonksvideo/MegaStonks.mp4")!
+			url: URL(string: "https://kingsleyokeke.blob.core.windows.net/megastonksvideo/MegaStonks.mp4")!,
+			isPlaying: false
 		)
 	}
-}
-
-fileprivate struct PlayerVisibilityKey: PreferenceKey {
-	static var defaultValue: Bool = false
-	static func reduce(value: inout Bool, nextValue: () -> Bool) { }
 }
 
 fileprivate struct PlaybackProgressKey: PreferenceKey {

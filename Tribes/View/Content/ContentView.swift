@@ -30,7 +30,7 @@ struct ContentView: View {
 		case .imageData(let imageData):
 			imageView(uiImage: UIImage(data: imageData) ?? UIImage())
 		case .video(let url):
-			VideoPlayerView(url: url)
+			VideoPlayerView(url: url, isPlaying: false)
 		case .systemEvent(let eventString):
 			Text(eventString)
 		}

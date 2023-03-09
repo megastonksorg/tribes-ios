@@ -16,7 +16,7 @@ struct MessageVideoView: View {
 				NoContentView(isEncrypted: true)
 			} else {
 				if case .video(let url) = model.message.body?.content {
-					VideoPlayerView(url: url)
+					VideoPlayerView(url: url, isPlaying: false)
 						.overlay {
 							if let caption = model.message.body?.caption {
 								Text(caption)
