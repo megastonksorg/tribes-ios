@@ -26,10 +26,12 @@ extension TeaView {
 		}
 		
 		var isEmpty: Bool {
-			tea.isEmpty && teaDrafts.isEmpty
+			tea.isEmpty && drafts.isEmpty
 		}
 		
-		@Published var teaDrafts: IdentifiedArrayOf<MessageDraft>
+		@Published var currentDraftId: MessageDraft.ID?
+		@Published var currentTeaId: Message.ID?
+		@Published var drafts: IdentifiedArrayOf<MessageDraft>
 		@Published var tea: IdentifiedArrayOf<Message>
 		@Published var text: String = ""
 		
@@ -37,19 +39,136 @@ extension TeaView {
 		let messageClient: MessageClient = MessageClient.shared
 		
 		init(tribe: Tribe) {
+			let drafts = messageClient.tribesMessages[id: tribe.id]?.teaDrafts ?? []
+			let tea = messageClient.tribesMessages[id: tribe.id]?.tea ?? []
 			self.currentTribeMember = tribe.members.currentMember ?? TribeMember.dummyTribeMember
 			self.tribe = tribe
-			self.teaDrafts = messageClient.tribesMessages[id: tribe.id]?.teaDrafts ?? []
-			self.tea = messageClient.tribesMessages[id: tribe.id]?.tea ?? []
+			self.drafts = drafts
+			self.tea = tea
+			
+			setCurrentDraftOrTeaId(drafts: drafts, tea: tea)
 			
 			self.messageClient.$tribesMessages
 				.sink(
 					receiveValue: { tribesMessages in
-						self.tea = tribesMessages[id: tribe.id]?.tea ?? []
-						self.teaDrafts = tribesMessages[id: tribe.id]?.teaDrafts ?? []
+						guard let tribeMessages = tribesMessages[id: tribe.id] else { return }
+						self.drafts = tribeMessages.teaDrafts
+						self.tea = tribeMessages.tea
+						self.setCurrentDraftOrTeaId(drafts: self.drafts, tea: self.tea)
 					}
 				)
 				.store(in: &cancellables)
+		}
+		
+		private func setCurrentDraftOrTeaId(drafts: IdentifiedArrayOf<MessageDraft>, tea: IdentifiedArrayOf<Message>) {
+			//Set the current draft or tea id. Drafts take precedence
+			if !drafts.isEmpty {
+				guard let firstDraftId = drafts.first?.id else { return }
+				setCurrentDraftOrTeaId(draftId: firstDraftId, teaId: nil)
+			} else if !tea.isEmpty {
+				guard let firstTeaId = tea.first?.id else { return }
+				setCurrentDraftOrTeaId(draftId: nil, teaId: firstTeaId)
+			}
+		}
+		
+		func setCurrentDraftOrTeaId(draftId: MessageDraft.ID?, teaId: Message.ID?) {
+			//Only one can be set at a time
+			if draftId != nil && teaId != nil {
+				return
+			}
+			self.currentDraftId = draftId
+			self.currentTeaId = teaId
+		}
+		
+		func nextDraftOrTea() {
+			//Navigate to the next draft
+			if let currentDraftId = currentDraftId,
+			   let currentDraftIndex = drafts.index(id: currentDraftId)
+			{
+				let firstDraftIndex: Int = 0
+				let nextDraftIndex: Int = currentDraftIndex + 1
+				
+				if nextDraftIndex < drafts.endIndex {
+					//Return the next index
+					setCurrentDraftOrTeaId(draftId: drafts[nextDraftIndex].id, teaId: nil)
+					return
+				}
+				else {
+					if tea.isEmpty {
+						//If the next index is invalid and there is no tea to navigate to
+						setCurrentDraftOrTeaId(draftId: drafts[firstDraftIndex].id, teaId: nil)
+						return
+					} else {
+						//If the next index is invalid and there is tea to view, navigate to the first tea
+						setCurrentDraftOrTeaId(draftId: nil, teaId: tea[0].id)
+						return
+					}
+				}
+			}
+			
+			//Navigate to the next Tea
+			if let currentTeaId = currentTeaId,
+			   let currentTeaIndex = tea.index(id: currentTeaId)
+			{
+				let firstTeaIndex: Int = 0
+				let nextTeaIndex: Int = currentTeaIndex + 1
+				
+				if nextTeaIndex < tea.endIndex {
+					//Return the next index
+					setCurrentDraftOrTeaId(draftId: nil, teaId: tea[nextTeaIndex].id)
+					return
+				}
+				else {
+					if drafts.isEmpty {
+						//If the next index is invalid and there is no draft, navigate to the first tea
+						setCurrentDraftOrTeaId(draftId: nil, teaId: tea[firstTeaIndex].id)
+						return
+					} else {
+						//If the next index is invalid and there are drafts, navigate to the first draft
+						setCurrentDraftOrTeaId(draftId: drafts[0].id, teaId: nil)
+						return
+					}
+				}
+			}
+		}
+		
+		func previousDraftOrTea() {
+			//Navigate to the previous draft
+			if let currentDraftId = currentDraftId,
+			   let currentDraftIndex = drafts.index(id: currentDraftId)
+			{
+				let previousDraftIndex: Int = currentDraftIndex - 1
+				
+				if previousDraftIndex <= -1 {
+					//If the previous index is invalid, do nothing
+					return
+				}
+				else {
+					//Return to the previous draft
+					setCurrentDraftOrTeaId(draftId: drafts[previousDraftIndex].id, teaId: nil)
+					return
+				}
+			}
+			
+			//Navigate to the previous Tea
+			if let currentTeaId = currentTeaId,
+			   let currentTeaIndex = tea.index(id: currentTeaId)
+			{
+				let previousTeaIndex = currentTeaIndex - 1
+				
+				if previousTeaIndex <= -1 {
+					//If drafts is empty, then do nothing
+					if drafts.isEmpty {
+						return
+					} else {
+						guard let lastDraft = drafts.last else { return }
+						setCurrentDraftOrTeaId(draftId: lastDraft.id, teaId: nil)
+						return
+					}
+				} else {
+					setCurrentDraftOrTeaId(draftId: nil, teaId: tea[previousTeaIndex].id)
+				}
+			}
 		}
 	}
 }

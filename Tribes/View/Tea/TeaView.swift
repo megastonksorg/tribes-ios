@@ -25,11 +25,13 @@ struct TeaView: View {
 	var body: some View {
 		GeometryReader { proxy in
 			ZStack {
-				ForEach(viewModel.teaDrafts) { teaDraft in
-					MessageDraftView(messageDraft: teaDraft)
+				ForEach(viewModel.drafts) { draft in
+					MessageDraftView(messageDraft: draft)
+						.opacity(draft.id == viewModel.currentDraftId ? 1.0 : 0.0)
 				}
 				ForEach(viewModel.tea) { tea in
 					MessageView(currentTribeMember: viewModel.currentTribeMember, message: tea, tribe: viewModel.tribe)
+						.opacity(tea.id == viewModel.currentTeaId ? 1.0 : 0.0)
 				}
 				if viewModel.isEmpty {
 					emptyTeaView()
