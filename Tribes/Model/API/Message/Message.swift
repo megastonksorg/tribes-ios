@@ -198,12 +198,18 @@ struct TribeMessage: Codable, Identifiable {
 }
 
 struct MessageDraft: Codable, Identifiable {
+	enum Status: Codable {
+		case uploading
+		case failedToUpload
+	}
+	
 	let id: UUID
 	let content: Message.Body.Content
 	let contextId: Message.ID?
 	let caption: String?
 	let tag: Message.Tag
 	let tribeId: Tribe.ID
+	var status: Status = .uploading
 }
 
 extension MessageDraft {
@@ -213,6 +219,7 @@ extension MessageDraft {
 		contextId: nil,
 		caption: "This is our happy place. Please don't ruin it",
 		tag: .tea,
-		tribeId: Tribe.noop1.id
+		tribeId: Tribe.noop1.id,
+		status: .failedToUpload
 	)
 }
