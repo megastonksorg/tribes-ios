@@ -94,42 +94,6 @@ class Message: Codable, Identifiable {
 	}
 }
 
-struct TribeMessage: Codable, Identifiable {
-	let tribeId: Tribe.ID
-	var messages: IdentifiedArrayOf<Message>
-	var drafts: IdentifiedArrayOf<MessageDraft>
-	
-	var lastReadChat: Date?
-	var lastReadTea: Date?
-	
-	var id: Tribe.ID { tribeId }
-	
-	var chat: IdentifiedArrayOf<Message> {
-		messages.filter { $0.tag == .chat }
-	}
-	
-	var tea: IdentifiedArrayOf<Message> {
-		messages.filter { $0.tag == .tea }
-	}
-	
-	var chatDrafts: IdentifiedArrayOf<MessageDraft> {
-		drafts.filter { $0.tag == .chat }
-	}
-	
-	var teaDrafts: IdentifiedArrayOf<MessageDraft> {
-		drafts.filter { $0.tag == .tea }
-	}
-}
-
-struct MessageDraft: Codable, Identifiable {
-	let id: UUID
-	let content: Message.Body.Content
-	let contextId: Message.ID?
-	let caption: String?
-	let tag: Message.Tag
-	let tribeId: Tribe.ID
-}
-
 extension Message {
 	//Encrypted
 	static let noopEncryptedTextChat: Message = Message(
@@ -204,4 +168,51 @@ extension Message {
 		message.body = .init(content: .text("Hey there, what's for dinner? Are we still going for Italian?"), caption: nil)
 		return message
 	}()
+}
+
+struct TribeMessage: Codable, Identifiable {
+	let tribeId: Tribe.ID
+	var messages: IdentifiedArrayOf<Message>
+	var drafts: IdentifiedArrayOf<MessageDraft>
+	
+	var lastReadChat: Date?
+	var lastReadTea: Date?
+	
+	var id: Tribe.ID { tribeId }
+	
+	var chat: IdentifiedArrayOf<Message> {
+		messages.filter { $0.tag == .chat }
+	}
+	
+	var tea: IdentifiedArrayOf<Message> {
+		messages.filter { $0.tag == .tea }
+	}
+	
+	var chatDrafts: IdentifiedArrayOf<MessageDraft> {
+		drafts.filter { $0.tag == .chat }
+	}
+	
+	var teaDrafts: IdentifiedArrayOf<MessageDraft> {
+		drafts.filter { $0.tag == .tea }
+	}
+}
+
+struct MessageDraft: Codable, Identifiable {
+	let id: UUID
+	let content: Message.Body.Content
+	let contextId: Message.ID?
+	let caption: String?
+	let tag: Message.Tag
+	let tribeId: Tribe.ID
+}
+
+extension MessageDraft {
+	static let noop1: MessageDraft = MessageDraft(
+		id: UUID(),
+		content: .image("".unwrappedContentUrl),
+		contextId: nil,
+		caption: "This is our happy place. Please don't ruin it",
+		tag: .tea,
+		tribeId: Tribe.noop1.id
+	)
 }
