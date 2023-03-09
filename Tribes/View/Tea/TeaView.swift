@@ -26,7 +26,7 @@ struct TeaView: View {
 		GeometryReader { proxy in
 			ZStack {
 				ForEach(viewModel.drafts) { draft in
-					MessageDraftView(messageDraft: draft)
+					MessageDraftView(messageDraft: draft, isPlaying: draft.id == viewModel.currentDraftId)
 						.opacity(draft.id == viewModel.currentDraftId ? 1.0 : 0.0)
 				}
 				ForEach(viewModel.tea) { tea in
