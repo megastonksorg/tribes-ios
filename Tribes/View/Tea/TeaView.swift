@@ -113,24 +113,7 @@ struct TeaView: View {
 				.overlay {
 					if let currentDraftId = viewModel.currentDraftId,
 					   let currentDraft = viewModel.drafts[id: currentDraftId] {
-						VStack {
-							Text("Something went wrong")
-								.font(Font.app.subHeader)
-								.foregroundColor(Color.gray)
-								.dropShadow()
-							Button(action: { viewModel.retryFailedDraft() }) {
-								HStack {
-									Text("Retry")
-									Image(systemName: "arrow.counterclockwise.circle.fill")
-								}
-								.font(Font.app.title)
-								.foregroundColor(Color.white)
-								.padding()
-								.dropShadow()
-								.dropShadow()
-							}
-						}
-						.opacity(currentDraft.status == .failedToUpload ? 1.0 : 0.0)
+						draftRetryButton(currentDraft: currentDraft)
 					}
 				}
 			}
@@ -207,6 +190,31 @@ struct TeaView: View {
 				.animation(.easeInOut, value: viewModel.currentPill)
 		}
 		.frame(height: 6)
+	}
+	
+	@ViewBuilder
+	func draftRetryButton(currentDraft: MessageDraft) -> some View {
+		let isShowing: Bool = {
+			return currentDraft.status == .failedToUpload || Date.now.timeIntervalSince(currentDraft.timeStamp) > 1.0
+		}()
+		VStack {
+			Text("Something went wrong")
+				.font(Font.app.subHeader)
+				.foregroundColor(Color.gray)
+				.dropShadow()
+			Button(action: { viewModel.retryFailedDraft() }) {
+				HStack {
+					Text("Retry")
+					Image(systemName: "arrow.counterclockwise.circle.fill")
+				}
+				.font(Font.app.title)
+				.foregroundColor(Color.white)
+				.padding()
+				.dropShadow()
+				.dropShadow()
+			}
+		}
+		.opacity(isShowing ? 1.0 : 0.0)
 	}
 }
 
