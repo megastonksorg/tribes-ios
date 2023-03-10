@@ -64,7 +64,7 @@ struct TeaView: View {
 				}()
 				header()
 				Spacer()
-				if !viewModel.tea.isEmpty {
+				if !viewModel.tea.isEmpty && viewModel.currentTeaId != nil {
 					ZStack(alignment: .topLeading) {
 						Group {
 							Text("Message ")
