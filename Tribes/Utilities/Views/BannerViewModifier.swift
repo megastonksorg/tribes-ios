@@ -21,14 +21,27 @@ extension BannerData {
 		self.init(title: error.title, detail: error.errorDescription ?? "", type: .error)
 	}
 	init(error: AppError.APIClientError) {
-		if error != .authExpired {
-			self.init(detail: error.errorDescription ?? "", type: .info)
-		} else {
+		switch error {
+		case .httpError(statusCode: let statusCode, data: _):
+			if statusCode < 500 {
+				self.init(detail: error.errorDescription ?? "", type: .info)
+			} else {
+				self.init(detail: "", type: .info)
+			}
+		case .authExpired:
 			self.init(detail: "", type: .info)
+		case .rawError(let description):
+			if description.contains("1001") {
+				self.init(detail: "Not connected to the internet", type: .info)
+			} else {
+				self.init(detail: error.errorDescription ?? "", type: .info)
+			}
+		default:
+			self.init(detail: error.errorDescription ?? "", type: .info)
 		}
 	}
 }
-
+//Code=-1001
 enum BannerType {
 	case info
 	case warning
