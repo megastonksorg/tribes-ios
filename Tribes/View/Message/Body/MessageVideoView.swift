@@ -23,7 +23,8 @@ struct MessageVideoView: View {
 				NoContentView(isEncrypted: true)
 			} else {
 				if isLoadingVideo {
-					
+					LoadingIndicator(speed: 0.4)
+						.frame(dimension: SizeConstants.loadingIndicatorSize)
 				} else if let url = self.url {
 					VideoPlayerView(url: url, isPlaying: isPlaying)
 						.overlay {
