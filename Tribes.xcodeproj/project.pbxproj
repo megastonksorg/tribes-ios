@@ -159,6 +159,7 @@
 		D0D266B3296AAD2300A94183 /* HomeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D266B2296AAD2300A94183 /* HomeContentView.swift */; };
 		D0D266B5296B542500A94183 /* View+OnBecomingVisible.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D266B4296B542500A94183 /* View+OnBecomingVisible.swift */; };
 		D0D6811929B967A9000C1EF0 /* MessageDraftView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D6811829B967A9000C1EF0 /* MessageDraftView.swift */; };
+		D0E65EE029BB8DF200763656 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E65EDF29BB8DF200763656 /* Date+Extensions.swift */; };
 		D0E8519A2968EBF70034AFD1 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = D0E851992968EBF70034AFD1 /* Introspect */; };
 		D0E8519C296CA3C10034AFD1 /* TribeAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E8519B296CA3C10034AFD1 /* TribeAvatar.swift */; };
 		D0E8519E296CC0690034AFD1 /* TribeMember.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E8519D296CC0690034AFD1 /* TribeMember.swift */; };
@@ -318,6 +319,7 @@
 		D0D266B2296AAD2300A94183 /* HomeContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeContentView.swift; sourceTree = "<group>"; };
 		D0D266B4296B542500A94183 /* View+OnBecomingVisible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+OnBecomingVisible.swift"; sourceTree = "<group>"; };
 		D0D6811829B967A9000C1EF0 /* MessageDraftView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageDraftView.swift; sourceTree = "<group>"; };
+		D0E65EDF29BB8DF200763656 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
 		D0E8519B296CA3C10034AFD1 /* TribeAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TribeAvatar.swift; sourceTree = "<group>"; };
 		D0E8519D296CC0690034AFD1 /* TribeMember.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TribeMember.swift; sourceTree = "<group>"; };
 		D0E9F7FB298DD20F00A0400A /* CacheClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheClient.swift; sourceTree = "<group>"; };
@@ -492,6 +494,7 @@
 				D0BFEA502987978500FB6F22 /* Publishers+Extensions.swift */,
 				D076636F2995C1EE00946F7B /* CGFloat+Extensions.swift */,
 				D055BD6E29B0CBF40070025D /* Binding+Extensions.swift */,
+				D0E65EDF29BB8DF200763656 /* Date+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1085,6 +1088,7 @@
 				D030D2E4295745E90011128F /* ImagePicker.swift in Sources */,
 				D07663702995C1EE00946F7B /* CGFloat+Extensions.swift in Sources */,
 				D07278BB2975FB9600650A15 /* CalloutView.swift in Sources */,
+				D0E65EE029BB8DF200763656 /* Date+Extensions.swift in Sources */,
 				D01031572978D73500ACC333 /* UserAvatar.swift in Sources */,
 				D0C3DBF429A402E90066FBB8 /* CalloutRectangle.swift in Sources */,
 				D055BD6B29AFC7AA0070025D /* ContentView.swift in Sources */,
