@@ -114,7 +114,7 @@ import IdentifiedCollections
 				let caption = draft.caption,
 				let encryptedData = self.encryptionClient.encrypt(Data(caption.utf8), for: memberKeys, symmetricKey: symmetricKey)?.data
 			else { return nil }
-			let encryptedString = String(decoding: encryptedData, as: UTF8.self)
+			let encryptedString = encryptedData.base64EncodedString()
 			return encryptedString.isEmpty ? nil : encryptedString
 		}()
 		
@@ -161,7 +161,7 @@ import IdentifiedCollections
 				)
 				.store(in: &cancellables)
 		case .text:
-			postMessageModel.body = String(decoding: encryptedContent.data, as: UTF8.self)
+			postMessageModel.body = encryptedContent.data.base64EncodedString()
 			postMessageCancellables[draft.id] = self.postMessage(draft: draft, model: postMessageModel)
 		case .image, .systemEvent:
 			self.tribesMessages[id: draft.tribeId]?.drafts.remove(id: draft.id)
