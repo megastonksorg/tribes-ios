@@ -19,8 +19,6 @@ extension TeaView {
 		let currentTribeMember: TribeMember
 		let tribe: Tribe
 		
-		private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
-		
 		var canSendText: Bool {
 			!text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
 		}
@@ -60,17 +58,6 @@ extension TeaView {
 			self.tea = tea
 			
 			setCurrentDraftOrTeaId(drafts: drafts, tea: tea)
-			
-			self.messageClient.$tribesMessages
-				.sink(
-					receiveValue: { tribesMessages in
-						guard let tribeMessages = tribesMessages[id: tribe.id] else { return }
-						self.drafts = tribeMessages.teaDrafts
-						self.tea = tribeMessages.tea
-						self.setCurrentDraftOrTeaId(drafts: self.drafts, tea: self.tea)
-					}
-				)
-				.store(in: &cancellables)
 		}
 		
 		private func setCurrentDraftOrTeaId(drafts: IdentifiedArrayOf<MessageDraft>, tea: IdentifiedArrayOf<Message>) {
