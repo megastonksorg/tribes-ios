@@ -36,18 +36,21 @@ struct MessageView: View {
 			style: style,
 			message: message
 		)
-		switch message.encryptedBody.content {
-		case .text:
-			MessageTextView(model: bodyModel)
-		case .image:
-			MessageImageView(model: bodyModel)
-		case .video:
-			MessageVideoView(model: bodyModel, isPlaying: isPlaying)
-		case .systemEvent(let text):
-			TextView(text, style: .callout)
-		case .imageData:
-			EmptyView()
+		Group {
+			switch message.encryptedBody.content {
+			case .text:
+				MessageTextView(model: bodyModel)
+			case .image:
+				MessageImageView(model: bodyModel)
+			case .video:
+				MessageVideoView(model: bodyModel, isPlaying: isPlaying)
+			case .systemEvent(let text):
+				TextView(text, style: .callout)
+			case .imageData:
+				EmptyView()
+			}
 		}
+		.id(message.body)
 	}
 }
 

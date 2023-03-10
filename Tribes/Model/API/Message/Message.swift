@@ -20,15 +20,15 @@ class Message: Codable, Identifiable {
 		case tea
 	}
 	
-	struct Body: Codable {
-		enum Content: Codable {
+	struct Body: Codable, Hashable {
+		enum Content: Codable, Hashable {
 			case text(String)
 			case image(URL)
 			case imageData(Data)
 			case video(URL)
 			case systemEvent(String)
 			
-			enum `Type`: String, Codable {
+			enum `Type`: String, Codable, Hashable {
 				case text
 				case image
 				case video

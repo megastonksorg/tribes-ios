@@ -36,6 +36,7 @@ struct TeaView: View {
 						tribe: viewModel.tribe,
 						isPlaying: tea.id == viewModel.currentTeaId
 					)
+					.id(tea.body)
 					.opacity(tea.id == viewModel.currentTeaId ? 1.0 : 0.0)
 				}
 				if viewModel.isEmpty {
