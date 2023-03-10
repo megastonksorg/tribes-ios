@@ -31,9 +31,14 @@ extension TeaView {
 		
 		@Published var currentDraftId: MessageDraft.ID?
 		@Published var currentTeaId: Message.ID?
+		@Published var currentPill: Int = 0
 		@Published var drafts: IdentifiedArrayOf<MessageDraft>
 		@Published var tea: IdentifiedArrayOf<Message>
 		@Published var text: String = ""
+		
+		var maxPills: Int {
+			drafts.count + tea.count
+		}
 		
 		//Clients
 		let messageClient: MessageClient = MessageClient.shared
@@ -81,6 +86,10 @@ extension TeaView {
 		}
 		
 		func nextDraftOrTea() {
+			let nextPill = currentPill + 1
+			if nextPill < maxPills {
+				self.currentPill = nextPill
+			}
 			//Navigate to the next draft
 			if let currentDraftId = currentDraftId,
 			   let currentDraftIndex = drafts.index(id: currentDraftId)
@@ -125,6 +134,10 @@ extension TeaView {
 		}
 		
 		func previousDraftOrTea() {
+			let previousPill = currentPill - 1
+			if previousPill >= 0 {
+				self.currentPill = previousPill
+			}
 			//Navigate to the previous draft
 			if let currentDraftId = currentDraftId,
 			   let currentDraftIndex = drafts.index(id: currentDraftId)

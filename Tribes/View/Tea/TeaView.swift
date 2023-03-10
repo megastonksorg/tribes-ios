@@ -188,22 +188,23 @@ struct TeaView: View {
 	
 	@ViewBuilder
 	func pillsView() -> some View {
-		let totalCount: Int = {
-			viewModel.drafts.count + viewModel.tea.count
-		}()
-		
 		HStack(spacing: 2) {
-			ForEach(0..<totalCount, id: \.self) { _ in
-				pill()
+			ForEach(0..<viewModel.maxPills, id: \.self) { pillIndex in
+				pill(index: pillIndex)
 			}
 		}
 	}
 	
 	@ViewBuilder
-	func pill() -> some View {
-		Capsule()
-			.fill(Color.app.tertiary)
-			.frame(height: 6)
+	func pill(index: Int) -> some View {
+		ZStack {
+			Capsule()
+				.fill(Color.app.tertiary.opacity(0.5))
+			Capsule()
+				.fill(Color.app.tertiary)
+				.opacity(viewModel.currentPill == index ? 1.0 : 0.0)
+		}
+		.frame(height: 6)
 	}
 }
 
