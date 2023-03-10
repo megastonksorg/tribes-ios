@@ -236,7 +236,7 @@ import IdentifiedCollections
 		Task {
 			if let tribeMessage = getTribeMessage(with: message.id) {
 				if let existingTribesMessagesInCache = await self.cacheClient.getData(key: .tribesMessages) {
-					if isMessageContentCached(message: message) {
+					if isMessageContentCached(message: message) && message.body != nil {
 						if let messageToUpdate = existingTribesMessagesInCache[id: tribeMessage.id]?.messages.first(where: { $0.id == message.id }) {
 							messageToUpdate.reactions = message.reactions
 							updateMessageAndCache(messageToUpdate)
