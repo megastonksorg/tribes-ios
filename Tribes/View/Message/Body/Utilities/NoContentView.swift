@@ -21,7 +21,7 @@ struct NoContentView: View {
 					.dropShadow()
 			}
 			.overlay(isShown: !isEncrypted) {
-				Text("Something went wrong. Please try that again")
+				Text("Could not load content")
 					.font(Font.app.body)
 					.foregroundColor(Color.white)
 					.dropShadow()
