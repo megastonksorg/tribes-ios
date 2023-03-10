@@ -91,6 +91,10 @@ import IdentifiedCollections
 		draft.status = .uploading
 		self.tribesMessages[id: draft.tribeId]?.drafts.updateOrAppend(draft)
 		
+		Task {
+			await self.cacheClient.setData(key: .tribesMessages, value: self.tribesMessages)
+		}
+		
 		//Encrypt Data
 		guard let tribe: Tribe = TribesRepository.shared.getTribe(tribeId: draft.tribeId) else { return }
 		let memberKeys: Set<String> = Set(tribe.members.map({ $0.publicKey }))
