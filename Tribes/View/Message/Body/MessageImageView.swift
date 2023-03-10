@@ -12,7 +12,7 @@ struct MessageImageView: View {
 	@State var uiImage: UIImage?
 	@State var isLoadingImage: Bool = true
 	
-	//Client
+	//Clients
 	let cacheClient: CacheClient = CacheClient.shared
 	
 	init(model: MessageBodyModel) {
@@ -30,7 +30,7 @@ struct MessageImageView: View {
 				} else if let uiImage = self.uiImage {
 					Image(uiImage: uiImage)
 						.resizable()
-						.scaledToFit()
+						.scaledToFill()
 						.overlay {
 							if let caption = model.message.body?.caption {
 								Text(caption)
@@ -54,9 +54,8 @@ struct MessageImageView: View {
 	func loadImage() {
 		Task {
 			guard
-				self.uiImage == nil,
 				let cacheKey = Cache.getContentCacheKey(encryptedContent: model.message.encryptedBody.content),
-				let imageData = await CacheClient.shared.get(key: cacheKey, type: Data.self),
+				let imageData = await cacheClient.get(key: cacheKey, type: Data.self),
 				let uiImage = UIImage(data: imageData)
 			else {
 				self.isLoadingImage = false
