@@ -237,6 +237,7 @@ import IdentifiedCollections
 	func deleteDraft(_ message: MessageDraft) {
 		Task {
 			if self.tribesMessages[id: message.tribeId]?.drafts.first(where: { $0.id == message.id }) != nil {
+				self.postMessageCancellables[message.id]?.cancel()
 				self.tribesMessages[id: message.tribeId]?.drafts.remove(id: message.id)
 				await self.cacheClient.setData(key: .tribesMessages, value: self.tribesMessages)
 			}
