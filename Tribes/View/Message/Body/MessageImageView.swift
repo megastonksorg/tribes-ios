@@ -55,7 +55,7 @@ struct MessageImageView: View {
 		Task {
 			guard
 				self.uiImage == nil,
-				let cacheKey = Cache.getCacheKey(encryptedContent: model.message.encryptedBody.content),
+				let cacheKey = Cache.getContentCacheKey(encryptedContent: model.message.encryptedBody.content),
 				let imageData = await CacheClient.shared.get(key: cacheKey, type: Data.self),
 				let uiImage = UIImage(data: imageData)
 			else {

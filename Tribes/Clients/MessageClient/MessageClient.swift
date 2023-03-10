@@ -192,7 +192,7 @@ import IdentifiedCollections
 			}()
 			
 			//CacheKey for Caching the message body content data
-			let cacheKey = Cache.getCacheKey(encryptedContent: message.encryptedBody.content)
+			let cacheKey = Cache.getContentCacheKey(encryptedContent: message.encryptedBody.content)
 			
 			//Decrypted Content
 			switch message.encryptedBody.content {
@@ -344,7 +344,7 @@ import IdentifiedCollections
 	private func isMessageContentCached(message: Message) -> Bool {
 		//Here, we assume the content is already cached if the cacheKey is nil
 		//This is because the getCacheKey function only returns a key for image and video which are the only types that need to be fetched at this moment
-		guard let cacheKey = Cache.getCacheKey(encryptedContent: message.encryptedBody.content) else { return true }
+		guard let cacheKey = Cache.getContentCacheKey(encryptedContent: message.encryptedBody.content) else { return true }
 		return CacheTrimmer().isFileTracked(key: cacheKey)
 	}
 	

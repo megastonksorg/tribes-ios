@@ -17,12 +17,10 @@ struct Cache: Identifiable {
 }
 
 extension Cache {
-	static func getCacheKey(encryptedContent: Message.Body.Content) -> String? {
+	static func getContentCacheKey(encryptedContent: Message.Body.Content) -> String? {
 		switch encryptedContent {
-		case .image(let url):
+		case .image(let url), .video(let url):
 			return SHA256.getHash(for: url)
-		case .video(let url):
-			return "\(SHA256.getHash(for: url)).mp4"
 		case .text, .systemEvent, .imageData:
 			return nil
 		}
