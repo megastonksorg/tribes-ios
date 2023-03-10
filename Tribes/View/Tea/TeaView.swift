@@ -159,11 +159,14 @@ struct TeaView: View {
 					.foregroundColor(Color.app.tertiary)
 					.opacity(viewModel.isEmpty ? 0.0 : 1.0)
 			}
+			.dropShadow()
+			.dropShadow()
 			Spacer()
 			XButton {
 				closeButtonAction()
 			}
 		}
+		.padding(.top)
 	}
 	
 	@ViewBuilder
