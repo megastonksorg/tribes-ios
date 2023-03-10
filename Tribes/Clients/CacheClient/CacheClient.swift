@@ -113,6 +113,7 @@ class CacheClient: CacheClientProtocol {
 				let filePath: URL = fileName(for: cache.key)
 				try? data.write(to: filePath, options: [.atomic, .completeFileProtection])
 				self.cache[id: cache.key] = cache
+				self.cacheTrimmer.track(key: cache.key)
 				continuation.resume(returning: filePath)
 			}
 		}

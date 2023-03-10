@@ -30,6 +30,15 @@ struct CacheTrimmer {
 		defaultsClient.set(key: .cacheTracker, value: [])
 	}
 	
+	func track(key: String) {
+		guard var cacheTracker = DefaultsClient.shared.get(key: .cacheTracker) else {
+			defaultsClient.set(key: .cacheTracker, value: IdentifiedArrayOf(uniqueElements: [CacheTracker(key: key, lastAccessed: Date.now)]))
+			return
+		}
+		cacheTracker.updateOrAppend(CacheTracker(key: key, lastAccessed: Date.now))
+		defaultsClient.set(key: .cacheTracker, value: cacheTracker)
+	}
+	
 	func fileAccessed(key: String) {
 		guard var cacheTracker = DefaultsClient.shared.get(key: .cacheTracker) else {
 			defaultsClient.set(key: .cacheTracker, value: IdentifiedArrayOf(uniqueElements: [CacheTracker(key: key, lastAccessed: Date.now)]))
