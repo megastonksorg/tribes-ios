@@ -142,31 +142,34 @@ struct TeaView: View {
 	
 	@ViewBuilder
 	func header() -> some View {
-		HStack(spacing: 10) {
-			HStack(spacing: -12) {
-				ForEach(0..<viewModel.tribe.members.count, id: \.self) { index in
-					UserAvatar(url: viewModel.tribe.members[index].profilePhoto)
-						.frame(dimension: 24)
-						.zIndex(-Double(index))
+		VStack {
+			pillsView()
+			HStack(spacing: 10) {
+				HStack(spacing: -12) {
+					ForEach(0..<viewModel.tribe.members.count, id: \.self) { index in
+						UserAvatar(url: viewModel.tribe.members[index].profilePhoto)
+							.frame(dimension: 24)
+							.zIndex(-Double(index))
+					}
+				}
+				HStack(spacing: 0) {
+					TextView("\(viewModel.tribe.name)", style: .tribeName(16))
+						.multilineTextAlignment(.leading)
+						.lineLimit(2)
+					Text(" • 2hrs ago")
+						.font(Font.app.body)
+						.foregroundColor(Color.app.tertiary)
+						.opacity(viewModel.isEmpty ? 0.0 : 1.0)
+				}
+				.dropShadow()
+				.dropShadow()
+				Spacer()
+				XButton {
+					closeButtonAction()
 				}
 			}
-			HStack(spacing: 0) {
-				TextView("\(viewModel.tribe.name)", style: .tribeName(16))
-					.multilineTextAlignment(.leading)
-					.lineLimit(2)
-				Text(" • 2hrs ago")
-					.font(Font.app.body)
-					.foregroundColor(Color.app.tertiary)
-					.opacity(viewModel.isEmpty ? 0.0 : 1.0)
-			}
-			.dropShadow()
-			.dropShadow()
-			Spacer()
-			XButton {
-				closeButtonAction()
-			}
+			.padding(.top)
 		}
-		.padding(.top)
 	}
 	
 	@ViewBuilder
@@ -181,6 +184,26 @@ struct TeaView: View {
 					.foregroundColor(Color.app.tertiary)
 			}
 		}
+	}
+	
+	@ViewBuilder
+	func pillsView() -> some View {
+		let totalCount: Int = {
+			viewModel.drafts.count + viewModel.tea.count
+		}()
+		
+		HStack(spacing: 2) {
+			ForEach(0..<totalCount, id: \.self) { _ in
+				pill()
+			}
+		}
+	}
+	
+	@ViewBuilder
+	func pill() -> some View {
+		Capsule()
+			.fill(Color.app.tertiary)
+			.frame(height: 6)
 	}
 }
 
