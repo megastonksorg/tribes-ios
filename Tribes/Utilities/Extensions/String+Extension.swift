@@ -26,4 +26,24 @@ extension String {
 	}
 	
 	var unwrappedContentUrl: URL { URL(string: self) ?? URL(string: "https://invalidContent.com")! }
+	
+	var date: Date? {
+		let dateFormatter = DateFormatter()
+		dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSS"
+		dateFormatter.timeZone = TimeZone.current
+		return dateFormatter.date(from: self)
+	}
+	
+	func utcToCurrent() -> String {
+		let stringFormat: String = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSS"
+		let dateFormatter = DateFormatter()
+		dateFormatter.dateFormat = stringFormat
+		dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
+		
+		let localDate = dateFormatter.date(from: self)
+		dateFormatter.timeZone = TimeZone.current
+		dateFormatter.dateFormat = stringFormat
+		
+		return dateFormatter.string(from: localDate ?? Date.now)
+	}
 }
