@@ -170,9 +170,17 @@ struct TeaView: View {
 		ZStack {
 			pill(index: 0)
 				.opacity(0)
-			HStack(spacing: 2) {
-				ForEach(0..<viewModel.maxPills, id: \.self) { pillIndex in
-					pill(index: pillIndex)
+			if viewModel.maxPills > 10 {
+				LazyVGrid(columns: Array(repeating: GridItem(), count: 10)) {
+					ForEach(0..<viewModel.maxPills, id: \.self) { pillIndex in
+						pill(index: pillIndex)
+					}
+				}
+			} else {
+				HStack(spacing: 2) {
+					ForEach(0..<viewModel.maxPills, id: \.self) { pillIndex in
+						pill(index: pillIndex)
+					}
 				}
 			}
 		}
