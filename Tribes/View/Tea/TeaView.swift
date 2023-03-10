@@ -45,6 +45,16 @@ struct TeaView: View {
 			.frame(size: proxy.size)
 		}
 		.ignoresSafeArea()
+		.overlay(alignment: .top) {
+			LinearGradient(
+				colors: [.black.opacity(0.5), .clear],
+				startPoint: .top,
+				endPoint: .bottom
+			)
+			.frame(height: 140)
+			.ignoresSafeArea()
+			.blur(radius: 20)
+		}
 		.background(Color.app.secondary)
 		.overlay {
 			VStack {
@@ -153,7 +163,6 @@ struct TeaView: View {
 			XButton {
 				closeButtonAction()
 			}
-			.padding([.top, .leading, .bottom])
 		}
 	}
 	
