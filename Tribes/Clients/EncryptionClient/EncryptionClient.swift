@@ -14,8 +14,10 @@ protocol EncryptionClientProtocol {
 }
 
 extension EncryptionClientProtocol {
-	func decryptString(_ string: String, for publicKey: String, key: String) -> String? {
-		guard let decryptedData = decrypt(Data(string.utf8), for: publicKey, key: key) else { return nil }
+	func decryptString(_ base64String: String, for publicKey: String, key: String) -> String? {
+		guard
+			let data = Data(base64Encoded: base64String),
+			let decryptedData = decrypt(data, for: publicKey, key: key) else { return nil }
 		return String(decoding: decryptedData, as: UTF8.self)
 	}
 }
@@ -44,9 +46,10 @@ class EncryptionClient: EncryptionClientProtocol {
 	func encrypt(_ data: Data, for publicKeys: Set<String>, symmetricKey: SymmetricKey) -> EncryptedData? {
 		var keys: [MessageKeyEncrypted] = []
 		publicKeys.forEach { pubKey in
-			if let keyData = Data(base64Encoded: pubKey),
-			   let publicKey = RSAKeys.PublicKey(data: keyData),
-			   let encryptedKey = publicKey.encrypt(data: Data(symmetricKey.toBase64EncodedString().utf8)) {
+			if let pubKeyData = Data(base64Encoded: pubKey),
+			   let publicKey = RSAKeys.PublicKey(data: pubKeyData),
+			   let symmetricKeyData = Data(base64Encoded: symmetricKey.toBase64EncodedString()),
+			   let encryptedKey = publicKey.encrypt(data: symmetricKeyData) {
 				keys.append(MessageKeyEncrypted(publicKey: pubKey, encryptionKey: encryptedKey.base64EncodedString()))
 			}
 		}
