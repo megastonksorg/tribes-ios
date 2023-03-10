@@ -447,13 +447,17 @@ class CaptureClient:
 		
 		var captured: UIImage
 		
-		func flippedImage(_ image: CGImage) -> UIImage {
+		func getImage(_ image: CGImage, flip: Bool) -> UIImage {
 			let ciImage = CIImage(cgImage: image).oriented(forExifOrientation: 6)
-			let flippedImage = ciImage.transformed(by: CGAffineTransform(scaleX: -1, y: 1))
-			return .init(cgImage: CaptureClient.context.createCGImage(flippedImage, from: flippedImage.extent)!)
+			if flip {
+				let flippedImage = ciImage.transformed(by: CGAffineTransform(scaleX: -1, y: 1))
+				return .init(cgImage: CaptureClient.context.createCGImage(flippedImage, from: flippedImage.extent)!)
+			} else {
+				return .init(cgImage: CaptureClient.context.createCGImage(ciImage, from: ciImage.extent)!)
+			}
 		}
 		
-		captured = position == .front ? flippedImage(cgImage) : image
+		captured = position == .front ? getImage(cgImage, flip: true) : getImage(cgImage, flip: false)
 		
 		captureValueSubject.send(.image(captured))
 		self.isCapturingImage = false
