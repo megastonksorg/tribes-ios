@@ -173,7 +173,7 @@ import IdentifiedCollections
 		}
 	}
 	
-	private func decryptMessage(message: Message) {
+	func decryptMessage(message: Message) {
 		Task {
 			let decryptedMessage: Message = message
 			//Check the keys first
