@@ -316,8 +316,8 @@ import IdentifiedCollections
 				Message.Reaction(memberId: $0.senderWalletAddress, content: $0.content)
 			},
 			tag: messageResponse.tag,
-			expires: nil, //UPDATE
-			timeStamp: Date.now //UPDATE
+			expires: messageResponse.expires?.utcToCurrent().date,
+			timeStamp: messageResponse.timeStamp.utcToCurrent().date ?? Date.now
 		)
 	}
 	
