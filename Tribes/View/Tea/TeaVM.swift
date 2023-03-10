@@ -135,14 +135,6 @@ extension TeaView {
 					setCurrentDraftOrTeaId(draftId: nil, teaId: tea[nextTeaIndex].id)
 					return
 				}
-				else {
-					if !drafts.isEmpty {
-						//If the next index is invalid and there are drafts, navigate to the first draft
-						setCurrentDraftOrTeaId(draftId: drafts[0].id, teaId: nil)
-						return
-					}
-					return
-				}
 			}
 		}
 		
