@@ -181,19 +181,19 @@ struct TribeMessage: Codable, Identifiable {
 	var id: Tribe.ID { tribeId }
 	
 	var chat: IdentifiedArrayOf<Message> {
-		messages.filter { $0.tag == .chat }
+		IdentifiedArray(uniqueElements: messages.filter { $0.tag == .chat }.sorted(by: { $0.timeStamp < $1.timeStamp }))
 	}
 	
 	var tea: IdentifiedArrayOf<Message> {
-		messages.filter { $0.tag == .tea }
+		IdentifiedArray(uniqueElements: messages.filter { $0.tag == .tea }.sorted(by: { $0.timeStamp < $1.timeStamp }))
 	}
 	
 	var chatDrafts: IdentifiedArrayOf<MessageDraft> {
-		drafts.filter { $0.tag == .chat }
+		IdentifiedArray(uniqueElements: drafts.filter { $0.tag == .chat }.sorted(by: { $0.timeStamp < $1.timeStamp }))
 	}
 	
 	var teaDrafts: IdentifiedArrayOf<MessageDraft> {
-		drafts.filter { $0.tag == .tea }
+		IdentifiedArray(uniqueElements: drafts.filter { $0.tag == .tea }.sorted(by: { $0.timeStamp < $1.timeStamp }))
 	}
 }
 
@@ -209,6 +209,7 @@ struct MessageDraft: Codable, Identifiable {
 	let caption: String?
 	let tag: Message.Tag
 	let tribeId: Tribe.ID
+	let timeStamp: Date
 	var status: Status = .uploading
 }
 
@@ -220,6 +221,7 @@ extension MessageDraft {
 		caption: "This is our happy place. Please don't ruin it",
 		tag: .tea,
 		tribeId: Tribe.noop1.id,
+		timeStamp: Date.now,
 		status: .failedToUpload
 	)
 }

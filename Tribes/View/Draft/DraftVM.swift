@@ -92,7 +92,8 @@ extension DraftView {
 					contextId: nil,
 					caption: caption,
 					tag: .tea,
-					tribeId: directRecipient.id
+					tribeId: directRecipient.id,
+					timeStamp: Date.now
 				)
 				messageClient.postMessage(draft: teaDraft)
 				NotificationCenter.default.post(Notification(name: .toggleCompose))
