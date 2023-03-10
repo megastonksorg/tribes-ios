@@ -46,14 +46,10 @@ struct TeaView: View {
 		}
 		.ignoresSafeArea()
 		.overlay(alignment: .top) {
-			LinearGradient(
-				colors: [.black.opacity(0.8), .clear],
-				startPoint: .top,
-				endPoint: .bottom
-			)
-			.frame(height: 140)
-			.ignoresSafeArea()
-			.blur(radius: 30)
+			Color.black.opacity(0.4)
+				.blur(radius: 40)
+				.frame(height: 140)
+				.ignoresSafeArea()
 		}
 		.background(Color.app.secondary)
 		.overlay {
@@ -161,8 +157,6 @@ struct TeaView: View {
 						.foregroundColor(Color.app.tertiary)
 						.opacity(viewModel.isEmpty ? 0.0 : 1.0)
 				}
-				.dropShadow()
-				.dropShadow()
 				Spacer()
 				XButton {
 					closeButtonAction()
@@ -188,9 +182,13 @@ struct TeaView: View {
 	
 	@ViewBuilder
 	func pillsView() -> some View {
-		HStack(spacing: 2) {
-			ForEach(0..<viewModel.maxPills, id: \.self) { pillIndex in
-				pill(index: pillIndex)
+		ZStack {
+			pill(index: 0)
+				.opacity(0)
+			HStack(spacing: 2) {
+				ForEach(0..<viewModel.maxPills, id: \.self) { pillIndex in
+					pill(index: pillIndex)
+				}
 			}
 		}
 	}
