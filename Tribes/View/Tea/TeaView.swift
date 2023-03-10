@@ -198,6 +198,7 @@ struct TeaView: View {
 			return currentDraft.status == .failedToUpload || Date.now.timeIntervalSince(currentDraft.timeStamp) > 1.0
 		}()
 		VStack {
+			Spacer()
 			Text("Something went wrong")
 				.font(Font.app.subHeader)
 				.foregroundColor(Color.gray)
@@ -208,6 +209,17 @@ struct TeaView: View {
 					Image(systemName: "arrow.counterclockwise.circle.fill")
 				}
 				.font(Font.app.title)
+				.foregroundColor(Color.white)
+				.padding()
+				.dropShadow()
+				.dropShadow()
+			}
+			Spacer()
+			Button(action: { }) {
+				HStack {
+					Image(systemName: "trash.circle.fill")
+				}
+				.font(.system(size: 40))
 				.foregroundColor(Color.white)
 				.padding()
 				.dropShadow()
