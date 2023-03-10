@@ -47,13 +47,13 @@ struct TeaView: View {
 		.ignoresSafeArea()
 		.overlay(alignment: .top) {
 			LinearGradient(
-				colors: [.black.opacity(0.5), .clear],
+				colors: [.black.opacity(0.8), .clear],
 				startPoint: .top,
 				endPoint: .bottom
 			)
 			.frame(height: 140)
 			.ignoresSafeArea()
-			.blur(radius: 20)
+			.blur(radius: 30)
 		}
 		.background(Color.app.secondary)
 		.overlay {
@@ -199,10 +199,12 @@ struct TeaView: View {
 	func pill(index: Int) -> some View {
 		ZStack {
 			Capsule()
-				.fill(Color.app.tertiary.opacity(0.5))
+				.fill(Color.app.tertiary.opacity(0.2))
 			Capsule()
 				.fill(Color.app.tertiary)
 				.opacity(viewModel.currentPill == index ? 1.0 : 0.0)
+				.transition(.opacity)
+				.animation(.easeInOut, value: viewModel.currentPill)
 		}
 		.frame(height: 6)
 	}
