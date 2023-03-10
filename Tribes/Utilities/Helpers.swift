@@ -19,6 +19,8 @@ struct AppConstants {
 	static let addressCopied: String = "Address copied to clipboard"
 	
 	static let composeNotificationDictionaryKey: String = "recipient"
+	
+	static let videoFileType: String = ".mp4"
 }
 
 struct SizeConstants {

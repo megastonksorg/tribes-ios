@@ -44,7 +44,7 @@ final class Recorder {
 	
 	// MARK: - Recording
 	func startVideoRecording(videoSettings: [String : Any]?, fileType: AVFileType) {
-		let fileName = UUID().uuidString + (fileType == .mp4 ? ".mp4" : ".null")
+		let fileName = UUID().uuidString + (fileType == .mp4 ? AppConstants.videoFileType : ".null")
 		let fileUrl = FileManager.default.temporaryDirectory.appending(path: fileName)
 		
 		guard let writer = try? AVAssetWriter(outputURL: fileUrl, fileType: fileType) else { return }
