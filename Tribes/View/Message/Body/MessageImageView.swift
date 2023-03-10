@@ -9,17 +9,14 @@ import SwiftUI
 
 struct MessageImageView: View {
 	let model: MessageBodyModel
-	let uiImage: UIImage?
+	@State var uiImage: UIImage?
+	@State var isLoadingImage: Bool = true
+	
+	//Client
+	let cacheClient: CacheClient = CacheClient.shared
 	
 	init(model: MessageBodyModel) {
 		self.model = model
-		self.uiImage = {
-			if case .image(let imageUrl) = model.message.body?.content {
-				guard let data = try? Data(contentsOf: imageUrl) else { return nil }
-				return UIImage(data: data)
-			}
-			return nil
-		}()
 	}
 	
 	var body: some View {
@@ -27,10 +24,13 @@ struct MessageImageView: View {
 			if model.message.isEncrypted {
 				NoContentView(isEncrypted: true)
 			} else {
-				if let uiImage = self.uiImage {
+				if isLoadingImage {
+					LoadingIndicator(speed: 0.4)
+						.frame(dimension: SizeConstants.loadingIndicatorSize)
+				} else if let uiImage = self.uiImage {
 					Image(uiImage: uiImage)
 						.resizable()
-						.scaledToFill()
+						.scaledToFit()
 						.overlay {
 							if let caption = model.message.body?.caption {
 								Text(caption)
@@ -44,6 +44,27 @@ struct MessageImageView: View {
 			}
 		}
 		.ignoresSafeArea()
+		.task {
+			if uiImage == nil {
+				loadImage()
+			}
+		}
+	}
+	
+	func loadImage() {
+		Task {
+			guard
+				self.uiImage == nil,
+				let cacheKey = Cache.getCacheKey(encryptedContent: model.message.encryptedBody.content),
+				let imageData = await CacheClient.shared.get(key: cacheKey, type: Data.self),
+				let uiImage = UIImage(data: imageData)
+			else {
+				self.isLoadingImage = false
+				return
+			}
+			self.uiImage = uiImage
+			self.isLoadingImage = false
+		}
 	}
 }
 
