@@ -60,6 +60,7 @@ class TribesRepository: TribesRepositoryProtocol {
 							self.tribes = tribes
 						}
 						Task {
+							await MessageClient.shared.refreshMessages()
 							await self.cacheClient.setData(key: .tribes, value: tribes)
 						}
 						promise(.success(tribes))
