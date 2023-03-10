@@ -40,6 +40,14 @@ extension TeaView {
 			drafts.count + tea.count
 		}
 		
+		var currentTeaTimeAgo: String? {
+			guard let currentTeaId = currentTeaId else { return nil }
+			if let currentTea = tea[id: currentTeaId] {
+				return currentTea.timeStamp.timeAgoDisplay()
+			}
+			return nil
+		}
+		
 		//Clients
 		let messageClient: MessageClient = MessageClient.shared
 		

@@ -149,13 +149,14 @@ struct TeaView: View {
 					}
 				}
 				HStack(spacing: 0) {
-					TextView("\(viewModel.tribe.name)", style: .tribeName(16))
-						.multilineTextAlignment(.leading)
-						.lineLimit(2)
-					Text(" • 2hrs ago")
+					Text("\(viewModel.tribe.name) ")
+						.font(Font.app.title3)
+						.foregroundColor(Color.app.tertiary)
+						.lineLimit(1)
+					Text(" • \(viewModel.currentTeaTimeAgo ?? "")")
 						.font(Font.app.body)
 						.foregroundColor(Color.app.tertiary)
-						.opacity(viewModel.isEmpty ? 0.0 : 1.0)
+						.opacity(viewModel.currentTeaTimeAgo == nil ? 0.0 : 1.0)
 				}
 				Spacer()
 				XButton {
