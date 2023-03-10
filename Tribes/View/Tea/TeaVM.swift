@@ -184,7 +184,15 @@ extension TeaView {
 		func retryFailedDraft() {
 			if let failedDraftId = currentDraftId {
 				if let failedDraft = self.drafts[id: failedDraftId] {
-					MessageClient.shared.postMessage(draft: failedDraft)
+					self.messageClient.postMessage(draft: failedDraft)
+				}
+			}
+		}
+		
+		func deleteDraft() {
+			if let draftId = currentDraftId {
+				if let draft = self.drafts[id: draftId] {
+					self.messageClient.deleteDraft(draft)
 				}
 			}
 		}

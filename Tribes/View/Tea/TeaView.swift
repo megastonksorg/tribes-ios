@@ -223,7 +223,7 @@ struct TeaView: View {
 				.dropShadow()
 			}
 			Spacer()
-			Button(action: { }) {
+			Button(action: { viewModel.deleteDraft() }) {
 				HStack {
 					Image(systemName: "trash.circle.fill")
 				}
