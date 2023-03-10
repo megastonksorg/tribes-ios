@@ -41,7 +41,7 @@ extension BannerData {
 		}
 	}
 }
-//Code=-1001
+
 enum BannerType {
 	case info
 	case warning
