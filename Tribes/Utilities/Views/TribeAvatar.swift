@@ -445,12 +445,10 @@ struct TribeAvatar: View {
 			Circle()
 				.fill(Color.app.primary)
 			Circle()
-				.stroke(Color.app.secondary.opacity(0.4), lineWidth: lineWidth)
+				.stroke(Color(uiColor: UIColor(hex: "2D0F09")), lineWidth: lineWidth)
 				.opacity(hasTea ? 1.0 : 0.0)
-				.padding(-lineWidth/2)
 			Circle()
 				.stroke(Color.app.secondary, lineWidth: lineWidth)
-				.padding(-lineWidth/2)
 				.opacity(hasUnreadTea || isUploadingTea ? 1.0 : 0.0)
 				.transition(.opacity)
 			if isUploadingTea {
