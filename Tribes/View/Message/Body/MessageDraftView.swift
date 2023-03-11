@@ -17,18 +17,16 @@ struct MessageDraftView: View {
 		if draft.content.outgoingType == .text {
 			HStack {
 				Spacer()
-				Button(action: {}) {
-					Button(action: { }) {
-						HStack {
-							Text("Retry")
-							Image(systemName: "arrow.counterclockwise.circle.fill")
-						}
-						.font(Font.app.body)
-						.foregroundColor(Color.white)
-						.padding()
-						.dropShadow()
-						.dropShadow()
+				Button(action: { }) {
+					HStack {
+						Text("Retry")
+						Image(systemName: "arrow.counterclockwise.circle.fill")
 					}
+					.font(Font.app.body)
+					.foregroundColor(Color.white)
+					.padding()
+					.dropShadow()
+					.dropShadow()
 				}
 				.opacity(draft.status == .failedToUpload ? 1.0 : 0.0)
 				ContentView(content: draft.content, isPlaying: false)
