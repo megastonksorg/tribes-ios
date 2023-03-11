@@ -40,12 +40,21 @@ extension TeaView {
 			drafts.count + tea.count
 		}
 		
-		var currentTeaTimeAgo: String? {
-			guard let currentTeaId = currentTeaId else { return nil }
-			if let currentTea = tea[id: currentTeaId] {
-				return currentTea.timeStamp.timeAgoDisplay()
-			}
-			return nil
+		var currentTea: Message? {
+			guard
+				let currentTeaId = currentTeaId,
+				let currentTea = tea[id: currentTeaId]
+			else { return nil }
+			return currentTea
+		}
+		
+		var isAuthorOfCurrentTea: Bool {
+			guard
+				let currentTea = currentTea,
+				currentTea.senderId == currentTribeMember.id
+			else { return false }
+			
+			return true
 		}
 		
 		//Clients

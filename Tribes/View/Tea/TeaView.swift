@@ -99,6 +99,7 @@ struct TeaView: View {
 								.padding(4)
 								.padding(.vertical, 10)
 								.rotationEffect(.degrees(-90))
+								.opacity(viewModel.isAuthorOfCurrentTea ? 1.0 : 0.0)
 						}
 						
 						Button(action: {}) {
@@ -155,10 +156,10 @@ struct TeaView: View {
 						.font(Font.app.title3)
 						.foregroundColor(Color.app.tertiary)
 						.lineLimit(1)
-					Text(" • \(viewModel.currentTeaTimeAgo ?? "")")
+					Text(" • \(viewModel.currentTea?.timeStamp.timeAgoDisplay() ?? "")")
 						.font(Font.app.body)
 						.foregroundColor(Color.app.tertiary)
-						.opacity(viewModel.currentTeaTimeAgo == nil ? 0.0 : 1.0)
+						.opacity(viewModel.currentTea == nil ? 0.0 : 1.0)
 				}
 				Spacer()
 				XButton {
