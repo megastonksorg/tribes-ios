@@ -14,19 +14,41 @@ struct MessageDraftView: View {
 	@State var playbackProgress: Float = 0
 	
 	var body: some View {
-		ContentView(content: draft.content, isPlaying: isPlaying)
-			.onPreferenceChange(PlaybackProgressKey.self) {
-				playbackProgress = $0
-			}
-			.ignoresSafeArea()
-			.overlay {
-				if let caption = draft.caption {
-					Text(caption)
-						.styleForCaption()
-						.offset(y: SizeConstants.teaCaptionOffset)
+		if draft.content.outgoingType == .text {
+			HStack {
+				Spacer()
+				Button(action: {}) {
+					Button(action: { }) {
+						HStack {
+							Text("Retry")
+							Image(systemName: "arrow.counterclockwise.circle.fill")
+						}
+						.font(Font.app.body)
+						.foregroundColor(Color.white)
+						.padding()
+						.dropShadow()
+						.dropShadow()
+					}
 				}
+				.opacity(draft.status == .failedToUpload ? 1.0 : 0.0)
+				ContentView(content: draft.content, isPlaying: false)
+					.opacity(0.6)
 			}
-			.preference(key: PlaybackProgressKey.self, value: playbackProgress)
+		} else {
+			ContentView(content: draft.content, isPlaying: isPlaying)
+				.onPreferenceChange(PlaybackProgressKey.self) {
+					playbackProgress = $0
+				}
+				.ignoresSafeArea()
+				.overlay {
+					if let caption = draft.caption {
+						Text(caption)
+							.styleForCaption()
+							.offset(y: SizeConstants.teaCaptionOffset)
+					}
+				}
+				.preference(key: PlaybackProgressKey.self, value: playbackProgress)
+		}
 	}
 }
 
