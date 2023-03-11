@@ -65,30 +65,48 @@ struct TeaView: View {
 				header()
 				Spacer()
 				if !viewModel.tea.isEmpty && viewModel.currentTeaId != nil {
-					ZStack(alignment: .topLeading) {
-						Group {
-							Text("Message ")
-								.foregroundColor(Color.white)
-							+
-							Text(viewModel.tribe.name)
-								.foregroundColor(Color.app.tertiary)
+					HStack {
+						ZStack(alignment: .topLeading) {
+							Group {
+								Text("Message ")
+									.foregroundColor(Color.white)
+								+
+								Text(viewModel.tribe.name)
+									.foregroundColor(Color.app.tertiary)
+							}
+							.lineLimit(2)
+							.opacity(viewModel.canSendText ? 0.0 : 1.0)
+							TextField("", text: $viewModel.text, axis: .vertical)
+								.tint(Color.white)
+								.lineLimit(1...4)
+								.foregroundColor(.white)
+								.focused($focusedField, equals: .text)
 						}
-						.lineLimit(2)
-						.opacity(viewModel.canSendText ? 0.0 : 1.0)
-						TextField("", text: $viewModel.text, axis: .vertical)
-							.tint(Color.white)
-							.lineLimit(1...4)
-							.foregroundColor(.white)
-							.focused($focusedField, equals: .text)
-					}
-					.font(Font.app.body)
-					.multilineTextAlignment(.leading)
-					.padding(.horizontal, 12)
-					.padding(.vertical, 14)
-					.background {
-						RoundedRectangle(cornerRadius: 14)
-							.stroke(Color.white, lineWidth: 1)
-							.transition(.opacity)
+						.font(Font.app.body)
+						.multilineTextAlignment(.leading)
+						.padding(.horizontal, 12)
+						.padding(.vertical, 14)
+						.background {
+							RoundedRectangle(cornerRadius: 14)
+								.stroke(Color.white, lineWidth: 1)
+								.transition(.opacity)
+						}
+						
+						Button(action: {}) {
+							Image(systemName: "ellipsis")
+								.font(Font.app.title)
+								.foregroundColor(Color.white)
+								.padding(4)
+								.padding(.vertical, 10)
+								.rotationEffect(.degrees(-90))
+						}
+						
+						Button(action: {}) {
+							Image(systemName: "eye.circle.fill")
+								.font(.system(size: 30))
+								.foregroundColor(Color.gray.opacity(0.6))
+								.padding(.vertical, 4)
+						}
 					}
 					.dropShadow()
 					.dropShadow()
