@@ -53,64 +53,79 @@ struct ChatView: View {
 				
 				let textFieldBarButtonSize: CGFloat = 40
 				
-				SymmetricHStack(
-					spacing: 4,
-					content: {
-						ZStack(alignment: .topLeading) {
-							Group {
-								Text("Message ")
-									.foregroundColor(Color.gray)
-								+
-								Text(viewModel.tribe.name)
-									.foregroundColor(Color.app.tertiary)
-							}
-							.lineLimit(2)
-							.opacity(viewModel.canSendText ? 0.0 : 1.0)
-							TextField("", text: $viewModel.text, axis: .vertical)
-								.tint(Color.white)
-								.lineLimit(1...4)
-								.foregroundColor(.white)
-								.focused($focusedField, equals: .text)
-						}
-						.font(Font.app.body)
-						.multilineTextAlignment(.leading)
-						.padding(.horizontal, 12)
-						.padding(.vertical, 10)
-						.background {
-							RoundedRectangle(cornerRadius: 14)
-								.stroke(Color.app.tertiary, lineWidth: 1)
-								.opacity(viewModel.canSendText ? 1.0 : 0.0)
-								.transition(.opacity)
-								.animation(.easeInOut, value: viewModel.canSendText)
-						}
-					},
-					leading: {
-						Button(action: {
-							self.focusedField = nil
-						}) {
-							Image(systemName: "camera.fill")
-								.font(Font.app.title2)
-								.foregroundColor(Color.gray.opacity(0.8))
-						}
-						.frame(dimension: textFieldBarButtonSize)
-					},
-					trailing: {
-						Button(
-							action: {
-								if viewModel.canSendText {
-
-								} else {
-									dismissAction()
+				Group {
+					if viewModel.canChat {
+						SymmetricHStack(
+							spacing: 4,
+							content: {
+								ZStack(alignment: .topLeading) {
+									Group {
+										Text("Message ")
+											.foregroundColor(Color.gray)
+										+
+										Text(viewModel.tribe.name)
+											.foregroundColor(Color.app.tertiary)
+									}
+									.lineLimit(2)
+									.opacity(viewModel.canSendText ? 0.0 : 1.0)
+									TextField("", text: $viewModel.text, axis: .vertical)
+										.tint(Color.white)
+										.lineLimit(1...4)
+										.foregroundColor(.white)
+										.focused($focusedField, equals: .text)
 								}
+								.font(Font.app.body)
+								.multilineTextAlignment(.leading)
+								.padding(.horizontal, 12)
+								.padding(.vertical, 10)
+								.background {
+									RoundedRectangle(cornerRadius: 14)
+										.stroke(Color.app.tertiary, lineWidth: 1)
+										.opacity(viewModel.canSendText ? 1.0 : 0.0)
+										.transition(.opacity)
+										.animation(.easeInOut, value: viewModel.canSendText)
+								}
+							},
+							leading: {
+								Button(action: {
+									self.focusedField = nil
+								}) {
+									Image(systemName: "camera.fill")
+										.font(Font.app.title2)
+										.foregroundColor(Color.gray.opacity(0.8))
+								}
+								.frame(dimension: textFieldBarButtonSize)
+							},
+							trailing: {
+								Button(
+									action: {
+										if viewModel.canSendText {
+											
+										} else {
+											dismissAction()
+										}
+									}
+								) {
+									Image(systemName: viewModel.canSendText ? "paperplane.circle.fill" : "xmark.circle.fill")
+										.font(.system(size: 30))
+										.foregroundColor(Color.app.tertiary)
+								}
+								.frame(dimension: textFieldBarButtonSize)
 							}
-						) {
-							Image(systemName: viewModel.canSendText ? "paperplane.circle.fill" : "xmark.circle.fill")
-								.font(.system(size: 30))
+						)
+					} else {
+						Group {
+							Text("Invite members to ")
+								.foregroundColor(Color.gray)
+							+
+							Text(viewModel.tribe.name)
 								.foregroundColor(Color.app.tertiary)
+							+
+							Text(" to chat")
+								.foregroundColor(Color.gray)
 						}
-						.frame(dimension: textFieldBarButtonSize)
 					}
-				)
+				}
 				.padding(.horizontal)
 				.padding(.top, 4)
 			}
@@ -204,7 +219,7 @@ struct ChatView: View {
 struct ChatView_Previews: PreviewProvider {
 	static var previews: some View {
 		VStack {
-			ChatView(viewModel: .init(tribe: Tribe.noop2), dismissAction: {})
+			ChatView(viewModel: .init(tribe: Tribe.noop1), dismissAction: {})
 		}
 	}
 }

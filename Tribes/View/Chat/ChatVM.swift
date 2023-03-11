@@ -19,6 +19,10 @@ extension ChatView {
 		let currentTribeMember: TribeMember
 		private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 		
+		var canChat: Bool {
+			tribe.members.others.count > 0
+		}
+		
 		var canSendText: Bool {
 			!text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
 		}
