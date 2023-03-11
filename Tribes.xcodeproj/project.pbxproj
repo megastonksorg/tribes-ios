@@ -160,7 +160,6 @@
 		D0D266B5296B542500A94183 /* View+OnBecomingVisible.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D266B4296B542500A94183 /* View+OnBecomingVisible.swift */; };
 		D0D6811929B967A9000C1EF0 /* MessageDraftView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D6811829B967A9000C1EF0 /* MessageDraftView.swift */; };
 		D0E65EE029BB8DF200763656 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E65EDF29BB8DF200763656 /* Date+Extensions.swift */; };
-		D0E65EE229BCFDFE00763656 /* TribesRepositoryListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E65EE129BCFDFE00763656 /* TribesRepositoryListener.swift */; };
 		D0E8519A2968EBF70034AFD1 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = D0E851992968EBF70034AFD1 /* Introspect */; };
 		D0E8519C296CA3C10034AFD1 /* TribeAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E8519B296CA3C10034AFD1 /* TribeAvatar.swift */; };
 		D0E8519E296CC0690034AFD1 /* TribeMember.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E8519D296CC0690034AFD1 /* TribeMember.swift */; };
@@ -321,7 +320,6 @@
 		D0D266B4296B542500A94183 /* View+OnBecomingVisible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+OnBecomingVisible.swift"; sourceTree = "<group>"; };
 		D0D6811829B967A9000C1EF0 /* MessageDraftView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageDraftView.swift; sourceTree = "<group>"; };
 		D0E65EDF29BB8DF200763656 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
-		D0E65EE129BCFDFE00763656 /* TribesRepositoryListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TribesRepositoryListener.swift; sourceTree = "<group>"; };
 		D0E8519B296CA3C10034AFD1 /* TribeAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TribeAvatar.swift; sourceTree = "<group>"; };
 		D0E8519D296CC0690034AFD1 /* TribeMember.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TribeMember.swift; sourceTree = "<group>"; };
 		D0E9F7FB298DD20F00A0400A /* CacheClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheClient.swift; sourceTree = "<group>"; };
@@ -767,7 +765,6 @@
 			isa = PBXGroup;
 			children = (
 				D076636C2995313100946F7B /* TribesRepository.swift */,
-				D0E65EE129BCFDFE00763656 /* TribesRepositoryListener.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -1056,7 +1053,6 @@
 				D0D266AF296AAC4E00A94183 /* EdgeInsets+Extensions.swift in Sources */,
 				D030D2CD295745E90011128F /* Helpers.swift in Sources */,
 				D0BC8EDF29B6D10800C19BBE /* MessageImageView.swift in Sources */,
-				D0E65EE229BCFDFE00763656 /* TribesRepositoryListener.swift in Sources */,
 				D030D2E2295745E90011128F /* AppBackgroundView.swift in Sources */,
 				D0D266B5296B542500A94183 /* View+OnBecomingVisible.swift in Sources */,
 				D0D2669C296010D600A94183 /* TeaVM.swift in Sources */,

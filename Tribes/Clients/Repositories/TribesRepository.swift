@@ -9,17 +9,11 @@ import Combine
 import Foundation
 import IdentifiedCollections
 
-protocol TribesRepositoryDelegate: AnyObject {
-	/// Fires when the tribes are updated
-	func tribesUpdated(_ tribes: IdentifiedArrayOf<Tribe>)
-}
-
 protocol TribesRepositoryProtocol {
 	func getTribes() -> IdentifiedArrayOf<Tribe>
 }
 
 final class TribesRepository: TribesRepositoryProtocol {
-	weak var delegate: TribesRepositoryDelegate?
 	
 	static let shared: TribesRepository = TribesRepository()
 	
@@ -65,7 +59,6 @@ final class TribesRepository: TribesRepositoryProtocol {
 						let tribes = IdentifiedArray(uniqueElements: tribes)
 						self.queue.sync {
 							self.tribes = tribes
-							self.delegate?.tribesUpdated(tribes)
 						}
 						Task {
 							await self.cacheClient.setData(key: .tribes, value: tribes)
