@@ -11,7 +11,7 @@ import IdentifiedCollections
 
 protocol TribesRepositoryDelegate: AnyObject {
 	/// Fires when the tribes are updated
-	func tribesUpdated(tribes: IdentifiedArrayOf<Tribe>)
+	func tribesUpdated(_ tribes: IdentifiedArrayOf<Tribe>)
 }
 
 protocol TribesRepositoryProtocol {
@@ -65,7 +65,7 @@ final class TribesRepository: TribesRepositoryProtocol {
 						let tribes = IdentifiedArray(uniqueElements: tribes)
 						self.queue.sync {
 							self.tribes = tribes
-							self.delegate?.tribesUpdated(tribes: tribes)
+							self.delegate?.tribesUpdated(tribes)
 						}
 						Task {
 							await self.cacheClient.setData(key: .tribes, value: tribes)
