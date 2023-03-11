@@ -9,11 +9,18 @@ import Combine
 import Foundation
 import IdentifiedCollections
 
+protocol TribesRepositoryDelegate: AnyObject {
+	/// Fires when the tribes are updated
+	func tribesUpdated(tribes: IdentifiedArrayOf<Tribe>)
+}
+
 protocol TribesRepositoryProtocol {
 	func getTribes() -> IdentifiedArrayOf<Tribe>
 }
 
-class TribesRepository: TribesRepositoryProtocol {
+final class TribesRepository: TribesRepositoryProtocol {
+	weak var delegate: TribesRepositoryDelegate?
+	
 	static let shared: TribesRepository = TribesRepository()
 	
 	private let queue = DispatchQueue(label: "com.strikingFinancial.tribes.tribesRepository.sessionQueue", target: .global())
@@ -58,6 +65,7 @@ class TribesRepository: TribesRepositoryProtocol {
 						let tribes = IdentifiedArray(uniqueElements: tribes)
 						self.queue.sync {
 							self.tribes = tribes
+							self.delegate?.tribesUpdated(tribes: tribes)
 						}
 						Task {
 							await self.cacheClient.setData(key: .tribes, value: tribes)
