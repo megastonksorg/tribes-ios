@@ -38,6 +38,10 @@ struct TribeAvatar: View {
 		tribe.members.count <= 10
 	}
 	
+	var hasTea: Bool {
+		!(messageClient.tribesMessages[id: tribe.id]?.tea.isEmpty ?? true)
+	}
+	
 	var isUploadingTea: Bool {
 		!(messageClient.tribesMessages[id: tribe.id]?.teaDrafts.isEmpty ?? true)
 	}
@@ -441,7 +445,12 @@ struct TribeAvatar: View {
 			Circle()
 				.fill(Color.app.primary)
 			Circle()
+				.stroke(Color.app.secondary.opacity(0.4), lineWidth: lineWidth)
+				.opacity(hasTea ? 1.0 : 0.0)
+				.padding(-lineWidth/2)
+			Circle()
 				.stroke(Color.app.secondary, lineWidth: lineWidth)
+				.padding(-lineWidth/2)
 				.opacity(hasUnreadTea || isUploadingTea ? 1.0 : 0.0)
 				.transition(.opacity)
 			if isUploadingTea {
