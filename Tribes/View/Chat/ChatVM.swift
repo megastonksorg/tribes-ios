@@ -28,6 +28,7 @@ extension ChatView {
 		}
 		
 		@Published var tribe: Tribe
+		@Published var drafts: IdentifiedArrayOf<MessageDraft>
 		@Published var messages: IdentifiedArrayOf<Message>
 		@Published var isShowingMember: Bool = false
 		@Published var memberToShow: TribeMember?
@@ -37,9 +38,11 @@ extension ChatView {
 		let messageClient: MessageClient = MessageClient.shared
 		
 		init(tribe: Tribe) {
+			let tribeMessage: TribeMessage? = messageClient.tribesMessages[id: tribe.id]
 			self.currentTribeMember = tribe.members.currentMember ?? TribeMember.dummyTribeMember
 			self.tribe = tribe
-			self.messages = messageClient.tribesMessages[id: tribe.id]?.chat ?? []
+			self.drafts = tribeMessage?.chatDrafts ?? []
+			self.messages = tribeMessage?.chat ?? []
 			NotificationCenter
 				.default.addObserver(
 					self,

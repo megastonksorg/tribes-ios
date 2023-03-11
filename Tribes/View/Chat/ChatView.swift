@@ -38,6 +38,10 @@ struct ChatView: View {
 								)
 								.id(message.id)
 							}
+							ForEach(viewModel.drafts) { draft in
+								MessageDraftView(draft: draft, isPlaying: false)
+									.id(draft.id)
+							}
 						}
 						.padding(.horizontal, 10)
 						.onChange(of: focusedField) {
