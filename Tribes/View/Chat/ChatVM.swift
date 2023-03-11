@@ -53,6 +53,21 @@ extension ChatView {
 			self.tribe = tribe
 			self.drafts = tribeMessage?.chatDrafts ?? []
 			self.messages = tribeMessage?.chat ?? []
+			
+			self.messageClient.$tribesMessages
+				.sink(receiveValue: { tribeMessages in
+					guard let messages = tribeMessages[id: tribe.id] else { return }
+					self.drafts.forEach { draft in
+						if let updatedDraft = messages.chatDrafts[id: draft.id] {
+							self.drafts[id: draft.id] = updatedDraft
+						} else {
+							self.drafts.remove(id: draft.id)
+						}
+					}
+					self.messages = messages.chat
+				})
+				.store(in: &cancellables)
+			
 			NotificationCenter
 				.default.addObserver(
 					self,

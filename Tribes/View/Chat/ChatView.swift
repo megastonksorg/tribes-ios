@@ -127,7 +127,7 @@ struct ChatView: View {
 						Button(
 							action: {
 								if viewModel.canSendText {
-									
+									viewModel.sendMessage()
 								} else {
 									dismissAction()
 								}
