@@ -51,81 +51,82 @@ struct ChatView: View {
 					.scrollDismissesKeyboard(.interactively)
 				}
 				
-				let textFieldBarButtonSize: CGFloat = 40
-				
-				Group {
-					if viewModel.canChat {
-						SymmetricHStack(
-							spacing: 4,
-							content: {
-								ZStack(alignment: .topLeading) {
-									Group {
-										Text("Message ")
-											.foregroundColor(Color.gray)
-										+
-										Text(viewModel.tribe.name)
-											.foregroundColor(Color.app.tertiary)
-									}
-									.lineLimit(2)
-									.opacity(viewModel.canSendText ? 0.0 : 1.0)
-									TextField("", text: $viewModel.text, axis: .vertical)
-										.tint(Color.white)
-										.lineLimit(1...4)
-										.foregroundColor(.white)
-										.focused($focusedField, equals: .text)
-								}
-								.font(Font.app.body)
-								.multilineTextAlignment(.leading)
-								.padding(.horizontal, 12)
-								.padding(.vertical, 10)
-								.background {
-									RoundedRectangle(cornerRadius: 14)
-										.stroke(Color.app.tertiary, lineWidth: 1)
-										.opacity(viewModel.canSendText ? 1.0 : 0.0)
-										.transition(.opacity)
-										.animation(.easeInOut, value: viewModel.canSendText)
-								}
-							},
-							leading: {
-								Button(action: {
-									self.focusedField = nil
-								}) {
-									Image(systemName: "camera.fill")
-										.font(Font.app.title2)
-										.foregroundColor(Color.gray.opacity(0.8))
-								}
-								.frame(dimension: textFieldBarButtonSize)
-							},
-							trailing: {
-								Button(
-									action: {
-										if viewModel.canSendText {
-											
-										} else {
-											dismissAction()
-										}
-									}
-								) {
-									Image(systemName: viewModel.canSendText ? "paperplane.circle.fill" : "xmark.circle.fill")
-										.font(.system(size: 30))
-										.foregroundColor(Color.app.tertiary)
-								}
-								.frame(dimension: textFieldBarButtonSize)
-							}
-						)
-					} else {
-						Group {
-							Text("Invite members to ")
-								.foregroundColor(Color.gray)
-							+
-							Text(viewModel.tribe.name)
-								.foregroundColor(Color.app.tertiary)
-							+
-							Text(" to chat")
-								.foregroundColor(Color.gray)
-						}
+				if !viewModel.canChat {
+					Group {
+						Text("Invite members to ")
+							.foregroundColor(Color.gray)
+						+
+						Text(viewModel.tribe.name)
+							.foregroundColor(Color.app.tertiary)
+						+
+						Text(" to chat")
+							.foregroundColor(Color.gray)
 					}
 				}
+				
+				let textFieldBarButtonSize: CGFloat = 40
+				SymmetricHStack(
+					spacing: 4,
+					content: {
+						ZStack(alignment: .topLeading) {
+							Group {
+								Text("Message ")
+									.foregroundColor(Color.gray)
+								+
+								Text(viewModel.tribe.name)
+									.foregroundColor(Color.app.tertiary)
+							}
+							.lineLimit(2)
+							.opacity(viewModel.canSendText ? 0.0 : 1.0)
+							TextField("", text: $viewModel.text, axis: .vertical)
+								.tint(Color.white)
+								.lineLimit(1...4)
+								.foregroundColor(.white)
+								.focused($focusedField, equals: .text)
+						}
+						.font(Font.app.body)
+						.multilineTextAlignment(.leading)
+						.padding(.horizontal, 12)
+						.padding(.vertical, 10)
+						.background {
+							RoundedRectangle(cornerRadius: 14)
+								.stroke(Color.app.tertiary, lineWidth: 1)
+								.opacity(viewModel.canSendText ? 1.0 : 0.0)
+								.transition(.opacity)
+								.animation(.easeInOut, value: viewModel.canSendText)
+						}
+						.opacity(viewModel.canChat ? 1.0 : 0.5)
+						.disabled(!viewModel.canChat)
+					},
+					leading: {
+						Button(action: {
+							self.focusedField = nil
+						}) {
+							Image(systemName: "camera.fill")
+								.font(Font.app.title2)
+								.foregroundColor(Color.gray.opacity(0.8))
+						}
+						.frame(dimension: textFieldBarButtonSize)
+						.opacity(viewModel.canChat ? 1.0 : 0.5)
+						.disabled(!viewModel.canChat)
+					},
+					trailing: {
+						Button(
+							action: {
+								if viewModel.canSendText {
+									
+								} else {
+									dismissAction()
+								}
+							}
+						) {
+							Image(systemName: viewModel.canSendText ? "paperplane.circle.fill" : "xmark.circle.fill")
+								.font(.system(size: 30))
+								.foregroundColor(Color.app.tertiary)
+						}
+						.frame(dimension: textFieldBarButtonSize)
+					}
+				)
 				.padding(.horizontal)
 				.padding(.top, 4)
 			}
