@@ -32,6 +32,6 @@ struct MessageDraftView: View {
 
 struct MessageDraftView_Previews: PreviewProvider {
 	static var previews: some View {
-		MessageDraftView(draft: MessageDraft.noop1, isPlaying: false)
+		MessageDraftView(draft: MessageDraft.noop2, isPlaying: false)
 	}
 }

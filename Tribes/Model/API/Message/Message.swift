@@ -224,4 +224,15 @@ extension MessageDraft {
 		timeStamp: Date.now,
 		status: .failedToUpload
 	)
+	
+	static let noop2: MessageDraft = MessageDraft(
+		id: UUID(),
+		content: .text("Hey there, what is going on"),
+		contextId: nil,
+		caption: nil,
+		tag: .chat,
+		tribeId: Tribe.noop1.id,
+		timeStamp: Date.now,
+		status: .uploading
+	)
 }
