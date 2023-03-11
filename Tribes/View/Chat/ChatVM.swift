@@ -57,13 +57,7 @@ extension ChatView {
 			self.messageClient.$tribesMessages
 				.sink(receiveValue: { tribeMessages in
 					guard let messages = tribeMessages[id: tribe.id] else { return }
-					self.drafts.forEach { draft in
-						if let updatedDraft = messages.chatDrafts[id: draft.id] {
-							self.drafts[id: draft.id] = updatedDraft
-						} else {
-							self.drafts.remove(id: draft.id)
-						}
-					}
+					self.drafts = messages.chatDrafts
 					self.messages.forEach { message in
 						if let updatedMessage = messages.chat[id: message.id] {
 							self.messages[id: message.id] = updatedMessage
