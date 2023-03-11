@@ -10,31 +10,40 @@ import SwiftUI
 struct ContentView: View {
 	let content: Message.Body.Content
 	let isPlaying: Bool
+	
+	@State var playbackProgress: Float = 0
+	
 	var body: some View {
-		switch content {
-		case .text(let textString):
-			Text(textString)
-		case .image(let url):
-			CachedImage(
-				url: url,
-				content: { uiImage in
-					imageView(uiImage: uiImage)
-				}, placeHolder: {
-					RoundedRectangle(cornerRadius: SizeConstants.imageCornerRadius)
-						.fill(Color.gray.opacity(0.2))
-						.overlay(
-							LoadingIndicator(speed: 0.4)
-								.frame(dimension: SizeConstants.loadingIndicatorSize)
-						)
-				}
-			)
-		case .imageData(let imageData):
-			imageView(uiImage: UIImage(data: imageData) ?? UIImage())
-		case .video(let url):
-			VideoPlayerView(url: url, isPlaying: isPlaying)
-		case .systemEvent(let eventString):
-			Text(eventString)
+		Group {
+			switch content {
+			case .text(let textString):
+				Text(textString)
+			case .image(let url):
+				CachedImage(
+					url: url,
+					content: { uiImage in
+						imageView(uiImage: uiImage)
+					}, placeHolder: {
+						RoundedRectangle(cornerRadius: SizeConstants.imageCornerRadius)
+							.fill(Color.gray.opacity(0.2))
+							.overlay(
+								LoadingIndicator(speed: 0.4)
+									.frame(dimension: SizeConstants.loadingIndicatorSize)
+							)
+					}
+				)
+			case .imageData(let imageData):
+				imageView(uiImage: UIImage(data: imageData) ?? UIImage())
+			case .video(let url):
+				VideoPlayerView(url: url, isPlaying: isPlaying)
+					.onPreferenceChange(PlaybackProgressKey.self) {
+						self.playbackProgress = $0
+					}
+			case .systemEvent(let eventString):
+				Text(eventString)
+			}
 		}
+		.preference(key: PlaybackProgressKey.self, value: playbackProgress)
 	}
 	
 	@ViewBuilder

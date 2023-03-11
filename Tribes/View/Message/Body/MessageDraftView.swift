@@ -10,8 +10,14 @@ import SwiftUI
 struct MessageDraftView: View {
 	let draft: MessageDraft
 	let isPlaying: Bool
+	
+	@State var playbackProgress: Float = 0
+	
 	var body: some View {
 		ContentView(content: draft.content, isPlaying: isPlaying)
+			.onPreferenceChange(PlaybackProgressKey.self) {
+				playbackProgress = $0
+			}
 			.ignoresSafeArea()
 			.overlay {
 				if let caption = draft.caption {
@@ -20,6 +26,7 @@ struct MessageDraftView: View {
 						.offset(y: SizeConstants.teaCaptionOffset)
 				}
 			}
+			.preference(key: PlaybackProgressKey.self, value: playbackProgress)
 	}
 }
 

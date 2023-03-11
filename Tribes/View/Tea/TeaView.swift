@@ -30,6 +30,9 @@ struct TeaView: View {
 			ZStack {
 				ForEach(viewModel.drafts) { draft in
 					MessageDraftView(draft: draft, isPlaying: draft.id == viewModel.currentDraftId)
+						.onPreferenceChange(PlaybackProgressKey.self) {
+							self.currentPlaybackProgress = $0
+						}
 						.opacity(draft.id == viewModel.currentDraftId ? 1.0 : 0.0)
 				}
 				ForEach(viewModel.tea) { tea in
