@@ -15,8 +15,6 @@ extension ChatView {
 			case text
 		}
 		
-		var tribesRepositoryListener: TribesRepositoryListener = TribesRepositoryListener()
-		
 		private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 		
 		var canSendText: Bool {
@@ -30,11 +28,13 @@ extension ChatView {
 		
 		init(tribe: Tribe) {
 			self.tribe = tribe
-			tribesRepositoryListener.repositoryUpdated = { tribes in
-				if let tribe = tribes[id: tribe.id] {
-					self.tribe = tribe
-				}
-			}
+			NotificationCenter
+				.default.addObserver(
+					self,
+					selector: #selector(updateTribe),
+					name: .tribesUpdated,
+					object: nil
+				)
 		}
 		
 		func showTribeMemberCard(_ member: TribeMember) {
@@ -49,6 +49,14 @@ extension ChatView {
 				self.isShowingMember = false
 			}
 			self.memberToShow = nil
+		}
+		
+		@objc func updateTribe() {
+			DispatchQueue.main.async {
+				if let tribe = TribesRepository.shared.getTribe(tribeId: self.tribe.id) {
+					self.tribe = tribe
+				}
+			}
 		}
 	}
 }
