@@ -29,6 +29,7 @@ extension TribesView {
 		@Published var editTribeNameText: String?
 		@Published var user: User
 		@Published var currentTeaTribe: Tribe?
+		@Published var currentChatTribe: Tribe?
 		
 		@Published var isShowingAccountView: Bool = false
 		@Published var isShowingChatView: Bool = false
@@ -81,6 +82,7 @@ extension TribesView {
 		
 		func dismissChatView() {
 			self.isShowingChatView = false
+			self.currentChatTribe = nil
 		}
 		
 		func toggleAccountView() {
@@ -187,6 +189,7 @@ extension TribesView {
 		}
 		
 		func tribeSecondaryActionTapped(_ tribe: Tribe) {
+			self.currentChatTribe = tribe
 			self.isShowingChatView = true
 		}
 		
