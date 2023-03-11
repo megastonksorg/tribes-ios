@@ -67,7 +67,7 @@ import IdentifiedCollections
 						//Remove Stale messages in tribesMessages
 						let staleMessageIds: Set<String> = Set(self.tribesMessages[id: tribe.id]?.messages.ids.elements ?? []).subtracting(Set(messagesResponse.map { $0.id }))
 						staleMessageIds.forEach { staleId in
-							self.tribesMessages.remove(id: staleId)
+							self.tribesMessages[id: tribe.id]?.messages.remove(id: staleId)
 						}
 						
 						Task {
