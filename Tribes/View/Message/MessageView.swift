@@ -14,6 +14,8 @@ struct MessageView: View {
 	let message: Message
 	let isPlaying: Bool
 	
+	@State var playbackProgress: Float = 0
+	
 	init(currentTribeMember: TribeMember, message: Message, tribe: Tribe, isPlaying: Bool) {
 		let sender: TribeMember? = tribe.members[id: message.senderId]
 		self.currentTribeMember = currentTribeMember
@@ -44,6 +46,9 @@ struct MessageView: View {
 				MessageImageView(model: bodyModel)
 			case .video:
 				MessageVideoView(model: bodyModel, isPlaying: isPlaying)
+					.onPreferenceChange(PlaybackProgressKey.self) {
+						self.playbackProgress = $0
+					}
 			case .systemEvent(let text):
 				TextView(text, style: .callout)
 			case .imageData:

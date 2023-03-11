@@ -80,7 +80,7 @@ struct VideoPlayerView_Previews: PreviewProvider {
 	}
 }
 
-fileprivate struct PlaybackProgressKey: PreferenceKey {
+struct PlaybackProgressKey: PreferenceKey {
 	static var defaultValue: Float = 0
 	static func reduce(value: inout Float, nextValue: () -> Float) { value = nextValue() }
 }

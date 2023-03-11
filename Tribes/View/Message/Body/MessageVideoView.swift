@@ -14,6 +14,8 @@ struct MessageVideoView: View {
 	@State var url: URL? //The local Url of the video to play
 	@State var isLoadingVideo: Bool = true
 	
+	@State var playbackProgress: Float = 0
+	
 	//Clients
 	let cacheClient: CacheClient = CacheClient.shared
 	
@@ -27,6 +29,9 @@ struct MessageVideoView: View {
 						.frame(dimension: SizeConstants.loadingIndicatorSize)
 				} else if let url = self.url {
 					VideoPlayerView(url: url, isPlaying: isPlaying)
+						.onPreferenceChange(PlaybackProgressKey.self) {
+							playbackProgress = $0
+						}
 						.overlay {
 							if let caption = model.message.body?.caption {
 								Text(caption)
@@ -45,6 +50,7 @@ struct MessageVideoView: View {
 				loadVideo()
 			}
 		}
+		.preference(key: PlaybackProgressKey.self, value: playbackProgress)
 	}
 	
 	func loadVideo() {
