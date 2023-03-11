@@ -27,6 +27,15 @@ extension ChatView {
 			!text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
 		}
 		
+		var lastDraftId: MessageDraft.ID? {
+			drafts.last?.id
+		}
+		
+		var lastMessageId: Message.ID? {
+			messages.last?.id
+		}
+		
+		
 		@Published var tribe: Tribe
 		@Published var drafts: IdentifiedArrayOf<MessageDraft>
 		@Published var messages: IdentifiedArrayOf<Message>

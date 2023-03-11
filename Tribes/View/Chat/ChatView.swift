@@ -9,6 +9,7 @@ import IdentifiedCollections
 import SwiftUI
 
 struct ChatView: View {
+	let scrollAnimation: Animation = Animation.easeIn
 	var dismissAction: () -> Void
 	var screenHeight: CGFloat = UIScreen.main.bounds.maxY
 	var screenWidth: CGFloat = UIScreen.main.bounds.maxX
@@ -44,10 +45,18 @@ struct ChatView: View {
 							}
 						}
 						.padding(.horizontal, 10)
-						.onChange(of: focusedField) {
-							if $0 == .text {
-								withAnimation(.easeIn) {
-									readerProxy.scrollTo(99, anchor: .top)
+						.onChange(of: focusedField) { focusField in
+							if focusField == .text {
+								if let lastDraftId = viewModel.lastDraftId {
+									withAnimation(scrollAnimation) {
+										readerProxy.scrollTo(lastDraftId, anchor: .top)
+									}
+									return
+								}
+								if let lastMessageId = viewModel.lastMessageId {
+									withAnimation(scrollAnimation) {
+										readerProxy.scrollTo(lastMessageId, anchor: .top)
+									}
 								}
 							}
 						}
