@@ -7,6 +7,7 @@
 
 import Combine
 import Foundation
+import IdentifiedCollections
 import SwiftUI
 
 extension ChatView {
@@ -22,12 +23,17 @@ extension ChatView {
 		}
 		
 		@Published var tribe: Tribe
+		@Published var messages: IdentifiedArrayOf<Message>
 		@Published var isShowingMember: Bool = false
 		@Published var memberToShow: TribeMember?
 		@Published var text: String = ""
 		
+		//Clients
+		let messageClient: MessageClient = MessageClient.shared
+		
 		init(tribe: Tribe) {
 			self.tribe = tribe
+			self.messages = messageClient.tribesMessages[id: tribe.id]?.chat ?? []
 			NotificationCenter
 				.default.addObserver(
 					self,
