@@ -57,6 +57,16 @@ extension TeaView {
 			return true
 		}
 		
+		var currentContentType: Message.Body.Content.`Type`? {
+			if let currentTea = currentTea {
+				return currentTea.encryptedBody.content.outgoingType
+			}
+			if let currentDraftId = currentDraftId {
+				return drafts[id: currentDraftId]?.content.outgoingType
+			}
+			return nil
+		}
+		
 		//Clients
 		let messageClient: MessageClient = MessageClient.shared
 		
