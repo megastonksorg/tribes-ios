@@ -91,9 +91,13 @@ extension TeaView {
 							self.setCurrentDraftOrTeaId(drafts: self.drafts, tea: self.tea)
 						}
 					}
-					messages.tea.forEach { teaMessage in
-						if self.tea[id: teaMessage.id] != nil {
-							self.tea[id: teaMessage.id] = teaMessage
+					
+					self.tea.forEach { tea in
+						if let updatedTea = messages.tea[id: tea.id] {
+							self.tea[id: tea.id] = updatedTea
+						} else {
+							self.tea.remove(id: tea.id)
+							self.setCurrentDraftOrTeaId(drafts: self.drafts, tea: self.tea)
 						}
 					}
 				})
@@ -109,6 +113,7 @@ extension TeaView {
 				guard let firstTeaId = tea.first?.id else { return }
 				setCurrentDraftOrTeaId(draftId: nil, teaId: firstTeaId)
 			}
+			self.currentPill = 0
 		}
 		
 		func setCurrentDraftOrTeaId(draftId: MessageDraft.ID?, teaId: Message.ID?) {
