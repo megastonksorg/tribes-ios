@@ -64,7 +64,13 @@ extension ChatView {
 							self.drafts.remove(id: draft.id)
 						}
 					}
-					self.messages = messages.chat
+					self.messages.forEach { message in
+						if let updatedMessage = messages.chat[id: message.id] {
+							self.messages[id: message.id] = updatedMessage
+						} else {
+							self.messages.updateOrAppend(message)
+						}
+					}
 				})
 				.store(in: &cancellables)
 			
