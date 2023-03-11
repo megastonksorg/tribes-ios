@@ -233,6 +233,7 @@ struct TeaView: View {
 				.offset(x: -currentPillOffset)
 				.clipShape(Capsule())
 		}
+		.id(self.currentPlaybackProgress)
 		.frame(height: 6)
 		.readSize { self.pillWidth = $0.width }
 	}
