@@ -17,6 +17,9 @@ struct TeaView: View {
 	
 	@ObservedObject var keyboardClient: KeyboardClient = KeyboardClient.shared
 	
+	@State var currentPlaybackProgress: Float = 0
+	@State var pillWidth: CGFloat = 0
+	
 	init(viewModel: TeaView.ViewModel, closeButtonAction: @escaping () -> ()) {
 		self.closeButtonAction = closeButtonAction
 		self._viewModel = StateObject(wrappedValue: viewModel)
@@ -36,6 +39,9 @@ struct TeaView: View {
 						tribe: viewModel.tribe,
 						isPlaying: tea.id == viewModel.currentTeaId
 					)
+					.onPreferenceChange(PlaybackProgressKey.self) {
+						self.currentPlaybackProgress = $0
+					}
 					.id(tea.body)
 					.opacity(tea.id == viewModel.currentTeaId ? 1.0 : 0.0)
 				}
@@ -213,15 +219,19 @@ struct TeaView: View {
 	@ViewBuilder
 	func pill(index: Int) -> some View {
 		ZStack {
+			let currentPillOffset: CGFloat =  self.pillWidth * CGFloat(1.0 - self.currentPlaybackProgress)
 			Capsule()
 				.fill(Color.app.tertiary.opacity(0.2))
 			Capsule()
 				.fill(Color.app.tertiary)
-				.opacity(viewModel.currentPill == index ? 1.0 : 0.0)
 				.transition(.opacity)
-				.animation(.easeInOut, value: viewModel.currentPill)
+				.opacity(viewModel.currentPill == index ? 1.0 : 0.0)
+				.animation(.linear, value: self.currentPlaybackProgress)
+				.offset(x: -currentPillOffset)
+				.clipShape(Capsule())
 		}
 		.frame(height: 6)
+		.readSize { self.pillWidth = $0.width }
 	}
 	
 	@ViewBuilder
