@@ -196,15 +196,12 @@ struct ChatView: View {
 				.opacity(self.isShowingMemberImage ? 1.0 : 0.0)
 				.transition(.opacity)
 			Spacer()
-			Group {
-				Text(viewModel.tribe.name)
-					.foregroundColor(Color.app.tertiary)
-				+
-				Text(" member since \(member.joined)")
+			if let tenure = member.joined.utcToCurrent().date?.timeAgoDisplay() {
+				Text("Joined \(tenure)")
+					.font(Font.app.footnote)
+					.foregroundColor(Color.gray)
+					.padding(.bottom)
 			}
-			.font(Font.app.footnote)
-			.foregroundColor(Color.gray)
-			.padding(.bottom)
 			Button(action: {}) {
 				Text("Remove")
 					.font(Font.app.title3)
