@@ -87,37 +87,7 @@ struct MessageTextView: View {
 	
 	@ViewBuilder
 	func textView(text: String, isEncrypted: Bool) -> some View {
-		let corners: UIRectCorner = {
-			switch model.style {
-			case .incoming: return [.topRight, .bottomLeft, .bottomRight]
-			case .outgoing: return [.topLeft, .topRight, .bottomLeft]
-			}
-		}()
-		
-		let color: Color = {
-			switch model.style {
-			case .incoming: return Color.app.secondary
-			case .outgoing: return Color.app.tertiary
-			}
-		}()
-		
-		let foregroundColor: Color = {
-			switch model.style {
-			case .incoming: return Color.white
-			case .outgoing: return Color.black
-			}
-		}()
-		
-		Text(text)
-			.font(Font.app.subTitle)
-			.foregroundColor(foregroundColor)
-			.padding(10)
-			.padding(.leading, 6)
-			.blur(radius: isEncrypted ? 4.0 : 0.0)
-			.background(
-				CustomRoundedRectangle(cornerRadius: 30, corners: corners)
-					.fill(color)
-			)
+		TextContentView(content: text, style: model.style, isEncrypted: isEncrypted)
 	}
 }
 
