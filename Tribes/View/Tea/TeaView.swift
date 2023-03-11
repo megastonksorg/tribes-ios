@@ -109,11 +109,11 @@ struct TeaView: View {
 						}, label: {
 							Image(systemName: "ellipsis")
 								.font(Font.app.title)
-								.foregroundColor(Color.white)
 								.padding(4)
 								.padding(.vertical, 10)
 								.rotationEffect(.degrees(-90))
 						})
+						.foregroundColor(Color.white)
 						.opacity(viewModel.isAuthorOfCurrentTea ? 1.0 : 0.0)
 						
 						Button(action: {}) {
