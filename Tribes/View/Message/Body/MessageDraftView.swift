@@ -16,19 +16,31 @@ struct MessageDraftView: View {
 	var body: some View {
 		if draft.content.outgoingType == .text {
 			HStack {
+				let isShowingRetryButton: Bool = {
+					return draft.status == .failedToUpload ||
+					Date.now.timeIntervalSince(draft.timeStamp) > SizeConstants.draftRetryDelay
+				}()
 				Spacer()
-				Button(action: { }) {
-					HStack {
-						Text("Retry")
-						Image(systemName: "arrow.counterclockwise.circle.fill")
+				Group {
+					Button(action: { }) {
+						Image(systemName: "trash.circle.fill")
+							.padding()
+							.dropShadow()
+							.dropShadow()
 					}
-					.font(Font.app.body)
-					.foregroundColor(Color.white)
-					.padding()
-					.dropShadow()
-					.dropShadow()
+					Button(action: { }) {
+						Image(systemName: "arrow.counterclockwise.circle.fill")
+							.font(Font.app.body)
+							.foregroundColor(Color.white)
+							.padding()
+							.dropShadow()
+							.dropShadow()
+					}
 				}
-				.opacity(draft.status == .failedToUpload ? 1.0 : 0.0)
+				.font(Font.app.body)
+				.foregroundColor(Color.white)
+				.opacity(isShowingRetryButton ? 1.0 : 0.0)
+				
 				ContentView(content: draft.content, isPlaying: false)
 					.opacity(0.6)
 			}

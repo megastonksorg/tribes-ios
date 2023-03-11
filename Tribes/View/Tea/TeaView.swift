@@ -247,7 +247,8 @@ struct TeaView: View {
 	@ViewBuilder
 	func draftRetryButton(currentDraft: MessageDraft) -> some View {
 		let isShowing: Bool = {
-			return currentDraft.status == .failedToUpload || Date.now.timeIntervalSince(currentDraft.timeStamp) > 1.0
+			return currentDraft.status == .failedToUpload ||
+			Date.now.timeIntervalSince(currentDraft.timeStamp) > SizeConstants.draftRetryDelay
 		}()
 		VStack {
 			Spacer()
