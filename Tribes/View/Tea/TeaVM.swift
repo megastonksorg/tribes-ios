@@ -218,5 +218,11 @@ extension TeaView {
 				}
 			}
 		}
+		
+		func deleteMessage() {
+			if let currentTea = currentTea {
+				self.messageClient.deleteMessage(currentTea, tribeId: self.tribe.id)
+			}
+		}
 	}
 }

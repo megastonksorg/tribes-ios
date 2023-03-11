@@ -102,7 +102,7 @@ struct TeaView: View {
 						}
 						
 						Menu(content: {
-							Button(action: { }) {
+							Button(action: { viewModel.deleteMessage() }) {
 								Label("Delete", systemImage: "trash.circle.fill")
 									.font(Font.app.title)
 							}
