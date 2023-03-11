@@ -40,8 +40,13 @@ struct ChatView: View {
 								.id(message.id)
 							}
 							ForEach(viewModel.drafts) { draft in
-								MessageDraftView(draft: draft, isPlaying: false)
-									.id(draft.id)
+								MessageDraftView(
+									draft: draft,
+									isPlaying: false,
+									retryDraft: { viewModel.retryDraft(draft: $0) },
+									deleteDraft: { viewModel.deleteDraft(draft: $0) }
+								)
+								.id(draft.id)
 							}
 						}
 						.padding(.horizontal, 10)

@@ -97,6 +97,16 @@ extension ChatView {
 			self.memberToShow = nil
 		}
 		
+		func retryDraft(draft: MessageDraft) {
+			messageClient.postMessage(draft: draft)
+			self.feedbackClient.medium()
+		}
+		
+		func deleteDraft(draft: MessageDraft) {
+			messageClient.deleteDraft(draft)
+			self.feedbackClient.medium()
+		}
+		
 		func sendMessage() {
 			guard canSendText else { return }
 			let draft = MessageDraft(
