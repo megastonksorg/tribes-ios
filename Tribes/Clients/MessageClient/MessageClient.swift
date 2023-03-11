@@ -244,6 +244,24 @@ import IdentifiedCollections
 		}
 	}
 	
+	func deleteMessage(_ message: Message, tribeId: Tribe.ID) {
+		self.apiClient
+			.deleteMessage(messageId: message.id)
+			.receive(on: DispatchQueue.main)
+			.sink(
+				receiveCompletion: { _ in },
+				receiveValue: { response in
+					if response.success {
+						self.tribesMessages[id: tribeId]?.messages.remove(id: message.id)
+						Task {
+							await self.cacheClient.setData(key: .tribesMessages, value: self.tribesMessages)
+						}
+					}
+				}
+			)
+			.store(in: &self.cancellables)
+	}
+	
 	private func loadMessage(_ message: Message) {
 		//Check if we need to decrypt the message.
 		//If the message and it's content exists in the cache, don't decrypt. Just update the reaction because that is the only thing that could have been updated
