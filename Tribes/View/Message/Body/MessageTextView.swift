@@ -38,12 +38,8 @@ struct MessageTextView: View {
 			}
 			VStack(alignment: .leading, spacing: 4) {
 				ZStack(alignment: .leading) {
-					Group {
-						Text(model.message.timeStamp, style: .relative)
-						+
-						Text(" ago")
-					}
-					.opacity(isShowingTimeStamp ? 1.0 : 0.0)
+					Text(model.message.timeStamp.timeAgoDisplay())
+						.opacity(isShowingTimeStamp ? 1.0 : 0.0)
 					Text(isIncoming ? model.sender?.fullName ?? dummyTribeMember.fullName : "")
 						.opacity(isShowingTimeStamp ? 0.0 : 1.0)
 				}
