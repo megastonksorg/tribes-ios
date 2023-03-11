@@ -44,6 +44,7 @@ extension ChatView {
 		@Published var text: String = ""
 		
 		//Clients
+		let feedbackClient: FeedbackClient = FeedbackClient.shared
 		let messageClient: MessageClient = MessageClient.shared
 		
 		init(tribe: Tribe) {
@@ -73,6 +74,22 @@ extension ChatView {
 				self.isShowingMember = false
 			}
 			self.memberToShow = nil
+		}
+		
+		func sendMessage() {
+			guard canSendText else { return }
+			let draft = MessageDraft(
+				id: UUID(),
+				content: .text(self.text),
+				contextId: nil,
+				caption: nil,
+				tag: .chat,
+				tribeId: tribe.id,
+				timeStamp: Date.now
+			)
+			self.text = ""
+			messageClient.postMessage(draft: draft)
+			self.feedbackClient.medium()
 		}
 		
 		@objc func updateTribe() {
