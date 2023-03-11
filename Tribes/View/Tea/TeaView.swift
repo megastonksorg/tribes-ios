@@ -29,11 +29,16 @@ struct TeaView: View {
 		GeometryReader { proxy in
 			ZStack {
 				ForEach(viewModel.drafts) { draft in
-					MessageDraftView(draft: draft, isPlaying: draft.id == viewModel.currentDraftId)
-						.onPreferenceChange(PlaybackProgressKey.self) {
-							self.currentPlaybackProgress = $0
-						}
-						.opacity(draft.id == viewModel.currentDraftId ? 1.0 : 0.0)
+					MessageDraftView(
+						draft: draft,
+						isPlaying: draft.id == viewModel.currentDraftId,
+						retryDraft: { _ in },
+						deleteDraft: { _ in }
+					)
+					.onPreferenceChange(PlaybackProgressKey.self) {
+						self.currentPlaybackProgress = $0
+					}
+					.opacity(draft.id == viewModel.currentDraftId ? 1.0 : 0.0)
 				}
 				ForEach(viewModel.tea) { tea in
 					MessageView(

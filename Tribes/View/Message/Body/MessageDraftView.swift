@@ -10,6 +10,8 @@ import SwiftUI
 struct MessageDraftView: View {
 	let draft: MessageDraft
 	let isPlaying: Bool
+	let retryDraft: (MessageDraft) -> Void
+	let deleteDraft: (MessageDraft) -> Void
 	
 	@State var playbackProgress: Float = 0
 	
@@ -22,13 +24,13 @@ struct MessageDraftView: View {
 				}()
 				Spacer()
 				Group {
-					Button(action: { }) {
+					Button(action: { deleteDraft(draft) }) {
 						Image(systemName: "trash.circle.fill")
 							.padding()
 							.dropShadow()
 							.dropShadow()
 					}
-					Button(action: { }) {
+					Button(action: { retryDraft(draft) }) {
 						Image(systemName: "arrow.counterclockwise.circle.fill")
 							.font(Font.app.body)
 							.foregroundColor(Color.white)
@@ -64,6 +66,11 @@ struct MessageDraftView: View {
 
 struct MessageDraftView_Previews: PreviewProvider {
 	static var previews: some View {
-		MessageDraftView(draft: MessageDraft.noop2, isPlaying: false)
+		MessageDraftView(
+			draft: MessageDraft.noop2,
+			isPlaying: false,
+			retryDraft: { _ in },
+			deleteDraft: { _ in }
+		)
 	}
 }
