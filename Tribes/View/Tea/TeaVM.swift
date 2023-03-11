@@ -84,7 +84,7 @@ extension TeaView {
 				.sink(receiveValue: { tribeMessages in
 					guard let messages = tribeMessages[id: tribe.id] else { return }
 					self.drafts.forEach { draft in
-						if let updatedDraft = messages.drafts[id: draft.id] {
+						if let updatedDraft = messages.teaDrafts[id: draft.id] {
 							self.drafts[id: draft.id] = updatedDraft
 						} else {
 							self.drafts.remove(id: draft.id)
