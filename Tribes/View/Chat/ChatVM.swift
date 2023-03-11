@@ -5,6 +5,7 @@
 //  Created by Kingsley Okeke on 2023-02-20.
 //
 
+import Combine
 import Foundation
 import SwiftUI
 
@@ -13,6 +14,10 @@ extension ChatView {
 		enum FocusField: Hashable {
 			case text
 		}
+		
+		var tribesRepositoryListener: TribesRepositoryListener = TribesRepositoryListener()
+		
+		private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 		
 		var canSendText: Bool {
 			!text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
@@ -25,6 +30,11 @@ extension ChatView {
 		
 		init(tribe: Tribe) {
 			self.tribe = tribe
+			tribesRepositoryListener.repositoryUpdated = { tribes in
+				if let tribe = tribes[id: tribe.id] {
+					self.tribe = tribe
+				}
+			}
 		}
 		
 		func showTribeMemberCard(_ member: TribeMember) {
