@@ -23,7 +23,7 @@ struct MessageDraftView: View {
 					Date.now.timeIntervalSince(draft.timeStamp) > SizeConstants.draftRetryDelay
 				}()
 				Spacer()
-				Group {
+				HStack(spacing: 10) {
 					Button(action: { deleteDraft(draft) }) {
 						Image(systemName: "trash.circle.fill")
 							.padding()
@@ -32,14 +32,13 @@ struct MessageDraftView: View {
 					}
 					Button(action: { retryDraft(draft) }) {
 						Image(systemName: "arrow.counterclockwise.circle.fill")
-							.font(Font.app.body)
 							.foregroundColor(Color.white)
 							.padding()
 							.dropShadow()
 							.dropShadow()
 					}
 				}
-				.font(Font.app.body)
+				.font(Font.app.title)
 				.foregroundColor(Color.white)
 				.opacity(isShowingRetryButton ? 1.0 : 0.0)
 				
