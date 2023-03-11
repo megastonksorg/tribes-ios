@@ -24,6 +24,7 @@ protocol APIRequests {
 	func uploadVideo(videoData: Data) -> AnyPublisher<URL, APIClientError>
 	//Message
 	func getMessages(tribeId: Tribe.ID) -> AnyPublisher<[MessageResponse], APIClientError>
+	func deleteMessage(messageId: Message.ID) -> AnyPublisher<SuccessResponse, APIClientError>
 	func postMessage(model: PostMessage) -> AnyPublisher<MessageResponse, APIClientError>
 	//Tribe
 	func createTribe(name: String) -> AnyPublisher<Tribe, APIClientError>
@@ -165,6 +166,16 @@ final class APIClient: APIRequests {
 			requiresAuth: true
 		)
 		return apiRequest(appRequest: getMessagesRequest, output: [MessageResponse].self)
+	}
+	
+	func deleteMessage(messageId: Tribe.ID) -> AnyPublisher<SuccessResponse, APIClientError> {
+		let deleteMessageRequest = APPUrlRequest(
+			httpMethod: .delete,
+			pathComponents: ["message"],
+			query: [URLQueryItem(name: "messageId", value: messageId)],
+			requiresAuth: true
+		)
+		return apiRequest(appRequest: deleteMessageRequest, output: SuccessResponse.self)
 	}
 	
 	func postMessage(model: PostMessage) -> AnyPublisher<MessageResponse, APIClientError> {
