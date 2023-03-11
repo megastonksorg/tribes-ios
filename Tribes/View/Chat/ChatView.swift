@@ -29,15 +29,17 @@ struct ChatView: View {
 				ScrollViewReader { readerProxy in
 					ScrollView {
 						LazyVStack {
-							ForEach(0..<100) {
-								CalloutView(content: "Okay this is a random Text. Do what you will with this.\($0)")
-								Text("\($0)")
-									.foregroundColor(.white)
-									.padding(.top)
-									.pushOutFrame()
-									.id($0)
+							ForEach(viewModel.messages) { message in
+								MessageView(
+									currentTribeMember: viewModel.currentTribeMember,
+									message: message,
+									tribe: viewModel.tribe,
+									isPlaying: false
+								)
+								.id(message.id)
 							}
 						}
+						.padding(.horizontal, 10)
 						.onChange(of: focusedField) {
 							if $0 == .text {
 								withAnimation(.easeIn) {

@@ -16,6 +16,7 @@ extension ChatView {
 			case text
 		}
 		
+		let currentTribeMember: TribeMember
 		private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 		
 		var canSendText: Bool {
@@ -32,6 +33,7 @@ extension ChatView {
 		let messageClient: MessageClient = MessageClient.shared
 		
 		init(tribe: Tribe) {
+			self.currentTribeMember = tribe.members.currentMember ?? TribeMember.dummyTribeMember
 			self.tribe = tribe
 			self.messages = messageClient.tribesMessages[id: tribe.id]?.chat ?? []
 			NotificationCenter
