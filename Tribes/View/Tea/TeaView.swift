@@ -113,8 +113,8 @@ struct TeaView: View {
 								.padding(4)
 								.padding(.vertical, 10)
 								.rotationEffect(.degrees(-90))
-								.opacity(viewModel.isAuthorOfCurrentTea ? 1.0 : 0.0)
 						})
+						.opacity(viewModel.isAuthorOfCurrentTea ? 1.0 : 0.0)
 						
 						Button(action: {}) {
 							Image(systemName: "eye.circle.fill")
