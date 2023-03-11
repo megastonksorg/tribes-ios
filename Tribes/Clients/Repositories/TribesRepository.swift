@@ -64,6 +64,7 @@ final class TribesRepository: TribesRepositoryProtocol {
 							await self.cacheClient.setData(key: .tribes, value: tribes)
 							await MessageClient.shared.refreshMessages()
 						}
+						NotificationCenter.default.post(Notification(name: .tribesUpdated))
 						promise(.success(tribes))
 					}
 				)
