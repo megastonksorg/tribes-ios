@@ -17,7 +17,7 @@ struct MessageTextView: View {
 	}
 	
 	var body: some View {
-		let avatarSize: CGFloat = 42
+		let avatarSize: CGFloat = 38
 		let isIncoming: Bool = model.style == .incoming
 		let dummyTribeMember: TribeMember = TribeMember.dummyTribeMember
 		HStack(alignment: .top, spacing: 0) {
@@ -36,7 +36,7 @@ struct MessageTextView: View {
 			if model.style == .outgoing {
 				Spacer(minLength: 0)
 			}
-			VStack(alignment: .leading, spacing: 4) {
+			VStack(alignment: .leading, spacing: 0) {
 				ZStack(alignment: .leading) {
 					Text(model.message.timeStamp.timeAgoDisplay())
 						.opacity(isShowingTimeStamp ? 1.0 : 0.0)
