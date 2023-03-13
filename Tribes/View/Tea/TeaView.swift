@@ -245,7 +245,7 @@ struct TeaView: View {
 				.clipShape(Capsule())
 		}
 		.id(self.currentPlaybackProgress)
-		.frame(height: 6)
+		.frame(height: 4)
 		.readSize { self.pillWidth = $0.width }
 	}
 	
