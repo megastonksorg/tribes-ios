@@ -51,7 +51,9 @@ struct ChatView: View {
 						.padding(.horizontal, 10)
 						.onChange(of: focusedField) { focusField in
 							if focusField == .text {
-								viewModel.scrollToLastMessage(proxy: readerProxy)
+								DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+									viewModel.scrollToLastMessage(proxy: readerProxy)
+								}
 							}
 						}
 						.onChange(of: viewModel.messages.count) { _ in
