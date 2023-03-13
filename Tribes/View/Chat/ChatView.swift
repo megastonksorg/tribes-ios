@@ -28,7 +28,7 @@ struct ChatView: View {
 			VStack(spacing: 0) {
 				ScrollViewReader { readerProxy in
 					ScrollView {
-						LazyVStack {
+						LazyVStack(spacing: 4) {
 							ForEach(viewModel.messages) { message in
 								MessageView(
 									currentTribeMember: viewModel.currentTribeMember,
