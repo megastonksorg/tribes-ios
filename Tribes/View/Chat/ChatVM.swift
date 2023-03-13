@@ -123,13 +123,13 @@ extension ChatView {
 		func scrollToLastMessage(proxy: ScrollViewProxy) {
 			if let lastDraftId = lastDraftId {
 				withAnimation(scrollAnimation) {
-					proxy.scrollTo(lastDraftId, anchor: .top)
+					proxy.scrollTo(lastDraftId, anchor: .bottom)
 				}
 				return
 			}
 			if let lastMessageId = lastMessageId {
 				withAnimation(scrollAnimation) {
-					proxy.scrollTo(lastMessageId, anchor: .top)
+					proxy.scrollTo(lastMessageId, anchor: .bottom)
 				}
 			}
 		}
