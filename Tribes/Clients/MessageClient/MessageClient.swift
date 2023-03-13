@@ -236,7 +236,7 @@ import IdentifiedCollections
 	
 	func deleteDraft(_ message: MessageDraft) {
 		Task {
-			if self.tribesMessages[id: message.tribeId]?.drafts.first(where: { $0.id == message.id }) != nil {
+			if self.tribesMessages[id: message.tribeId]?.drafts[id: message.id] != nil {
 				self.postMessageCancellables[message.id]?.cancel()
 				self.tribesMessages[id: message.tribeId]?.drafts.remove(id: message.id)
 				await self.cacheClient.setData(key: .tribesMessages, value: self.tribesMessages)
@@ -309,7 +309,7 @@ import IdentifiedCollections
 	}
 	
 	private func messagePosted(draft: MessageDraft, messageResponse: MessageResponse) {
-		self.tribesMessages[id: draft.tribeId]?.drafts.remove(id: draft.id)
+		deleteDraft(draft)
 		processMessageResponse(tribeId: draft.tribeId, messageResponse: messageResponse)
 	}
 	
