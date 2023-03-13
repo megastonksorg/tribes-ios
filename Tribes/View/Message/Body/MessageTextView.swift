@@ -9,12 +9,10 @@ import SwiftUI
 
 struct MessageTextView: View {
 	let model: MessageBodyModel
-	let isShowingUserInfo: Bool
 	@State var isShowingTimeStamp: Bool = false
 	
-	init(model: MessageBodyModel, isShowingUserInfo: Bool) {
+	init(model: MessageBodyModel) {
 		self.model = model
-		self.isShowingUserInfo = isShowingUserInfo
 	}
 	
 	var body: some View {
@@ -31,7 +29,7 @@ struct MessageTextView: View {
 				}
 			}
 			.frame(dimension: avatarSize)
-			.opacity(isIncoming && isShowingUserInfo ? 1.0 : 0.0)
+			.opacity(isIncoming ? 1.0 : 0.0)
 			Spacer()
 				.frame(width: 10)
 			if model.style == .outgoing {
@@ -42,7 +40,7 @@ struct MessageTextView: View {
 					if isShowingTimeStamp {
 						Text(model.message.timeStamp.timeAgoDisplay())
 					}
-					if isShowingUserInfo && !isShowingTimeStamp {
+					if isIncoming && !isShowingTimeStamp {
 						Text(isIncoming ? model.sender?.fullName ?? dummyTribeMember.fullName : "")
 					}
 				}
@@ -50,6 +48,7 @@ struct MessageTextView: View {
 				.font(Font.app.callout)
 				.foregroundColor(Color.gray)
 				contentView()
+					.padding(.bottom, model.style == .outgoing ? 4.0 : 0.0)
 			}
 			if model.style == .incoming {
 				Spacer(minLength: 0)
@@ -100,8 +99,7 @@ struct MessageTextView_Previews: PreviewProvider {
 				sender: nil,
 				style: .incoming,
 				message: Message.noopEncryptedTextChat
-			),
-			isShowingUserInfo: true
+			)
 		)
 	}
 }

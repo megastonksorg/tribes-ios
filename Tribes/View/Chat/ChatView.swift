@@ -28,14 +28,13 @@ struct ChatView: View {
 			VStack(spacing: 0) {
 				ScrollViewReader { readerProxy in
 					ScrollView {
-						LazyVStack(spacing: 4) {
+						LazyVStack(spacing: 0) {
 							ForEach(viewModel.messages) { message in
 								MessageView(
 									currentTribeMember: viewModel.currentTribeMember,
 									message: message,
 									tribe: viewModel.tribe,
-									isPlaying: false,
-									isShowingUserInfo: false
+									isPlaying: false
 								)
 								.id(message.id)
 							}

@@ -45,8 +45,7 @@ struct TeaView: View {
 						currentTribeMember: viewModel.currentTribeMember,
 						message: tea,
 						tribe: viewModel.tribe,
-						isPlaying: tea.id == viewModel.currentTeaId,
-						isShowingUserInfo: false
+						isPlaying: tea.id == viewModel.currentTeaId
 					)
 					.onPreferenceChange(PlaybackProgressKey.self) {
 						self.currentPlaybackProgress = $0
