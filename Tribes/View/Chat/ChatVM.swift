@@ -15,7 +15,7 @@ extension ChatView {
 		enum FocusField: Hashable {
 			case text
 		}
-		
+		let scrollAnimation: Animation = Animation.easeIn
 		let currentTribeMember: TribeMember
 		private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 		
@@ -118,6 +118,20 @@ extension ChatView {
 			self.text = ""
 			messageClient.postMessage(draft: draft)
 			self.feedbackClient.medium()
+		}
+		
+		func scrollToLastMessage(proxy: ScrollViewProxy) {
+			if let lastDraftId = lastDraftId {
+				withAnimation(scrollAnimation) {
+					proxy.scrollTo(lastDraftId, anchor: .top)
+				}
+				return
+			}
+			if let lastMessageId = lastMessageId {
+				withAnimation(scrollAnimation) {
+					proxy.scrollTo(lastMessageId, anchor: .top)
+				}
+			}
 		}
 		
 		@objc func updateTribe() {
