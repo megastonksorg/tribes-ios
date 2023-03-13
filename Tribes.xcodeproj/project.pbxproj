@@ -95,6 +95,9 @@
 		D055BD6D29AFC7B40070025D /* ContentVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D055BD6C29AFC7B40070025D /* ContentVM.swift */; };
 		D055BD6F29B0CBF40070025D /* Binding+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D055BD6E29B0CBF40070025D /* Binding+Extensions.swift */; };
 		D05FCDCA29BFD1B900B565AF /* SoundClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05FCDC929BFD1B900B565AF /* SoundClient.swift */; };
+		D05FCDCD29BFD3D300B565AF /* inAppNotif.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D05FCDCC29BFD3D300B565AF /* inAppNotif.mp3 */; };
+		D05FCDCF29BFD3DD00B565AF /* pushNotif.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D05FCDCE29BFD3DD00B565AF /* pushNotif.mp3 */; };
+		D05FCDD129BFD3E400B565AF /* sendMessage.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D05FCDD029BFD3E400B565AF /* sendMessage.mp3 */; };
 		D06088B42996D55000A3D383 /* OnBoardingPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06088B32996D55000A3D383 /* OnBoardingPageView.swift */; };
 		D063134329B6F90200CCCE13 /* MessageVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D063134229B6F90200CCCE13 /* MessageVideoView.swift */; };
 		D06FDE7D2999C2EB0013A55E /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06FDE7C2999C2EB0013A55E /* AccountView.swift */; };
@@ -257,6 +260,9 @@
 		D055BD6C29AFC7B40070025D /* ContentVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentVM.swift; sourceTree = "<group>"; };
 		D055BD6E29B0CBF40070025D /* Binding+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Binding+Extensions.swift"; sourceTree = "<group>"; };
 		D05FCDC929BFD1B900B565AF /* SoundClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundClient.swift; sourceTree = "<group>"; };
+		D05FCDCC29BFD3D300B565AF /* inAppNotif.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = inAppNotif.mp3; sourceTree = "<group>"; };
+		D05FCDCE29BFD3DD00B565AF /* pushNotif.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pushNotif.mp3; sourceTree = "<group>"; };
+		D05FCDD029BFD3E400B565AF /* sendMessage.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sendMessage.mp3; sourceTree = "<group>"; };
 		D06088B32996D55000A3D383 /* OnBoardingPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingPageView.swift; sourceTree = "<group>"; };
 		D063134229B6F90200CCCE13 /* MessageVideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageVideoView.swift; sourceTree = "<group>"; };
 		D06FDE7C2999C2EB0013A55E /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
@@ -720,6 +726,9 @@
 		D05FCDCB29BFD25500B565AF /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
+				D05FCDD029BFD3E400B565AF /* sendMessage.mp3 */,
+				D05FCDCE29BFD3DD00B565AF /* pushNotif.mp3 */,
+				D05FCDCC29BFD3D300B565AF /* inAppNotif.mp3 */,
 			);
 			path = Sounds;
 			sourceTree = "<group>";
@@ -996,9 +1005,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D05FCDCD29BFD3D300B565AF /* inAppNotif.mp3 in Resources */,
 				D047E1992982F88900F5C63A /* CodeWords.json in Resources */,
 				D0C65AAD2970AC6400E527F9 /* Kreon-Bold.ttf in Resources */,
 				D030D28829573E9B0011128F /* Preview Assets.xcassets in Resources */,
+				D05FCDD129BFD3E400B565AF /* sendMessage.mp3 in Resources */,
+				D05FCDCF29BFD3DD00B565AF /* pushNotif.mp3 in Resources */,
 				D0BFEA4F298736D200FB6F22 /* LaunchScreen.storyboard in Resources */,
 				D030D28529573E9B0011128F /* Assets.xcassets in Resources */,
 			);
