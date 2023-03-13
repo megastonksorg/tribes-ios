@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MessageView: View {
+	let tribeId: Tribe.ID
 	let currentTribeMember: TribeMember
 	let sender: TribeMember?
 	let style: Message.Style
@@ -23,6 +24,7 @@ struct MessageView: View {
 		isPlaying: Bool
 	) {
 		let sender: TribeMember? = tribe.members[id: message.senderId]
+		self.tribeId = tribe.id
 		self.currentTribeMember = currentTribeMember
 		self.sender = sender
 		self.style = {
@@ -63,7 +65,7 @@ struct MessageView: View {
 		.id(message.body)
 		.onAppear {
 			if message.isEncrypted {
-				MessageClient.shared.decryptMessage(message: message)
+				MessageClient.shared.decryptMessage(message: message, tribeId: tribeId)
 			}
 		}
 	}
