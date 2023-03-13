@@ -35,16 +35,8 @@ extension ChatView {
 			messages.last?.id
 		}
 		
-		var drafts: IdentifiedArrayOf<MessageDraft> {
-			IdentifiedArrayOf(uniqueElements: unsortedDrafts.sorted(by: { $0.timeStamp < $1.timeStamp }))
-		}
-		
 		var failedDrafts: IdentifiedArrayOf<MessageDraft> {
 			drafts.filter { $0.status == .failedToUpload || $0.isStuckUploading }
-		}
-		
-		var messages: IdentifiedArrayOf<Message> {
-			IdentifiedArrayOf(uniqueElements: unsortedMessages.sorted(by: { $0.timeStamp < $1.timeStamp }))
 		}
 		
 		var isSendingMessage: Bool {
@@ -52,8 +44,8 @@ extension ChatView {
 		}
 		
 		@Published var tribe: Tribe
-		@Published var unsortedDrafts: IdentifiedArrayOf<MessageDraft>
-		@Published var unsortedMessages: IdentifiedArrayOf<Message>
+		@Published var drafts: IdentifiedArrayOf<MessageDraft>
+		@Published var messages: IdentifiedArrayOf<Message>
 		@Published var isShowingMember: Bool = false
 		@Published var memberToShow: TribeMember?
 		@Published var text: String = ""
@@ -66,16 +58,16 @@ extension ChatView {
 			let tribeMessage: TribeMessage? = messageClient.tribesMessages[id: tribe.id]
 			self.currentTribeMember = tribe.members.currentMember ?? TribeMember.dummyTribeMember
 			self.tribe = tribe
-			self.unsortedDrafts = tribeMessage?.chatDrafts ?? []
-			self.unsortedMessages = tribeMessage?.chat ?? []
+			self.drafts = tribeMessage?.chatDrafts ?? []
+			self.messages = tribeMessage?.chat ?? []
 			
 			self.messageClient.$tribesMessages
 				.sink(receiveValue: { tribeMessages in
 					guard let messages = tribeMessages[id: tribe.id] else { return }
 					withAnimation(.easeInOut) {
-						self.unsortedDrafts = messages.chatDrafts
+						self.drafts = messages.chatDrafts
 					}
-					self.unsortedMessages = messages.chat
+					self.messages = messages.chat
 				})
 				.store(in: &cancellables)
 			
