@@ -38,16 +38,14 @@ struct ChatView: View {
 								)
 								.id(message.id)
 							}
-							ForEach(viewModel.drafts) { draft in
-								if draft.status == .failedToUpload {
-									MessageDraftView(
-										draft: draft,
-										isPlaying: false,
-										retryDraft: { viewModel.retryDraft(draft: $0) },
-										deleteDraft: { viewModel.deleteDraft(draft: $0) }
-									)
-									.id(draft.id)
-								}
+							ForEach(viewModel.failedDrafts) { draft in
+								MessageDraftView(
+									draft: draft,
+									isPlaying: false,
+									retryDraft: { viewModel.retryDraft(draft: $0) },
+									deleteDraft: { viewModel.deleteDraft(draft: $0) }
+								)
+								.id(draft.id)
 							}
 							.transition(.asymmetric(insertion: .opacity, removal: .slide))
 						}
@@ -86,9 +84,13 @@ struct ChatView: View {
 				}
 				
 				let textFieldBarButtonSize: CGFloat = 40
-				SendingIndicator()
-					.frame(height: 4)
-					.opacity(viewModel.isSendingMessage ? 1.0 : 0.0)
+				ZStack {
+					Color.clear
+					if viewModel.isSendingMessage {
+						SendingIndicator()
+					}
+				}
+				.frame(height: 4)
 				SymmetricHStack(
 					spacing: 4,
 					content: {

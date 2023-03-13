@@ -19,8 +19,7 @@ struct MessageDraftView: View {
 		if draft.content.outgoingType == .text {
 			HStack {
 				let isShowingRetryButton: Bool = {
-					return draft.status == .failedToUpload ||
-					Date.now.timeIntervalSince(draft.timeStamp) > SizeConstants.draftRetryDelay
+					return draft.status == .failedToUpload || draft.isStuckUploading
 				}()
 				Spacer()
 					.frame(width: 48)

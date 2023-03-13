@@ -211,6 +211,10 @@ struct MessageDraft: Codable, Identifiable {
 	let tribeId: Tribe.ID
 	let timeStamp: Date
 	var status: Status = .uploading
+	
+	var isStuckUploading: Bool {
+		Date.now.timeIntervalSince(timeStamp) > SizeConstants.draftRetryDelay
+	}
 }
 
 extension MessageDraft {

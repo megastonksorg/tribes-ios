@@ -28,7 +28,7 @@ extension ChatView {
 		}
 		
 		var lastDraftId: MessageDraft.ID? {
-			drafts.last?.id
+			failedDrafts.last?.id
 		}
 		
 		var lastMessageId: Message.ID? {
@@ -37,6 +37,10 @@ extension ChatView {
 		
 		var drafts: IdentifiedArrayOf<MessageDraft> {
 			IdentifiedArrayOf(uniqueElements: unsortedDrafts.sorted(by: { $0.timeStamp < $1.timeStamp }))
+		}
+		
+		var failedDrafts: IdentifiedArrayOf<MessageDraft> {
+			drafts.filter { $0.status == .failedToUpload || $0.isStuckUploading }
 		}
 		
 		var messages: IdentifiedArrayOf<Message> {
@@ -77,9 +81,7 @@ extension ChatView {
 						} else {
 							//Don't add a new message until it is decrypted
 							if !newMessage.isEncrypted {
-								DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-									self.unsortedMessages.updateOrAppend(newMessage)
-								}
+								self.unsortedMessages.updateOrAppend(newMessage)
 							}
 						}
 					}
