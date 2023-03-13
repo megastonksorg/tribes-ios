@@ -39,13 +39,15 @@ struct ChatView: View {
 								.id(message.id)
 							}
 							ForEach(viewModel.drafts) { draft in
-								MessageDraftView(
-									draft: draft,
-									isPlaying: false,
-									retryDraft: { viewModel.retryDraft(draft: $0) },
-									deleteDraft: { viewModel.deleteDraft(draft: $0) }
-								)
-								.id(draft.id)
+								if draft.status == .failedToUpload {
+									MessageDraftView(
+										draft: draft,
+										isPlaying: false,
+										retryDraft: { viewModel.retryDraft(draft: $0) },
+										deleteDraft: { viewModel.deleteDraft(draft: $0) }
+									)
+									.id(draft.id)
+								}
 							}
 							.transition(.asymmetric(insertion: .opacity, removal: .slide))
 						}
@@ -84,6 +86,8 @@ struct ChatView: View {
 				}
 				
 				let textFieldBarButtonSize: CGFloat = 40
+				SendingIndicator()
+					.frame(height: 4)
 				SymmetricHStack(
 					spacing: 4,
 					content: {
@@ -229,6 +233,38 @@ struct ChatView: View {
 		}
 		.onDisappear {
 			self.isShowingMemberImage = false
+		}
+	}
+}
+
+fileprivate struct SendingIndicator: View {
+	@State var width: CGFloat = .zero
+	@State var isAnimating: Bool = false
+	
+	var body: some View {
+		ZStack(alignment: .leading) {
+			Rectangle()
+				.fill(Color.clear)
+			Rectangle()
+				.fill(
+					LinearGradient(
+						colors: [
+							Color.app.secondary,
+							Color.app.tertiary
+						],
+						startPoint: .leading,
+						endPoint: .trailing
+					)
+				)
+				.frame(width: width * 0.6)
+				.offset(x: isAnimating ? width : 0)
+				.animation(.linear.speed(0.2).repeatForever(autoreverses: false), value: self.isAnimating)
+				.onAppear {
+					self.isAnimating = true
+				}
+		}
+		.readSize { size in
+			self.width = size.width
 		}
 	}
 }
