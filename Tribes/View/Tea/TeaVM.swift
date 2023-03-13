@@ -36,10 +36,6 @@ extension TeaView {
 		@Published var tea: IdentifiedArrayOf<Message>
 		@Published var text: String = ""
 		
-		var maxPills: Int {
-			drafts.count + tea.count
-		}
-		
 		var currentTea: Message? {
 			guard
 				let currentTeaId = currentTeaId,
@@ -122,7 +118,7 @@ extension TeaView {
 		
 		func nextDraftOrTea() {
 			let nextPill = currentPill + 1
-			if nextPill < maxPills {
+			if nextPill < draftAndTeaCount {
 				self.currentPill = nextPill
 			}
 			//Navigate to the next draft
