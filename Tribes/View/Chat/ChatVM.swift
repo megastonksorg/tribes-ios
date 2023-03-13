@@ -43,6 +43,10 @@ extension ChatView {
 			IdentifiedArrayOf(uniqueElements: unsortedMessages.sorted(by: { $0.timeStamp < $1.timeStamp }))
 		}
 		
+		var isSendingMessage: Bool {
+			drafts.contains(where: { $0.status == .uploading })
+		}
+		
 		@Published var tribe: Tribe
 		@Published var unsortedDrafts: IdentifiedArrayOf<MessageDraft>
 		@Published var unsortedMessages: IdentifiedArrayOf<Message>

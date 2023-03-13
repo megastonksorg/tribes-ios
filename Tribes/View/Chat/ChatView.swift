@@ -88,6 +88,7 @@ struct ChatView: View {
 				let textFieldBarButtonSize: CGFloat = 40
 				SendingIndicator()
 					.frame(height: 4)
+					.opacity(viewModel.isSendingMessage ? 1.0 : 0.0)
 				SymmetricHStack(
 					spacing: 4,
 					content: {
