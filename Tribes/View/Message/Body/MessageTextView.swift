@@ -58,7 +58,7 @@ struct MessageTextView: View {
 					.font(Font.app.callout)
 					.foregroundColor(Color.gray)
 					contentView()
-						.padding(.bottom, model.style == .outgoing ? 4.0 : 0.0)
+						.padding(.top, model.style == .outgoing ? 4.0 : 0.0)
 				}
 				if model.style == .incoming {
 					Spacer(minLength: 0)
