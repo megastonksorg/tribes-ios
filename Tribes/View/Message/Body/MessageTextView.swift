@@ -77,7 +77,9 @@ struct MessageTextView: View {
 		.onTapGesture {
 			withAnimation(.easeInOut) {
 				self.isShowingTimeStamp = true
-				DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+			}
+			DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+				withAnimation(.easeInOut) {
 					self.isShowingTimeStamp = false
 				}
 			}
