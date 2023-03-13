@@ -76,7 +76,7 @@ import IdentifiedCollections
 							
 							//Load New Messages
 							messagesResponse.forEach { messageResponse in
-								self.setAndLoadMessages(tribeId: tribe.id, messageResponse: messageResponse)
+								self.processMessageResponse(tribeId: tribe.id, messageResponse: messageResponse)
 							}
 						}
 					}
@@ -262,27 +262,6 @@ import IdentifiedCollections
 			.store(in: &self.cancellables)
 	}
 	
-	private func loadMessage(_ message: Message) {
-		//Check if we need to decrypt the message.
-		//If the message and it's content exists in the cache, don't decrypt. Just update the reaction because that is the only thing that could have been updated
-		Task {
-			if let tribeMessage = getTribeMessage(with: message.id) {
-				if let existingTribesMessagesInCache = await self.cacheClient.getData(key: .tribesMessages) {
-					if isMessageContentCached(message: message) && message.body != nil {
-						if let messageToUpdate = existingTribesMessagesInCache[id: tribeMessage.id]?.messages.first(where: { $0.id == message.id }) {
-							messageToUpdate.reactions = message.reactions
-							updateMessageAndCache(messageToUpdate)
-						}
-					} else {
-						decryptMessage(message: message)
-					}
-				}
-			} else {
-				decryptMessage(message: message)
-			}
-		}
-	}
-	
 	private func updateMessageAndCache(_ message: Message) {
 		if let tribeMessage = getTribeMessage(with: message.id) {
 			DispatchQueue.main.async {
@@ -331,7 +310,7 @@ import IdentifiedCollections
 	
 	private func messagePosted(draft: MessageDraft, messageResponse: MessageResponse) {
 		self.tribesMessages[id: draft.tribeId]?.drafts.remove(id: draft.id)
-		setAndLoadMessages(tribeId: draft.tribeId, messageResponse: messageResponse)
+		processMessageResponse(tribeId: draft.tribeId, messageResponse: messageResponse)
 	}
 	
 	private func mapMessageResponseToMessage(_ messageResponse: MessageResponse) -> Message {
@@ -353,11 +332,17 @@ import IdentifiedCollections
 		)
 	}
 	
-	private func setAndLoadMessages(tribeId: Tribe.ID, messageResponse: MessageResponse) {
-		let messageToAppend: Message = mapMessageResponseToMessage(messageResponse)
-		self.tribesMessages[id: tribeId]?.messages.updateOrAppend(messageToAppend)
-		//Decrypt and Load Message Content
-		loadMessage(messageToAppend)
+	private func processMessageResponse(tribeId: Tribe.ID, messageResponse: MessageResponse) {
+		let mappedMessage: Message = mapMessageResponseToMessage(messageResponse)
+		if let messageToUpdate = self.tribesMessages[id: tribeId]?.messages[id: messageResponse.id],
+		   isMessageContentCached(message: mappedMessage) {
+			messageToUpdate.reactions = mappedMessage.reactions
+			updateMessageAndCache(mappedMessage)
+		} else {
+			self.tribesMessages[id: tribeId]?.messages.updateOrAppend(mappedMessage)
+			//Decrypt and Load Message Content
+			decryptMessage(message: mappedMessage)
+		}
 	}
 	
 	private func getContentFromMessageResponse(_ messageResponse: MessageResponse) -> Message.Body.Content {
