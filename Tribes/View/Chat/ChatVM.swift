@@ -62,7 +62,10 @@ extension ChatView {
 						if let messageToUpdate = self.messages[id: newMessage.id] {
 							self.messages[id: newMessage.id] = messageToUpdate
 						} else {
-							self.messages.updateOrAppend(newMessage)
+							//Don't add a new message until it is decrypted
+							if !newMessage.isEncrypted {
+								self.messages.updateOrAppend(newMessage)
+							}
 						}
 					}
 				})
