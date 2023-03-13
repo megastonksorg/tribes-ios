@@ -35,7 +35,7 @@ struct TextContentView: View {
 		}()
 		
 		Text(content)
-			.font(Font.app.subTitle)
+			.font(Font.app.body)
 			.foregroundColor(foregroundColor)
 			.padding(10)
 			.padding(.leading, 6)
