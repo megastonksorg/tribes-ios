@@ -337,7 +337,7 @@ import IdentifiedCollections
 		if let messageToUpdate = self.tribesMessages[id: tribeId]?.messages[id: messageResponse.id],
 		   isMessageContentCached(message: mappedMessage) {
 			messageToUpdate.reactions = mappedMessage.reactions
-			updateMessageAndCache(mappedMessage)
+			updateMessageAndCache(messageToUpdate)
 		} else {
 			self.tribesMessages[id: tribeId]?.messages.updateOrAppend(mappedMessage)
 			//Decrypt and Load Message Content
