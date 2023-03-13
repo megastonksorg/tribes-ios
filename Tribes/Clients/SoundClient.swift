@@ -12,7 +12,7 @@ class SoundClient {
 	enum Sound: String {
 		case inAppNotification
 		case pushNotification
-		case sendMessage
+		case messageSent
 	}
 	
 	static let shared: SoundClient = SoundClient()

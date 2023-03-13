@@ -30,6 +30,7 @@ import IdentifiedCollections
 	let apiClient: APIClient = APIClient.shared
 	let cacheClient: CacheClient = CacheClient.shared
 	let encryptionClient: EncryptionClient = EncryptionClient.shared
+	let soundClient: SoundClient = SoundClient.shared
 	
 	init() {
 		Task {
@@ -315,6 +316,7 @@ import IdentifiedCollections
 					}
 				},
 				receiveValue: { [weak self] messageResponse in
+					self?.soundClient.playSound(.messageSent)
 					self?.messagePosted(draft: draft, messageResponse: messageResponse)
 				}
 			)
