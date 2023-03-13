@@ -75,16 +75,7 @@ extension ChatView {
 					withAnimation(.easeInOut) {
 						self.unsortedDrafts = messages.chatDrafts
 					}
-					messages.chat.forEach { newMessage in
-						if let messageToUpdate = self.unsortedMessages[id: newMessage.id] {
-							self.unsortedMessages[id: newMessage.id] = messageToUpdate
-						} else {
-							//Don't add a new message until it is decrypted
-							if !newMessage.isEncrypted {
-								self.unsortedMessages.updateOrAppend(newMessage)
-							}
-						}
-					}
+					self.unsortedMessages = messages.chat
 				})
 				.store(in: &cancellables)
 			
