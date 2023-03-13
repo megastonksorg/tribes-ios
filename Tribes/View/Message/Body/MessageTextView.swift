@@ -16,44 +16,56 @@ struct MessageTextView: View {
 	}
 	
 	var body: some View {
-		let avatarSize: CGFloat = 38
-		let isIncoming: Bool = model.style == .incoming
-		let dummyTribeMember: TribeMember = TribeMember.dummyTribeMember
-		HStack(alignment: .top, spacing: 0) {
-			Group {
-				if let sender = self.model.sender {
-					UserAvatar(url: sender.profilePhoto)
-				} else {
-					Circle()
-						.fill(Color.gray)
+		Button(action: {
+			withAnimation(.easeInOut) {
+				self.isShowingTimeStamp = true
+			}
+			DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+				withAnimation(.easeInOut) {
+					self.isShowingTimeStamp = false
 				}
 			}
-			.frame(dimension: avatarSize)
-			.opacity(isIncoming ? 1.0 : 0.0)
-			Spacer()
-				.frame(width: 10)
-			if model.style == .outgoing {
-				Spacer(minLength: 0)
-			}
-			VStack(alignment: .leading, spacing: 0) {
-				ZStack(alignment: .leading) {
-					if isShowingTimeStamp {
-						Text(model.message.timeStamp.timeAgoDisplay())
-					}
-					if isIncoming && !isShowingTimeStamp {
-						Text(isIncoming ? model.sender?.fullName ?? dummyTribeMember.fullName : "")
+		}) {
+			let avatarSize: CGFloat = 38
+			let isIncoming: Bool = model.style == .incoming
+			let dummyTribeMember: TribeMember = TribeMember.dummyTribeMember
+			HStack(alignment: .top, spacing: 0) {
+				Group {
+					if let sender = self.model.sender {
+						UserAvatar(url: sender.profilePhoto)
+					} else {
+						Circle()
+							.fill(Color.gray)
 					}
 				}
-				.lineLimit(1)
-				.font(Font.app.callout)
-				.foregroundColor(Color.gray)
-				contentView()
-					.padding(.bottom, model.style == .outgoing ? 4.0 : 0.0)
-			}
-			if model.style == .incoming {
-				Spacer(minLength: 0)
+				.frame(dimension: avatarSize)
+				.opacity(isIncoming ? 1.0 : 0.0)
+				Spacer()
+					.frame(width: 10)
+				if model.style == .outgoing {
+					Spacer(minLength: 0)
+				}
+				VStack(alignment: .leading, spacing: 0) {
+					ZStack(alignment: .leading) {
+						if isShowingTimeStamp {
+							Text(model.message.timeStamp.timeAgoDisplay())
+						}
+						if isIncoming && !isShowingTimeStamp {
+							Text(isIncoming ? model.sender?.fullName ?? dummyTribeMember.fullName : "")
+						}
+					}
+					.lineLimit(1)
+					.font(Font.app.callout)
+					.foregroundColor(Color.gray)
+					contentView()
+						.padding(.bottom, model.style == .outgoing ? 4.0 : 0.0)
+				}
+				if model.style == .incoming {
+					Spacer(minLength: 0)
+				}
 			}
 		}
+		.buttonStyle(.insideScaling)
 	}
 	
 	@ViewBuilder
@@ -71,16 +83,6 @@ struct MessageTextView: View {
 							.dropShadow()
 							.dropShadow()
 					)
-			}
-		}
-		.onTapGesture {
-			withAnimation(.easeInOut) {
-				self.isShowingTimeStamp = true
-			}
-			DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-				withAnimation(.easeInOut) {
-					self.isShowingTimeStamp = false
-				}
 			}
 		}
 	}
