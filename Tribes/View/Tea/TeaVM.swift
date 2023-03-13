@@ -67,6 +67,10 @@ extension TeaView {
 			return nil
 		}
 		
+		var draftAndTeaCount: Int {
+			drafts.count + tea.count
+		}
+		
 		//Clients
 		let messageClient: MessageClient = MessageClient.shared
 		
@@ -83,22 +87,13 @@ extension TeaView {
 			self.messageClient.$tribesMessages
 				.sink(receiveValue: { tribeMessages in
 					guard let messages = tribeMessages[id: tribe.id] else { return }
-					self.drafts.forEach { draft in
-						if let updatedDraft = messages.teaDrafts[id: draft.id] {
-							self.drafts[id: draft.id] = updatedDraft
-						} else {
-							self.drafts.remove(id: draft.id)
-							self.setCurrentDraftOrTeaId(drafts: self.drafts, tea: self.tea)
-						}
-					}
-					
-					self.tea.forEach { tea in
-						if let updatedTea = messages.tea[id: tea.id] {
-							self.tea[id: tea.id] = updatedTea
-						} else {
-							self.tea.remove(id: tea.id)
-							self.setCurrentDraftOrTeaId(drafts: self.drafts, tea: self.tea)
-						}
+					let totalCount = messages.tea.count + messages.teaDrafts.count
+					if totalCount != self.draftAndTeaCount {
+						self.drafts = messages.teaDrafts
+						self.tea = messages.tea
+						self.setCurrentDraftOrTeaId(drafts: self.drafts, tea: self.tea)
+					} else {
+						self.drafts = messages.teaDrafts
 					}
 				})
 				.store(in: &cancellables)
