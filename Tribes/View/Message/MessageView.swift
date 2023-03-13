@@ -63,11 +63,6 @@ struct MessageView: View {
 			}
 		}
 		.id(message.body)
-		.onAppear {
-			if message.isEncrypted {
-				MessageClient.shared.decryptMessage(message: message, tribeId: tribeId)
-			}
-		}
 	}
 }
 
