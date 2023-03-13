@@ -236,6 +236,7 @@ struct TeaView: View {
 			}()
 			Capsule()
 				.fill(Color.app.tertiary.opacity(0.2))
+				.id(index)
 			Capsule()
 				.fill(Color.app.tertiary)
 				.transition(.opacity)
@@ -243,8 +244,8 @@ struct TeaView: View {
 				.animation(.linear, value: self.currentPlaybackProgress)
 				.offset(x: -currentPillOffset)
 				.clipShape(Capsule())
+				.id(self.currentPlaybackProgress)
 		}
-		.id(self.currentPlaybackProgress)
 		.frame(height: 4)
 		.readSize { self.pillWidth = $0.width }
 	}
