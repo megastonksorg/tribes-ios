@@ -47,6 +47,7 @@ struct ChatView: View {
 								)
 								.id(draft.id)
 							}
+							.transition(.slide)
 						}
 						.padding(.horizontal, 10)
 						.onChange(of: focusedField) { focusField in

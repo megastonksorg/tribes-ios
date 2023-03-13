@@ -60,14 +60,18 @@ extension ChatView {
 			self.messageClient.$tribesMessages
 				.sink(receiveValue: { tribeMessages in
 					guard let messages = tribeMessages[id: tribe.id] else { return }
-					self.drafts = messages.chatDrafts
-					messages.chat.forEach { newMessage in
-						if let messageToUpdate = self.unsortedMessages[id: newMessage.id] {
-							self.unsortedMessages[id: newMessage.id] = messageToUpdate
-						} else {
-							//Don't add a new message until it is decrypted
-							if !newMessage.isEncrypted {
-								self.unsortedMessages.updateOrAppend(newMessage)
+					withAnimation(.easeInOut) {
+						self.drafts = messages.chatDrafts
+					}
+					DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+						messages.chat.forEach { newMessage in
+							if let messageToUpdate = self.unsortedMessages[id: newMessage.id] {
+								self.unsortedMessages[id: newMessage.id] = messageToUpdate
+							} else {
+								//Don't add a new message until it is decrypted
+								if !newMessage.isEncrypted {
+									self.unsortedMessages.updateOrAppend(newMessage)
+								}
 							}
 						}
 					}
