@@ -23,24 +23,27 @@ struct MessageDraftView: View {
 					Date.now.timeIntervalSince(draft.timeStamp) > SizeConstants.draftRetryDelay
 				}()
 				Spacer()
-				HStack(spacing: 10) {
-					Button(action: { deleteDraft(draft) }) {
-						Image(systemName: "trash.circle.fill")
-							.padding()
-							.dropShadow()
-							.dropShadow()
+					.frame(width: 48)
+				Spacer(minLength: 0)
+				if isShowingRetryButton {
+					HStack(spacing: 10) {
+						Button(action: { deleteDraft(draft) }) {
+							Image(systemName: "trash.circle.fill")
+								.padding()
+								.dropShadow()
+								.dropShadow()
+						}
+						Button(action: { retryDraft(draft) }) {
+							Image(systemName: "arrow.counterclockwise.circle.fill")
+								.foregroundColor(Color.white)
+								.padding()
+								.dropShadow()
+								.dropShadow()
+						}
 					}
-					Button(action: { retryDraft(draft) }) {
-						Image(systemName: "arrow.counterclockwise.circle.fill")
-							.foregroundColor(Color.white)
-							.padding()
-							.dropShadow()
-							.dropShadow()
-					}
+					.font(Font.app.title)
+					.foregroundColor(Color.white)
 				}
-				.font(Font.app.title)
-				.foregroundColor(Color.white)
-				.opacity(isShowingRetryButton ? 1.0 : 0.0)
 				
 				ContentView(content: draft.content, isPlaying: false)
 					.opacity(0.6)
