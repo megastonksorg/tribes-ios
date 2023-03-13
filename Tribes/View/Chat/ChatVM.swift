@@ -58,11 +58,11 @@ extension ChatView {
 				.sink(receiveValue: { tribeMessages in
 					guard let messages = tribeMessages[id: tribe.id] else { return }
 					self.drafts = messages.chatDrafts
-					self.messages.forEach { message in
-						if let updatedMessage = messages.chat[id: message.id] {
-							self.messages[id: message.id] = updatedMessage
+					messages.chat.forEach { newMessage in
+						if let messageToUpdate = self.messages[id: newMessage.id] {
+							self.messages[id: newMessage.id] = messageToUpdate
 						} else {
-							self.messages.updateOrAppend(message)
+							self.messages.updateOrAppend(newMessage)
 						}
 					}
 				})
