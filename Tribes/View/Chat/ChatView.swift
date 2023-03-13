@@ -47,7 +47,7 @@ struct ChatView: View {
 								)
 								.id(draft.id)
 							}
-							.transition(.slide)
+							.transition(.asymmetric(insertion: .opacity, removal: .slide))
 						}
 						.padding(.horizontal, 10)
 						.onChange(of: focusedField) { focusField in
@@ -58,7 +58,9 @@ struct ChatView: View {
 							}
 						}
 						.onChange(of: viewModel.messages.count) { _ in
-							viewModel.scrollToLastMessage(proxy: readerProxy)
+							DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+								viewModel.scrollToLastMessage(proxy: readerProxy)
+							}
 						}
 						.onChange(of: viewModel.drafts.count) { _ in
 							viewModel.scrollToLastMessage(proxy: readerProxy)

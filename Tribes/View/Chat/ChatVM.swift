@@ -35,12 +35,16 @@ extension ChatView {
 			messages.last?.id
 		}
 		
+		var drafts: IdentifiedArrayOf<MessageDraft> {
+			IdentifiedArrayOf(uniqueElements: unsortedDrafts.sorted(by: { $0.timeStamp < $1.timeStamp }))
+		}
+		
 		var messages: IdentifiedArrayOf<Message> {
 			IdentifiedArrayOf(uniqueElements: unsortedMessages.sorted(by: { $0.timeStamp < $1.timeStamp }))
 		}
 		
 		@Published var tribe: Tribe
-		@Published var drafts: IdentifiedArrayOf<MessageDraft>
+		@Published var unsortedDrafts: IdentifiedArrayOf<MessageDraft>
 		@Published var unsortedMessages: IdentifiedArrayOf<Message>
 		@Published var isShowingMember: Bool = false
 		@Published var memberToShow: TribeMember?
@@ -54,22 +58,22 @@ extension ChatView {
 			let tribeMessage: TribeMessage? = messageClient.tribesMessages[id: tribe.id]
 			self.currentTribeMember = tribe.members.currentMember ?? TribeMember.dummyTribeMember
 			self.tribe = tribe
-			self.drafts = tribeMessage?.chatDrafts ?? []
+			self.unsortedDrafts = tribeMessage?.chatDrafts ?? []
 			self.unsortedMessages = tribeMessage?.chat ?? []
 			
 			self.messageClient.$tribesMessages
 				.sink(receiveValue: { tribeMessages in
 					guard let messages = tribeMessages[id: tribe.id] else { return }
 					withAnimation(.easeInOut) {
-						self.drafts = messages.chatDrafts
+						self.unsortedDrafts = messages.chatDrafts
 					}
-					DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-						messages.chat.forEach { newMessage in
-							if let messageToUpdate = self.unsortedMessages[id: newMessage.id] {
-								self.unsortedMessages[id: newMessage.id] = messageToUpdate
-							} else {
-								//Don't add a new message until it is decrypted
-								if !newMessage.isEncrypted {
+					messages.chat.forEach { newMessage in
+						if let messageToUpdate = self.unsortedMessages[id: newMessage.id] {
+							self.unsortedMessages[id: newMessage.id] = messageToUpdate
+						} else {
+							//Don't add a new message until it is decrypted
+							if !newMessage.isEncrypted {
+								DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
 									self.unsortedMessages.updateOrAppend(newMessage)
 								}
 							}
