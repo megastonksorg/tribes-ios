@@ -94,6 +94,7 @@
 		D055BD6B29AFC7AA0070025D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D055BD6A29AFC7AA0070025D /* ContentView.swift */; };
 		D055BD6D29AFC7B40070025D /* ContentVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D055BD6C29AFC7B40070025D /* ContentVM.swift */; };
 		D055BD6F29B0CBF40070025D /* Binding+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D055BD6E29B0CBF40070025D /* Binding+Extensions.swift */; };
+		D05FCDCA29BFD1B900B565AF /* SoundClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05FCDC929BFD1B900B565AF /* SoundClient.swift */; };
 		D06088B42996D55000A3D383 /* OnBoardingPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06088B32996D55000A3D383 /* OnBoardingPageView.swift */; };
 		D063134329B6F90200CCCE13 /* MessageVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D063134229B6F90200CCCE13 /* MessageVideoView.swift */; };
 		D06FDE7D2999C2EB0013A55E /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06FDE7C2999C2EB0013A55E /* AccountView.swift */; };
@@ -255,6 +256,7 @@
 		D055BD6A29AFC7AA0070025D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D055BD6C29AFC7B40070025D /* ContentVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentVM.swift; sourceTree = "<group>"; };
 		D055BD6E29B0CBF40070025D /* Binding+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Binding+Extensions.swift"; sourceTree = "<group>"; };
+		D05FCDC929BFD1B900B565AF /* SoundClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundClient.swift; sourceTree = "<group>"; };
 		D06088B32996D55000A3D383 /* OnBoardingPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingPageView.swift; sourceTree = "<group>"; };
 		D063134229B6F90200CCCE13 /* MessageVideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageVideoView.swift; sourceTree = "<group>"; };
 		D06FDE7C2999C2EB0013A55E /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
@@ -439,6 +441,7 @@
 				D08EBF1E297EBEC1001B7A5C /* KeychainClient.swift */,
 				D0B47CD129AA289A00017563 /* DefaultsClient.swift */,
 				D0B90E5E29B8FF5900EB90CD /* KeyboardClient.swift */,
+				D05FCDC929BFD1B900B565AF /* SoundClient.swift */,
 			);
 			path = Clients;
 			sourceTree = "<group>";
@@ -714,6 +717,13 @@
 			path = Content;
 			sourceTree = "<group>";
 		};
+		D05FCDCB29BFD25500B565AF /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Sounds;
+			sourceTree = "<group>";
+		};
 		D06088B22996D4FC00A3D383 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
@@ -830,6 +840,7 @@
 		D0C65AA82970A80300E527F9 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D05FCDCB29BFD25500B565AF /* Sounds */,
 				D0C65AA92970A82400E527F9 /* Fonts */,
 				D030D28429573E9B0011128F /* Assets.xcassets */,
 				D047E1982982F88900F5C63A /* CodeWords.json */,
@@ -1010,6 +1021,7 @@
 				D076636929948FEB00946F7B /* TokenManager.swift in Sources */,
 				D0C65AA32970988900E527F9 /* Tribe.swift in Sources */,
 				D030D2F7295745F90011128F /* MnemonicWord.swift in Sources */,
+				D05FCDCA29BFD1B900B565AF /* SoundClient.swift in Sources */,
 				D0C3DBF229A3FE300066FBB8 /* ChatVM.swift in Sources */,
 				D0D2668F295F717100A94183 /* CaptureClient+Utilities.swift in Sources */,
 				D030D28129573E9A0011128F /* TribesApp.swift in Sources */,
