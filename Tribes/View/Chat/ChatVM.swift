@@ -142,6 +142,14 @@ extension ChatView {
 						return
 					}
 				}
+				if let (tribeId, drafts) = dict[AppConstants.messageNotificationDictionaryKey] as? (Tribe.ID, IdentifiedArrayOf<MessageDraft>) {
+					if tribeId == self.tribe.id {
+						let chatDrafts = IdentifiedArrayOf(uniqueElements: drafts.filter { $0.tag == .chat }.sorted(by: { $0.timeStamp < $1.timeStamp }))
+						DispatchQueue.main.async {
+							self.drafts = chatDrafts
+						}
+					}
+				}
 			}
 		}
 		
