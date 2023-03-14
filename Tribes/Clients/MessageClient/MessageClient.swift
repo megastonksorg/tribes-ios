@@ -20,9 +20,9 @@ import IdentifiedCollections
 
 @MainActor class MessageClient: ObservableObject {
 	enum MessageUpdateNotification {
-		case updated(tribeId: Tribe.ID, message: Message)
-		case deleted(tribeId: Tribe.ID, messageId: Message.ID)
-		case draftsUpdated(tribeId: Tribe.ID, drafts: IdentifiedArrayOf<MessageDraft>)
+		case updated(_ tribeId: Tribe.ID, _ message: Message)
+		case deleted(_ tribeId: Tribe.ID, _ messageId: Message.ID)
+		case draftsUpdated(_ tribeId: Tribe.ID, _ drafts: IdentifiedArrayOf<MessageDraft>)
 	}
 	
 	static let shared: MessageClient = MessageClient()
@@ -100,7 +100,7 @@ import IdentifiedCollections
 		
 		//Send Message Update Notification
 		let drafts = self.tribesMessages[id: draft.tribeId]?.drafts ?? []
-		let notificationInfo: MessageUpdateNotification = .draftsUpdated(tribeId: draft.tribeId, drafts: drafts)
+		let notificationInfo: MessageUpdateNotification = .draftsUpdated(draft.tribeId, drafts)
 		let messageUpdateNotification = Notification(name: .messageUpdated, userInfo: [AppConstants.messageNotificationDictionaryKey : notificationInfo])
 		NotificationCenter.default.post(messageUpdateNotification)
 		
@@ -185,7 +185,7 @@ import IdentifiedCollections
 			
 			//Send Message Update Notification
 			let drafts = self.tribesMessages[id: draft.tribeId]?.drafts ?? []
-			let notificationInfo: MessageUpdateNotification = .draftsUpdated(tribeId: draft.tribeId, drafts: drafts)
+			let notificationInfo: MessageUpdateNotification = .draftsUpdated(draft.tribeId, drafts)
 			let messageUpdateNotification = Notification(name: .messageUpdated, userInfo: [AppConstants.messageNotificationDictionaryKey : notificationInfo])
 			NotificationCenter.default.post(messageUpdateNotification)
 			return
@@ -275,7 +275,7 @@ import IdentifiedCollections
 				
 				//Send Message Update Notification
 				let drafts = self.tribesMessages[id: message.tribeId]?.drafts ?? []
-				let notificationInfo: MessageUpdateNotification = .draftsUpdated(tribeId: message.tribeId, drafts: drafts)
+				let notificationInfo: MessageUpdateNotification = .draftsUpdated(message.tribeId, drafts)
 				let messageUpdateNotification = Notification(name: .messageUpdated, userInfo: [AppConstants.messageNotificationDictionaryKey : notificationInfo])
 				NotificationCenter.default.post(messageUpdateNotification)
 				await self.cacheClient.setData(key: .tribesMessages, value: self.tribesMessages)
@@ -294,7 +294,7 @@ import IdentifiedCollections
 						self.tribesMessages[id: tribeId]?.messages.remove(id: message.id)
 						
 						//Send Message Update Notification
-						let notificationInfo: MessageUpdateNotification = .deleted(tribeId: tribeId, messageId: message.id)
+						let notificationInfo: MessageUpdateNotification = .deleted(tribeId, message.id)
 						let messageUpdateNotification = Notification(name: .messageUpdated, userInfo: [AppConstants.messageNotificationDictionaryKey : notificationInfo])
 						NotificationCenter.default.post(messageUpdateNotification)
 						
@@ -313,7 +313,7 @@ import IdentifiedCollections
 		}
 		
 		//Send Message Update Notification
-		let notificationInfo: MessageUpdateNotification = .updated(tribeId: tribeId, message: message)
+		let notificationInfo: MessageUpdateNotification = .updated(tribeId, message)
 		let messageUpdateNotification = Notification(name: .messageUpdated, userInfo: [AppConstants.messageNotificationDictionaryKey : notificationInfo])
 		NotificationCenter.default.post(messageUpdateNotification)
 		
@@ -351,7 +351,7 @@ import IdentifiedCollections
 							
 							//Send Message Update notification
 							let drafts = self.tribesMessages[id: failedDraft.tribeId]?.drafts ?? []
-							let notificationInfo: MessageUpdateNotification = .draftsUpdated(tribeId: failedDraft.tribeId, drafts: drafts)
+							let notificationInfo: MessageUpdateNotification = .draftsUpdated(failedDraft.tribeId, drafts)
 							let messageUpdateNotification = Notification(name: .messageUpdated, userInfo: [AppConstants.messageNotificationDictionaryKey : notificationInfo])
 							NotificationCenter.default.post(messageUpdateNotification)
 						}
