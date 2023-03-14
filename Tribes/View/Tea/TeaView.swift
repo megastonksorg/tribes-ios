@@ -89,12 +89,12 @@ struct TeaView: View {
 									.foregroundColor(Color.app.tertiary)
 							}
 							.lineLimit(2)
-							.opacity(viewModel.canSendText ? 0.0 : 1.0)
+							.opacity(viewModel.isHintTextHintVisible ? 1.0 : 0.0)
 							TextField("", text: $viewModel.text, axis: .vertical)
 								.tint(Color.white)
 								.lineLimit(1...4)
 								.foregroundColor(.white)
-								.submitLabel(.send)
+								.submitLabel(.done)
 								.focused($focusedField, equals: .text)
 								.onChange(of: viewModel.text) { newValue in
 									guard let indexOfNewLine = newValue.firstIndex(of: "\n") else { return }

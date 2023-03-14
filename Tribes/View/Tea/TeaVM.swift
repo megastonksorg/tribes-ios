@@ -21,6 +21,10 @@ extension TeaView {
 		
 		private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 		
+		var isHintTextHintVisible: Bool {
+			text.isEmpty
+		}
+		
 		var canSendText: Bool {
 			!text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
 		}
