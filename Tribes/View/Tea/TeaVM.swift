@@ -78,7 +78,7 @@ extension TeaView {
 			self.drafts = drafts
 			self.tea = tea
 			
-			setCurrentDraftOrTeaId(drafts: drafts, tea: tea)
+			resetCurrentDraftOrTeaId()
 			
 			NotificationCenter
 				.default.addObserver(
@@ -87,18 +87,6 @@ extension TeaView {
 					name: .messageUpdated,
 					object: nil
 				)
-		}
-		
-		private func setCurrentDraftOrTeaId(drafts: IdentifiedArrayOf<MessageDraft>, tea: IdentifiedArrayOf<Message>) {
-			//Set the current draft or tea id. Drafts take precedence
-			if !drafts.isEmpty {
-				guard let firstDraftId = drafts.first?.id else { return }
-				setCurrentDraftOrTeaId(draftId: firstDraftId, teaId: nil)
-			} else if !tea.isEmpty {
-				guard let firstTeaId = tea.first?.id else { return }
-				setCurrentDraftOrTeaId(draftId: nil, teaId: firstTeaId)
-			}
-			self.currentPill = 0
 		}
 		
 		func setCurrentDraftOrTeaId(draftId: MessageDraft.ID?, teaId: Message.ID?) {
@@ -215,6 +203,20 @@ extension TeaView {
 			}
 		}
 		
+		private func resetCurrentDraftOrTeaId() {
+			//Set the current draft or tea id. Drafts take precedence
+			if !self.drafts.isEmpty {
+				if let firstDraftId = self.drafts.first?.id {
+					setCurrentDraftOrTeaId(draftId: firstDraftId, teaId: nil)
+				}
+			} else if !self.tea.isEmpty {
+				if let firstTeaId = self.tea.first?.id {
+					setCurrentDraftOrTeaId(draftId: nil, teaId: firstTeaId)
+				}
+			}
+			self.currentPill = 0
+		}
+		
 		@objc func updateMessage(notification: NSNotification) {
 			if let dict = notification.userInfo as? NSDictionary {
 				if let updateNotification = dict[AppConstants.messageNotificationDictionaryKey] as? MessageClient.MessageUpdateNotification {
@@ -229,6 +231,7 @@ extension TeaView {
 						if tribeId == self.tribe.id {
 							DispatchQueue.main.async {
 								self.tea.remove(id: messageId)
+								self.resetCurrentDraftOrTeaId()
 							}
 						}
 					case .draftsUpdated(let tribeId, let drafts):
@@ -237,6 +240,7 @@ extension TeaView {
 							DispatchQueue.main.async {
 								withAnimation(.easeInOut) {
 									self.drafts = teaDrafts
+									self.resetCurrentDraftOrTeaId()
 								}
 							}
 						}
