@@ -92,6 +92,11 @@ import IdentifiedCollections
 		draft.status = .uploading
 		self.tribesMessages[id: draft.tribeId]?.drafts.updateOrAppend(draft)
 		
+		//Send Message Update Notification
+		let drafts = self.tribesMessages[id: draft.tribeId]?.drafts
+		let messageUpdateNotification = Notification(name: .messageUpdated, userInfo: [AppConstants.messageNotificationDictionaryKey : (draft.tribeId, drafts)])
+		NotificationCenter.default.post(messageUpdateNotification)
+		
 		Task {
 			await self.cacheClient.setData(key: .tribesMessages, value: self.tribesMessages)
 		}
@@ -170,6 +175,11 @@ import IdentifiedCollections
 			postMessageCancellables[draft.id] = self.postMessage(draft: draft, model: postMessageModel)
 		case .image, .systemEvent:
 			self.tribesMessages[id: draft.tribeId]?.drafts.remove(id: draft.id)
+			
+			//Send Message Update Notification
+			let drafts = self.tribesMessages[id: draft.tribeId]?.drafts
+			let messageUpdateNotification = Notification(name: .messageUpdated, userInfo: [AppConstants.messageNotificationDictionaryKey : (draft.tribeId, drafts)])
+			NotificationCenter.default.post(messageUpdateNotification)
 			return
 		}
 	}
@@ -254,6 +264,11 @@ import IdentifiedCollections
 			if self.tribesMessages[id: message.tribeId]?.drafts[id: message.id] != nil {
 				self.postMessageCancellables[message.id]?.cancel()
 				self.tribesMessages[id: message.tribeId]?.drafts.remove(id: message.id)
+				
+				//Send Message Update Notification
+				let drafts = self.tribesMessages[id: message.tribeId]?.drafts
+				let messageUpdateNotification = Notification(name: .messageUpdated, userInfo: [AppConstants.messageNotificationDictionaryKey : (message.tribeId, drafts)])
+				NotificationCenter.default.post(messageUpdateNotification)
 				await self.cacheClient.setData(key: .tribesMessages, value: self.tribesMessages)
 			}
 		}
@@ -314,6 +329,11 @@ import IdentifiedCollections
 							var failedDraft = draft
 							failedDraft.status = .failedToUpload
 							self.tribesMessages[id: draft.tribeId]?.drafts.updateOrAppend(failedDraft)
+							
+							//Send Message Update notification
+							let drafts = self.tribesMessages[id: failedDraft.tribeId]?.drafts
+							let messageUpdateNotification = Notification(name: .messageUpdated, userInfo: [AppConstants.messageNotificationDictionaryKey : (failedDraft.tribeId, drafts)])
+							NotificationCenter.default.post(messageUpdateNotification)
 						}
 					}
 				},
