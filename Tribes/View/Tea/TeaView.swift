@@ -94,7 +94,13 @@ struct TeaView: View {
 								.tint(Color.white)
 								.lineLimit(1...4)
 								.foregroundColor(.white)
+								.submitLabel(.send)
 								.focused($focusedField, equals: .text)
+								.onChange(of: viewModel.text) { newValue in
+									guard let indexOfNewLine = newValue.firstIndex(of: "\n") else { return }
+									viewModel.text.remove(at: indexOfNewLine)
+									self.focusedField = nil
+								}
 						}
 						.font(Font.app.body)
 						.multilineTextAlignment(.leading)
