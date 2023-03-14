@@ -61,21 +61,19 @@ extension ChatView {
 			self.drafts = tribeMessage?.chatDrafts ?? []
 			self.messages = tribeMessage?.chat ?? []
 			
-			self.messageClient.$tribesMessages
-				.sink(receiveValue: { tribeMessages in
-					guard let messages = tribeMessages[id: tribe.id] else { return }
-					withAnimation(.easeInOut) {
-						self.drafts = messages.chatDrafts
-					}
-					self.messages = messages.chat
-				})
-				.store(in: &cancellables)
-			
 			NotificationCenter
 				.default.addObserver(
 					self,
 					selector: #selector(updateTribe),
 					name: .tribesUpdated,
+					object: nil
+				)
+			
+			NotificationCenter
+				.default.addObserver(
+					self,
+					selector: #selector(updateMessage),
+					name: .messageUpdated,
 					object: nil
 				)
 		}
@@ -130,6 +128,19 @@ extension ChatView {
 			if let lastMessageId = lastMessageId {
 				withAnimation(scrollAnimation) {
 					proxy.scrollTo(lastMessageId, anchor: .bottom)
+				}
+			}
+		}
+		
+		@objc func updateMessage(notification: NSNotification) {
+			if let dict = notification.userInfo as? NSDictionary {
+				if let (tribeId, message) = dict[AppConstants.messageNotificationDictionaryKey] as? (Tribe.ID, Message) {
+					if tribeId == self.tribe.id && message.tag == .chat {
+						DispatchQueue.main.async {
+							self.messages.updateOrAppend(message)
+						}
+						return
+					}
 				}
 			}
 		}

@@ -281,6 +281,8 @@ import IdentifiedCollections
 		DispatchQueue.main.async {
 			self.tribesMessages[id: tribeId]?.messages[id: message.id] = message
 		}
+		let messageUpdateNotification = Notification(name: .messageUpdated, userInfo: [AppConstants.messageNotificationDictionaryKey : (tribeId, message)])
+		NotificationCenter.default.post(messageUpdateNotification)
 		Task {
 			if var existingTribesMessagesInCache = await self.cacheClient.getData(key: .tribesMessages) {
 				existingTribesMessagesInCache[id: tribeId]?.messages.updateOrAppend(message)
