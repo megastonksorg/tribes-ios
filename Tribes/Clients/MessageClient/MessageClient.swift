@@ -19,6 +19,12 @@ import IdentifiedCollections
  */
 
 @MainActor class MessageClient: ObservableObject {
+	enum MessageUpdateNotification {
+		case updated(tribeId: Tribe.ID, message: Message)
+		case deleted(tribeId: Tribe.ID, messageId: Message.ID)
+		case draftsUpdated(tribeId: Tribe.ID, drafts: IdentifiedArrayOf<MessageDraft>)
+	}
+	
 	static let shared: MessageClient = MessageClient()
 	
 	@Published var tribesMessages: IdentifiedArrayOf<TribeMessage> = []
@@ -93,8 +99,9 @@ import IdentifiedCollections
 		self.tribesMessages[id: draft.tribeId]?.drafts.updateOrAppend(draft)
 		
 		//Send Message Update Notification
-		let drafts = self.tribesMessages[id: draft.tribeId]?.drafts
-		let messageUpdateNotification = Notification(name: .messageUpdated, userInfo: [AppConstants.messageNotificationDictionaryKey : (draft.tribeId, drafts)])
+		let drafts = self.tribesMessages[id: draft.tribeId]?.drafts ?? []
+		let notificationInfo: MessageUpdateNotification = .draftsUpdated(tribeId: draft.tribeId, drafts: drafts)
+		let messageUpdateNotification = Notification(name: .messageUpdated, userInfo: [AppConstants.messageNotificationDictionaryKey : notificationInfo])
 		NotificationCenter.default.post(messageUpdateNotification)
 		
 		Task {
@@ -177,8 +184,9 @@ import IdentifiedCollections
 			self.tribesMessages[id: draft.tribeId]?.drafts.remove(id: draft.id)
 			
 			//Send Message Update Notification
-			let drafts = self.tribesMessages[id: draft.tribeId]?.drafts
-			let messageUpdateNotification = Notification(name: .messageUpdated, userInfo: [AppConstants.messageNotificationDictionaryKey : (draft.tribeId, drafts)])
+			let drafts = self.tribesMessages[id: draft.tribeId]?.drafts ?? []
+			let notificationInfo: MessageUpdateNotification = .draftsUpdated(tribeId: draft.tribeId, drafts: drafts)
+			let messageUpdateNotification = Notification(name: .messageUpdated, userInfo: [AppConstants.messageNotificationDictionaryKey : notificationInfo])
 			NotificationCenter.default.post(messageUpdateNotification)
 			return
 		}
@@ -266,8 +274,9 @@ import IdentifiedCollections
 				self.tribesMessages[id: message.tribeId]?.drafts.remove(id: message.id)
 				
 				//Send Message Update Notification
-				let drafts = self.tribesMessages[id: message.tribeId]?.drafts
-				let messageUpdateNotification = Notification(name: .messageUpdated, userInfo: [AppConstants.messageNotificationDictionaryKey : (message.tribeId, drafts)])
+				let drafts = self.tribesMessages[id: message.tribeId]?.drafts ?? []
+				let notificationInfo: MessageUpdateNotification = .draftsUpdated(tribeId: message.tribeId, drafts: drafts)
+				let messageUpdateNotification = Notification(name: .messageUpdated, userInfo: [AppConstants.messageNotificationDictionaryKey : notificationInfo])
 				NotificationCenter.default.post(messageUpdateNotification)
 				await self.cacheClient.setData(key: .tribesMessages, value: self.tribesMessages)
 			}
@@ -283,6 +292,12 @@ import IdentifiedCollections
 				receiveValue: { response in
 					if response.success {
 						self.tribesMessages[id: tribeId]?.messages.remove(id: message.id)
+						
+						//Send Message Update Notification
+						let notificationInfo: MessageUpdateNotification = .deleted(tribeId: tribeId, messageId: message.id)
+						let messageUpdateNotification = Notification(name: .messageUpdated, userInfo: [AppConstants.messageNotificationDictionaryKey : notificationInfo])
+						NotificationCenter.default.post(messageUpdateNotification)
+						
 						Task {
 							await self.cacheClient.setData(key: .tribesMessages, value: self.tribesMessages)
 						}
@@ -296,8 +311,12 @@ import IdentifiedCollections
 		DispatchQueue.main.async {
 			self.tribesMessages[id: tribeId]?.messages[id: message.id] = message
 		}
-		let messageUpdateNotification = Notification(name: .messageUpdated, userInfo: [AppConstants.messageNotificationDictionaryKey : (tribeId, message)])
+		
+		//Send Message Update Notification
+		let notificationInfo: MessageUpdateNotification = .updated(tribeId: tribeId, message: message)
+		let messageUpdateNotification = Notification(name: .messageUpdated, userInfo: [AppConstants.messageNotificationDictionaryKey : notificationInfo])
 		NotificationCenter.default.post(messageUpdateNotification)
+		
 		Task {
 			if var existingTribesMessagesInCache = await self.cacheClient.getData(key: .tribesMessages) {
 				existingTribesMessagesInCache[id: tribeId]?.messages.updateOrAppend(message)
@@ -331,8 +350,9 @@ import IdentifiedCollections
 							self.tribesMessages[id: draft.tribeId]?.drafts.updateOrAppend(failedDraft)
 							
 							//Send Message Update notification
-							let drafts = self.tribesMessages[id: failedDraft.tribeId]?.drafts
-							let messageUpdateNotification = Notification(name: .messageUpdated, userInfo: [AppConstants.messageNotificationDictionaryKey : (failedDraft.tribeId, drafts)])
+							let drafts = self.tribesMessages[id: failedDraft.tribeId]?.drafts ?? []
+							let notificationInfo: MessageUpdateNotification = .draftsUpdated(tribeId: failedDraft.tribeId, drafts: drafts)
+							let messageUpdateNotification = Notification(name: .messageUpdated, userInfo: [AppConstants.messageNotificationDictionaryKey : notificationInfo])
 							NotificationCenter.default.post(messageUpdateNotification)
 						}
 					}
