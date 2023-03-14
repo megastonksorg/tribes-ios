@@ -96,6 +96,7 @@ import IdentifiedCollections
 		//Add to Draft
 		var draft = draft
 		draft.status = .uploading
+		draft.timeStamp = Date.now
 		self.tribesMessages[id: draft.tribeId]?.drafts.updateOrAppend(draft)
 		
 		//Send Message Update Notification

@@ -209,7 +209,7 @@ struct MessageDraft: Codable, Identifiable {
 	let caption: String?
 	let tag: Message.Tag
 	let tribeId: Tribe.ID
-	let timeStamp: Date
+	var timeStamp: Date
 	var status: Status = .uploading
 	
 	var isStuckUploading: Bool {
