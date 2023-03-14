@@ -142,6 +142,12 @@ extension ChatView {
 								self.messages.updateOrAppend(message)
 							}
 						}
+					case .deleted(let tribeId, let messageId):
+						if tribeId == self.tribe.id {
+							DispatchQueue.main.async {
+								self.messages.remove(id: messageId)
+							}
+						}
 					case .draftsUpdated(let tribeId, let drafts):
 						if tribeId == self.tribe.id {
 							let chatDrafts = IdentifiedArrayOf(uniqueElements: drafts.filter { $0.tag == .chat }.sorted(by: { $0.timeStamp < $1.timeStamp }))
@@ -149,12 +155,6 @@ extension ChatView {
 								withAnimation(.easeInOut) {
 									self.drafts = chatDrafts
 								}
-							}
-						}
-					case .deleted(let tribeId, let messageId):
-						if tribeId == self.tribe.id {
-							DispatchQueue.main.async {
-								self.messages.remove(id: messageId)
 							}
 						}
 					}

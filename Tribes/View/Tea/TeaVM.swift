@@ -80,19 +80,13 @@ extension TeaView {
 			
 			setCurrentDraftOrTeaId(drafts: drafts, tea: tea)
 			
-			self.messageClient.$tribesMessages
-				.sink(receiveValue: { tribeMessages in
-					guard let messages = tribeMessages[id: tribe.id] else { return }
-					let totalCount = messages.tea.count + messages.teaDrafts.count
-					if totalCount != self.draftAndTeaCount {
-						self.drafts = messages.teaDrafts
-						self.tea = messages.tea
-						self.setCurrentDraftOrTeaId(drafts: self.drafts, tea: self.tea)
-					} else {
-						self.drafts = messages.teaDrafts
-					}
-				})
-				.store(in: &cancellables)
+			NotificationCenter
+				.default.addObserver(
+					self,
+					selector: #selector(updateMessage),
+					name: .messageUpdated,
+					object: nil
+				)
 		}
 		
 		private func setCurrentDraftOrTeaId(drafts: IdentifiedArrayOf<MessageDraft>, tea: IdentifiedArrayOf<Message>) {
@@ -218,6 +212,36 @@ extension TeaView {
 		func deleteMessage() {
 			if let currentTea = currentTea {
 				self.messageClient.deleteMessage(currentTea, tribeId: self.tribe.id)
+			}
+		}
+		
+		@objc func updateMessage(notification: NSNotification) {
+			if let dict = notification.userInfo as? NSDictionary {
+				if let updateNotification = dict[AppConstants.messageNotificationDictionaryKey] as? MessageClient.MessageUpdateNotification {
+					switch updateNotification {
+					case .updated(let tribeId, let message):
+						if tribeId == self.tribe.id && message.tag == .tea {
+							DispatchQueue.main.async {
+								self.tea.updateOrAppend(message)
+							}
+						}
+					case .deleted(let tribeId, let messageId):
+						if tribeId == self.tribe.id {
+							DispatchQueue.main.async {
+								self.tea.remove(id: messageId)
+							}
+						}
+					case .draftsUpdated(let tribeId, let drafts):
+						if tribeId == self.tribe.id {
+							let teaDrafts = IdentifiedArrayOf(uniqueElements: drafts.filter { $0.tag == .tea }.sorted(by: { $0.timeStamp < $1.timeStamp }))
+							DispatchQueue.main.async {
+								withAnimation(.easeInOut) {
+									self.drafts = teaDrafts
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 	}
