@@ -18,6 +18,7 @@ struct TeaView: View {
 	@ObservedObject var keyboardClient: KeyboardClient = KeyboardClient.shared
 	
 	@State var currentPlaybackProgress: Float = 0
+	@State var currentPillOffset: CGFloat = 0
 	@State var pillWidth: CGFloat = 0
 	
 	init(viewModel: TeaView.ViewModel, closeButtonAction: @escaping () -> ()) {
@@ -218,12 +219,14 @@ struct TeaView: View {
 				LazyVGrid(columns: Array(repeating: GridItem(), count: 10)) {
 					ForEach(0..<viewModel.draftAndTeaCount, id: \.self) { pillIndex in
 						pill(index: pillIndex)
+							.readSize { self.pillWidth = $0.width }
 					}
 				}
 			} else {
 				HStack(spacing: 2) {
 					ForEach(0..<viewModel.draftAndTeaCount, id: \.self) { pillIndex in
 						pill(index: pillIndex)
+							.readSize { self.pillWidth = $0.width }
 					}
 				}
 			}
@@ -253,7 +256,6 @@ struct TeaView: View {
 				.id(self.currentPlaybackProgress)
 		}
 		.frame(height: 4)
-		.readSize { self.pillWidth = $0.width }
 	}
 	
 	@ViewBuilder
