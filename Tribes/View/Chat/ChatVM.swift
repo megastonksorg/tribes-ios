@@ -46,6 +46,8 @@ extension ChatView {
 		@Published var tribe: Tribe
 		@Published var drafts: IdentifiedArrayOf<MessageDraft>
 		@Published var messages: IdentifiedArrayOf<Message>
+		@Published var draftChangedId: UUID?
+		@Published var messageChangedId: UUID?
 		@Published var isShowingMember: Bool = false
 		@Published var memberToShow: TribeMember?
 		@Published var text: String = ""
@@ -140,12 +142,14 @@ extension ChatView {
 						if tribeId == self.tribe.id && message.tag == .chat {
 							DispatchQueue.main.async {
 								self.messages.updateOrAppend(message)
+								self.messageChangedId = UUID()
 							}
 						}
 					case .deleted(let tribeId, let messageId):
 						if tribeId == self.tribe.id {
 							DispatchQueue.main.async {
 								self.messages.remove(id: messageId)
+								self.messageChangedId = UUID()
 							}
 						}
 					case .draftsUpdated(let tribeId, let drafts):
@@ -154,6 +158,7 @@ extension ChatView {
 							DispatchQueue.main.async {
 								withAnimation(.easeInOut) {
 									self.drafts = chatDrafts
+									self.draftChangedId = UUID()
 								}
 							}
 						}

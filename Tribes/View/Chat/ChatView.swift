@@ -57,12 +57,12 @@ struct ChatView: View {
 								}
 							}
 						}
-						.onChange(of: viewModel.messages.count) { _ in
+						.onChange(of: viewModel.messageChangedId) { _ in
 							DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
 								viewModel.scrollToLastMessage(proxy: readerProxy)
 							}
 						}
-						.onChange(of: viewModel.drafts.count) { _ in
+						.onChange(of: viewModel.draftChangedId) { _ in
 							viewModel.scrollToLastMessage(proxy: readerProxy)
 						}
 						.onAppear { viewModel.scrollToLastMessage(proxy: readerProxy) }
