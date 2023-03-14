@@ -134,20 +134,27 @@ extension ChatView {
 		
 		@objc func updateMessage(notification: NSNotification) {
 			if let dict = notification.userInfo as? NSDictionary {
-				if let (tribeId, message) = dict[AppConstants.messageNotificationDictionaryKey] as? (Tribe.ID, Message) {
-					if tribeId == self.tribe.id && message.tag == .chat {
-						DispatchQueue.main.async {
-							self.messages.updateOrAppend(message)
+				if let updateNotification = dict[AppConstants.messageNotificationDictionaryKey] as? MessageClient.MessageUpdateNotification {
+					switch updateNotification {
+					case .updated(let tribeId, let message):
+						if tribeId == self.tribe.id && message.tag == .chat {
+							DispatchQueue.main.async {
+								self.messages.updateOrAppend(message)
+							}
 						}
-						return
-					}
-				}
-				if let (tribeId, drafts) = dict[AppConstants.messageNotificationDictionaryKey] as? (Tribe.ID, IdentifiedArrayOf<MessageDraft>) {
-					if tribeId == self.tribe.id {
-						let chatDrafts = IdentifiedArrayOf(uniqueElements: drafts.filter { $0.tag == .chat }.sorted(by: { $0.timeStamp < $1.timeStamp }))
-						DispatchQueue.main.async {
-							withAnimation(.easeInOut) {
-								self.drafts = chatDrafts
+					case .draftsUpdated(let tribeId, let drafts):
+						if tribeId == self.tribe.id {
+							let chatDrafts = IdentifiedArrayOf(uniqueElements: drafts.filter { $0.tag == .chat }.sorted(by: { $0.timeStamp < $1.timeStamp }))
+							DispatchQueue.main.async {
+								withAnimation(.easeInOut) {
+									self.drafts = chatDrafts
+								}
+							}
+						}
+					case .deleted(let tribeId, let messageId):
+						if tribeId == self.tribe.id {
+							DispatchQueue.main.async {
+								self.messages.remove(id: messageId)
 							}
 						}
 					}
