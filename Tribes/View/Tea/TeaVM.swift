@@ -240,10 +240,12 @@ extension TeaView {
 							let teaDrafts = IdentifiedArrayOf(uniqueElements: drafts.filter { $0.tag == .tea }.sorted(by: { $0.timeStamp < $1.timeStamp }))
 							DispatchQueue.main.async {
 								withAnimation(.easeInOut) {
-									self.drafts = teaDrafts
-								}
-								if self.currentDraftId != nil {
-									self.resetCurrentDraftOrTeaId()
+									if teaDrafts.count != drafts.count {
+										self.drafts = teaDrafts
+										self.resetCurrentDraftOrTeaId()
+									} else {
+										self.drafts = teaDrafts
+									}
 								}
 							}
 						}
