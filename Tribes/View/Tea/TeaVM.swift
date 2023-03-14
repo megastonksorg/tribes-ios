@@ -226,13 +226,14 @@ extension TeaView {
 							DispatchQueue.main.async {
 								self.tea.updateOrAppend(message)
 							}
+							self.resetCurrentDraftOrTeaId()
 						}
 					case .deleted(let tribeId, let messageId):
 						if tribeId == self.tribe.id {
 							DispatchQueue.main.async {
 								self.tea.remove(id: messageId)
-								self.resetCurrentDraftOrTeaId()
 							}
+							self.resetCurrentDraftOrTeaId()
 						}
 					case .draftsUpdated(let tribeId, let drafts):
 						if tribeId == self.tribe.id {
@@ -240,6 +241,8 @@ extension TeaView {
 							DispatchQueue.main.async {
 								withAnimation(.easeInOut) {
 									self.drafts = teaDrafts
+								}
+								if self.currentDraftId != nil {
 									self.resetCurrentDraftOrTeaId()
 								}
 							}
