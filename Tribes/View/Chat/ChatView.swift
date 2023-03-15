@@ -29,6 +29,12 @@ struct ChatView: View {
 				ScrollViewReader { readerProxy in
 					ScrollView {
 						LazyVStack(spacing: 0) {
+							HStack {
+								TextView("Only comms from the past 24 hours", style: .hint)
+								Image(systemName: "clock.fill")
+									.foregroundColor(Color.gray)
+								TextView("are shown", style: .hint)
+							}
 							ForEach(viewModel.messages) { message in
 								MessageView(
 									currentTribeMember: viewModel.currentTribeMember,
@@ -77,9 +83,6 @@ struct ChatView: View {
 						+
 						Text(viewModel.tribe.name)
 							.foregroundColor(Color.app.tertiary)
-						+
-						Text(" to chat")
-							.foregroundColor(Color.gray)
 					}
 				}
 				
