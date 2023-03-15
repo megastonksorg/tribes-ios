@@ -17,25 +17,23 @@ struct MessageDraftView: View {
 	
 	var body: some View {
 		if draft.content.outgoingType == .text {
-			HStack {
+			HStack(spacing: 0) {
+				let padding: CGFloat = 8
 				let isShowingRetryButton: Bool = {
 					return draft.status == .failedToUpload || draft.isStuckUploading
 				}()
-				Spacer()
-					.frame(width: 48)
-				Spacer(minLength: 0)
 				if isShowingRetryButton {
-					HStack(spacing: 10) {
+					HStack(spacing: 0) {
 						Button(action: { deleteDraft(draft) }) {
 							Image(systemName: "trash.circle.fill")
-								.padding()
+								.padding(padding)
 								.dropShadow()
 								.dropShadow()
 						}
 						Button(action: { retryDraft(draft) }) {
 							Image(systemName: "arrow.counterclockwise.circle.fill")
 								.foregroundColor(Color.white)
-								.padding()
+								.padding(padding)
 								.dropShadow()
 								.dropShadow()
 						}
@@ -43,7 +41,7 @@ struct MessageDraftView: View {
 					.font(Font.app.title)
 					.foregroundColor(Color.white)
 				}
-				
+				Spacer(minLength: 0)
 				ContentView(content: draft.content, isPlaying: false)
 					.opacity(0.6)
 			}

@@ -236,7 +236,7 @@ extension MessageDraft {
 		caption: nil,
 		tag: .chat,
 		tribeId: Tribe.noop1.id,
-		timeStamp: Date.now,
+		timeStamp: Calendar.current.date(byAdding: .hour, value: -1, to: Date())!,
 		status: .uploading
 	)
 }
