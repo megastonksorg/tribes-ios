@@ -23,18 +23,20 @@ struct ChatView: View {
 		self._viewModel = StateObject(wrappedValue: viewModel)
 		self.dismissAction = dismissAction
 	}
+	
 	var body: some View {
 		VStack {
 			VStack(spacing: 0) {
 				ScrollViewReader { readerProxy in
 					ScrollView {
 						LazyVStack(spacing: 0) {
-							HStack {
+							HStack(spacing: 2) {
 								TextView("Only comms from the past 24 hours", style: .hint)
 								Image(systemName: "clock.fill")
 									.foregroundColor(Color.gray)
 								TextView("are shown", style: .hint)
 							}
+							.padding(.bottom, 30)
 							ForEach(viewModel.messages) { message in
 								MessageView(
 									currentTribeMember: viewModel.currentTribeMember,
