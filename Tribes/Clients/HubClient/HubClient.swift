@@ -14,9 +14,40 @@ class HubClient: HubConnectionDelegate {
 	
 	init() {
 		initializeConnection()
+		
+		/**
+		 We need to reinitialize the connection when the token is refreshed because
+		 there is a possibility the user was not able to join the room for all his tribes in the server
+		 */
+		NotificationCenter
+			.default.addObserver(
+				self,
+				selector: #selector(initializeConnection),
+				name: .tokenRefreshed,
+				object: nil
+			)
 	}
 	
-	func initializeConnection() {
+	private func handleMessage(_ tribeId: String, message: MessageResponse) {
+		Task {
+			await MessageClient.shared.messageReceived(tribeId: tribeId, messageResponse: message)
+		}
+	}
+	
+	internal func connectionDidOpen(hubConnection: SignalRClient.HubConnection) {
+		//Join Tribes Group
+		self.subscribeToTribeUpdates()
+	}
+	
+	internal func connectionDidFailToOpen(error: Error) {
+		self.connection?.start()
+	}
+	
+	internal func connectionDidClose(error: Error?) {
+		return
+	}
+	
+	@objc func initializeConnection() {
 		self.connection?.stop()
 		self.connection = nil
 		if let token = KeychainClient.shared.get(key: .token) {
@@ -46,25 +77,6 @@ class HubClient: HubConnectionDelegate {
 					object: nil
 				)
 		}
-	}
-	
-	private func handleMessage(_ tribeId: String, message: MessageResponse) {
-		Task {
-			await MessageClient.shared.messageReceived(tribeId: tribeId, messageResponse: message)
-		}
-	}
-	
-	internal func connectionDidOpen(hubConnection: SignalRClient.HubConnection) {
-		//Join Tribes Group
-		self.subscribeToTribeUpdates()
-	}
-	
-	internal func connectionDidFailToOpen(error: Error) {
-		self.connection?.start()
-	}
-	
-	internal func connectionDidClose(error: Error?) {
-		return
 	}
 	
 	@objc func subscribeToTribeUpdates() {
