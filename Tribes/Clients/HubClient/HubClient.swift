@@ -13,26 +13,39 @@ class HubClient: HubConnectionDelegate {
 	private var connection: HubConnection?
 	
 	init() {
-		connection = HubConnectionBuilder(url: URL(string: "https://\(APPUrlRequest.domain)/appHub")!)
-			.withLogging(minLogLevel: .error)
-			.withHubConnectionDelegate(delegate: self)
-			.withAutoReconnect()
-			.build()
-		
-		//Register for Events
-		connection?.on(method: "ReceiveMessage", callback: { (tribeId: String, message: MessageResponse) in
-			self.handleMessage(tribeId, message: message)
-		})
-		
-		connection?.start()
-		
-		NotificationCenter
-			.default.addObserver(
-				self,
-				selector: #selector(subscribeToTribeUpdates),
-				name: .tribesUpdated,
-				object: nil
-			)
+		initializeConnection()
+	}
+	
+	func initializeConnection() {
+		self.connection?.stop()
+		self.connection = nil
+		if let token = KeychainClient.shared.get(key: .token) {
+			let accessToken = token.jwt
+			connection = HubConnectionBuilder(url: URL(string: "https://\(APPUrlRequest.domain)/appHub")!)
+				.withLogging(minLogLevel: .error)
+				.withHubConnectionDelegate(delegate: self)
+				.withHttpConnectionOptions(
+					configureHttpOptions: { httpOptions in
+						httpOptions.accessTokenProvider = { accessToken }
+				})
+				.withAutoReconnect()
+				.build()
+			
+			//Register for Events
+			connection?.on(method: "ReceiveMessage", callback: { (tribeId: String, message: MessageResponse) in
+				self.handleMessage(tribeId, message: message)
+			})
+			
+			connection?.start()
+			
+			NotificationCenter
+				.default.addObserver(
+					self,
+					selector: #selector(subscribeToTribeUpdates),
+					name: .tribesUpdated,
+					object: nil
+				)
+		}
 	}
 	
 	private func handleMessage(_ tribeId: String, message: MessageResponse) {
@@ -43,11 +56,11 @@ class HubClient: HubConnectionDelegate {
 	
 	internal func connectionDidOpen(hubConnection: SignalRClient.HubConnection) {
 		//Join Tribes Group
-		subscribeToTribeUpdates()
+		self.subscribeToTribeUpdates()
 	}
 	
 	internal func connectionDidFailToOpen(error: Error) {
-		connection?.start()
+		self.connection?.start()
 	}
 	
 	internal func connectionDidClose(error: Error?) {
@@ -61,4 +74,3 @@ class HubClient: HubConnectionDelegate {
 		}
 	}
 }
-
