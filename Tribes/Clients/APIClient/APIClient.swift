@@ -25,7 +25,7 @@ protocol APIRequests {
 	//Message
 	func getMessages(tribeId: Tribe.ID) -> AnyPublisher<[MessageResponse], APIClientError>
 	func deleteMessage(messageId: Message.ID) -> AnyPublisher<SuccessResponse, APIClientError>
-	func postMessage(model: PostMessage) -> AnyPublisher<MessageResponse, APIClientError>
+	func postMessage(model: PostMessage) -> AnyPublisher<EmptyResponse, APIClientError>
 	//Tribe
 	func createTribe(name: String) -> AnyPublisher<Tribe, APIClientError>
 	func getTribes() -> AnyPublisher<[Tribe], APIClientError>
@@ -178,14 +178,14 @@ final class APIClient: APIRequests {
 		return apiRequest(appRequest: deleteMessageRequest, output: SuccessResponse.self)
 	}
 	
-	func postMessage(model: PostMessage) -> AnyPublisher<MessageResponse, APIClientError> {
+	func postMessage(model: PostMessage) -> AnyPublisher<EmptyResponse, APIClientError> {
 		let postMessageRequest = APPUrlRequest(
 			httpMethod: .post,
 			pathComponents: ["message"],
 			body: model,
 			requiresAuth: true
 		)
-		return apiRequest(appRequest: postMessageRequest, output: MessageResponse.self)
+		return apiRequest(appRequest: postMessageRequest, output: EmptyResponse.self)
 	}
 	
 	//Tribes

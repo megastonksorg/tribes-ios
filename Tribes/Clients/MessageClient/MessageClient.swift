@@ -308,6 +308,10 @@ import IdentifiedCollections
 			.store(in: &self.cancellables)
 	}
 	
+	func messageReceived(tribeId: String, messageResponse: MessageResponse) {
+		processMessageResponse(tribeId: tribeId, messageResponse: messageResponse)
+	}
+	
 	private func updateMessageAndCache(_ message: Message, tribeId: Tribe.ID) {
 		DispatchQueue.main.async {
 			self.tribesMessages[id: tribeId]?.messages[id: message.id] = message
@@ -330,9 +334,13 @@ import IdentifiedCollections
 		return self.apiClient.postMessage(model: model)
 			.receive(on: DispatchQueue.main)
 			.sink(
-				receiveCompletion: { completion in
+				receiveCompletion: { [weak self] completion in
+					guard let self = self else { return }
 					switch completion {
-					case .finished: return
+					case .finished:
+						self.deleteDraft(draft)
+						self.soundClient.playSound(.messageSent)
+						return
 					case .failure(let error):
 						let expectedDataError: Data = Data("Invalid Tribe TimestampId".utf8)
 						if error == .httpError(statusCode: 400, data: expectedDataError) {
@@ -358,16 +366,8 @@ import IdentifiedCollections
 						}
 					}
 				},
-				receiveValue: { [weak self] messageResponse in
-					self?.soundClient.playSound(.messageSent)
-					self?.messagePosted(draft: draft, messageResponse: messageResponse)
-				}
+				receiveValue: { _ in }
 			)
-	}
-	
-	private func messagePosted(draft: MessageDraft, messageResponse: MessageResponse) {
-		deleteDraft(draft)
-		processMessageResponse(tribeId: draft.tribeId, messageResponse: messageResponse)
 	}
 	
 	private func mapMessageResponseToMessage(_ messageResponse: MessageResponse) -> Message {
