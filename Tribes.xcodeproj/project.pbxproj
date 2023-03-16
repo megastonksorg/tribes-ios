@@ -100,6 +100,8 @@
 		D05FCDD729BFDBA200B565AF /* messageSent.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D05FCDD629BFDBA200B565AF /* messageSent.mp3 */; };
 		D06088B42996D55000A3D383 /* OnBoardingPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06088B32996D55000A3D383 /* OnBoardingPageView.swift */; };
 		D063134329B6F90200CCCE13 /* MessageVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D063134229B6F90200CCCE13 /* MessageVideoView.swift */; };
+		D06829B729C36EC600686FCC /* HubClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06829B629C36EC600686FCC /* HubClient.swift */; };
+		D06829BA29C370E600686FCC /* SignalRClient in Frameworks */ = {isa = PBXBuildFile; productRef = D06829B929C370E600686FCC /* SignalRClient */; };
 		D06FDE7D2999C2EB0013A55E /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06FDE7C2999C2EB0013A55E /* AccountView.swift */; };
 		D06FDE7F2999C2F50013A55E /* AccountVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06FDE7E2999C2F50013A55E /* AccountVM.swift */; };
 		D06FDE81299A03210013A55E /* WalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06FDE80299A03210013A55E /* WalletView.swift */; };
@@ -265,6 +267,7 @@
 		D05FCDD629BFDBA200B565AF /* messageSent.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = messageSent.mp3; sourceTree = "<group>"; };
 		D06088B32996D55000A3D383 /* OnBoardingPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingPageView.swift; sourceTree = "<group>"; };
 		D063134229B6F90200CCCE13 /* MessageVideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageVideoView.swift; sourceTree = "<group>"; };
+		D06829B629C36EC600686FCC /* HubClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HubClient.swift; sourceTree = "<group>"; };
 		D06FDE7C2999C2EB0013A55E /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		D06FDE7E2999C2F50013A55E /* AccountVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountVM.swift; sourceTree = "<group>"; };
 		D06FDE80299A03210013A55E /* WalletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletView.swift; sourceTree = "<group>"; };
@@ -343,6 +346,7 @@
 			files = (
 				D030D2962957452F0011128F /* WalletCore in Frameworks */,
 				D030D293295744F50011128F /* SwiftKeychainWrapper in Frameworks */,
+				D06829BA29C370E600686FCC /* SignalRClient in Frameworks */,
 				D0E8519A2968EBF70034AFD1 /* Introspect in Frameworks */,
 				D030D290295744A80011128F /* IdentifiedCollections in Frameworks */,
 				D0F7E13A29574A330053B21D /* SwiftProtobuf in Frameworks */,
@@ -434,6 +438,7 @@
 		D030D29C295745C20011128F /* Clients */ = {
 			isa = PBXGroup;
 			children = (
+				D06829B529C36EB900686FCC /* HubClient */,
 				D01B8BA729AD8E8500C6BC1D /* MessageClient */,
 				D018C8EC299DE5B5005765A2 /* EncryptionClient */,
 				D076636E2995436500946F7B /* Repositories */,
@@ -741,6 +746,14 @@
 			path = Onboarding;
 			sourceTree = "<group>";
 		};
+		D06829B529C36EB900686FCC /* HubClient */ = {
+			isa = PBXGroup;
+			children = (
+				D06829B629C36EC600686FCC /* HubClient.swift */,
+			);
+			path = HubClient;
+			sourceTree = "<group>";
+		};
 		D06FDE7B2999C15D0013A55E /* Account */ = {
 			isa = PBXGroup;
 			children = (
@@ -956,6 +969,7 @@
 				D030D2952957452F0011128F /* WalletCore */,
 				D0F7E13929574A330053B21D /* SwiftProtobuf */,
 				D0E851992968EBF70034AFD1 /* Introspect */,
+				D06829B929C370E600686FCC /* SignalRClient */,
 			);
 			productName = Tribes;
 			productReference = D030D27D29573E9A0011128F /* Tribes.app */;
@@ -990,6 +1004,7 @@
 				D030D291295744F50011128F /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */,
 				D030D2942957452F0011128F /* XCRemoteSwiftPackageReference "wallet-core" */,
 				D0E851982968EBF70034AFD1 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
+				D06829B829C370E600686FCC /* XCRemoteSwiftPackageReference "SignalR-Client-Swift" */,
 			);
 			productRefGroup = D030D27E29573E9A0011128F /* Products */;
 			projectDirPath = "";
@@ -1087,6 +1102,7 @@
 				D030D31C2957460B0011128F /* ImportSecretKeyView.swift in Sources */,
 				D030D31E2957460B0011128F /* AuthenticateVM.swift in Sources */,
 				D0E9F7FE298DD5F900A0400A /* Cache.swift in Sources */,
+				D06829B729C36EC600686FCC /* HubClient.swift in Sources */,
 				D0B90E5D29B6FAAE00EB90CD /* NoContentView.swift in Sources */,
 				D0D2669729600BBA00A94183 /* DraftView.swift in Sources */,
 				D030D2D9295745E90011128F /* Gradients.swift in Sources */,
@@ -1420,6 +1436,14 @@
 				kind = branch;
 			};
 		};
+		D06829B829C370E600686FCC /* XCRemoteSwiftPackageReference "SignalR-Client-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/moozzyk/SignalR-Client-Swift.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		D0E851982968EBF70034AFD1 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect.git";
@@ -1445,6 +1469,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D030D2942957452F0011128F /* XCRemoteSwiftPackageReference "wallet-core" */;
 			productName = WalletCore;
+		};
+		D06829B929C370E600686FCC /* SignalRClient */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D06829B829C370E600686FCC /* XCRemoteSwiftPackageReference "SignalR-Client-Swift" */;
+			productName = SignalRClient;
 		};
 		D0E851992968EBF70034AFD1 /* Introspect */ = {
 			isa = XCSwiftPackageProductDependency;

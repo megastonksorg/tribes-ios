@@ -1,6 +1,15 @@
 {
   "pins" : [
     {
+      "identity" : "signalr-client-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/moozzyk/SignalR-Client-Swift.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "5af700d13f6e926c6e6e8fc36ab99c7d18728688"
+      }
+    },
+    {
       "identity" : "swift-collections",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-collections",
