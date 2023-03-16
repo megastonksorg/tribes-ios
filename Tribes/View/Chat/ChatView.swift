@@ -36,6 +36,7 @@ struct ChatView: View {
 									.foregroundColor(Color.gray)
 								TextView("are shown", style: .hint)
 							}
+							.padding(.bottom, 8)
 							ForEach(viewModel.messages) { message in
 								MessageView(
 									currentTribeMember: viewModel.currentTribeMember,
