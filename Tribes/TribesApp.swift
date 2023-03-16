@@ -21,8 +21,13 @@ struct TribesApp: App {
 				}
 		}
 		.onChange(of: scenePhase) { newPhase in
-			if newPhase != .active {
+			switch newPhase {
+			case .active:
+				_ = HubClient()
+			case .inactive, .background:
 				NotificationCenter.default.post(Notification(name: .appInActive, userInfo: [:]))
+			@unknown default:
+				return
 			}
 		}
 	}
