@@ -60,6 +60,7 @@ final class TribesRepository: TribesRepositoryProtocol {
 						self.queue.sync {
 							self.tribes = tribes
 						}
+						
 						Task {
 							await self.cacheClient.setData(key: .tribes, value: tribes)
 							await MessageClient.shared.refreshMessages()
