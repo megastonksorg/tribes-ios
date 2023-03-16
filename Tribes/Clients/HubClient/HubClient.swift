@@ -25,13 +25,14 @@ class HubClient: HubConnectionDelegate {
 		})
 		
 		connection?.start()
-	}
-	
-	func subscribeToTribeUpdates() {
-		let tribes = TribesRepository.shared.getTribes()
-		tribes.forEach { tribe in
-			connection?.invoke(method: "JoinGroup", tribe.id) { _ in }
-		}
+		
+		NotificationCenter
+			.default.addObserver(
+				self,
+				selector: #selector(subscribeToTribeUpdates),
+				name: .tribesUpdated,
+				object: nil
+			)
 	}
 	
 	private func handleMessage(_ tribeId: String, message: MessageResponse) {
@@ -51,6 +52,13 @@ class HubClient: HubConnectionDelegate {
 	
 	internal func connectionDidClose(error: Error?) {
 		return
+	}
+	
+	@objc func subscribeToTribeUpdates() {
+		let tribes = TribesRepository.shared.getTribes()
+		tribes.forEach { tribe in
+			connection?.invoke(method: "JoinGroup", tribe.id) { _ in }
+		}
 	}
 }
 
