@@ -33,10 +33,10 @@ import IdentifiedCollections
 	private var postMessageCancellables: [MessageDraft.ID : AnyCancellable] = [:]
 	
 	//Clients
-	let apiClient: APIClient = APIClient.shared
-	let cacheClient: CacheClient = CacheClient.shared
-	let encryptionClient: EncryptionClient = EncryptionClient.shared
-	let soundClient: SoundClient = SoundClient.shared
+	private let apiClient: APIClient = APIClient.shared
+	private let cacheClient: CacheClient = CacheClient.shared
+	private let encryptionClient: EncryptionClient = EncryptionClient.shared
+	private let soundClient: SoundClient = SoundClient.shared
 	
 	init() {
 		Task {
