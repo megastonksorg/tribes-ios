@@ -107,7 +107,7 @@ extension TribesView {
 		
 		func setEditTribeNameText(_ text: String?) {
 			if let text = text {
-				if text.isTribeNameValid {
+				if text.count <= SizeConstants.tribeNameLimit {
 					self.editTribeNameText = text
 					return
 				} else {
@@ -122,7 +122,7 @@ extension TribesView {
 			guard
 				let focusedTribe = self.focusedTribe,
 				let newTribeName = self.editTribeNameText?.trimmingCharacters(in: .whitespacesAndNewlines),
-				newTribeName.count > 0,
+				newTribeName.isTribeNameValid,
 				newTribeName != focusedTribe.name
 			else {
 				self.editTribeNameText = nil

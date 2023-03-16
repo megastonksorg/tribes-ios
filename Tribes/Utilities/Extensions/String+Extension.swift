@@ -22,7 +22,7 @@ extension String {
 	}
 	
 	var isTribeNameValid: Bool {
-		self.count <= SizeConstants.tribeNameLimit
+		(4...SizeConstants.tribeNameLimit).contains(self.trimmingCharacters(in: .whitespacesAndNewlines).count)
 	}
 	
 	var unwrappedContentUrl: URL { URL(string: self) ?? URL(string: "https://invalidContent.com")! }

@@ -22,7 +22,7 @@ extension CreateTribeView {
 		@Published var isLoading: Bool = false
 		
 		var isCreateButtonEnabled: Bool {
-			!name.isEmpty
+			name.isTribeNameValid
 		}
 		
 		//Clients
@@ -30,7 +30,7 @@ extension CreateTribeView {
 		
 		func createTribe() {
 			self.isLoading = true
-			apiClient.createTribe(name: name)
+			apiClient.createTribe(name: name.trimmingCharacters(in: .whitespacesAndNewlines))
 				.receive(on: DispatchQueue.main)
 				.sink(
 					receiveCompletion: { [weak self] completion in
@@ -50,7 +50,7 @@ extension CreateTribeView {
 		}
 		
 		func setName(_ name: String) {
-			guard name.isTribeNameValid else { return }
+			guard name.count <= SizeConstants.tribeNameLimit else { return }
 			self.name = name
 		}
 	}
