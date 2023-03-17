@@ -124,8 +124,8 @@ struct TribeAvatar: View {
 							}
 							.frame(dimension: stackSize)
 						case 3:
-							let size1: CGFloat = stackSize * 0.5
-							let size2: CGFloat = stackSize * 0.45
+							let size1: CGFloat = stackSize * 0.60
+							let size2: CGFloat = stackSize * 0.50
 							let size3: CGFloat = stackSize * 0.40
 							VStack(spacing: 0) {
 								Spacer()
@@ -137,6 +137,7 @@ struct TribeAvatar: View {
 										.frame(dimension: size2)
 										.offset(y: size2 * 0.2)
 								}
+								Spacer()
 								userAvatar(user: members[2])
 									.frame(dimension: size3)
 							}
@@ -508,8 +509,8 @@ struct TribeAvatar_Previews: PreviewProvider {
 						members: [
 							TribeMember.noop1,
 							TribeMember.noop2,
-							TribeMember.noop3,
-							TribeMember.noop4
+							TribeMember.noop3
+//							TribeMember.noop4
 						]
 					),
 					size: 180,
