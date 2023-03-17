@@ -77,7 +77,6 @@ extension APIClient {
 									self.keychainClient.set(key: .user, value: user)
 									self.lastRefreshed = Date.now
 									self.isRefreshing = false
-									NotificationCenter.default.post(Notification(name: .tokenRefreshed))
 									promise(.success(true))
 								})
 								.store(in: &self.cancellables)

@@ -14,16 +14,30 @@ class HubClient: HubConnectionDelegate {
 	
 	init() {
 		initializeConnection()
+	}
+	
+	func initializeConnection() {
+		self.connection?.stop()
+		self.connection = nil
 		
-		/**
-		 We need to reinitialize the connection when the token is refreshed because
-		 there is a possibility the user was not able to join the room for all his tribes in the server
-		 */
+		connection = HubConnectionBuilder(url: URL(string: "https://\(APPUrlRequest.domain)/appHub")!)
+			.withLogging(minLogLevel: .error)
+			.withHubConnectionDelegate(delegate: self)
+			.withAutoReconnect()
+			.build()
+		
+		//Register for Events
+		connection?.on(method: "ReceiveMessage", callback: { (tribeId: String, message: MessageResponse) in
+			self.handleMessage(tribeId, message: message)
+		})
+		
+		connection?.start()
+		
 		NotificationCenter
 			.default.addObserver(
 				self,
-				selector: #selector(initializeConnection),
-				name: .tokenRefreshed,
+				selector: #selector(subscribeToTribeUpdates),
+				name: .tribesUpdated,
 				object: nil
 			)
 	}
@@ -47,42 +61,15 @@ class HubClient: HubConnectionDelegate {
 		return
 	}
 	
-	@objc func initializeConnection() {
-		self.connection?.stop()
-		self.connection = nil
-		if let token = KeychainClient.shared.get(key: .token) {
-			let accessToken = token.jwt
-			connection = HubConnectionBuilder(url: URL(string: "https://\(APPUrlRequest.domain)/appHub")!)
-				.withLogging(minLogLevel: .error)
-				.withHubConnectionDelegate(delegate: self)
-				.withHttpConnectionOptions(
-					configureHttpOptions: { httpOptions in
-						httpOptions.accessTokenProvider = { accessToken }
-				})
-				.withAutoReconnect()
-				.build()
-			
-			//Register for Events
-			connection?.on(method: "ReceiveMessage", callback: { (tribeId: String, message: MessageResponse) in
-				self.handleMessage(tribeId, message: message)
-			})
-			
-			connection?.start()
-			
-			NotificationCenter
-				.default.addObserver(
-					self,
-					selector: #selector(subscribeToTribeUpdates),
-					name: .tribesUpdated,
-					object: nil
-				)
-		}
-	}
-	
 	@objc func subscribeToTribeUpdates() {
-		let tribes = TribesRepository.shared.getTribes()
-		tribes.forEach { tribe in
-			connection?.invoke(method: "JoinGroup", tribe.id) { _ in }
+		if let user = KeychainClient.shared.get(key: .user) {
+			let signalRMethodName: String = "SubscribeToTribes"
+			let signedMessageResult = WalletClient.shared.signMessage(message: signalRMethodName)
+			switch signedMessageResult {
+			case .success(let signedMessage):
+				connection?.invoke(method: signalRMethodName, user.walletAddress, signedMessage.signature) { _ in }
+			case .failure: return
+			}
 		}
 	}
 }

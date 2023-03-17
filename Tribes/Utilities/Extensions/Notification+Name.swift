@@ -18,6 +18,5 @@ extension Notification.Name {
 	static let appInActive = Notification.Name("appInActive")
 	static let userUpdated = Notification.Name("userUpdated")
 	static let tribesUpdated = Notification.Name("tribesUpdated")
-	static let tokenRefreshed = Notification.Name("tokenRefreshed")
 	static let messageUpdated = Notification.Name("messageUpdated")
 }
