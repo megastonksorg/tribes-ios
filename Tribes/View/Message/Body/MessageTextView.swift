@@ -16,35 +16,35 @@ struct MessageTextView: View {
 	}
 	
 	var body: some View {
-		Button(action: {
-			withAnimation(.easeInOut) {
-				self.isShowingTimeStamp = true
-			}
-			DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-				withAnimation(.easeInOut) {
-					self.isShowingTimeStamp = false
+		let avatarSize: CGFloat = 38
+		let isIncoming: Bool = model.style == .incoming
+		let dummyTribeMember: TribeMember = TribeMember.dummyTribeMember
+		HStack(alignment: .top, spacing: 0) {
+			Group {
+				if let sender = self.model.sender {
+					UserAvatar(url: sender.profilePhoto)
+				} else {
+					Circle()
+						.fill(Color.gray)
 				}
 			}
-		}) {
-			let avatarSize: CGFloat = 38
-			let isIncoming: Bool = model.style == .incoming
-			let dummyTribeMember: TribeMember = TribeMember.dummyTribeMember
-			HStack(alignment: .top, spacing: 0) {
-				Group {
-					if let sender = self.model.sender {
-						UserAvatar(url: sender.profilePhoto)
-					} else {
-						Circle()
-							.fill(Color.gray)
+			.frame(dimension: avatarSize)
+			.opacity(isIncoming ? 1.0 : 0.0)
+			Spacer()
+				.frame(width: 10)
+			if model.style == .outgoing {
+				Spacer(minLength: 0)
+			}
+			Button(action: {
+				withAnimation(.easeInOut) {
+					self.isShowingTimeStamp = true
+				}
+				DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+					withAnimation(.easeInOut) {
+						self.isShowingTimeStamp = false
 					}
 				}
-				.frame(dimension: avatarSize)
-				.opacity(isIncoming ? 1.0 : 0.0)
-				Spacer()
-					.frame(width: 10)
-				if model.style == .outgoing {
-					Spacer(minLength: 0)
-				}
+			}) {
 				VStack(alignment: .leading, spacing: 0) {
 					ZStack(alignment: .leading) {
 						if isShowingTimeStamp {
@@ -60,12 +60,12 @@ struct MessageTextView: View {
 					contentView()
 						.padding(.top, model.style == .outgoing ? 4.0 : 0.0)
 				}
-				if model.style == .incoming {
-					Spacer(minLength: 0)
-				}
+			}
+			.buttonStyle(.insideScaling)
+			if model.style == .incoming {
+				Spacer(minLength: 0)
 			}
 		}
-		.buttonStyle(.insideScaling)
 	}
 	
 	@ViewBuilder
