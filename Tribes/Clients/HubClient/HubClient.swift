@@ -31,9 +31,9 @@ class HubClient: HubConnectionDelegate {
 			self.handleMessage(tribeId, message: message)
 		})
 		
-		connection?.on(method: "TribeUpdated", callback: { _ in
+		connection?.on(method: "TribeUpdated") {
 			self.handleTribeUpdated()
-		})
+		}
 		
 		connection?.start()
 		
