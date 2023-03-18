@@ -85,9 +85,7 @@ extension TeaView {
 			self.drafts = drafts
 			self.tea = tea
 			
-			if !self.draftAndTeaIds.isEmpty {
-				self.setCurrentDraftOrTeaId(id: self.draftAndTeaIds[self.currentPill])
-			}
+			self.setCurrentDraftOrTeaId()
 			
 			NotificationCenter
 				.default.addObserver(
@@ -98,20 +96,27 @@ extension TeaView {
 				)
 		}
 		
-		func setCurrentDraftOrTeaId(id: String) {
-			//Set Draft
-			if let draftId = UUID(uuidString: id),
-				self.drafts[id: draftId] != nil {
-				self.currentDraftId = draftId
-				self.currentTeaId = nil
-				return
-			}
-			
-			//Set Tea
-			if self.tea[id: id] != nil {
-				self.currentDraftId = nil
-				self.currentTeaId = id
-				return
+		func setCurrentDraftOrTeaId() {
+			if !self.draftAndTeaIds.isEmpty {
+				let id: String = self.draftAndTeaIds[self.currentPill]
+				//Set Draft
+				if let draftId = UUID(uuidString: id),
+					self.drafts[id: draftId] != nil {
+					DispatchQueue.main.async {
+						self.currentDraftId = draftId
+						self.currentTeaId = nil
+					}
+					return
+				}
+				
+				//Set Tea
+				if self.tea[id: id] != nil {
+					DispatchQueue.main.async {
+						self.currentDraftId = nil
+						self.currentTeaId = id
+					}
+					return
+				}
 			}
 		}
 		
@@ -119,24 +124,24 @@ extension TeaView {
 			let nextPill = currentPill + 1
 			
 			guard nextPill < self.draftAndTeaIds.count else {
-				setCurrentDraftOrTeaId(id: self.draftAndTeaIds[self.currentPill])
+				setCurrentDraftOrTeaId()
 				return
 			}
 			
 			self.currentPill = nextPill
-			setCurrentDraftOrTeaId(id: self.draftAndTeaIds[nextPill])
+			setCurrentDraftOrTeaId()
 		}
 		
 		func previousDraftOrTea() {
 			let previousPill = currentPill - 1
 			
 			guard previousPill >= 0 else {
-				setCurrentDraftOrTeaId(id: self.draftAndTeaIds[self.currentPill])
+				setCurrentDraftOrTeaId()
 				return
 			}
 			
 			self.currentPill = previousPill
-			setCurrentDraftOrTeaId(id: self.draftAndTeaIds[previousPill])
+			setCurrentDraftOrTeaId()
 		}
 		
 		func retryFailedDraft() {
@@ -166,12 +171,10 @@ extension TeaView {
 				let previousIndex = self.currentPill - 1
 				if self.draftAndTeaIds.indices.contains(previousIndex) {
 					self.currentPill = previousIndex
-					self.setCurrentDraftOrTeaId(id: self.draftAndTeaIds[self.currentPill])
+					self.setCurrentDraftOrTeaId()
 				}
 			} else {
-				if !self.draftAndTeaIds.isEmpty {
-					self.setCurrentDraftOrTeaId(id: self.draftAndTeaIds[self.currentPill])
-				}
+				self.setCurrentDraftOrTeaId()
 			}
 		}
 		
