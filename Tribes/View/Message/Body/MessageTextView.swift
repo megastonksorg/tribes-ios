@@ -60,7 +60,7 @@ struct MessageTextView: View {
 					}
 				}) {
 					contentView()
-						.padding(.top, model.style == .outgoing ? 4.0 : 0.0)
+						.padding(.top, model.style == .outgoing ? 2.0 : 4.0)
 				}
 			}
 			.buttonStyle(.insideScaling)
@@ -94,7 +94,7 @@ struct MessageTextView: View {
 		TextContentView(
 			content: text,
 			isEncrypted: isEncrypted,
-			shouldRoundAllCorners: !isShowingIncomingAuthor,
+			shouldRoundAllCorners: !isShowingIncomingAuthor && model.style == .incoming,
 			style: model.style
 		)
 	}

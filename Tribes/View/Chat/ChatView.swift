@@ -30,7 +30,6 @@ struct ChatView: View {
 				ScrollViewReader { readerProxy in
 					ScrollView {
 						LazyVStack(spacing: 0) {
-							let bottomPadding: CGFloat = 4
 							HStack(spacing: 2) {
 								TextView("Only comms from the past 24 hours", style: .hint)
 								Image(systemName: "clock.fill")
@@ -46,7 +45,6 @@ struct ChatView: View {
 									isPlaying: false,
 									isShowingIncomingAuthor: viewModel.shouldShowMessageAuthor(message: message)
 								)
-								.padding(.bottom, bottomPadding)
 								.id(message.id)
 							}
 							ForEach(viewModel.failedDrafts) { draft in
@@ -56,7 +54,6 @@ struct ChatView: View {
 									retryDraft: { viewModel.retryDraft(draft: $0) },
 									deleteDraft: { viewModel.deleteDraft(draft: $0) }
 								)
-								.padding(.bottom, bottomPadding)
 								.id(draft.id)
 							}
 							.transition(.asymmetric(insertion: .opacity, removal: .slide))
