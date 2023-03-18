@@ -48,6 +48,14 @@ extension TribesView {
 			self.accountVM = AccountView.ViewModel(user: user)
 			self.tribes = tribes
 			self.user = user
+			
+			NotificationCenter
+				.default.addObserver(
+					self,
+					selector: #selector(updateTribe),
+					name: .tribesUpdated,
+					object: nil
+				)
 		}
 		
 		func createTribe() {
@@ -209,6 +217,12 @@ extension TribesView {
 			withAnimation(Animation.cardViewDisappear) {
 				self.isShowingTribeInvite = false
 				self.tribeInviteVM = nil
+			}
+		}
+		
+		@objc func updateTribe() {
+			DispatchQueue.main.async {
+				self.tribes = TribesRepository.shared.getTribes()
 			}
 		}
 	}
