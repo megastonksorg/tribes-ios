@@ -33,13 +33,6 @@ extension TeaView {
 			tea.isEmpty && drafts.isEmpty
 		}
 		
-		@Published var currentDraftId: MessageDraft.ID?
-		@Published var currentTeaId: Message.ID?
-		@Published var currentPill: Int = 0
-		@Published var drafts: IdentifiedArrayOf<MessageDraft>
-		@Published var tea: IdentifiedArrayOf<Message>
-		@Published var text: String = ""
-		
 		var currentTea: Message? {
 			guard
 				let currentTeaId = currentTeaId,
@@ -67,9 +60,19 @@ extension TeaView {
 			return nil
 		}
 		
-		var draftAndTeaCount: Int {
-			drafts.count + tea.count
+		var draftAndTeaIds: [String] {
+			var allIds: [String] = drafts.map { $0.id.uuidString }
+			let teaIds: [String] = tea.map { $0.id }
+			allIds.append(contentsOf: teaIds)
+			return allIds
 		}
+		
+		@Published var currentDraftId: MessageDraft.ID?
+		@Published var currentTeaId: Message.ID?
+		@Published var currentPill: Int = 0
+		@Published var drafts: IdentifiedArrayOf<MessageDraft>
+		@Published var tea: IdentifiedArrayOf<Message>
+		@Published var text: String = ""
 		
 		//Clients
 		let messageClient: MessageClient = MessageClient.shared
@@ -82,7 +85,9 @@ extension TeaView {
 			self.drafts = drafts
 			self.tea = tea
 			
-			resetCurrentDraftOrTeaId()
+			if !self.draftAndTeaIds.isEmpty {
+				self.setCurrentDraftOrTeaId(id: self.draftAndTeaIds[self.currentPill])
+			}
 			
 			NotificationCenter
 				.default.addObserver(
@@ -93,96 +98,45 @@ extension TeaView {
 				)
 		}
 		
-		func setCurrentDraftOrTeaId(draftId: MessageDraft.ID?, teaId: Message.ID?) {
-			//Only one can be set at a time
-			if draftId != nil && teaId != nil {
+		func setCurrentDraftOrTeaId(id: String) {
+			//Set Draft
+			if let draftId = UUID(uuidString: id),
+				self.drafts[id: draftId] != nil {
+				self.currentDraftId = draftId
+				self.currentTeaId = nil
 				return
 			}
-			self.currentDraftId = draftId
-			self.currentTeaId = teaId
+			
+			//Set Tea
+			if self.tea[id: id] != nil {
+				self.currentDraftId = nil
+				self.currentTeaId = id
+				return
+			}
 		}
 		
 		func nextDraftOrTea() {
 			let nextPill = currentPill + 1
-			if nextPill < draftAndTeaCount {
-				self.currentPill = nextPill
-			}
-			//Navigate to the next draft
-			if let currentDraftId = currentDraftId,
-			   let currentDraftIndex = drafts.index(id: currentDraftId)
-			{
-				let nextDraftIndex: Int = currentDraftIndex + 1
-				
-				if nextDraftIndex < drafts.endIndex {
-					//Return the next index
-					setCurrentDraftOrTeaId(draftId: drafts[nextDraftIndex].id, teaId: nil)
-					return
-				}
-				else {
-					if !tea.isEmpty {
-						//If the next index is invalid and there is tea to view, navigate to the first tea
-						setCurrentDraftOrTeaId(draftId: nil, teaId: tea[0].id)
-						return
-					}
-					return
-				}
+			
+			guard nextPill < self.draftAndTeaIds.count else {
+				setCurrentDraftOrTeaId(id: self.draftAndTeaIds[self.currentPill])
+				return
 			}
 			
-			//Navigate to the next Tea
-			if let currentTeaId = currentTeaId,
-			   let currentTeaIndex = tea.index(id: currentTeaId)
-			{
-				let nextTeaIndex: Int = currentTeaIndex + 1
-				
-				if nextTeaIndex < tea.endIndex {
-					//Return the next index
-					setCurrentDraftOrTeaId(draftId: nil, teaId: tea[nextTeaIndex].id)
-					return
-				}
-			}
+			self.currentPill = nextPill
+			setCurrentDraftOrTeaId(id: self.draftAndTeaIds[nextPill])
 		}
 		
 		func previousDraftOrTea() {
 			let previousPill = currentPill - 1
-			if previousPill >= 0 {
-				self.currentPill = previousPill
-			}
-			//Navigate to the previous draft
-			if let currentDraftId = currentDraftId,
-			   let currentDraftIndex = drafts.index(id: currentDraftId)
-			{
-				let previousDraftIndex: Int = currentDraftIndex - 1
-				
-				if previousDraftIndex <= -1 {
-					//If the previous index is invalid, do nothing
-					return
-				}
-				else {
-					//Return to the previous draft
-					setCurrentDraftOrTeaId(draftId: drafts[previousDraftIndex].id, teaId: nil)
-					return
-				}
+			
+			guard previousPill >= 0 else {
+				setCurrentDraftOrTeaId(id: self.draftAndTeaIds[self.currentPill])
+				return
 			}
 			
-			//Navigate to the previous Tea
-			if let currentTeaId = currentTeaId,
-			   let currentTeaIndex = tea.index(id: currentTeaId)
-			{
-				let previousTeaIndex = currentTeaIndex - 1
-				
-				if previousTeaIndex <= -1 {
-					//If drafts is empty, then do nothing
-					if drafts.isEmpty {
-						return
-					} else {
-						guard let lastDraft = drafts.last else { return }
-						setCurrentDraftOrTeaId(draftId: lastDraft.id, teaId: nil)
-						return
-					}
-				} else {
-					setCurrentDraftOrTeaId(draftId: nil, teaId: tea[previousTeaIndex].id)
-				}
-			}
+			self.currentPill = previousPill
+			setCurrentDraftOrTeaId(id: self.draftAndTeaIds[previousPill])
 		}
 		
 		func retryFailedDraft() {
@@ -207,21 +161,19 @@ extension TeaView {
 			}
 		}
 		
-		private func resetCurrentDraftOrTeaId() {
-			//Set the current draft or tea id. Drafts take precedence
-			if !self.drafts.isEmpty {
-				if let firstDraftId = self.drafts.first?.id {
-					setCurrentDraftOrTeaId(draftId: firstDraftId, teaId: nil)
+		private func updateCurrentDraftOrTeaId() {
+			if self.currentPill == self.draftAndTeaIds.count - 1 {
+				let previousIndex = self.currentPill - 1
+				if self.draftAndTeaIds.indices.contains(previousIndex) {
+					self.currentPill = previousIndex
+					self.setCurrentDraftOrTeaId(id: self.draftAndTeaIds[self.currentPill])
 				}
-			} else if !self.tea.isEmpty {
-				if let firstTeaId = self.tea.first?.id {
-					setCurrentDraftOrTeaId(draftId: nil, teaId: firstTeaId)
-				}
+			} else {
+				self.setCurrentDraftOrTeaId(id: self.draftAndTeaIds[self.currentPill])
 			}
-			self.currentPill = 0
 		}
 		
-		@objc func updateMessage(notification: NSNotification) {
+		@objc private func updateMessage(notification: NSNotification) {
 			if let dict = notification.userInfo as? NSDictionary {
 				if let updateNotification = dict[AppConstants.messageNotificationDictionaryKey] as? MessageClient.MessageUpdateNotification {
 					switch updateNotification {
@@ -230,28 +182,24 @@ extension TeaView {
 							DispatchQueue.main.async {
 								self.tea.updateOrAppend(message)
 							}
-							self.resetCurrentDraftOrTeaId()
+							self.updateCurrentDraftOrTeaId()
 						}
 					case .deleted(let tribeId, let messageId):
 						if tribeId == self.tribe.id {
 							DispatchQueue.main.async {
 								self.tea.remove(id: messageId)
 							}
-							self.resetCurrentDraftOrTeaId()
+							self.updateCurrentDraftOrTeaId()
 						}
 					case .draftsUpdated(let tribeId, let drafts):
 						if tribeId == self.tribe.id {
 							let teaDrafts = IdentifiedArrayOf(uniqueElements: drafts.filter { $0.tag == .tea }.sorted(by: { $0.timeStamp < $1.timeStamp }))
 							DispatchQueue.main.async {
 								withAnimation(.easeInOut) {
-									if teaDrafts.count != drafts.count {
-										self.drafts = teaDrafts
-										self.resetCurrentDraftOrTeaId()
-									} else {
-										self.drafts = teaDrafts
-									}
+									self.drafts = teaDrafts
 								}
 							}
+							self.updateCurrentDraftOrTeaId()
 						}
 					}
 				}

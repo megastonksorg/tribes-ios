@@ -212,19 +212,20 @@ struct TeaView: View {
 	
 	@ViewBuilder
 	func pillsView() -> some View {
+		let count = viewModel.draftAndTeaIds.count
 		ZStack {
 			pill(index: 0)
 				.opacity(0)
-			if viewModel.draftAndTeaCount > 10 {
+			if count > 10 {
 				LazyVGrid(columns: Array(repeating: GridItem(), count: 10)) {
-					ForEach(0..<viewModel.draftAndTeaCount, id: \.self) { pillIndex in
+					ForEach(0..<count, id: \.self) { pillIndex in
 						pill(index: pillIndex)
 							.readSize { self.pillWidth = $0.width }
 					}
 				}
 			} else {
 				HStack(spacing: 2) {
-					ForEach(0..<viewModel.draftAndTeaCount, id: \.self) { pillIndex in
+					ForEach(0..<count, id: \.self) { pillIndex in
 						pill(index: pillIndex)
 							.readSize { self.pillWidth = $0.width }
 					}
