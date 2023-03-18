@@ -42,7 +42,8 @@ struct ChatView: View {
 									currentTribeMember: viewModel.currentTribeMember,
 									message: message,
 									tribe: viewModel.tribe,
-									isPlaying: false
+									isPlaying: false,
+									isShowingIncomingAuthor: viewModel.shouldShowMessageAuthor(message: message)
 								)
 								.id(message.id)
 							}

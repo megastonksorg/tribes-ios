@@ -9,11 +9,12 @@ import SwiftUI
 
 struct MessageTextView: View {
 	let model: MessageBodyModel
-	let isShowingIncomingAuthor: Bool = true
+	let isShowingIncomingAuthor: Bool
 	@State var isShowingTimeStamp: Bool = false
 	
-	init(model: MessageBodyModel) {
+	init(model: MessageBodyModel, isShowingIncomingAuthor: Bool) {
 		self.model = model
+		self.isShowingIncomingAuthor = isShowingIncomingAuthor
 	}
 	
 	var body: some View {
@@ -107,7 +108,8 @@ struct MessageTextView_Previews: PreviewProvider {
 				sender: nil,
 				style: .incoming,
 				message: Message.noopEncryptedTextChat
-			)
+			),
+			isShowingIncomingAuthor: false
 		)
 	}
 }

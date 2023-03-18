@@ -134,6 +134,18 @@ extension ChatView {
 			}
 		}
 		
+		func shouldShowMessageAuthor(message: Message) -> Bool {
+			if let indexOfCurrentMessage = self.messages.index(id: message.id) {
+				let previousIndex = indexOfCurrentMessage - 1
+				if self.messages.indices.contains(previousIndex) {
+					if self.messages[previousIndex].senderId == message.senderId {
+						return false
+					}
+				}
+			}
+			return true
+		}
+		
 		@objc func updateMessage(notification: NSNotification) {
 			if let dict = notification.userInfo as? NSDictionary {
 				if let updateNotification = dict[AppConstants.messageNotificationDictionaryKey] as? MessageClient.MessageUpdateNotification {

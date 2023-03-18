@@ -14,6 +14,7 @@ struct MessageView: View {
 	let style: Message.Style
 	let message: Message
 	let isPlaying: Bool
+	let isShowingIncomingAuthor: Bool
 	
 	@State var playbackProgress: Float = 0
 	
@@ -21,7 +22,8 @@ struct MessageView: View {
 		currentTribeMember: TribeMember,
 		message: Message,
 		tribe: Tribe,
-		isPlaying: Bool
+		isPlaying: Bool,
+		isShowingIncomingAuthor: Bool
 	) {
 		let sender: TribeMember? = tribe.members[id: message.senderId]
 		self.tribeId = tribe.id
@@ -36,6 +38,7 @@ struct MessageView: View {
 		}()
 		self.message = message
 		self.isPlaying = isPlaying
+		self.isShowingIncomingAuthor = isShowingIncomingAuthor
 	}
 	
 	var body: some View {
@@ -48,7 +51,7 @@ struct MessageView: View {
 		Group {
 			switch message.encryptedBody.content {
 			case .text:
-				MessageTextView(model: bodyModel)
+				MessageTextView(model: bodyModel, isShowingIncomingAuthor: isShowingIncomingAuthor)
 			case .image:
 				MessageImageView(model: bodyModel)
 			case .video:
@@ -72,7 +75,8 @@ struct MessageView_Previews: PreviewProvider {
 			currentTribeMember: TribeMember.noop1,
 			message: Message.noopEncryptedTextChat,
 			tribe: Tribe.noop1,
-			isPlaying: false
+			isPlaying: false,
+			isShowingIncomingAuthor: false
 		)
 	}
 }
