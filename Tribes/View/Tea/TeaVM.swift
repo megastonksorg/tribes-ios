@@ -169,7 +169,9 @@ extension TeaView {
 					self.setCurrentDraftOrTeaId(id: self.draftAndTeaIds[self.currentPill])
 				}
 			} else {
-				self.setCurrentDraftOrTeaId(id: self.draftAndTeaIds[self.currentPill])
+				if !self.draftAndTeaIds.isEmpty {
+					self.setCurrentDraftOrTeaId(id: self.draftAndTeaIds[self.currentPill])
+				}
 			}
 		}
 		
