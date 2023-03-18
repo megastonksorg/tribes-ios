@@ -35,28 +35,28 @@ struct MessageTextView: View {
 			if model.style == .outgoing {
 				Spacer(minLength: 0)
 			}
-			Button(action: {
-				withAnimation(.easeInOut) {
-					self.isShowingTimeStamp = true
+			VStack(alignment: .leading, spacing: 0) {
+				ZStack(alignment: .leading) {
+					if isShowingTimeStamp {
+						Text(model.message.timeStamp.timeAgoDisplay())
+					}
+					if isIncoming && !isShowingTimeStamp {
+						Text(isIncoming ? model.sender?.fullName ?? dummyTribeMember.fullName : "")
+					}
 				}
-				DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+				.lineLimit(1)
+				.font(Font.app.callout)
+				.foregroundColor(Color.gray)
+				Button(action: {
 					withAnimation(.easeInOut) {
-						self.isShowingTimeStamp = false
+						self.isShowingTimeStamp = true
 					}
-				}
-			}) {
-				VStack(alignment: .leading, spacing: 0) {
-					ZStack(alignment: .leading) {
-						if isShowingTimeStamp {
-							Text(model.message.timeStamp.timeAgoDisplay())
-						}
-						if isIncoming && !isShowingTimeStamp {
-							Text(isIncoming ? model.sender?.fullName ?? dummyTribeMember.fullName : "")
+					DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+						withAnimation(.easeInOut) {
+							self.isShowingTimeStamp = false
 						}
 					}
-					.lineLimit(1)
-					.font(Font.app.callout)
-					.foregroundColor(Color.gray)
+				}) {
 					contentView()
 						.padding(.top, model.style == .outgoing ? 4.0 : 0.0)
 				}
