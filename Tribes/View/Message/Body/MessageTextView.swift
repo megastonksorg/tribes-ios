@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MessageTextView: View {
 	let model: MessageBodyModel
+	let isShowingIncomingAuthor: Bool = true
 	@State var isShowingTimeStamp: Bool = false
 	
 	init(model: MessageBodyModel) {
@@ -29,19 +30,19 @@ struct MessageTextView: View {
 				}
 			}
 			.frame(dimension: avatarSize)
-			.opacity(isIncoming ? 1.0 : 0.0)
+			.opacity(isIncoming && isShowingIncomingAuthor ? 1.0 : 0.0)
 			Spacer()
 				.frame(width: 10)
 			if model.style == .outgoing {
 				Spacer(minLength: 0)
 			}
 			VStack(alignment: .leading, spacing: 0) {
-				ZStack(alignment: .leading) {
+				ZStack {
+					if isShowingIncomingAuthor && !isShowingTimeStamp {
+						Text(isIncoming ? model.sender?.fullName ?? dummyTribeMember.fullName : "")
+					}
 					if isShowingTimeStamp {
 						Text(model.message.timeStamp.timeAgoDisplay())
-					}
-					if isIncoming && !isShowingTimeStamp {
-						Text(isIncoming ? model.sender?.fullName ?? dummyTribeMember.fullName : "")
 					}
 				}
 				.lineLimit(1)
@@ -89,7 +90,12 @@ struct MessageTextView: View {
 	
 	@ViewBuilder
 	func textView(text: String, isEncrypted: Bool) -> some View {
-		TextContentView(content: text, style: model.style, isEncrypted: isEncrypted)
+		TextContentView(
+			content: text,
+			isEncrypted: isEncrypted,
+			shouldRoundAllCorners: !isShowingIncomingAuthor,
+			style: model.style
+		)
 	}
 }
 

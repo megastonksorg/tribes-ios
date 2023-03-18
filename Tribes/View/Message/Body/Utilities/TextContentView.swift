@@ -9,14 +9,19 @@ import SwiftUI
 
 struct TextContentView: View {
 	let content: String
-	let style: Message.Style
 	let isEncrypted: Bool
+	let shouldRoundAllCorners: Bool
+	let style: Message.Style
 	
 	var body: some View {
 		let corners: UIRectCorner = {
-			switch style {
-			case .incoming: return [.topRight, .bottomLeft, .bottomRight]
-			case .outgoing: return [.topLeft, .topRight, .bottomLeft]
+			if shouldRoundAllCorners {
+				return .allCorners
+			} else {
+				switch style {
+				case .incoming: return [.topRight, .bottomLeft, .bottomRight]
+				case .outgoing: return [.topLeft, .topRight, .bottomLeft]
+				}
 			}
 		}()
 		
@@ -49,6 +54,11 @@ struct TextContentView: View {
 
 struct TextContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		TextContentView(content: "Hey there", style: .outgoing, isEncrypted: false)
+		TextContentView(
+			content: "Hey there",
+			isEncrypted: false,
+			shouldRoundAllCorners: false,
+			style: .outgoing
+		)
 	}
 }

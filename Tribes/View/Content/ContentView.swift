@@ -17,7 +17,12 @@ struct ContentView: View {
 		Group {
 			switch content {
 			case .text(let textString):
-				TextContentView(content: textString, style: .outgoing, isEncrypted: false)
+				TextContentView(
+					content: textString,
+					isEncrypted: false,
+					shouldRoundAllCorners: false,
+					style: .outgoing
+				)
 			case .image(let url):
 				CachedImage(
 					url: url,
