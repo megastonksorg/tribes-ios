@@ -31,6 +31,10 @@ class HubClient: HubConnectionDelegate {
 			self.handleMessage(tribeId, message: message)
 		})
 		
+		connection?.on(method: "TribeUpdated", callback: { _ in
+			self.handleTribeUpdated()
+		})
+		
 		connection?.start()
 		
 		NotificationCenter
@@ -46,6 +50,10 @@ class HubClient: HubConnectionDelegate {
 		Task {
 			await MessageClient.shared.messageReceived(tribeId: tribeId, messageResponse: message)
 		}
+	}
+	
+	private func handleTribeUpdated() {
+		TribesRepository.shared.refreshTribes()
 	}
 	
 	internal func connectionDidOpen(hubConnection: SignalRClient.HubConnection) {

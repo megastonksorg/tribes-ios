@@ -43,7 +43,7 @@ final class TribesRepository: TribesRepositoryProtocol {
 		return tribes
 	}
 	
-	func refreshTribes() -> Future<IdentifiedArrayOf<Tribe>, APIClientError> {
+	@discardableResult func refreshTribes() -> Future<IdentifiedArrayOf<Tribe>, APIClientError> {
 		return Future { [weak self] promise in
 			guard let self = self else { return }
 			self.apiClient.getTribes()
