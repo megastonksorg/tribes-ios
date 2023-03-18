@@ -10,15 +10,29 @@ import SwiftUI
 struct EULA {
 	static let text: LocalizedStringKey =
 """
-	**Read the full Disclaimer below**
-	
-	By downloading or using the app, these terms will automatically apply to you – you should make sure therefore that you read them carefully before using the app. You’re not allowed to copy, or modify the app, any part of the app, or our trademarks in any way. You’re not allowed to attempt to extract the source code of the app, and you also shouldn’t try to translate the app into other languages, or make derivative versions. The app itself, and all the trade marks, copyright, database rights and other intellectual property rights related to it, still belong to MegaStonks.
+ **Read the full Disclaimer below**
+ 
+ Let's keep this short and sweet. Everything you share with your Tribe members is encrypted. This means that no one could view or read them. Not even us!
+ 
+ **What we collect**
+ (1). Your name (Anything you want it to be)
+ (2). Your Tribe names (Anything you want it to be)
+ 
+ **What other apps collect**
+ (1). Your legal name
+ (2). Your phone number
+ (3). Your email address
+ (4). Your home address
+ (5). Your contacts
+ (6). Your personalized data
 
-	These terms and conditions are effective as of 2023-04-24
-	
-	If you have any questions or suggestions about these Terms and Conditions, do not hesitate to contact us.
-	
-	Contact Us
+ The app itself, and all the trade marks, copyright and other intellectual property rights related to it, belong to MegaStonks.
+
+ These terms and conditions are effective as of 2023-04-24
+ 
+ If you have any questions or suggestions about these Terms and Conditions, do not hesitate to contact us.
+ 
+ Contact Us
  \(AppConstants.email)
 """
 }
