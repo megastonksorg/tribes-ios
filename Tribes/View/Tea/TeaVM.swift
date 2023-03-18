@@ -97,25 +97,23 @@ extension TeaView {
 		}
 		
 		func setCurrentDraftOrTeaId() {
-			if !self.draftAndTeaIds.isEmpty {
-				let id: String = self.draftAndTeaIds[self.currentPill]
-				//Set Draft
-				if let draftId = UUID(uuidString: id),
-					self.drafts[id: draftId] != nil {
-					DispatchQueue.main.async {
+			DispatchQueue.main.async {
+				if !self.draftAndTeaIds.isEmpty {
+					let id: String = self.draftAndTeaIds[self.currentPill]
+					//Set Draft
+					if let draftId = UUID(uuidString: id),
+						self.drafts[id: draftId] != nil {
 						self.currentDraftId = draftId
 						self.currentTeaId = nil
+						return
 					}
-					return
-				}
-				
-				//Set Tea
-				if self.tea[id: id] != nil {
-					DispatchQueue.main.async {
+					
+					//Set Tea
+					if self.tea[id: id] != nil {
 						self.currentDraftId = nil
 						self.currentTeaId = id
+						return
 					}
-					return
 				}
 			}
 		}
