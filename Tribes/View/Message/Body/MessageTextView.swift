@@ -40,6 +40,10 @@ struct MessageTextView: View {
 						isShowingIncomingAuthor: false
 					)
 					.frame(width: 100, height: 140)
+					.background(
+						RoundedRectangle(cornerRadius: 10)
+							.fill(Color.app.secondary)
+					)
 				}
 			}
 			HStack(alignment: .top, spacing: 0) {
