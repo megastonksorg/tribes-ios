@@ -103,6 +103,7 @@
 		D06829B729C36EC600686FCC /* HubClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06829B629C36EC600686FCC /* HubClient.swift */; };
 		D06829BA29C370E600686FCC /* SignalRClient in Frameworks */ = {isa = PBXBuildFile; productRef = D06829B929C370E600686FCC /* SignalRClient */; };
 		D06829BE29C69AC100686FCC /* LShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06829BD29C69AC100686FCC /* LShape.swift */; };
+		D06829C029C6B75300686FCC /* MessageBottomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06829BF29C6B75300686FCC /* MessageBottomButton.swift */; };
 		D06FDE7D2999C2EB0013A55E /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06FDE7C2999C2EB0013A55E /* AccountView.swift */; };
 		D06FDE7F2999C2F50013A55E /* AccountVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06FDE7E2999C2F50013A55E /* AccountVM.swift */; };
 		D06FDE81299A03210013A55E /* WalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06FDE80299A03210013A55E /* WalletView.swift */; };
@@ -270,6 +271,7 @@
 		D063134229B6F90200CCCE13 /* MessageVideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageVideoView.swift; sourceTree = "<group>"; };
 		D06829B629C36EC600686FCC /* HubClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HubClient.swift; sourceTree = "<group>"; };
 		D06829BD29C69AC100686FCC /* LShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LShape.swift; sourceTree = "<group>"; };
+		D06829BF29C6B75300686FCC /* MessageBottomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBottomButton.swift; sourceTree = "<group>"; };
 		D06FDE7C2999C2EB0013A55E /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		D06FDE7E2999C2F50013A55E /* AccountVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountVM.swift; sourceTree = "<group>"; };
 		D06FDE80299A03210013A55E /* WalletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletView.swift; sourceTree = "<group>"; };
@@ -558,6 +560,7 @@
 				D07663662990389F00946F7B /* AppContextMenu.swift */,
 				D01A5D7E29999DB100838774 /* XButton.swift */,
 				D06FDE80299A03210013A55E /* WalletView.swift */,
+				D06829BF29C6B75300686FCC /* MessageBottomButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1123,6 +1126,7 @@
 				D0D26692295FED0500A94183 /* ComposeVM.swift in Sources */,
 				D030D2E8295745E90011128F /* ImagePlaceHolderView.swift in Sources */,
 				D0D6811929B967A9000C1EF0 /* MessageDraftView.swift in Sources */,
+				D06829C029C6B75300686FCC /* MessageBottomButton.swift in Sources */,
 				D030D3192957460B0011128F /* NewSecretKeyView.swift in Sources */,
 				D0A3F0852980AA2B000308BF /* TribeInviteView.swift in Sources */,
 				D07278C2297603DC00650A15 /* ChatBubble.swift in Sources */,
