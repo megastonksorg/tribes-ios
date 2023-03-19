@@ -102,6 +102,7 @@
 		D063134329B6F90200CCCE13 /* MessageVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D063134229B6F90200CCCE13 /* MessageVideoView.swift */; };
 		D06829B729C36EC600686FCC /* HubClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06829B629C36EC600686FCC /* HubClient.swift */; };
 		D06829BA29C370E600686FCC /* SignalRClient in Frameworks */ = {isa = PBXBuildFile; productRef = D06829B929C370E600686FCC /* SignalRClient */; };
+		D06829BE29C69AC100686FCC /* LShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06829BD29C69AC100686FCC /* LShape.swift */; };
 		D06FDE7D2999C2EB0013A55E /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06FDE7C2999C2EB0013A55E /* AccountView.swift */; };
 		D06FDE7F2999C2F50013A55E /* AccountVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06FDE7E2999C2F50013A55E /* AccountVM.swift */; };
 		D06FDE81299A03210013A55E /* WalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06FDE80299A03210013A55E /* WalletView.swift */; };
@@ -268,6 +269,7 @@
 		D06088B32996D55000A3D383 /* OnBoardingPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingPageView.swift; sourceTree = "<group>"; };
 		D063134229B6F90200CCCE13 /* MessageVideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageVideoView.swift; sourceTree = "<group>"; };
 		D06829B629C36EC600686FCC /* HubClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HubClient.swift; sourceTree = "<group>"; };
+		D06829BD29C69AC100686FCC /* LShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LShape.swift; sourceTree = "<group>"; };
 		D06FDE7C2999C2EB0013A55E /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		D06FDE7E2999C2F50013A55E /* AccountVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountVM.swift; sourceTree = "<group>"; };
 		D06FDE80299A03210013A55E /* WalletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletView.swift; sourceTree = "<group>"; };
@@ -782,6 +784,7 @@
 				D07278BD297602C100650A15 /* CustomRoundedRectangle.swift */,
 				D07278BF2976039600650A15 /* RoundedTriangle.swift */,
 				D0C3DBF329A402E90066FBB8 /* CalloutRectangle.swift */,
+				D06829BD29C69AC100686FCC /* LShape.swift */,
 			);
 			path = Shapes;
 			sourceTree = "<group>";
@@ -1187,6 +1190,7 @@
 				D01B8BA929ADF87800C6BC1D /* MessageClient.swift in Sources */,
 				D0D2669929600BC500A94183 /* DraftVM.swift in Sources */,
 				D030D2E1295745E90011128F /* AppToolBar.swift in Sources */,
+				D06829BE29C69AC100686FCC /* LShape.swift in Sources */,
 				D0AAF2DE29761F49003536C6 /* ChatType.swift in Sources */,
 				D015807E295E057F0087545A /* CMSampleBuffer+Image.swift in Sources */,
 				D08EBF23297FC4D1001B7A5C /* CreateTribeView.swift in Sources */,
