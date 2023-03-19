@@ -106,6 +106,7 @@ struct MessageTextView: View {
 				}
 			}
 		}
+		.padding(.top, self.messageContext == nil ? 0 : 6 )
 	}
 	
 	@ViewBuilder
