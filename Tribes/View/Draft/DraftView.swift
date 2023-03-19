@@ -94,13 +94,16 @@ struct DraftView: View {
 									ForEach(viewModel.recipients) {
 										tribeAvatar(tribe: $0)
 									}
+									if viewModel.canSendTea {
+										sendTeaButton()
+											.opacity(0)
+									}
 								}
 							}
 							.frame(maxHeight: 140)
-							if viewModel.canSendTea {
-								Spacer(minLength: spacing)
-								sendTeaButton()
-							}
+						}
+						.overlay(isShown: viewModel.canSendTea, alignment: .trailing) {
+							sendTeaButton()
 						}
 					}
 				}
