@@ -114,6 +114,8 @@ struct TeaView: View {
 								.stroke(Color.white, lineWidth: 1)
 								.transition(.opacity)
 						}
+						.dropShadow()
+						.dropShadow()
 						
 						Menu(content: {
 							Button(action: { viewModel.deleteMessage() }) {
@@ -128,17 +130,14 @@ struct TeaView: View {
 								.rotationEffect(.degrees(-90))
 						})
 						.foregroundColor(Color.white)
+						.dropShadow()
+						.dropShadow()
 						.opacity(viewModel.isAuthorOfCurrentTea ? 1.0 : 0.0)
 						
-						Button(action: {}) {
-							Image(systemName: "eye.circle.fill")
-								.font(.system(size: 30))
-								.foregroundColor(Color.gray.opacity(0.6))
-								.padding(.vertical, 4)
+						MessageBottomButton(style: .close) {
+							closeButtonAction()
 						}
 					}
-					.dropShadow()
-					.dropShadow()
 					.offset(y: -yOffset)
 				}
 			}
@@ -190,8 +189,11 @@ struct TeaView: View {
 						.opacity(viewModel.currentTea == nil ? 0.0 : 1.0)
 				}
 				Spacer()
-				XButton {
-					closeButtonAction()
+				Button(action: {}) {
+					Image(systemName: "eye.circle.fill")
+						.font(.system(size: 30))
+						.foregroundColor(Color.gray.opacity(0.6))
+						.padding(.vertical, 4)
 				}
 			}
 			.padding(.top)

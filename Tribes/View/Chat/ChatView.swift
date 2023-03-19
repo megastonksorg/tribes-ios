@@ -143,7 +143,8 @@ struct ChatView: View {
 						.disabled(!viewModel.canChat)
 					},
 					trailing: {
-						Button(
+						MessageBottomButton(
+							style: viewModel.canSendText ? .send : .close,
 							action: {
 								if viewModel.canSendText {
 									viewModel.sendMessage()
@@ -151,11 +152,7 @@ struct ChatView: View {
 									dismissAction()
 								}
 							}
-						) {
-							Image(systemName: viewModel.canSendText ? "paperplane.circle.fill" : "xmark.circle.fill")
-								.font(.system(size: 30))
-								.foregroundColor(Color.app.tertiary)
-						}
+						)
 						.frame(dimension: textFieldBarButtonSize)
 					}
 				)
