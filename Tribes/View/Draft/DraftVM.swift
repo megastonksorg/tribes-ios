@@ -96,9 +96,22 @@ extension DraftView {
 					timeStamp: Date.now
 				)
 				messageClient.postMessage(draft: teaDraft)
-				NotificationCenter.default.post(Notification(name: .toggleCompose))
-				self.feedbackClient.medium()
+			} else {
+				self.selectedRecipients.forEach { tribe in
+					let teaDraft = 	MessageDraft(
+						id: UUID(),
+						content: content,
+						contextId: nil,
+						caption: caption,
+						tag: .tea,
+						tribeId: tribe.id,
+						timeStamp: Date.now
+					)
+					messageClient.postMessage(draft: teaDraft)
+				}
 			}
+			NotificationCenter.default.post(Notification(name: .toggleCompose))
+			self.feedbackClient.medium()
 			self.isUploading = false
 		}
 	}
