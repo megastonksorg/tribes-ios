@@ -168,6 +168,22 @@ extension Message {
 		message.body = .init(content: .text("Hey there, what's for dinner? Are we still going for Italian?"), caption: nil)
 		return message
 	}()
+	
+	static let noopDecryptedTextWithImageContextChat: Message = {
+		let message = Message(
+			id: "F",
+			context: Message.noopEncryptedImageTea,
+			decryptionKeys: [],
+			encryptedBody: Body(content: .text("ENCRYPTED TEXT"), caption: nil),
+			senderId: UUID().uuidString,
+			reactions: [],
+			tag: .chat,
+			expires: nil,
+			timeStamp: Date.now
+		)
+		message.body = .init(content: .text("Hey there, what's for dinner? Are we still going for Italian?"), caption: nil)
+		return message
+	}()
 }
 
 struct TribeMessage: Codable, Identifiable {

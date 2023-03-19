@@ -14,58 +14,73 @@ struct MessageTextView: View {
 	
 	init(model: MessageBodyModel, isShowingIncomingAuthor: Bool) {
 		self.model = model
-		self.isShowingIncomingAuthor = isShowingIncomingAuthor
+		self.isShowingIncomingAuthor = isShowingIncomingAuthor || model.message.context != nil
 	}
 	
 	var body: some View {
-		let avatarSize: CGFloat = 38
 		let isIncoming: Bool = model.style == .incoming
 		let dummyTribeMember: TribeMember = TribeMember.dummyTribeMember
-		HStack(alignment: .top, spacing: 0) {
-			Group {
-				if let sender = self.model.sender {
-					UserAvatar(url: sender.profilePhoto)
-				} else {
-					Circle()
-						.fill(Color.gray)
+		VStack(alignment: .leading, spacing: 0) {
+			HStack(alignment: .bottom) {
+				avatar()
+					.opacity(0)
+					.overlay(
+						LShape()
+							.stroke(Color.gray, lineWidth: 2)
+							.frame(width: 20, height: 30)
+							.rotation3DEffect(.degrees(180), axis: (x: 1, y: 0, z: 0))
+							.offset(x: 10)
+							.opacity(model.message.context == nil ? 0.0 : 1.0)
+					)
+				if let context = model.message.context {
+					MessageView(
+						currentTribeMember: model.currentTribeMember,
+						message: context,
+						tribe: Tribe.noop1,
+						isPlaying: false,
+						isShowingIncomingAuthor: false
+					)
+					.frame(width: 100, height: 140)
 				}
 			}
-			.frame(dimension: avatarSize)
-			.opacity(isIncoming && isShowingIncomingAuthor ? 1.0 : 0.0)
-			Spacer()
-				.frame(width: 10)
-			if model.style == .outgoing {
-				Spacer(minLength: 0)
-			}
-			VStack(alignment: .leading, spacing: 0) {
-				ZStack {
-					if isShowingIncomingAuthor && !isShowingTimeStamp {
-						Text(isIncoming ? model.sender?.fullName ?? dummyTribeMember.fullName : "")
-					}
-					if isShowingTimeStamp {
-						Text(model.message.timeStamp.timeAgoDisplay())
-					}
+			HStack(alignment: .top, spacing: 0) {
+				avatar()
+					.opacity(isIncoming && isShowingIncomingAuthor ? 1.0 : 0.0)
+				Spacer()
+					.frame(width: 10)
+				if model.style == .outgoing {
+					Spacer(minLength: 0)
 				}
-				.lineLimit(1)
-				.font(Font.app.callout)
-				.foregroundColor(Color.gray)
-				Button(action: {
-					withAnimation(.easeInOut) {
-						self.isShowingTimeStamp = true
-					}
-					DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-						withAnimation(.easeInOut) {
-							self.isShowingTimeStamp = false
+				VStack(alignment: .leading, spacing: 0) {
+					ZStack {
+						if isShowingIncomingAuthor && !isShowingTimeStamp {
+							Text(isIncoming ? model.sender?.fullName ?? dummyTribeMember.fullName : "")
+						}
+						if isShowingTimeStamp {
+							Text(model.message.timeStamp.timeAgoDisplay())
 						}
 					}
-				}) {
-					contentView()
-						.padding(.top, model.style == .outgoing ? 2.0 : 4.0)
+					.lineLimit(1)
+					.font(Font.app.callout)
+					.foregroundColor(Color.gray)
+					Button(action: {
+						withAnimation(.easeInOut) {
+							self.isShowingTimeStamp = true
+						}
+						DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+							withAnimation(.easeInOut) {
+								self.isShowingTimeStamp = false
+							}
+						}
+					}) {
+						contentView()
+							.padding(.top, model.style == .outgoing ? 2.0 : 4.0)
+					}
 				}
-			}
-			.buttonStyle(.insideScaling)
-			if model.style == .incoming {
-				Spacer(minLength: 0)
+				.buttonStyle(.insideScaling)
+				if model.style == .incoming {
+					Spacer(minLength: 0)
+				}
 			}
 		}
 	}
@@ -98,6 +113,19 @@ struct MessageTextView: View {
 			style: model.style
 		)
 	}
+	
+	@ViewBuilder
+	func avatar() -> some View {
+		Group {
+			if let sender = self.model.sender {
+				UserAvatar(url: sender.profilePhoto)
+			} else {
+				Circle()
+					.fill(Color.gray)
+			}
+		}
+		.frame(dimension: 38)
+	}
 }
 
 struct MessageTextView_Previews: PreviewProvider {
@@ -107,7 +135,7 @@ struct MessageTextView_Previews: PreviewProvider {
 				currentTribeMember: TribeMember.noop1,
 				sender: nil,
 				style: .incoming,
-				message: Message.noopEncryptedTextChat
+				message: Message.noopDecryptedTextWithImageContextChat
 			),
 			isShowingIncomingAuthor: false
 		)
