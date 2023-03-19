@@ -27,6 +27,7 @@ import IdentifiedCollections
 	
 	static let shared: MessageClient = MessageClient()
 	
+	private let user: User?
 	@Published var tribesMessages: IdentifiedArrayOf<TribeMessage> = []
 	
 	private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
@@ -37,8 +38,14 @@ import IdentifiedCollections
 	private let cacheClient: CacheClient = CacheClient.shared
 	private let encryptionClient: EncryptionClient = EncryptionClient.shared
 	private let soundClient: SoundClient = SoundClient.shared
+	private let keychainClient: KeychainClient = KeychainClient.shared
 	
 	init() {
+		if let user = keychainClient.get(key: .user) {
+			self.user = user
+		} else {
+			self.user = nil
+		}
 		Task {
 			if let cachedTribesMessages = await cacheClient.getData(key: .tribesMessages) {
 				await MainActor.run {
@@ -310,6 +317,9 @@ import IdentifiedCollections
 	
 	func messageReceived(tribeId: String, messageResponse: MessageResponse) {
 		processMessageResponse(tribeId: tribeId, messageResponse: messageResponse)
+		if messageResponse.senderWalletAddress != self.user?.walletAddress {
+			soundClient.playSound(.inAppNotification)
+		}
 	}
 	
 	private func updateMessageAndCache(_ message: Message, tribeId: Tribe.ID) {

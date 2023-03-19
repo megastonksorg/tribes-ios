@@ -17,7 +17,7 @@ class SoundClient {
 	
 	static let shared: SoundClient = SoundClient()
 	
-	var player: AVAudioPlayer? = nil
+	private var player: AVAudioPlayer? = nil
 	
 	func playSound(_ sound: Sound) {
 		guard let url = Bundle.main.url(forResource: sound.rawValue, withExtension: ".mp3") else { return }
