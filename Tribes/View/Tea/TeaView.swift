@@ -179,7 +179,7 @@ struct TeaView: View {
 	func header() -> some View {
 		VStack {
 			pillsView()
-			HStack(spacing: 10) {
+			HStack(spacing: 6) {
 				HStack(spacing: -12) {
 					ForEach(0..<viewModel.tribe.members.count, id: \.self) { index in
 						UserAvatar(url: viewModel.tribe.members[index].profilePhoto)
@@ -188,7 +188,7 @@ struct TeaView: View {
 					}
 				}
 				HStack(spacing: 0) {
-					Text("\(viewModel.tribe.name) ")
+					Text("\(viewModel.tribe.name)")
 						.font(Font.app.title3)
 						.foregroundColor(Color.app.tertiary)
 						.lineLimit(1)
@@ -197,7 +197,7 @@ struct TeaView: View {
 						.foregroundColor(Color.app.tertiary)
 						.opacity(viewModel.currentTea == nil ? 0.0 : 1.0)
 				}
-				Spacer()
+				Spacer(minLength: 0)
 				Button(action: {}) {
 					Image(systemName: "eye.circle.fill")
 						.font(.system(size: 30))
