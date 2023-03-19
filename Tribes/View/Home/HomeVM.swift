@@ -63,7 +63,9 @@ extension HomeView {
 		func didNotCompletePageScroll() {
 			switch currentPage {
 			case .compose:
-				self.setCurrentPage(page: .compose)
+				DispatchQueue.main.async {
+					self.setCurrentPage(page: .compose)
+				}
 				return
 			case .tribes:
 				self.composeVM.cameraVM.didDisappear()
