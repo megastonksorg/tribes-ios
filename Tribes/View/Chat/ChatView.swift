@@ -200,6 +200,14 @@ struct ChatView: View {
 						MessageBottomButton(style: .close) {
 							viewModel.dismissTea()
 						}
+						.background {
+							Color.clear
+								.frame(dimension: 60)
+								.contentShape(Rectangle())
+								.onTapGesture {
+									viewModel.dismissTea()
+								}
+						}
 					}
 					.padding(.horizontal)
 					.padding(.horizontal)
