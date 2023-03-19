@@ -16,6 +16,7 @@ struct MessageView: View {
 	let tribe: Tribe
 	let isPlaying: Bool
 	let isShowingIncomingAuthor: Bool
+	let contextMessageAction: (_ messageId: Message.ID) -> ()
 	
 	@State var playbackProgress: Float = 0
 	
@@ -24,7 +25,8 @@ struct MessageView: View {
 		message: Message,
 		tribe: Tribe,
 		isPlaying: Bool,
-		isShowingIncomingAuthor: Bool
+		isShowingIncomingAuthor: Bool,
+		contextMessageAction: @escaping (_ messageId: Message.ID) -> () = { _ in }
 	) {
 		let sender: TribeMember? = tribe.members[id: message.senderId]
 		self.tribeId = tribe.id
@@ -41,6 +43,7 @@ struct MessageView: View {
 		self.tribe = tribe
 		self.isPlaying = isPlaying
 		self.isShowingIncomingAuthor = isShowingIncomingAuthor
+		self.contextMessageAction = contextMessageAction
 	}
 	
 	var body: some View {
@@ -54,7 +57,11 @@ struct MessageView: View {
 		Group {
 			switch message.encryptedBody.content {
 			case .text:
-				MessageTextView(model: bodyModel, isShowingIncomingAuthor: isShowingIncomingAuthor)
+				MessageTextView(
+					model: bodyModel,
+					isShowingIncomingAuthor: isShowingIncomingAuthor,
+					contextMessageAction: { self.contextMessageAction($0) }
+				)
 			case .image:
 				MessageImageView(model: bodyModel)
 			case .video:

@@ -10,6 +10,7 @@ import SwiftUI
 struct MessageTextView: View {
 	let model: MessageBodyModel
 	let isShowingIncomingAuthor: Bool
+	let contextMessageAction: (_ messageId: Message.ID) -> ()
 	
 	@State var messageContext: Message?
 	@State var didFailToLoadContext: Bool = false
@@ -18,10 +19,15 @@ struct MessageTextView: View {
 	//Clients
 	private let messageClient: MessageClient = MessageClient.shared
 	
-	init(model: MessageBodyModel, isShowingIncomingAuthor: Bool) {
+	init(
+		model: MessageBodyModel,
+		isShowingIncomingAuthor: Bool,
+		contextMessageAction: @escaping (_ messageId: Message.ID) -> () = { _ in }
+	) {
 		self.model = model
 		self.isShowingIncomingAuthor = isShowingIncomingAuthor || model.message.context != nil
 		self._messageContext = State(initialValue: model.message.context)
+		self.contextMessageAction = contextMessageAction
 	}
 	
 	var body: some View {
@@ -52,14 +58,16 @@ struct MessageTextView: View {
 								TextView("Expired", style: .hint)
 							}
 						} else {
-							MessageView(
-								currentTribeMember: model.currentTribeMember,
-								message: context,
-								tribe: Tribe.noop1,
-								isPlaying: false,
-								isShowingIncomingAuthor: false
-							)
-							.scaledToFill()
+							Button(action: { contextMessageAction(context.id) }) {
+								MessageView(
+									currentTribeMember: model.currentTribeMember,
+									message: context,
+									tribe: Tribe.noop1,
+									isPlaying: false,
+									isShowingIncomingAuthor: false
+								)
+								.scaledToFill()
+							}
 						}
 					}
 					.frame(width: 100, height: 140)
