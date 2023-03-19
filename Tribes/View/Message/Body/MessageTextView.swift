@@ -10,9 +10,10 @@ import SwiftUI
 struct MessageTextView: View {
 	let model: MessageBodyModel
 	let isShowingIncomingAuthor: Bool
-	@State var isShowingTimeStamp: Bool = false
 	
 	@State var messageContext: Message?
+	@State var didFailToLoadContext: Bool = false
+	@State var isShowingTimeStamp: Bool = false
 	
 	//Clients
 	private let messageClient: MessageClient = MessageClient.shared
@@ -43,24 +44,37 @@ struct MessageTextView: View {
 					if !isIncoming {
 						Spacer()
 					}
-					MessageView(
-						currentTribeMember: model.currentTribeMember,
-						message: context,
-						tribe: Tribe.noop1,
-						isPlaying: false,
-						isShowingIncomingAuthor: false
-					)
-					.scaledToFill()
+					Group {
+						if didFailToLoadContext {
+							VStack {
+								Image(systemName: "clock.arrow.circlepath")
+									.foregroundColor(Color.gray)
+								TextView("Expired", style: .hint)
+							}
+						} else {
+							MessageView(
+								currentTribeMember: model.currentTribeMember,
+								message: context,
+								tribe: Tribe.noop1,
+								isPlaying: false,
+								isShowingIncomingAuthor: false
+							)
+							.scaledToFill()
+						}
+					}
 					.frame(width: 100, height: 140)
 					.clipShape(RoundedRectangle(cornerRadius: shapeCornerRadius))
 					.background {
 						Color.app.secondary
 							.clipShape(RoundedRectangle(cornerRadius: shapeCornerRadius))
 					}
+					.opacity(self.didFailToLoadContext ? 0.4 : 1.0)
 					.onAppear {
 						if let context = self.messageContext {
 							if let message = messageClient.tribesMessages[id: model.tribe.id]?.messages[id: context.id] {
 								self.messageContext = message
+							} else {
+								self.didFailToLoadContext = true
 							}
 						}
 					}
