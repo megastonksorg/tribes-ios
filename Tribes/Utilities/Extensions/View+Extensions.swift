@@ -33,6 +33,7 @@ extension View {
 			.tint(Color.white)
 			.multilineTextAlignment(.center)
 			.padding(.vertical, 6)
+			.padding(.horizontal, 40)
 			.frame(maxWidth: .infinity)
 			.background(Color.app.primary.opacity(0.4))
 	}
