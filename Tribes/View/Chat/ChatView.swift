@@ -43,7 +43,8 @@ struct ChatView: View {
 									message: message,
 									tribe: viewModel.tribe,
 									isPlaying: false,
-									isShowingIncomingAuthor: viewModel.shouldShowMessageAuthor(message: message)
+									isShowingIncomingAuthor: viewModel.shouldShowMessageAuthor(message: message),
+									contextMessageAction: { viewModel.showTea($0) }
 								)
 								.id(message.id)
 							}
@@ -180,6 +181,28 @@ struct ChatView: View {
 			Group {
 				if let member = viewModel.memberToShow {
 					memberCard(member)
+				}
+			}
+		}
+		.overlay(isShown: viewModel.currentShowingTea != nil) {
+			if let currentShowingTea = viewModel.currentShowingTea {
+				MessageView(
+					currentTribeMember: viewModel.currentTribeMember,
+					message: currentShowingTea,
+					tribe: viewModel.tribe,
+					isPlaying: true,
+					isShowingIncomingAuthor: false
+				)
+				.transition(.asymmetric(insertion: .opacity, removal: .identity))
+				.overlay(alignment: .bottom) {
+					HStack {
+						Spacer()
+						MessageBottomButton(style: .close) {
+							viewModel.dismissTea()
+						}
+					}
+					.padding(.horizontal)
+					.padding(.horizontal)
 				}
 			}
 		}

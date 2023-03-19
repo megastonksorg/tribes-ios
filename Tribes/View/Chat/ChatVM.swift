@@ -16,6 +16,7 @@ extension ChatView {
 			case text
 		}
 		let scrollAnimation: Animation = Animation.easeIn
+		let teaAnimation: Animation = Animation.easeInOut
 		let currentTribeMember: TribeMember
 		private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 		
@@ -48,6 +49,7 @@ extension ChatView {
 		@Published var messages: IdentifiedArrayOf<Message>
 		@Published var draftChangedId: UUID?
 		@Published var messageChangedId: UUID?
+		@Published var currentShowingTea: Message?
 		@Published var isShowingMember: Bool = false
 		@Published var memberToShow: TribeMember?
 		@Published var text: String = ""
@@ -144,6 +146,24 @@ extension ChatView {
 				}
 			}
 			return true
+		}
+		
+		func showTea(_ messageId: Message.ID) {
+			if let message = self.messageClient.tribesMessages[id: tribe.id]?.tea[id: messageId] {
+				withAnimation(self.teaAnimation) {
+					self.currentShowingTea = message
+				}
+			} else {
+				withAnimation(self.teaAnimation) {
+					self.currentShowingTea = nil
+				}
+			}
+		}
+		
+		func dismissTea() {
+			withAnimation(self.teaAnimation) {
+				self.currentShowingTea = nil
+			}
 		}
 		
 		@objc func updateMessage(notification: NSNotification) {
