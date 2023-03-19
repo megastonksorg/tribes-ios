@@ -80,8 +80,8 @@ struct TeaView: View {
 				}()
 				header()
 				Spacer()
-				if !viewModel.tea.isEmpty && viewModel.currentTeaId != nil {
-					HStack {
+				HStack {
+					if !viewModel.tea.isEmpty && viewModel.currentTeaId != nil {
 						ZStack(alignment: .topLeading) {
 							Group {
 								Text("Message ")
@@ -116,30 +116,39 @@ struct TeaView: View {
 						}
 						.dropShadow()
 						.dropShadow()
-						
-						Menu(content: {
-							Button(action: { viewModel.deleteMessage() }) {
-								Label("Delete", systemImage: "trash.circle.fill")
-									.font(Font.app.title)
-							}
-						}, label: {
-							Image(systemName: "ellipsis")
-								.font(Font.app.title)
-								.padding(4)
-								.padding(.vertical, 10)
-								.rotationEffect(.degrees(-90))
-						})
-						.foregroundColor(Color.white)
-						.dropShadow()
-						.dropShadow()
-						.opacity(viewModel.isAuthorOfCurrentTea ? 1.0 : 0.0)
-						
-						MessageBottomButton(style: .close) {
-							closeButtonAction()
-						}
 					}
-					.offset(y: -yOffset)
+					
+					Menu(content: {
+						Button(action: { viewModel.deleteMessage() }) {
+							Label("Delete", systemImage: "trash.circle.fill")
+								.font(Font.app.title)
+						}
+					}, label: {
+						Image(systemName: "ellipsis")
+							.font(Font.app.title)
+							.padding(4)
+							.padding(.vertical, 10)
+							.rotationEffect(.degrees(-90))
+					})
+					.foregroundColor(Color.white)
+					.dropShadow()
+					.dropShadow()
+					.opacity(viewModel.isAuthorOfCurrentTea ? 1.0 : 0.0)
+					
+					Spacer()
+					MessageBottomButton(style: .close) {
+						closeButtonAction()
+					}
+					.background {
+						Color.clear
+							.frame(dimension: 60)
+							.contentShape(Rectangle())
+							.onTapGesture {
+								closeButtonAction()
+							}
+					}
 				}
+				.offset(y: -yOffset)
 			}
 			.padding(.horizontal)
 			.background {
