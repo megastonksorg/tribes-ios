@@ -11,8 +11,8 @@ struct LShape: Shape {
 	func path(in rect: CGRect) -> Path {
 		var path = Path()
 		path.move(to: CGPoint(x: rect.minX, y: rect.minY))
-		path.addLine(to: CGPoint(x: rect.minX, y: rect.maxY * 0.8))
-		path.addCurve(to: CGPoint(x: rect.maxX * 0.2, y: rect.maxY), control1: CGPoint(x: rect.minX, y: rect.maxY * 0.9), control2: CGPoint(x: rect.minX, y: rect.maxY))
+		path.addLine(to: CGPoint(x: rect.minX, y: rect.maxY * 0.4))
+		path.addCurve(to: CGPoint(x: rect.maxX * 0.9, y: rect.maxY), control1: CGPoint(x: rect.minX, y: rect.maxY * 0.8), control2: CGPoint(x: rect.minX, y: rect.maxY))
 		path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
 		return path
 	}
@@ -22,6 +22,6 @@ struct LShape_Previews: PreviewProvider {
 	static var previews: some View {
 		LShape()
 			.stroke(lineWidth: 4)
-			.frame(width: 30, height: 60)
+			.frame(width: 20, height: 40)
 	}
 }
