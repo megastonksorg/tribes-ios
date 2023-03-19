@@ -371,9 +371,14 @@ import IdentifiedCollections
 	}
 	
 	private func mapMessageResponseToMessage(_ messageResponse: MessageResponse) -> Message {
+		let context: Message? = {
+			guard let messageResponseContext = messageResponse.context else { return nil }
+			return mapMessageResponseToMessage(messageResponseContext)
+		}()
+		
 		return Message(
 			id: messageResponse.id,
-			context: messageResponse.context == nil ? nil : mapMessageResponseToMessage(messageResponse),
+			context: context,
 			decryptionKeys: messageResponse.keys,
 			encryptedBody: Message.Body(
 				content: getContentFromMessageResponse(messageResponse),
