@@ -21,18 +21,17 @@ struct MessageTextView: View {
 		let isIncoming: Bool = model.style == .incoming
 		let dummyTribeMember: TribeMember = TribeMember.dummyTribeMember
 		VStack(alignment: .leading, spacing: 0) {
-			HStack(alignment: .bottom) {
-				avatar()
-					.opacity(0)
-					.overlay(
-						LShape()
-							.stroke(Color.gray, lineWidth: 2)
-							.frame(width: 20, height: 30)
-							.rotation3DEffect(.degrees(180), axis: (x: 1, y: 0, z: 0))
-							.offset(x: 10)
-							.opacity(model.message.context == nil ? 0.0 : 1.0)
-					)
-				if let context = model.message.context {
+			if let context = model.message.context {
+				HStack(alignment: .bottom) {
+					avatar()
+						.opacity(0)
+						.overlay(
+							LShape()
+								.stroke(Color.gray, lineWidth: 2)
+								.frame(width: 20, height: 30)
+								.rotation3DEffect(.degrees(180), axis: (x: 1, y: 0, z: 0))
+								.offset(x: 10)
+						)
 					MessageView(
 						currentTribeMember: model.currentTribeMember,
 						message: context,
