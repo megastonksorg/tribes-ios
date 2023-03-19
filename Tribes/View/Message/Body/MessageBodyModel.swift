@@ -12,4 +12,5 @@ struct MessageBodyModel {
 	let sender: TribeMember?
 	let style: Message.Style
 	let message: Message
+	let tribe: Tribe
 }

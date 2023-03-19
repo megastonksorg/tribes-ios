@@ -13,6 +13,7 @@ struct MessageView: View {
 	let sender: TribeMember?
 	let style: Message.Style
 	let message: Message
+	let tribe: Tribe
 	let isPlaying: Bool
 	let isShowingIncomingAuthor: Bool
 	
@@ -37,6 +38,7 @@ struct MessageView: View {
 			}
 		}()
 		self.message = message
+		self.tribe = tribe
 		self.isPlaying = isPlaying
 		self.isShowingIncomingAuthor = isShowingIncomingAuthor
 	}
@@ -46,7 +48,8 @@ struct MessageView: View {
 			currentTribeMember: currentTribeMember,
 			sender: sender,
 			style: style,
-			message: message
+			message: message,
+			tribe: tribe
 		)
 		Group {
 			switch message.encryptedBody.content {

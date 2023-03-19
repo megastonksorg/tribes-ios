@@ -12,17 +12,24 @@ struct MessageTextView: View {
 	let isShowingIncomingAuthor: Bool
 	@State var isShowingTimeStamp: Bool = false
 	
+	@State var messageContext: Message?
+	
+	//Clients
+	private let messageClient: MessageClient = MessageClient.shared
+	
 	init(model: MessageBodyModel, isShowingIncomingAuthor: Bool) {
 		self.model = model
 		self.isShowingIncomingAuthor = isShowingIncomingAuthor || model.message.context != nil
+		self._messageContext = State(initialValue: model.message.context)
 	}
 	
 	var body: some View {
 		let isIncoming: Bool = model.style == .incoming
 		let dummyTribeMember: TribeMember = TribeMember.dummyTribeMember
 		VStack(alignment: .leading, spacing: 0) {
-			if let context = model.message.context {
+			if let context = self.messageContext {
 				HStack(alignment: .bottom) {
+					let shapeCornerRadius: CGFloat = 10
 					avatar()
 						.opacity(0)
 						.overlay(
@@ -43,11 +50,20 @@ struct MessageTextView: View {
 						isPlaying: false,
 						isShowingIncomingAuthor: false
 					)
+					.scaledToFill()
 					.frame(width: 100, height: 140)
-					.background(
-						RoundedRectangle(cornerRadius: 10)
-							.fill(Color.app.secondary)
-					)
+					.clipShape(RoundedRectangle(cornerRadius: shapeCornerRadius))
+					.background {
+						Color.app.secondary
+							.clipShape(RoundedRectangle(cornerRadius: shapeCornerRadius))
+					}
+					.onAppear {
+						if let context = self.messageContext {
+							if let message = messageClient.tribesMessages[id: model.tribe.id]?.messages[id: context.id] {
+								self.messageContext = message
+							}
+						}
+					}
 				}
 			}
 			HStack(alignment: .top, spacing: 0) {
@@ -142,7 +158,8 @@ struct MessageTextView_Previews: PreviewProvider {
 				currentTribeMember: TribeMember.noop1,
 				sender: nil,
 				style: .outgoing,
-				message: Message.noopDecryptedTextWithImageContextChat
+				message: Message.noopDecryptedTextWithImageContextChat,
+				tribe: Tribe.noop1
 			),
 			isShowingIncomingAuthor: false
 		)

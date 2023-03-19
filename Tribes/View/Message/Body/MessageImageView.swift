@@ -74,7 +74,8 @@ struct MessageImageView_Previews: PreviewProvider {
 				currentTribeMember: TribeMember.noop1,
 				sender: nil,
 				style: .incoming,
-				message: Message.noopEncryptedImageChat
+				message: Message.noopEncryptedImageChat,
+				tribe: Tribe.noop1
 			)
 			model.message.body = .init(content: .image("".unwrappedContentUrl), caption: nil)
 			return model
@@ -86,7 +87,8 @@ struct MessageImageView_Previews: PreviewProvider {
 				currentTribeMember: TribeMember.noop1,
 				sender: nil,
 				style: .incoming,
-				message: Message.noopEncryptedImageTea
+				message: Message.noopEncryptedImageTea,
+				tribe: Tribe.noop1
 			)
 		)
 	}

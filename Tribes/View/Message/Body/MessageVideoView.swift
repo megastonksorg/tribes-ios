@@ -90,7 +90,8 @@ struct MessageVideoView_Previews: PreviewProvider {
 				currentTribeMember: TribeMember.noop1,
 				sender: nil,
 				style: .incoming,
-				message: Message.noopEncryptedVideoTea
+				message: Message.noopEncryptedVideoTea,
+				tribe: Tribe.noop1
 			),
 			isPlaying: false
 		)
