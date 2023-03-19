@@ -104,7 +104,6 @@ struct DraftView: View {
 						}
 					}
 				}
-				.padding(.horizontal, 6)
 			}
 			.overlay(isShown: viewModel.isUploading) {
 				AppProgressView()
@@ -128,9 +127,6 @@ struct DraftView: View {
 			leaveAction: { _ in }
 		)
 		.dropShadow()
-		.dropShadow()
-		.dropShadow()
-		.dropShadow()
 		.opacity(viewModel.canSendTea ? 1.0 : 0.5)
 	}
 	
@@ -151,7 +147,7 @@ struct DraftView_Previews: PreviewProvider {
 	static var previews: some View {
 		DraftView(
 			viewModel: .init(
-				content: .video(URL(string: "https://kingsleyokeke.blob.core.windows.net/videos/Untitled.mp4")!)
+				content: .image(URL(string: "https://kingsleyokeke.blob.core.windows.net/images/1597276037537.jpeg")!)
 			)
 		)
 	}
