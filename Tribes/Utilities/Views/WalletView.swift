@@ -25,7 +25,7 @@ struct WalletView: View {
 					.fontWeight(.semibold)
 					.foregroundColor(.white)
 					.overlay {
-						Text(String(stringLiteral: "* * * * * * *"))
+						Text(String(stringLiteral: " * * * * * *"))
 							.offset(x: -18)
 					}
 			}
