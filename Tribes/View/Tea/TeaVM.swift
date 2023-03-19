@@ -75,6 +75,7 @@ extension TeaView {
 		@Published var text: String = ""
 		
 		//Clients
+		let feedbackClient: FeedbackClient = FeedbackClient.shared
 		let messageClient: MessageClient = MessageClient.shared
 		
 		init(tribe: Tribe) {
@@ -162,6 +163,28 @@ extension TeaView {
 			if let currentTea = currentTea {
 				self.messageClient.deleteMessage(currentTea, tribeId: self.tribe.id)
 			}
+		}
+		
+		func sendMessage() {
+			let text = self.text.trimmingCharacters(in: .whitespacesAndNewlines)
+			guard
+				!text.isEmpty,
+				let currentTeaId = self.currentTeaId
+			else { return }
+			
+			let draft: MessageDraft = MessageDraft(
+				id: UUID(),
+				content: .text(text),
+				contextId: currentTeaId,
+				caption: nil,
+				tag: .chat,
+				tribeId: tribe.id,
+				timeStamp: Date.now
+			)
+			
+			self.text = ""
+			messageClient.postMessage(draft: draft)
+			self.feedbackClient.medium()
 		}
 		
 		private func updateCurrentDraftOrTeaId() {

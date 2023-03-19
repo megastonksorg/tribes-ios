@@ -98,6 +98,7 @@ struct TeaView: View {
 								.foregroundColor(.white)
 								.submitLabel(.done)
 								.focused($focusedField, equals: .text)
+								.onSubmit { viewModel.sendMessage() }
 								.onChange(of: viewModel.text) { newValue in
 									guard let indexOfNewLine = newValue.firstIndex(of: "\n") else { return }
 									viewModel.text.remove(at: indexOfNewLine)
