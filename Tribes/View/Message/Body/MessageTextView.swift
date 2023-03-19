@@ -36,16 +36,16 @@ struct MessageTextView: View {
 		VStack(alignment: .leading, spacing: 0) {
 			if let context = self.messageContext {
 				HStack(alignment: .bottom) {
-					let shapeCornerRadius: CGFloat = 10
+					let shapeCornerRadius: CGFloat = 20
 					avatar()
 						.opacity(0)
 						.overlay(
 							LShape()
 								.stroke(Color.gray, lineWidth: 2)
-								.frame(width: 20, height: 30)
+								.frame(width: 15, height: 20)
 								.rotation3DEffect(.degrees(180), axis: (x: 1, y: 0, z: 0))
-								.offset(x: 10)
-								.opacity(isIncoming ? 1.0 : 0.0)
+								.offset(x: 5)
+								.opacity(isIncoming ? 0.2 : 0.0)
 						)
 					if !isIncoming {
 						Spacer()
