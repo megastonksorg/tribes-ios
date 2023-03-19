@@ -31,7 +31,11 @@ struct MessageTextView: View {
 								.frame(width: 20, height: 30)
 								.rotation3DEffect(.degrees(180), axis: (x: 1, y: 0, z: 0))
 								.offset(x: 10)
+								.opacity(isIncoming ? 1.0 : 0.0)
 						)
+					if !isIncoming {
+						Spacer()
+					}
 					MessageView(
 						currentTribeMember: model.currentTribeMember,
 						message: context,
@@ -56,7 +60,7 @@ struct MessageTextView: View {
 				}
 				VStack(alignment: .leading, spacing: 0) {
 					ZStack {
-						if isShowingIncomingAuthor && !isShowingTimeStamp {
+						if isShowingIncomingAuthor && !isShowingTimeStamp && isIncoming {
 							Text(isIncoming ? model.sender?.fullName ?? dummyTribeMember.fullName : "")
 						}
 						if isShowingTimeStamp {
@@ -137,7 +141,7 @@ struct MessageTextView_Previews: PreviewProvider {
 			model: MessageBodyModel(
 				currentTribeMember: TribeMember.noop1,
 				sender: nil,
-				style: .incoming,
+				style: .outgoing,
 				message: Message.noopDecryptedTextWithImageContextChat
 			),
 			isShowingIncomingAuthor: false
