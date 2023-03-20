@@ -69,7 +69,7 @@ extension TribesView {
 							self.deeplinkClient.setDeepLink(nil)
 						}
 						return
-					case .message(let tribeId):
+					case .chat(let tribeId):
 						if let tribe = self.tribes[id: tribeId] {
 							self.setCurrentChatTribe(tribe)
 							self.deeplinkClient.setDeepLink(nil)

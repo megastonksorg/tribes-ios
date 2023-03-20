@@ -123,6 +123,7 @@
 		D076636929948FEB00946F7B /* TokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D076636829948FEB00946F7B /* TokenManager.swift */; };
 		D076636D2995313100946F7B /* TribesRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D076636C2995313100946F7B /* TribesRepository.swift */; };
 		D07663702995C1EE00946F7B /* CGFloat+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D076636F2995C1EE00946F7B /* CGFloat+Extensions.swift */; };
+		D0782B2C29C917E000C4B086 /* DeeplinkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0782B2B29C917E000C4B086 /* DeeplinkResponse.swift */; };
 		D08EBF1F297EBEC1001B7A5C /* KeychainClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08EBF1E297EBEC1001B7A5C /* KeychainClient.swift */; };
 		D08EBF23297FC4D1001B7A5C /* CreateTribeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08EBF22297FC4D1001B7A5C /* CreateTribeView.swift */; };
 		D08EBF25297FC508001B7A5C /* CreateTribeVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08EBF24297FC508001B7A5C /* CreateTribeVM.swift */; };
@@ -295,6 +296,7 @@
 		D076636829948FEB00946F7B /* TokenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenManager.swift; sourceTree = "<group>"; };
 		D076636C2995313100946F7B /* TribesRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TribesRepository.swift; sourceTree = "<group>"; };
 		D076636F2995C1EE00946F7B /* CGFloat+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+Extensions.swift"; sourceTree = "<group>"; };
+		D0782B2B29C917E000C4B086 /* DeeplinkResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeeplinkResponse.swift; sourceTree = "<group>"; };
 		D08EBF1E297EBEC1001B7A5C /* KeychainClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainClient.swift; sourceTree = "<group>"; };
 		D08EBF22297FC4D1001B7A5C /* CreateTribeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTribeView.swift; sourceTree = "<group>"; };
 		D08EBF24297FC508001B7A5C /* CreateTribeVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTribeVM.swift; sourceTree = "<group>"; };
@@ -372,6 +374,7 @@
 			children = (
 				D0052A7529C910260051A7AB /* Deeplink.swift */,
 				D0052A7229C90FCE0051A7AB /* DeeplinkClient.swift */,
+				D0782B2B29C917E000C4B086 /* DeeplinkResponse.swift */,
 			);
 			path = DeeplinkClient;
 			sourceTree = "<group>";
@@ -1129,6 +1132,7 @@
 				D030D31C2957460B0011128F /* ImportSecretKeyView.swift in Sources */,
 				D030D31E2957460B0011128F /* AuthenticateVM.swift in Sources */,
 				D0E9F7FE298DD5F900A0400A /* Cache.swift in Sources */,
+				D0782B2C29C917E000C4B086 /* DeeplinkResponse.swift in Sources */,
 				D06829B729C36EC600686FCC /* HubClient.swift in Sources */,
 				D0B90E5D29B6FAAE00EB90CD /* NoContentView.swift in Sources */,
 				D0D2669729600BBA00A94183 /* DraftView.swift in Sources */,
