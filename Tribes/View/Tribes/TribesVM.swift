@@ -41,6 +41,7 @@ extension TribesView {
 		
 		//Clients
 		private let apiClient: APIClient = APIClient.shared
+		private let deeplinkClient: DeeplinkClient = DeeplinkClient.shared
 		private let feedbackClient: FeedbackClient = FeedbackClient.shared
 		private let tribesRepository: TribesRepository = TribesRepository.shared
 		
@@ -56,6 +57,27 @@ extension TribesView {
 					name: .tribesUpdated,
 					object: nil
 				)
+			
+			self.deeplinkClient
+				.$pendingDeeplink
+				.sink(receiveValue: { deeplink in
+					guard let deeplink = deeplink else { return }
+					switch deeplink {
+					case .tea(let tribeId):
+						if let tribe = self.tribes[id: tribeId] {
+							self.setCurrentTeaTribe(tribe)
+							self.deeplinkClient.setDeepLink(nil)
+						}
+						return
+					case .message(let tribeId):
+						if let tribe = self.tribes[id: tribeId] {
+							self.setCurrentChatTribe(tribe)
+							self.deeplinkClient.setDeepLink(nil)
+						}
+						return
+					}
+				})
+				.store(in: &cancellables)
 		}
 		
 		func createTribe() {
@@ -170,6 +192,11 @@ extension TribesView {
 			}
 		}
 		
+		func setCurrentChatTribe(_ tribe: Tribe) {
+			self.currentChatTribe = tribe
+			self.isShowingChatView = true
+		}
+		
 		func setLeaveTribeVM(_ viewModel: LeaveTribeView.ViewModel?) {
 			self.leaveTribeVM = viewModel
 		}
@@ -197,8 +224,7 @@ extension TribesView {
 		}
 		
 		func tribeSecondaryActionTapped(_ tribe: Tribe) {
-			self.currentChatTribe = tribe
-			self.isShowingChatView = true
+			setCurrentChatTribe(tribe)
 		}
 		
 		func tribeInviteActionTapped(_ tribe: Tribe) {
