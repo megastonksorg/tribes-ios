@@ -41,8 +41,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		_ application: UIApplication,
 		didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
 	) {
-		let tokenParts = deviceToken.map { data in String(format: "%02.2hhx", data) }
-		let token = tokenParts.joined()
+		let token: String = deviceToken.hexString
 		//Send API request here to register the device
 	}
 }
