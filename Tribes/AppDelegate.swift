@@ -42,6 +42,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
 	) {
 		let token: String = deviceToken.hexString
-		//Send API request here to register the device
+		APIClient.shared.updateDeviceToken(token)
 	}
 }

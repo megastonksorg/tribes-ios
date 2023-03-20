@@ -12,8 +12,6 @@ import UIKit
 typealias APIClientError = AppError.APIClientError
 
 protocol APIRequests {
-	func updateDeviceToken(_ token: String)
-	
 	func getImage(url: URL) async -> UIImage?
 	func getMediaData(url: URL) async -> Data?
 	//Authentication
@@ -35,6 +33,8 @@ protocol APIRequests {
 	func joinTribe(pin: String, code: String) -> AnyPublisher<Tribe, APIClientError>
 	func leaveTribe(tribeID: Tribe.ID) -> AnyPublisher<SuccessResponse, APIClientError>
 	func updateTribeName(tribeID: Tribe.ID, name: String) -> AnyPublisher<String, APIClientError>
+	
+	func updateDeviceToken(_ token: String)
 }
 
 final class APIClient: APIRequests {
@@ -128,16 +128,6 @@ final class APIClient: APIRequests {
 			body: model
 		)
 		return apiRequest(appRequest: registerRequest, output: RegisterResponse.self)
-	}
-	
-	func updateDeviceToken(token: String) -> AnyPublisher<EmptyResponse, APIClientError> {
-		let updateDeviceTokenRequest = APPUrlRequest(
-			httpMethod: .post,
-			pathComponents: ["account", "updateAppleDeviceToken"],
-			query: [URLQueryItem(name: "deviceToken", value: token)],
-			requiresAuth: true
-		)
-		return apiRequest(appRequest: updateDeviceTokenRequest, output: EmptyResponse.self)
 	}
 	
 	func updateName(fullName: String) -> AnyPublisher<String, APIClientError> {
@@ -276,6 +266,16 @@ final class APIClient: APIRequests {
 			requiresAuth: true
 		)
 		return apiRequest(appRequest: updateTribeNameRequest, output: String.self)
+	}
+	
+	private func updateDeviceToken(token: String) -> AnyPublisher<EmptyResponse, APIClientError> {
+		let updateDeviceTokenRequest = APPUrlRequest(
+			httpMethod: .post,
+			pathComponents: ["account", "updateAppleDeviceToken"],
+			query: [URLQueryItem(name: "deviceToken", value: token)],
+			requiresAuth: true
+		)
+		return apiRequest(appRequest: updateDeviceTokenRequest, output: EmptyResponse.self)
 	}
 	
 	private func apiRequest<Output: Decodable>(appRequest: APPUrlRequest, output: Output.Type) -> AnyPublisher<Output, APIClientError> {
