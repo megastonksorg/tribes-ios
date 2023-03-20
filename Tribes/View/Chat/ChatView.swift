@@ -98,65 +98,49 @@ struct ChatView: View {
 					}
 				}
 				.frame(height: 4)
-				SymmetricHStack(
-					spacing: 4,
-					content: {
-						ZStack(alignment: .topLeading) {
-							Group {
-								Text("Message ")
-									.foregroundColor(Color.gray)
-								+
-								Text(viewModel.tribe.name)
-									.foregroundColor(Color.app.tertiary)
-							}
-							.lineLimit(2)
-							.opacity(viewModel.canSendText ? 0.0 : 1.0)
-							TextField("", text: $viewModel.text, axis: .vertical)
-								.tint(Color.white)
-								.lineLimit(1...4)
-								.foregroundColor(.white)
-								.focused($focusedField, equals: .text)
+				HStack {
+					ZStack(alignment: .topLeading) {
+						Group {
+							Text("Message ")
+								.foregroundColor(Color.gray)
+							+
+							Text(viewModel.tribe.name)
+								.foregroundColor(Color.app.tertiary)
 						}
-						.font(Font.app.body)
-						.multilineTextAlignment(.leading)
-						.padding(.horizontal, 12)
-						.padding(.vertical, 10)
-						.background {
-							RoundedRectangle(cornerRadius: 14)
-								.stroke(Color.app.tertiary, lineWidth: 1)
-								.opacity(viewModel.canSendText ? 1.0 : 0.0)
-								.transition(.opacity)
-								.animation(.easeInOut, value: viewModel.canSendText)
-						}
-						.opacity(viewModel.canChat ? 1.0 : 0.5)
-						.disabled(!viewModel.canChat)
-					},
-					leading: {
-						Button(action: {
-							self.focusedField = nil
-						}) {
-							Image(systemName: "camera.fill")
-								.font(Font.app.title2)
-								.foregroundColor(Color.gray.opacity(0.8))
-						}
-						.frame(dimension: textFieldBarButtonSize)
-						.opacity(viewModel.canChat ? 1.0 : 0.5)
-						.disabled(!viewModel.canChat)
-					},
-					trailing: {
-						MessageBottomButton(
-							style: viewModel.canSendText ? .send : .close,
-							action: {
-								if viewModel.canSendText {
-									viewModel.sendMessage()
-								} else {
-									dismissAction()
-								}
-							}
-						)
-						.frame(dimension: textFieldBarButtonSize)
+						.lineLimit(2)
+						.opacity(viewModel.canSendText ? 0.0 : 1.0)
+						TextField("", text: $viewModel.text, axis: .vertical)
+							.tint(Color.white)
+							.lineLimit(1...4)
+							.foregroundColor(.white)
+							.focused($focusedField, equals: .text)
 					}
-				)
+					.font(Font.app.body)
+					.multilineTextAlignment(.leading)
+					.padding(.horizontal, 12)
+					.padding(.vertical, 10)
+					.background {
+						RoundedRectangle(cornerRadius: 14)
+							.stroke(Color.app.tertiary, lineWidth: 1)
+							.opacity(viewModel.canSendText ? 1.0 : 0.0)
+							.transition(.opacity)
+							.animation(.easeInOut, value: viewModel.canSendText)
+					}
+					.opacity(viewModel.canChat ? 1.0 : 0.5)
+					.disabled(!viewModel.canChat)
+					Spacer()
+					MessageBottomButton(
+						style: viewModel.canSendText ? .send : .close,
+						action: {
+							if viewModel.canSendText {
+								viewModel.sendMessage()
+							} else {
+								dismissAction()
+							}
+						}
+					)
+					.frame(dimension: textFieldBarButtonSize)
+				}
 				.padding(.horizontal)
 				.padding(.top, 4)
 			}
