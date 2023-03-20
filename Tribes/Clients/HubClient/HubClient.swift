@@ -10,10 +10,20 @@ import IdentifiedCollections
 import SignalRClient
 
 class HubClient: HubConnectionDelegate {
+	static let shared: HubClient = HubClient()
+	
 	private var connection: HubConnection?
 	
 	init() {
 		initializeConnection()
+		
+		NotificationCenter
+			.default.addObserver(
+				self,
+				selector: #selector(subscribeToTribeUpdates),
+				name: .tribesUpdated,
+				object: nil
+			)
 	}
 	
 	func initializeConnection() {
@@ -36,14 +46,10 @@ class HubClient: HubConnectionDelegate {
 		}
 		
 		connection?.start()
-		
-		NotificationCenter
-			.default.addObserver(
-				self,
-				selector: #selector(subscribeToTribeUpdates),
-				name: .tribesUpdated,
-				object: nil
-			)
+	}
+	
+	func stopConnection() {
+		self.connection?.stop()
 	}
 	
 	private func handleMessage(_ tribeId: String, message: MessageResponse) {

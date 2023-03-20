@@ -11,6 +11,9 @@ import SwiftUI
 struct TribesApp: App {
 	@Environment(\.scenePhase) var scenePhase
 	
+	//Clients
+	private var hubClient: HubClient = HubClient.shared
+	
 	var body: some Scene {
 		WindowGroup {
 			AppView()
@@ -23,7 +26,7 @@ struct TribesApp: App {
 		.onChange(of: scenePhase) { newPhase in
 			switch newPhase {
 			case .active:
-				_ = HubClient()
+				self.hubClient.initializeConnection()
 			case .inactive, .background:
 				NotificationCenter.default.post(Notification(name: .appInActive, userInfo: [:]))
 			@unknown default:
