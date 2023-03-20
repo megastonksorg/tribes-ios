@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D00443B329C7ECB4005D40B5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00443B229C7ECB4005D40B5 /* AppDelegate.swift */; };
 		D01031572978D73500ACC333 /* UserAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01031562978D73500ACC333 /* UserAvatar.swift */; };
 		D0158076295CAE390087545A /* PermissionClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0158075295CAE390087545A /* PermissionClient.swift */; };
 		D0158079295D14880087545A /* CaptureClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0158078295D14880087545A /* CaptureClient.swift */; };
@@ -178,6 +179,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D00443B229C7ECB4005D40B5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D01031562978D73500ACC333 /* UserAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAvatar.swift; sourceTree = "<group>"; };
 		D0158075295CAE390087545A /* PermissionClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionClient.swift; sourceTree = "<group>"; };
 		D0158078295D14880087545A /* CaptureClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureClient.swift; sourceTree = "<group>"; };
@@ -413,11 +415,12 @@
 				D030D2AD295745E90011128F /* Utilities */,
 				D030D3002957460B0011128F /* View */,
 				D030D2972957457D0011128F /* ViewModel */,
+				D029D81D2957548400EA4C07 /* AppView.swift */,
 				D030D28029573E9A0011128F /* TribesApp.swift */,
 				D030D28629573E9B0011128F /* Preview Content */,
-				D029D81D2957548400EA4C07 /* AppView.swift */,
 				D0C65AA82970A80300E527F9 /* Resources */,
 				D0BFEA4E298736D200FB6F22 /* LaunchScreen.storyboard */,
+				D00443B229C7ECB4005D40B5 /* AppDelegate.swift */,
 			);
 			path = Tribes;
 			sourceTree = "<group>";
@@ -1097,6 +1100,7 @@
 				D0D266B3296AAD2300A94183 /* HomeContentView.swift in Sources */,
 				D030D2A6295745C20011128F /* APIClient.swift in Sources */,
 				D0B90E5F29B8FF5900EB90CD /* KeyboardClient.swift in Sources */,
+				D00443B329C7ECB4005D40B5 /* AppDelegate.swift in Sources */,
 				D06FDE81299A03210013A55E /* WalletView.swift in Sources */,
 				D0A3F07E298083D0000308BF /* CardView.swift in Sources */,
 				D0D266AF296AAC4E00A94183 /* EdgeInsets+Extensions.swift in Sources */,

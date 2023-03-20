@@ -9,6 +9,8 @@ import SwiftUI
 
 @main
 struct TribesApp: App {
+	@UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+	
 	@Environment(\.scenePhase) var scenePhase
 	
 	//Clients
