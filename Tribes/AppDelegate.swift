@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AppDelegate: NSObject, UIApplicationDelegate {
+class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 	func application(
 		_ application: UIApplication,
 		didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
@@ -43,5 +43,13 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 	) {
 		let token: String = deviceToken.hexString
 		APIClient.shared.updateDeviceToken(token)
+	}
+	
+	func userNotificationCenter(
+		_ center: UNUserNotificationCenter,
+		didReceive response: UNNotificationResponse,
+		withCompletionHandler completionHandler: @escaping () -> Void
+	) {
+		DeeplinkClient.shared.processNotification(response.notification.request.content.userInfo)
 	}
 }
