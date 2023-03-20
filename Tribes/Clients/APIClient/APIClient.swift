@@ -12,13 +12,14 @@ import UIKit
 typealias APIClientError = AppError.APIClientError
 
 protocol APIRequests {
+	func updateDeviceToken(_ token: String)
+	
 	func getImage(url: URL) async -> UIImage?
 	func getMediaData(url: URL) async -> Data?
 	//Authentication
 	func doesAccountExist(for walletAddress: String) -> AnyPublisher<SuccessResponse, APIClientError>
 	func authenticateUser(model: AuthenticateRequest) -> AnyPublisher<AuthenticateResponse, APIClientError>
 	func registerUser(model: RegisterRequest) -> AnyPublisher<RegisterResponse, APIClientError>
-	func updateDeviceToken(token: String) -> AnyPublisher<EmptyResponse, APIClientError>
 	func updateName(fullName: String) -> AnyPublisher<String, APIClientError>
 	func updateProfilePhoto(photoUrl: URL) -> AnyPublisher<URL, APIClientError>
 	func uploadImage(imageData: Data) -> AnyPublisher<URL, APIClientError>
@@ -68,6 +69,15 @@ final class APIClient: APIRequests {
 					.store(in: &self.cancellables)
 			}
 		}
+	}
+	
+	func updateDeviceToken(_ token: String) {
+		self.updateDeviceToken(token: token)
+			.sink(
+				receiveCompletion: { _ in },
+				receiveValue: { _ in }
+			)
+			.store(in: &self.cancellables)
 	}
 	
 	func getMediaData(url: URL) async -> Data? {
