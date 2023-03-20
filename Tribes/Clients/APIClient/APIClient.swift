@@ -18,6 +18,7 @@ protocol APIRequests {
 	func doesAccountExist(for walletAddress: String) -> AnyPublisher<SuccessResponse, APIClientError>
 	func authenticateUser(model: AuthenticateRequest) -> AnyPublisher<AuthenticateResponse, APIClientError>
 	func registerUser(model: RegisterRequest) -> AnyPublisher<RegisterResponse, APIClientError>
+	func updateDeviceToken(token: String) -> AnyPublisher<EmptyResponse, APIClientError>
 	func updateName(fullName: String) -> AnyPublisher<String, APIClientError>
 	func updateProfilePhoto(photoUrl: URL) -> AnyPublisher<URL, APIClientError>
 	func uploadImage(imageData: Data) -> AnyPublisher<URL, APIClientError>
@@ -117,6 +118,16 @@ final class APIClient: APIRequests {
 			body: model
 		)
 		return apiRequest(appRequest: registerRequest, output: RegisterResponse.self)
+	}
+	
+	func updateDeviceToken(token: String) -> AnyPublisher<EmptyResponse, APIClientError> {
+		let updateDeviceTokenRequest = APPUrlRequest(
+			httpMethod: .post,
+			pathComponents: ["account", "updateAppleDeviceToken"],
+			query: [URLQueryItem(name: "deviceToken", value: token)],
+			requiresAuth: true
+		)
+		return apiRequest(appRequest: updateDeviceTokenRequest, output: EmptyResponse.self)
 	}
 	
 	func updateName(fullName: String) -> AnyPublisher<String, APIClientError> {
