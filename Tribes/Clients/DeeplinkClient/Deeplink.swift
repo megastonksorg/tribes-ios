@@ -13,12 +13,13 @@ enum Deeplink {
 }
 
 extension Deeplink {
-	init(_ deepLinkResponse: DeeplinkResponse) {
-		switch deepLinkResponse.messageTag {
+	init?(tribeId: String, messageTag: String) {
+		guard let messageTag = Message.Tag(rawValue: messageTag) else { return nil }
+		switch messageTag {
 		case .chat:
-			self = Deeplink.chat(deepLinkResponse.tribeId)
+			self = Deeplink.chat(tribeId)
 		case .tea:
-			self = Deeplink.tea(deepLinkResponse.tribeId)
+			self = Deeplink.tea(tribeId)
 		}
 	}
 }
