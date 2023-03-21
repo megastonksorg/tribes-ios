@@ -130,6 +130,7 @@ struct TribeAvatar: View {
 							VStack(spacing: 0) {
 								Spacer()
 								Spacer()
+								Spacer()
 								HStack {
 									userAvatar(user: members[0])
 										.frame(dimension: size1)
