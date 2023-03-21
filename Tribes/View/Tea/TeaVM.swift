@@ -195,6 +195,22 @@ extension TeaView {
 			self.feedbackClient.medium()
 		}
 		
+		func isDraftOrTeaRead(pillIndex: Int) -> Bool {
+			let id: String = self.draftAndTeaIds[pillIndex]
+			//Return true if it is a draft
+			if let draftId = UUID(uuidString: id),
+			   self.drafts[id: draftId] != nil {
+				return true
+			}
+			
+			//Return the message read state
+			if let tea = self.tea[id: id] {
+				return self.readMessages.contains(tea.id)
+			}
+			
+			return false
+		}
+		
 		private func updateCurrentDraftOrTeaId() {
 			if self.currentPill == self.draftAndTeaIds.count - 1 {
 				let previousIndex = self.currentPill - 1
