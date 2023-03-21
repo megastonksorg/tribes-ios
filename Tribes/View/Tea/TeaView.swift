@@ -258,7 +258,7 @@ struct TeaView: View {
 				}
 			}()
 			Capsule()
-				.fill(Color.app.tertiary.opacity(0.2))
+				.fill(isDraftOrTeaRead(pillIndex: index) ? Color.app.tertiary.opacity(0.2) : Color.white)
 				.id(index)
 			Capsule()
 				.fill(Color.app.tertiary)
@@ -307,6 +307,22 @@ struct TeaView: View {
 			}
 		}
 		.opacity(isShowing ? 1.0 : 0.0)
+	}
+	
+	func isDraftOrTeaRead(pillIndex: Int) -> Bool {
+		let id: String = viewModel.draftAndTeaIds[pillIndex]
+		//Return true if it is a draft
+		if let draftId = UUID(uuidString: id),
+		   viewModel.drafts[id: draftId] != nil {
+			return true
+		}
+		
+		//Return the message read state
+		if let tea = viewModel.tea[id: id] {
+			return viewModel.readMessages.contains(tea.id)
+		}
+		
+		return false
 	}
 }
 

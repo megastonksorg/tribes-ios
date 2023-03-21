@@ -72,6 +72,7 @@ extension TeaView {
 		@Published var currentPill: Int = 0
 		@Published var drafts: IdentifiedArrayOf<MessageDraft>
 		@Published var tea: IdentifiedArrayOf<Message>
+		@Published var readMessages: MessageClient.ReadMessages
 		@Published var text: String = ""
 		
 		//Clients
@@ -85,8 +86,15 @@ extension TeaView {
 			self.tribe = tribe
 			self.drafts = drafts
 			self.tea = tea
+			self.readMessages = messageClient.readMessages
 			
 			self.setCurrentDraftOrTeaId()
+			
+			self.messageClient.$readMessages
+				.sink { value in
+					self.readMessages = value
+				}
+				.store(in: &cancellables)
 			
 			NotificationCenter
 				.default.addObserver(
