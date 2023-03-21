@@ -154,7 +154,7 @@ struct ChatView: View {
 					viewModel.showTribeMemberCard($0)
 				},
 				members: IdentifiedArrayOf(
-					uniqueElements: viewModel.tribe.members.others
+					uniqueElements: viewModel.tribe.members
 				)
 			)
 		}
@@ -203,6 +203,7 @@ struct ChatView: View {
 	
 	@ViewBuilder
 	func memberCard(_ member: TribeMember) -> some View {
+		let isCurrentMember: Bool = viewModel.currentTribeMember.id == member.id
 		VStack {
 			SymmetricHStack(
 				content: {
@@ -230,7 +231,7 @@ struct ChatView: View {
 					.padding(.bottom)
 			}
 			Button(action: {}) {
-				Text("Remove")
+				Text(isCurrentMember ? "You" : "Remove")
 					.font(Font.app.title3)
 					.textCase(.uppercase)
 					.foregroundColor(Color.app.tertiary)
@@ -242,6 +243,8 @@ struct ChatView: View {
 					)
 					.fixedSize(horizontal: true, vertical: false)
 			}
+			.disabled(isCurrentMember)
+			.opacity(isCurrentMember ? 0.5 : 1.0)
 			.padding(.bottom)
 		}
 		.multilineTextAlignment(.center)
