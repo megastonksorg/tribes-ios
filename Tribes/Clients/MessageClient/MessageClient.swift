@@ -50,6 +50,7 @@ import IdentifiedCollections
 			self.user = nil
 		}
 		Task {
+			//Set tribesMessages
 			if let cachedTribesMessages = await cacheClient.getData(key: .tribesMessages) {
 				await MainActor.run {
 					self.tribesMessages = cachedTribesMessages
@@ -57,6 +58,12 @@ import IdentifiedCollections
 				refreshMessages()
 			} else {
 				refreshMessages()
+			}
+			//Set readMessages
+			if let cachedReadMessages = await cacheClient.getData(key: .readMessages) {
+				await MainActor.run {
+					self.readMessages = cachedReadMessages
+				}
 			}
 		}
 	}
@@ -327,11 +334,17 @@ import IdentifiedCollections
 	
 	func markMessageAsRead(_ messageId: Message.ID) {
 		Task {
-			if var existingReadMessages = await cacheClient.getData(key: .readMessages) {
-				existingReadMessages.insert(messageId)
-				await cacheClient.setData(key: .readMessages, value: existingReadMessages)
+			if var updatedReadMessages = await cacheClient.getData(key: .readMessages) {
+				updatedReadMessages.insert(messageId)
+				await MainActor.run {
+					self.readMessages = updatedReadMessages
+				}
+				await cacheClient.setData(key: .readMessages, value: self.readMessages)
 			} else {
-				await cacheClient.setData(key: .readMessages, value: [])
+				await MainActor.run {
+					self.readMessages = [messageId]
+				}
+				await cacheClient.setData(key: .readMessages, value: self.readMessages)
 			}
 		}
 	}
