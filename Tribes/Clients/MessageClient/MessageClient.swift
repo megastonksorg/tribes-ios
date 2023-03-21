@@ -92,12 +92,13 @@ import IdentifiedCollections
 						let staleMessageIds: Set<String> = Set(self.tribesMessages[id: tribe.id]?.messages.ids.elements ?? []).subtracting(Set(messagesResponse.map { $0.id }))
 						staleMessageIds.forEach { staleId in
 							self.tribesMessages[id: tribe.id]?.messages.remove(id: staleId)
+							self.readMessages.remove(staleId)
 						}
 						
 						Task {
 							//Update cache with the current tribesMessages to remove stale data
 							await self.cacheClient.setData(key: .tribesMessages, value: self.tribesMessages)
-							
+							await self.cacheClient.setData(key: .readMessages, value: self.readMessages)
 							//Load New Messages
 							messagesResponse.forEach { messageResponse in
 								self.processMessageResponse(tribeId: tribe.id, messageResponse: messageResponse)
