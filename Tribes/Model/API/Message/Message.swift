@@ -199,9 +199,6 @@ struct TribeMessage: Codable, Identifiable {
 	var messages: IdentifiedArrayOf<Message>
 	var drafts: IdentifiedArrayOf<MessageDraft>
 	
-	var lastReadChat: Date?
-	var lastReadTea: Date?
-	
 	var id: Tribe.ID { tribeId }
 	
 	var chat: IdentifiedArrayOf<Message> {
