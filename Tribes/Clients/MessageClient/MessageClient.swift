@@ -19,6 +19,8 @@ import IdentifiedCollections
  */
 
 @MainActor class MessageClient: ObservableObject {
+	typealias ReadMessages = Set<Message.ID>
+	
 	enum MessageUpdateNotification {
 		case updated(_ tribeId: Tribe.ID, _ message: Message)
 		case deleted(_ tribeId: Tribe.ID, _ messageId: Message.ID)
@@ -29,6 +31,7 @@ import IdentifiedCollections
 	
 	private let user: User?
 	@Published var tribesMessages: IdentifiedArrayOf<TribeMessage> = []
+	@Published var readMessages: ReadMessages = []
 	
 	private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 	private var postMessageCancellables: [MessageDraft.ID : AnyCancellable] = [:]
