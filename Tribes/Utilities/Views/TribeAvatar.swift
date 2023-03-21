@@ -46,11 +46,13 @@ struct TribeAvatar: View {
 		!(messageClient.tribesMessages[id: tribe.id]?.teaDrafts.isEmpty ?? true)
 	}
 	
-	var hasUnreadTea: Bool = false
+	var messagesCount: Int {
+		messageClient.tribesMessages[id: tribe.id]?.messages.count ?? 0
+	}
 	
 	@ObservedObject var messageClient: MessageClient = MessageClient.shared
 	
-	@State var isSingleTapTapped: Bool = false
+	@State var hasUnreadTea: Bool = false
 	
 	init(
 		context: Context,
@@ -432,6 +434,10 @@ struct TribeAvatar: View {
 				EmptyView()
 			}
 		}
+		.id(self.messagesCount)
+		.onAppear { self.checkForUnreadTea() }
+		.onChange(of: self.messagesCount) { _ in self.checkForUnreadTea() }
+		.onChange(of: self.messageClient.readMessages) { _ in self.checkForUnreadTea() }
 	}
 	
 	@ViewBuilder
@@ -459,6 +465,21 @@ struct TribeAvatar: View {
 					lineWidth: lineWidth,
 					trim: 0.2
 				)
+			}
+		}
+	}
+	
+	func checkForUnreadTea() {
+		Task {
+			if self.context == .tribesView {
+				guard let tea = self.messageClient.tribesMessages[id: tribe.id]?.tea else { return }
+				for tea in tea {
+					if await !tea.isRead {
+						self.hasUnreadTea = true
+						return
+					}
+				}
+				self.hasUnreadTea = false
 			}
 		}
 	}
