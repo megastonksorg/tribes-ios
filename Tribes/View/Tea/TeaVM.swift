@@ -125,6 +125,21 @@ extension TeaView {
 					}
 				}
 			}
+			Task {
+				let id: String = self.draftAndTeaIds[self.currentPill]
+				//Do nothing if it is a draft
+				if let draftId = UUID(uuidString: id),
+				   self.drafts[id: draftId] != nil {
+					return
+				}
+				
+				//Mark the tea as read
+				if let tea = self.tea[id: id] {
+					if await !tea.isRead {
+						self.messageClient.markMessageAsRead(tea.id)
+					}
+				}
+			}
 		}
 		
 		func nextDraftOrTea() {
