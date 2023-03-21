@@ -19,7 +19,7 @@ import IdentifiedCollections
  */
 
 @MainActor class MessageClient: ObservableObject {
-	typealias ReadMessages = Set<Message.ID>
+	typealias ReadTea = Set<Message.ID>
 	
 	enum MessageUpdateNotification {
 		case updated(_ tribeId: Tribe.ID, _ message: Message)
@@ -31,7 +31,7 @@ import IdentifiedCollections
 	
 	private let user: User?
 	@Published var tribesMessages: IdentifiedArrayOf<TribeMessage> = []
-	@Published var readMessages: ReadMessages = []
+	@Published var readTea: ReadTea = []
 	
 	private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 	private var postMessageCancellables: [MessageDraft.ID : AnyCancellable] = [:]
@@ -59,10 +59,10 @@ import IdentifiedCollections
 			} else {
 				refreshMessages()
 			}
-			//Set readMessages
-			if let cachedReadMessages = await cacheClient.getData(key: .readMessages) {
+			//Set readTea
+			if let cachedReadTea = await cacheClient.getData(key: .readTea) {
 				await MainActor.run {
-					self.readMessages = cachedReadMessages
+					self.readTea = cachedReadTea
 				}
 			}
 		}
@@ -92,13 +92,13 @@ import IdentifiedCollections
 						let staleMessageIds: Set<String> = Set(self.tribesMessages[id: tribe.id]?.messages.ids.elements ?? []).subtracting(Set(messagesResponse.map { $0.id }))
 						staleMessageIds.forEach { staleId in
 							self.tribesMessages[id: tribe.id]?.messages.remove(id: staleId)
-							self.readMessages.remove(staleId)
+							self.readTea.remove(staleId)
 						}
 						
 						Task {
 							//Update cache with the current tribesMessages to remove stale data
 							await self.cacheClient.setData(key: .tribesMessages, value: self.tribesMessages)
-							await self.cacheClient.setData(key: .readMessages, value: self.readMessages)
+							await self.cacheClient.setData(key: .readTea, value: self.readTea)
 							//Load New Messages
 							messagesResponse.forEach { messageResponse in
 								self.processMessageResponse(tribeId: tribe.id, messageResponse: messageResponse)
@@ -335,17 +335,17 @@ import IdentifiedCollections
 	
 	func markMessageAsRead(_ messageId: Message.ID) {
 		Task {
-			if var updatedReadMessages = await cacheClient.getData(key: .readMessages) {
-				updatedReadMessages.insert(messageId)
+			if var updatedReadTea = await cacheClient.getData(key: .readTea) {
+				updatedReadTea.insert(messageId)
 				await MainActor.run {
-					self.readMessages = updatedReadMessages
+					self.readTea = updatedReadTea
 				}
-				await cacheClient.setData(key: .readMessages, value: self.readMessages)
+				await cacheClient.setData(key: .readTea, value: self.readTea)
 			} else {
 				await MainActor.run {
-					self.readMessages = [messageId]
+					self.readTea = [messageId]
 				}
-				await cacheClient.setData(key: .readMessages, value: self.readMessages)
+				await cacheClient.setData(key: .readTea, value: self.readTea)
 			}
 		}
 	}

@@ -72,7 +72,7 @@ extension TeaView {
 		@Published var currentPill: Int = 0
 		@Published var drafts: IdentifiedArrayOf<MessageDraft>
 		@Published var tea: IdentifiedArrayOf<Message>
-		@Published var readMessages: MessageClient.ReadMessages
+		@Published var readTea: MessageClient.ReadTea
 		@Published var text: String = ""
 		
 		//Clients
@@ -86,13 +86,13 @@ extension TeaView {
 			self.tribe = tribe
 			self.drafts = drafts
 			self.tea = tea
-			self.readMessages = messageClient.readMessages
+			self.readTea = messageClient.readTea
 			
 			self.setCurrentDraftOrTeaId()
 			
-			self.messageClient.$readMessages
+			self.messageClient.$readTea
 				.sink { value in
-					self.readMessages = value
+					self.readTea = value
 				}
 				.store(in: &cancellables)
 			
@@ -220,7 +220,7 @@ extension TeaView {
 			
 			//Return the message read state
 			if let tea = self.tea[id: id] {
-				return self.readMessages.contains(tea.id)
+				return self.readTea.contains(tea.id)
 			}
 			
 			return false

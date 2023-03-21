@@ -34,5 +34,5 @@ struct CacheKey<Object: Codable> {
 extension CacheKey {
 	static var tribes: CacheKey<IdentifiedArrayOf<Tribe>> { .init(name: "tribes") }
 	static var tribesMessages: CacheKey<IdentifiedArrayOf<TribeMessage>> { .init(name: "tribesMessages") }
-	static var readMessages: CacheKey<MessageClient.ReadMessages> { .init(name: "readMessages") }
+	static var readTea: CacheKey<MessageClient.ReadTea> { .init(name: "readTea") }
 }

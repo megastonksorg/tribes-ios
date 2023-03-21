@@ -97,7 +97,7 @@ class Message: Codable, Identifiable {
 extension Message {
 	var isRead: Bool {
 		get async {
-			return await MessageClient.shared.readMessages.contains(self.id)
+			return await MessageClient.shared.readTea.contains(self.id)
 		}
 	}
 }
