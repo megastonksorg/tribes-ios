@@ -177,6 +177,7 @@ struct ChatView: View {
 					isPlaying: true,
 					isShowingIncomingAuthor: false
 				)
+				.background(Color.app.secondary)
 				.transition(.asymmetric(insertion: .opacity, removal: .identity))
 				.overlay(alignment: .bottom) {
 					HStack {
