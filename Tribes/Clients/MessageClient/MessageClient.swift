@@ -325,6 +325,17 @@ import IdentifiedCollections
 		}
 	}
 	
+	func markMessageAsRead(_ messageId: Message.ID) {
+		Task {
+			if var existingReadMessages = await cacheClient.getData(key: .readMessages) {
+				existingReadMessages.insert(messageId)
+				await cacheClient.setData(key: .readMessages, value: existingReadMessages)
+			} else {
+				await cacheClient.setData(key: .readMessages, value: [])
+			}
+		}
+	}
+	
 	private func updateMessageAndCache(_ message: Message, tribeId: Tribe.ID) {
 		DispatchQueue.main.async {
 			self.tribesMessages[id: tribeId]?.messages[id: message.id] = message

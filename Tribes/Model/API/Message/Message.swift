@@ -95,6 +95,14 @@ class Message: Codable, Identifiable {
 }
 
 extension Message {
+	var isRead: Bool {
+		get async {
+			return await MessageClient.shared.readMessages.contains(self.id)
+		}
+	}
+}
+
+extension Message {
 	//Encrypted
 	static let noopEncryptedTextChat: Message = Message(
 		id: "A",
