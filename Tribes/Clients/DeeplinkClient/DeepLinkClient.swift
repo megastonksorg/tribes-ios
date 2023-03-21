@@ -21,6 +21,7 @@ class DeepLinkClient: ObservableObject {
 	}
 	
 	func setDeepLink(_ deepLink: DeepLink?) {
+		NotificationCenter.default.post(Notification(name: .toggleCompose))
 		self.pendingDeepLink = deepLink
 	}
 }
