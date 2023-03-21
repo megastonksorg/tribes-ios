@@ -7,19 +7,19 @@
 
 import Foundation
 
-enum Deeplink {
+enum DeepLink {
 	case tea(_ tribeId: Tribe.ID)
 	case chat(_ tribeId: Tribe.ID)
 }
 
-extension Deeplink {
+extension DeepLink {
 	init?(tribeId: String, messageTag: String) {
 		guard let messageTag = Message.Tag(rawValue: messageTag) else { return nil }
 		switch messageTag {
 		case .chat:
-			self = Deeplink.chat(tribeId)
+			self = DeepLink.chat(tribeId)
 		case .tea:
-			self = Deeplink.tea(tribeId)
+			self = DeepLink.tea(tribeId)
 		}
 	}
 }

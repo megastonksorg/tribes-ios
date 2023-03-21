@@ -7,20 +7,20 @@
 
 import Foundation
 
-class DeeplinkClient: ObservableObject {
-	static let shared: DeeplinkClient = DeeplinkClient()
+class DeepLinkClient: ObservableObject {
+	static let shared: DeepLinkClient = DeepLinkClient()
 	
-	@Published var pendingDeeplink: Deeplink?
+	@Published var pendingDeepLink: DeepLink?
 	
 	func processNotification(_ userInfo: [AnyHashable : Any]) {
 		if let tribeId = userInfo["tribeId"] as? String,
 		   let messageTag = userInfo["messageTag"] as? String
 		{
-			setDeepLink(Deeplink(tribeId: tribeId, messageTag: messageTag))
+			setDeepLink(DeepLink(tribeId: tribeId, messageTag: messageTag))
 		}
 	}
 	
-	func setDeepLink(_ deeplink: Deeplink?) {
-		self.pendingDeeplink = deeplink
+	func setDeepLink(_ deepLink: DeepLink?) {
+		self.pendingDeepLink = deepLink
 	}
 }

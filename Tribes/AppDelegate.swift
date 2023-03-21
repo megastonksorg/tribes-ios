@@ -50,7 +50,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 		didReceive response: UNNotificationResponse,
 		withCompletionHandler completionHandler: @escaping () -> Void
 	) {
-		DeeplinkClient.shared.processNotification(response.notification.request.content.userInfo)
+		DeepLinkClient.shared.processNotification(response.notification.request.content.userInfo)
 		completionHandler()
 	}
 }

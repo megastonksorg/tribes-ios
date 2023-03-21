@@ -41,7 +41,7 @@ extension TribesView {
 		
 		//Clients
 		private let apiClient: APIClient = APIClient.shared
-		private let deeplinkClient: DeeplinkClient = DeeplinkClient.shared
+		private let deepLinkClient: DeepLinkClient = DeepLinkClient.shared
 		private let feedbackClient: FeedbackClient = FeedbackClient.shared
 		private let tribesRepository: TribesRepository = TribesRepository.shared
 		
@@ -58,21 +58,21 @@ extension TribesView {
 					object: nil
 				)
 			
-			self.deeplinkClient
-				.$pendingDeeplink
-				.sink(receiveValue: { deeplink in
-					guard let deeplink = deeplink else { return }
-					switch deeplink {
+			self.deepLinkClient
+				.$pendingDeepLink
+				.sink(receiveValue: { deepLink in
+					guard let deepLink = deepLink else { return }
+					switch deepLink {
 					case .tea(let tribeId):
 						if let tribe = self.tribes[id: tribeId] {
 							self.setCurrentTeaTribe(tribe)
-							self.deeplinkClient.setDeepLink(nil)
+							self.deepLinkClient.setDeepLink(nil)
 						}
 						return
 					case .chat(let tribeId):
 						if let tribe = self.tribes[id: tribeId] {
 							self.setCurrentChatTribe(tribe)
-							self.deeplinkClient.setDeepLink(nil)
+							self.deepLinkClient.setDeepLink(nil)
 						}
 						return
 					}

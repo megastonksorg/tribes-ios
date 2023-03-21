@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		D00443B329C7ECB4005D40B5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00443B229C7ECB4005D40B5 /* AppDelegate.swift */; };
-		D0052A7329C90FCE0051A7AB /* DeeplinkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0052A7229C90FCE0051A7AB /* DeeplinkClient.swift */; };
-		D0052A7629C910260051A7AB /* Deeplink.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0052A7529C910260051A7AB /* Deeplink.swift */; };
+		D0052A7329C90FCE0051A7AB /* DeepLinkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0052A7229C90FCE0051A7AB /* DeepLinkClient.swift */; };
+		D0052A7629C910260051A7AB /* DeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0052A7529C910260051A7AB /* DeepLink.swift */; };
 		D01031572978D73500ACC333 /* UserAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01031562978D73500ACC333 /* UserAvatar.swift */; };
 		D0158076295CAE390087545A /* PermissionClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0158075295CAE390087545A /* PermissionClient.swift */; };
 		D0158079295D14880087545A /* CaptureClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0158078295D14880087545A /* CaptureClient.swift */; };
@@ -183,8 +183,8 @@
 /* Begin PBXFileReference section */
 		D00443B229C7ECB4005D40B5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D00443B429C7F382005D40B5 /* Tribes.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Tribes.entitlements; sourceTree = "<group>"; };
-		D0052A7229C90FCE0051A7AB /* DeeplinkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeeplinkClient.swift; sourceTree = "<group>"; };
-		D0052A7529C910260051A7AB /* Deeplink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deeplink.swift; sourceTree = "<group>"; };
+		D0052A7229C90FCE0051A7AB /* DeepLinkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkClient.swift; sourceTree = "<group>"; };
+		D0052A7529C910260051A7AB /* DeepLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLink.swift; sourceTree = "<group>"; };
 		D01031562978D73500ACC333 /* UserAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAvatar.swift; sourceTree = "<group>"; };
 		D0158075295CAE390087545A /* PermissionClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionClient.swift; sourceTree = "<group>"; };
 		D0158078295D14880087545A /* CaptureClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureClient.swift; sourceTree = "<group>"; };
@@ -370,8 +370,8 @@
 		D0052A7429C90FF10051A7AB /* DeeplinkClient */ = {
 			isa = PBXGroup;
 			children = (
-				D0052A7529C910260051A7AB /* Deeplink.swift */,
-				D0052A7229C90FCE0051A7AB /* DeeplinkClient.swift */,
+				D0052A7529C910260051A7AB /* DeepLink.swift */,
+				D0052A7229C90FCE0051A7AB /* DeepLinkClient.swift */,
 			);
 			path = DeeplinkClient;
 			sourceTree = "<group>";
@@ -1103,7 +1103,7 @@
 				D015807C295E039E0087545A /* CameraView.swift in Sources */,
 				D030D2DB295745E90011128F /* CornerRadiusStyle.swift in Sources */,
 				D0B0C8FE29B5AD2000ECD8CE /* MessageView.swift in Sources */,
-				D0052A7629C910260051A7AB /* Deeplink.swift in Sources */,
+				D0052A7629C910260051A7AB /* DeepLink.swift in Sources */,
 				D0D16EDB29B5C8080015FCD5 /* MessageTextView.swift in Sources */,
 				D01B8BA429A6004500C6BC1D /* ChatHeaderView.swift in Sources */,
 				D0CED88C299F03200077A347 /* MessageKey.swift in Sources */,
@@ -1170,7 +1170,7 @@
 				D030D2D4295745E90011128F /* View+Extensions.swift in Sources */,
 				D030D31D2957460B0011128F /* AuthenticateView.swift in Sources */,
 				D030D2D8295745E90011128F /* Notification+Name.swift in Sources */,
-				D0052A7329C90FCE0051A7AB /* DeeplinkClient.swift in Sources */,
+				D0052A7329C90FCE0051A7AB /* DeepLinkClient.swift in Sources */,
 				D030D2DD295745E90011128F /* Colors.swift in Sources */,
 				D030D2DA295745E90011128F /* NavBarTheme.swift in Sources */,
 				D030D3152957460B0011128F /* WelcomePageVM.swift in Sources */,
