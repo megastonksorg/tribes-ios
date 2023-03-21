@@ -5,8 +5,8 @@
 //  Created by Kingsley Okeke on 2023-01-06.
 //
 
-import Foundation
 import Combine
+import UIKit
 
 extension HomeView {
 	@MainActor class ViewModel: ObservableObject {
@@ -30,6 +30,7 @@ extension HomeView {
 		init(user: User) {
 			self.user = user
 			self.tribesVM = TribesView.ViewModel(user: user)
+			
 			NotificationCenter
 				.default.addObserver(
 					self,
@@ -44,6 +45,8 @@ extension HomeView {
 					name: .toggleCompose,
 					object: nil
 				)
+			
+			registerForPushNotifications()
 		}
 		
 		func setCurrentPage(page: Page) {
@@ -70,6 +73,24 @@ extension HomeView {
 			case .tribes:
 				self.composeVM.cameraVM.didDisappear()
 			}
+		}
+		
+		func registerForPushNotifications() {
+			UNUserNotificationCenter
+				.current()
+				.requestAuthorization(
+					options: [.alert, .sound, .badge]
+				) { granted, _ in
+					guard granted else { return }
+					UNUserNotificationCenter
+						.current()
+						.getNotificationSettings { settings in
+							guard settings.authorizationStatus == .authorized else { return }
+							DispatchQueue.main.async {
+								UIApplication.shared.registerForRemoteNotifications()
+							}
+						}
+				}
 		}
 		
 		@objc func toggleCompose(notification: NSNotification) {
