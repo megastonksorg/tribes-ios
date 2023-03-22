@@ -95,6 +95,10 @@ class Message: Codable, Identifiable {
 }
 
 extension Message {
+	var hasExpired: Bool {
+		expires ?? Date.distantFuture > Date.now
+	}
+	
 	var isRead: Bool {
 		get async {
 			return await MessageClient.shared.readTea.contains(self.id)
