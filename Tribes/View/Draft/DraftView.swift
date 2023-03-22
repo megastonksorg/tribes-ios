@@ -131,6 +131,7 @@ struct DraftView: View {
 		)
 		.dropShadow()
 		.opacity(viewModel.canSendTea ? 1.0 : 0.5)
+		.background(Color.gray.opacity(0.001))
 	}
 	
 	@ViewBuilder
