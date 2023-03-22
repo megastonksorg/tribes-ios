@@ -161,6 +161,13 @@ import IdentifiedCollections
 			var failedDraft = draft
 			failedDraft.status = .failedToUpload
 			self.tribesMessages[id: draft.tribeId]?.drafts.updateOrAppend(failedDraft)
+			
+			//Send Message Update notification
+			let drafts = self.tribesMessages[id: failedDraft.tribeId]?.drafts ?? []
+			let notificationInfo: MessageUpdateNotification = .draftsUpdated(failedDraft.tribeId, drafts)
+			let messageUpdateNotification = Notification(name: .messageUpdated, userInfo: [AppConstants.messageNotificationDictionaryKey : notificationInfo])
+			NotificationCenter.default.post(messageUpdateNotification)
+			
 			return
 		}
 		
