@@ -212,10 +212,6 @@ struct ChatView: View {
 				EmptyView()
 			}
 		}
-		.banner(data: self.$viewModel.banner)
-		.overlay(isShown: viewModel.isProcessingRequest) {
-			AppProgressView()
-		}
 	}
 	
 	@ViewBuilder
@@ -349,6 +345,10 @@ struct ChatView: View {
 			}
 			.pushOutFrame()
 			.background(Color.app.background)
+			.banner(data: self.$viewModel.sheetBanner)
+			.overlay(isShown: viewModel.isProcessingRemoveRequest) {
+				AppProgressView()
+			}
 		}
 	}
 }

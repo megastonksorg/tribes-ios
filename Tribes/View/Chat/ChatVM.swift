@@ -77,12 +77,12 @@ extension ChatView {
 		@Published var messageChangedId: UUID?
 		@Published var currentShowingTea: Message?
 		@Published var isShowingMember: Bool = false
-		@Published var isProcessingRequest: Bool = false
+		@Published var isProcessingRemoveRequest: Bool = false
 		@Published var memberToShow: TribeMember?
 		@Published var removeConfirmation: String = ""
 		@Published var text: String = ""
 		@Published var sheet: Sheet?
-		@Published var banner: BannerData?
+		@Published var sheetBanner: BannerData?
 		
 		//Clients
 		let apiClient: APIClient = APIClient.shared
@@ -211,17 +211,17 @@ extension ChatView {
 				let memberToRemove = self.memberToShow,
 				self.isRemoveConfirmationButtonEnabled
 			else { return }
-			
+			self.isProcessingRemoveRequest = true
 			self.apiClient.removeMember(tribeID: tribe.id, memberId: memberToRemove.id)
 				.receive(on: DispatchQueue.main)
 				.sink(
 					receiveCompletion: { [weak self] completion in
 						switch completion {
 						case .finished:
-							self?.isProcessingRequest = false
+							self?.isProcessingRemoveRequest = false
 						case .failure(let error):
-							self?.isProcessingRequest = false
-							self?.banner = BannerData(error: error)
+							self?.isProcessingRemoveRequest = false
+							self?.sheetBanner = BannerData(error: error)
 						}
 					},
 					receiveValue: { [weak self] _ in
