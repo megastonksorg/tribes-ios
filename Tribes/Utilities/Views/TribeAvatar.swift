@@ -474,7 +474,7 @@ struct TribeAvatar: View {
 			if self.context == .tribesView {
 				guard let tea = self.messageClient.tribesMessages[id: tribe.id]?.tea else { return }
 				for tea in tea {
-					if await !tea.isRead {
+					if await !tea.isTeaRead {
 						self.hasUnreadTea = true
 						return
 					}

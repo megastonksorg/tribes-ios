@@ -99,7 +99,7 @@ extension Message {
 		expires ?? Date.distantFuture > Date.now
 	}
 	
-	var isRead: Bool {
+	var isTeaRead: Bool {
 		get async {
 			return await MessageClient.shared.readTea.contains(self.id)
 		}

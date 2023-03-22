@@ -135,7 +135,7 @@ extension TeaView {
 				
 				//Mark the tea as read
 				if let tea = self.tea[id: id] {
-					if await !tea.isRead {
+					if await !tea.isTeaRead {
 						self.messageClient.markMessageAsRead(tea.id)
 					}
 				}
