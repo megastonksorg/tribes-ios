@@ -157,7 +157,12 @@ import IdentifiedCollections
 		guard
 			let encryptedContent = encryptedContent,
 			let outgoingContentType = draft.content.outgoingType?.rawValue
-		else { return }
+		else {
+			var failedDraft = draft
+			failedDraft.status = .failedToUpload
+			self.tribesMessages[id: draft.tribeId]?.drafts.updateOrAppend(failedDraft)
+			return
+		}
 		
 		var postMessageModel: PostMessage = PostMessage(
 			body: "",
