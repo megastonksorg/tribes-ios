@@ -32,6 +32,7 @@ protocol APIRequests {
 	func inviteToTribe(tribeID: Tribe.ID, code: String) -> AnyPublisher<SuccessResponse, APIClientError>
 	func joinTribe(pin: String, code: String) -> AnyPublisher<Tribe, APIClientError>
 	func leaveTribe(tribeID: Tribe.ID) -> AnyPublisher<SuccessResponse, APIClientError>
+	func removeMember(tribeID: Tribe.ID, memberId: TribeMember.ID) -> AnyPublisher<SuccessResponse, APIClientError>
 	func updateTribeName(tribeID: Tribe.ID, name: String) -> AnyPublisher<String, APIClientError>
 	
 	func updateDeviceToken(_ token: String)
@@ -253,6 +254,19 @@ final class APIClient: APIRequests {
 			requiresAuth: true
 		)
 		return apiRequest(appRequest: leaveTribeRequest, output: SuccessResponse.self)
+	}
+	
+	func removeMember(tribeID: Tribe.ID, memberId: TribeMember.ID) -> AnyPublisher<SuccessResponse, APIClientError> {
+		let removeMemberRequest = APPUrlRequest(
+			httpMethod: .post,
+			pathComponents: ["tribe", "remove"],
+			query: [
+				URLQueryItem(name: "id", value: tribeID),
+				URLQueryItem(name: "memberId", value: memberId)
+			],
+			requiresAuth: true
+		)
+		return apiRequest(appRequest: removeMemberRequest, output: SuccessResponse.self)
 	}
 	
 	func updateTribeName(tribeID: Tribe.ID, name: String) -> AnyPublisher<String, APIClientError> {
