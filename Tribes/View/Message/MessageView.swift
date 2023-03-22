@@ -72,7 +72,7 @@ struct MessageView: View {
 			case .systemEvent(let text):
 				TextView(text, style: .callout)
 					.multilineTextAlignment(.center)
-					.padding(.vertical, 2)
+					.padding(.vertical, 6)
 			case .imageData:
 				EmptyView()
 			}
