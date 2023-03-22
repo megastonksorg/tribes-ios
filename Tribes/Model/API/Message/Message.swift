@@ -96,7 +96,7 @@ class Message: Codable, Identifiable {
 
 extension Message {
 	var hasExpired: Bool {
-		expires ?? Date.distantFuture > Date.now
+		expires ?? Date.distantFuture < Date.now
 	}
 	
 	var isTeaRead: Bool {
@@ -206,11 +206,11 @@ struct TribeMessage: Codable, Identifiable {
 	var id: Tribe.ID { tribeId }
 	
 	var chat: IdentifiedArrayOf<Message> {
-		IdentifiedArray(uniqueElements: messages.filter { $0.tag == .chat }.sorted(by: { $0.timeStamp < $1.timeStamp }))
+		IdentifiedArray(uniqueElements: messages.filter { $0.tag == .chat && !$0.hasExpired }.sorted(by: { $0.timeStamp < $1.timeStamp }))
 	}
 	
 	var tea: IdentifiedArrayOf<Message> {
-		IdentifiedArray(uniqueElements: messages.filter { $0.tag == .tea }.sorted(by: { $0.timeStamp < $1.timeStamp }))
+		IdentifiedArray(uniqueElements: messages.filter { $0.tag == .tea && !$0.hasExpired }.sorted(by: { $0.timeStamp < $1.timeStamp }))
 	}
 	
 	var chatDrafts: IdentifiedArrayOf<MessageDraft> {
