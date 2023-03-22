@@ -82,8 +82,10 @@ extension ChatView {
 		@Published var removeConfirmation: String = ""
 		@Published var text: String = ""
 		@Published var sheet: Sheet?
+		@Published var banner: BannerData?
 		
 		//Clients
+		let apiClient: APIClient = APIClient.shared
 		let feedbackClient: FeedbackClient = FeedbackClient.shared
 		let messageClient: MessageClient = MessageClient.shared
 		
@@ -205,7 +207,30 @@ extension ChatView {
 		}
 		
 		func removeTribeMember() {
+			guard
+				let memberToRemove = self.memberToShow,
+				self.isRemoveConfirmationButtonEnabled
+			else { return }
 			
+			self.apiClient.removeMember(tribeID: tribe.id, memberId: memberToRemove.id)
+				.receive(on: DispatchQueue.main)
+				.sink(
+					receiveCompletion: { [weak self] completion in
+						switch completion {
+						case .finished:
+							self?.isProcessingRequest = false
+						case .failure(let error):
+							self?.isProcessingRequest = false
+							self?.banner = BannerData(error: error)
+						}
+					},
+					receiveValue: { [weak self] _ in
+						guard let self = self else { return }
+						self.dismissTribeMemberCard()
+						self.setSheet(nil)
+					}
+				)
+				.store(in: &cancellables)
 		}
 		
 		@objc func updateMessage(notification: NSNotification) {

@@ -212,6 +212,7 @@ struct ChatView: View {
 				EmptyView()
 			}
 		}
+		.banner(data: self.$viewModel.banner)
 		.overlay(isShown: viewModel.isProcessingRequest) {
 			AppProgressView()
 		}
@@ -312,9 +313,7 @@ struct ChatView: View {
 							.foregroundColor(Color.app.tertiary)
 					}
 					.padding(.top, 60)
-					
 					Spacer()
-					
 					SymmetricHStack(
 						content: {
 							ZStack {
