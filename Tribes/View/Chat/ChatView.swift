@@ -199,6 +199,22 @@ struct ChatView: View {
 				}
 			}
 		}
+		.sheet(
+			isPresented: Binding(
+				get: { viewModel.sheet != nil },
+				set: { _ in viewModel.setSheet(nil) }
+			)
+		) {
+			switch viewModel.sheet {
+			case .removeMember:
+				removeMemberSheet()
+			case .none:
+				EmptyView()
+			}
+		}
+		.overlay(isShown: viewModel.isProcessingRequest) {
+			AppProgressView()
+		}
 	}
 	
 	@ViewBuilder
@@ -230,7 +246,7 @@ struct ChatView: View {
 					.foregroundColor(Color.gray)
 					.padding(.bottom)
 			}
-			Button(action: {}) {
+			Button(action: { viewModel.requestToRemoveTribeMember() }) {
 				Text(isCurrentMember ? "You" : "Remove")
 					.font(Font.app.title3)
 					.textCase(.uppercase)
@@ -258,6 +274,82 @@ struct ChatView: View {
 		}
 		.onDisappear {
 			self.isShowingMemberImage = false
+		}
+	}
+	
+	@ViewBuilder
+	func removeMemberSheet() -> some View {
+		if let sheet = viewModel.sheet {
+			VStack {
+				VStack {
+					SymmetricHStack(
+						content: {
+							Text(sheet.title)
+								.textCase(.uppercase)
+								.font(Font.app.title3)
+								.fontWeight(.semibold)
+						},
+						leading: { EmptyView() },
+						trailing: {
+							XButton {
+								viewModel.setSheet(nil)
+							}
+						}
+					)
+					.padding(.top)
+					
+					Group {
+						Text("\(sheet.body)")
+							.foregroundColor(Color.gray)
+						+
+						Text(" \(viewModel.memberToShow?.fullName ?? "")")
+							.foregroundColor(Color.white)
+						+
+						Text(" from ")
+							.foregroundColor(Color.gray)
+						+
+						Text(viewModel.tribe.name)
+							.foregroundColor(Color.app.tertiary)
+					}
+					.padding(.top, 60)
+					
+					Spacer()
+					
+					SymmetricHStack(
+						content: {
+							ZStack {
+								Text(sheet.confirmationTitle)
+									.foregroundColor(Color.gray.opacity(viewModel.removeConfirmation.isEmpty ? 0.4 : 0.0))
+								TextField("", text: $viewModel.removeConfirmation)
+									.tint(Color.white)
+									.introspectTextField { textField in
+										//We need this because focusField does not work in a sheet here
+										textField.becomeFirstResponder()
+									}
+							}
+						},
+						leading: {
+							Image(systemName: "exclamationmark.circle.fill")
+						},
+						trailing: { EmptyView() }
+					)
+					.font(Font.app.title)
+					.padding(.top)
+					Spacer()
+					Button(action: { viewModel.removeTribeMember() }) {
+						Text(sheet.title)
+					}
+					.buttonStyle(.expanded(invertedStyle: true))
+					.disabled(!viewModel.isRemoveConfirmationButtonEnabled)
+					.padding(.bottom)
+				}
+				.font(Font.app.subTitle)
+				.multilineTextAlignment(.center)
+				.foregroundColor(Color.white)
+				.padding(.horizontal)
+			}
+			.pushOutFrame()
+			.background(Color.app.background)
 		}
 	}
 }

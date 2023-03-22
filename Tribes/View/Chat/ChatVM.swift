@@ -15,6 +15,28 @@ extension ChatView {
 		enum FocusField: Hashable {
 			case text
 		}
+		enum Sheet: Equatable {
+			case removeMember
+			
+			var title: String {
+				switch self {
+				case .removeMember: return "Remove"
+				}
+			}
+			
+			var body: String {
+				switch self {
+				case .removeMember: return "Are you sure you would like to remove"
+				}
+			}
+			
+			var confirmationTitle: String {
+				switch self {
+				case .removeMember: return "Remove"
+				}
+			}
+		}
+		
 		let scrollAnimation: Animation = Animation.easeIn
 		let teaAnimation: Animation = Animation.easeInOut
 		let currentTribeMember: TribeMember
@@ -44,6 +66,10 @@ extension ChatView {
 			drafts.contains(where: { $0.status == .uploading })
 		}
 		
+		var isRemoveConfirmationButtonEnabled: Bool {
+			return removeConfirmation == sheet?.confirmationTitle
+		}
+		
 		@Published var tribe: Tribe
 		@Published var drafts: IdentifiedArrayOf<MessageDraft>
 		@Published var messages: IdentifiedArrayOf<Message>
@@ -51,8 +77,11 @@ extension ChatView {
 		@Published var messageChangedId: UUID?
 		@Published var currentShowingTea: Message?
 		@Published var isShowingMember: Bool = false
+		@Published var isProcessingRequest: Bool = false
 		@Published var memberToShow: TribeMember?
+		@Published var removeConfirmation: String = ""
 		@Published var text: String = ""
+		@Published var sheet: Sheet?
 		
 		//Clients
 		let feedbackClient: FeedbackClient = FeedbackClient.shared
@@ -164,6 +193,19 @@ extension ChatView {
 			withAnimation(self.teaAnimation) {
 				self.currentShowingTea = nil
 			}
+		}
+		
+		func setSheet(_ sheet: Sheet?) {
+			self.removeConfirmation = ""
+			self.sheet = sheet
+		}
+		
+		func requestToRemoveTribeMember() {
+			setSheet(.removeMember)
+		}
+		
+		func removeTribeMember() {
+			
 		}
 		
 		@objc func updateMessage(notification: NSNotification) {
