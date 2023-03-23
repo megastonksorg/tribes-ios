@@ -25,6 +25,8 @@ protocol APIRequests {
 	//Message
 	func getMessages(tribeId: Tribe.ID) -> AnyPublisher<[MessageResponse], APIClientError>
 	func deleteMessage(messageId: Message.ID) -> AnyPublisher<SuccessResponse, APIClientError>
+	func getMessageViewers(messageId: Message.ID) -> AnyPublisher<[String], APIClientError>
+	func markMessageAsViewed(messageId: Message.ID) -> AnyPublisher<EmptyResponse, APIClientError>
 	func postMessage(model: PostMessage) -> AnyPublisher<EmptyResponse, APIClientError>
 	//Tribe
 	func createTribe(name: String) -> AnyPublisher<Tribe, APIClientError>
@@ -188,6 +190,26 @@ final class APIClient: APIRequests {
 			requiresAuth: true
 		)
 		return apiRequest(appRequest: deleteMessageRequest, output: SuccessResponse.self)
+	}
+	
+	func getMessageViewers(messageId: Message.ID) -> AnyPublisher<[String], APIClientError> {
+		let getMessageViewersRequest = APPUrlRequest(
+			httpMethod: .get,
+			pathComponents: ["message", "viewers"],
+			query: [URLQueryItem(name: "messageId", value: messageId)],
+			requiresAuth: true
+		)
+		return apiRequest(appRequest: getMessageViewersRequest, output: [String].self)
+	}
+	
+	func markMessageAsViewed(messageId: Message.ID) -> AnyPublisher<EmptyResponse, APIClientError> {
+		let markMessageAsViewedRequest = APPUrlRequest(
+			httpMethod: .post,
+			pathComponents: ["message", "markAsViewed"],
+			query: [URLQueryItem(name: "messageId", value: messageId)],
+			requiresAuth: true
+		)
+		return apiRequest(appRequest: markMessageAsViewedRequest, output: EmptyResponse.self)
 	}
 	
 	func postMessage(model: PostMessage) -> AnyPublisher<EmptyResponse, APIClientError> {
