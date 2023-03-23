@@ -223,6 +223,9 @@ struct TeaView: View {
 					.animation(animation, value: viewModel.isShowingCurrentViewers)
 				}
 				Spacer(minLength: 0)
+				let isShowingViewersButton: Bool = {
+					return viewModel.currentTea != nil && !(viewModel.currentTea?.isEncrypted ?? false)
+				}()
 				Button(action: { viewModel.toggleViewers() }) {
 					Image(systemName: viewModel.isShowingCurrentViewers ? "eye.slash.circle.fill" : "eye.circle.fill")
 						.font(.system(size: 30))
@@ -230,7 +233,7 @@ struct TeaView: View {
 						.padding(.vertical, 4)
 						.transition(.identity)
 						.animation(.easeInOut, value: viewModel.isShowingCurrentViewers)
-						.opacity(viewModel.currentTea == nil ? 0.0 : 1.0)
+						.opacity(isShowingViewersButton ? 1.0 : 0.0)
 				}
 			}
 			.padding(.top)
