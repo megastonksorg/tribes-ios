@@ -42,11 +42,12 @@ extension BannerData {
 	}
 }
 
-enum BannerType {
+enum BannerType: Equatable {
 	case info
 	case warning
 	case success
 	case error
+	case tribe(_ tribeName: String)
 	
 	var tintColor: Color { Color.gray }
 }
@@ -77,6 +78,7 @@ struct BannerViewModifier: ViewModifier {
 								case .success: return "checkmark.circle.fill"
 								case .warning: return "exclamationmark.circle.fill"
 								case .error: return "x.circle.fill"
+								case .tribe: return ""
 								}
 							}()
 							if isShowing {
@@ -95,9 +97,21 @@ struct BannerViewModifier: ViewModifier {
 													Image(systemName: symbol)
 														.font(Font.app.title)
 														.foregroundColor(data.type.tintColor)
-													Text(data.detail)
-														.font(Font.app.callout)
+													if case .tribe(let tribeName) = self.data?.type {
+														Group {
+															Text(tribeName)
+																.font(Font.app.callout)
+																.foregroundColor(Color.app.tertiary)
+															+
+															Text(" \(data.detail)")
+																.font(Font.app.callout)
+														}
 														.lineLimit(4)
+													} else {
+														Text(data.detail)
+															.font(Font.app.callout)
+															.lineLimit(4)
+													}
 												}
 											}
 										}
