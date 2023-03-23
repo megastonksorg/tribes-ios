@@ -283,6 +283,11 @@ struct TeaView: View {
 		ZStack {
 			let currentPillOffset: CGFloat = {
 				if currentPlaybackProgress == 0 {
+					if let currentTea = viewModel.currentTea {
+						if currentTea.isEncrypted {
+							return 0
+						}
+					}
 					return viewModel.currentContentType == .video ? self.pillWidth : 0
 				} else {
 					return self.pillWidth * CGFloat(1.0 - self.currentPlaybackProgress)
