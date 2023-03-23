@@ -108,6 +108,7 @@ struct DraftView: View {
 					}
 				}
 			}
+			.banner(data: self.$viewModel.banner)
 			.overlay(isShown: viewModel.isUploading) {
 				AppProgressView()
 			}

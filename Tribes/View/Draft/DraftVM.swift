@@ -18,11 +18,13 @@ extension DraftView {
 		@Published var caption: String = ""
 		@Published var content: Message.Body.Content?
 		@Published var directRecipient: Tribe?
+		@Published var allowedRecipients: Set<Tribe.ID> = []
 		@Published var selectedRecipients: IdentifiedArrayOf<Tribe> = []
 		@Published var recipients: IdentifiedArrayOf<Tribe> = []
 		
 		@Published var isPlaying: Bool = true
 		@Published var isUploading: Bool = false
+		@Published var banner: BannerData?
 		
 		var canSendTea: Bool {
 			selectedRecipients.count > 0
@@ -66,10 +68,14 @@ extension DraftView {
 		}
 		
 		func tribeTapped(tribe: Tribe) {
-			if let tribe = self.selectedRecipients[id: tribe.id] {
-				self.selectedRecipients.remove(tribe)
+			if self.allowedRecipients.contains(tribe.id) {
+				if let tribe = self.selectedRecipients[id: tribe.id] {
+					self.selectedRecipients.remove(tribe)
+				} else {
+					self.selectedRecipients.append(tribe)
+				}
 			} else {
-				self.selectedRecipients.append(tribe)
+				self.banner = BannerData(detail: "has shared enough ☕️ (40) for the day", type: .tribe(tribe.name))
 			}
 		}
 		
