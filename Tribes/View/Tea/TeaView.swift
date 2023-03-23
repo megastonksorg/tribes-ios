@@ -201,7 +201,7 @@ struct TeaView: View {
 				Button(action: {}) {
 					Image(systemName: "eye.circle.fill")
 						.font(.system(size: 30))
-						.foregroundColor(Color.gray.opacity(0.6))
+						.foregroundColor(Color.app.tertiary.opacity(0.6))
 						.padding(.vertical, 4)
 				}
 			}
