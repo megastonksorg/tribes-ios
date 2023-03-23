@@ -49,11 +49,24 @@ extension ComposeView {
 				.store(in: &cancellables)
 			
 			addObservers()
-			fetchAllowedTeaRecipients()
 		}
 		
 		func setDraftRecipient(_ directRecipient: Tribe?) {
 			self.draftVM.directRecipient = directRecipient
+		}
+		
+		func fetchAllowedTeaRecipients() {
+			self.apiClient
+				.getAllowedTeaRecipients()
+				.receive(on: DispatchQueue.main)
+				.sink(
+					receiveCompletion: { _ in },
+					receiveValue: { [weak self] tribeIds in
+						guard let self = self else { return }
+						self.allowedRecipients = Set(tribeIds)
+					}
+				)
+				.store(in: &cancellables)
 		}
 		
 		private func addObservers() {
@@ -68,20 +81,6 @@ extension ComposeView {
 				.sink(receiveValue: { [weak self] in
 					self?.objectWillChange.send()
 				})
-				.store(in: &cancellables)
-		}
-		
-		private func fetchAllowedTeaRecipients() {
-			self.apiClient
-				.getAllowedTeaRecipients()
-				.receive(on: DispatchQueue.main)
-				.sink(
-					receiveCompletion: { _ in },
-					receiveValue: { [weak self] tribeIds in
-						guard let self = self else { return }
-						self.allowedRecipients = Set(tribeIds)
-					}
-				)
 				.store(in: &cancellables)
 		}
 	}

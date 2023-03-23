@@ -20,6 +20,7 @@ struct ComposeView: View {
 			DraftView(viewModel: viewModel.draftVM)
 		} else {
 			CameraView(viewModel: viewModel.cameraVM)
+				.onAppear { viewModel.fetchAllowedTeaRecipients() }
 		}
 	}
 }
