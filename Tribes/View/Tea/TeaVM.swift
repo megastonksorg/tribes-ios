@@ -137,7 +137,9 @@ extension TeaView {
 					if self.tea[id: id] != nil {
 						self.currentDraftId = nil
 						self.currentTeaId = id
-						self.markTeaAsViewed()
+						if !(self.currentTea?.isEncrypted ?? false) {
+							self.markTeaAsViewed()
+						}
 						return
 					}
 				}
