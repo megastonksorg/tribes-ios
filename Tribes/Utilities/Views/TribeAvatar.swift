@@ -434,7 +434,6 @@ struct TribeAvatar: View {
 				EmptyView()
 			}
 		}
-		.id(self.messagesCount)
 		.onAppear { self.checkForUnreadTea() }
 		.onChange(of: self.messagesCount) { _ in self.checkForUnreadTea() }
 		.onChange(of: self.messageClient.readTea) { _ in self.checkForUnreadTea() }
