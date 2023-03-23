@@ -27,9 +27,7 @@ class HubClient: HubConnectionDelegate {
 	}
 	
 	func initializeConnection() {
-		self.connection?.stop()
 		self.connection = nil
-		
 		connection = HubConnectionBuilder(url: URL(string: "https://\(APPUrlRequest.domain)/appHub")!)
 			.withLogging(minLogLevel: .error)
 			.withHubConnectionDelegate(delegate: self)
