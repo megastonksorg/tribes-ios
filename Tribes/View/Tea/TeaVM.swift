@@ -80,8 +80,10 @@ extension TeaView {
 		@Published var messageViewers: IdentifiedArrayOf<MessageViewer> = []
 		@Published var readTea: MessageClient.ReadTea
 		@Published var text: String = ""
+		@Published var isShowingCurrentViewers: Bool = false
 		
 		//Clients
+		let apiClient: APIClient = APIClient.shared
 		let feedbackClient: FeedbackClient = FeedbackClient.shared
 		let messageClient: MessageClient = MessageClient.shared
 		
@@ -236,7 +238,26 @@ extension TeaView {
 		}
 		
 		func displayViewers() {
-			
+			guard let currentTea = self.currentTea else { return }
+			self.isShowingCurrentViewers = true
+			if messageViewers[id: currentTea.id] != nil {
+				self.apiClient
+					.getMessageViewers(messageId: currentTea.id)
+					.receive(on: DispatchQueue.main)
+					.sink(
+						receiveCompletion: { _ in },
+						receiveValue: { walletAddresses in
+							let uniqueWalletAddresses = Set(walletAddresses)
+							self.messageViewers.updateOrAppend(
+								MessageViewer(
+									id: currentTea.id,
+									viewers: uniqueWalletAddresses.map { TribeMember.ID($0) }
+								)
+							)
+						}
+					)
+					.store(in: &cancellables)
+			}
 		}
 		
 		private func updateCurrentDraftOrTeaId() {
