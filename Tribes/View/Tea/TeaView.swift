@@ -180,7 +180,31 @@ struct TeaView: View {
 		VStack {
 			pillsView()
 			HStack(spacing: 6) {
-				if viewModel.isShowingCurrentViewers {
+				ZStack(alignment: .leading) {
+					let animation: Animation = Animation.easeIn.speed(2.0)
+					HStack {
+						HStack(spacing: -12) {
+							ForEach(0..<viewModel.tribe.members.count, id: \.self) { index in
+								UserAvatar(url: viewModel.tribe.members[index].profilePhoto)
+									.frame(dimension: 24)
+									.zIndex(-Double(index))
+							}
+						}
+						HStack(spacing: 0) {
+							Text("\(viewModel.tribe.name)")
+								.font(Font.app.title3)
+								.foregroundColor(Color.app.tertiary)
+								.lineLimit(1)
+							Text(" • \(viewModel.currentTea?.timeStamp.timeAgoDisplay() ?? "")")
+								.font(Font.app.body)
+								.foregroundColor(Color.app.tertiary)
+								.opacity(viewModel.currentTea == nil ? 0.0 : 1.0)
+						}
+					}
+					.opacity(viewModel.isShowingCurrentViewers ? 0.0 : 1.0)
+					.transition(.opacity)
+					.animation(animation, value: viewModel.isShowingCurrentViewers)
+					
 					HStack(spacing: 10) {
 						ScrollView(.horizontal, showsIndicators: false) {
 							LazyHStack {
@@ -192,24 +216,9 @@ struct TeaView: View {
 						}
 					}
 					.frame(height: 40)
-				} else {
-					HStack(spacing: -12) {
-						ForEach(0..<viewModel.tribe.members.count, id: \.self) { index in
-							UserAvatar(url: viewModel.tribe.members[index].profilePhoto)
-								.frame(dimension: 24)
-								.zIndex(-Double(index))
-						}
-					}
-					HStack(spacing: 0) {
-						Text("\(viewModel.tribe.name)")
-							.font(Font.app.title3)
-							.foregroundColor(Color.app.tertiary)
-							.lineLimit(1)
-						Text(" • \(viewModel.currentTea?.timeStamp.timeAgoDisplay() ?? "")")
-							.font(Font.app.body)
-							.foregroundColor(Color.app.tertiary)
-							.opacity(viewModel.currentTea == nil ? 0.0 : 1.0)
-					}
+					.opacity(viewModel.isShowingCurrentViewers ? 1.0 : 0.0)
+					.transition(.opacity)
+					.animation(animation, value: viewModel.isShowingCurrentViewers)
 				}
 				Spacer(minLength: 0)
 				Button(action: { viewModel.toggleViewers() }) {
@@ -217,6 +226,8 @@ struct TeaView: View {
 						.font(.system(size: 30))
 						.foregroundColor(Color.app.tertiary.opacity(0.6))
 						.padding(.vertical, 4)
+						.transition(.identity)
+						.animation(.easeInOut, value: viewModel.isShowingCurrentViewers)
 						.opacity(viewModel.currentTea == nil ? 0.0 : 1.0)
 				}
 			}
