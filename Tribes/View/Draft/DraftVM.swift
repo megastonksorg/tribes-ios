@@ -58,6 +58,10 @@ extension DraftView {
 			self.isPlaying = true
 		}
 		
+		func setAllowedRecipients(_ recipients: Set<Tribe.ID>) {
+			self.allowedRecipients = recipients
+		}
+		
 		func resetRecipients() {
 			if let directRecipient = self.directRecipient {
 				self.selectedRecipients = IdentifiedArrayOf(uniqueElements: [directRecipient])

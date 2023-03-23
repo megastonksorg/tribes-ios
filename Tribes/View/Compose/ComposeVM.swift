@@ -14,10 +14,14 @@ extension ComposeView {
 		
 		@Published var cameraVM: CameraView.ViewModel = CameraView.ViewModel()
 		@Published var draftVM: DraftView.ViewModel
+		@Published var allowedRecipients: Set<Tribe.ID> = []
 		
 		var hasContentBeenCaptured: Bool {
 			draftVM.content != nil
 		}
+		
+		//Clients
+		private let apiClient: APIClient = APIClient.shared
 		
 		init() {
 			self.draftVM = DraftView.ViewModel()
@@ -38,7 +42,14 @@ extension ComposeView {
 				})
 				.store(in: &cancellables)
 			
+			$allowedRecipients
+				.sink(receiveValue: { [weak self] recipients in
+					self?.draftVM.setAllowedRecipients(recipients)
+				})
+				.store(in: &cancellables)
+			
 			addObservers()
+			fetchAllowedTeaRecipients()
 		}
 		
 		func setDraftRecipient(_ directRecipient: Tribe?) {
@@ -57,6 +68,20 @@ extension ComposeView {
 				.sink(receiveValue: { [weak self] in
 					self?.objectWillChange.send()
 				})
+				.store(in: &cancellables)
+		}
+		
+		private func fetchAllowedTeaRecipients() {
+			self.apiClient
+				.getAllowedTeaRecipients()
+				.receive(on: DispatchQueue.main)
+				.sink(
+					receiveCompletion: { _ in },
+					receiveValue: { [weak self] tribeIds in
+						guard let self = self else { return }
+						self.allowedRecipients = Set(tribeIds)
+					}
+				)
 				.store(in: &cancellables)
 		}
 	}
