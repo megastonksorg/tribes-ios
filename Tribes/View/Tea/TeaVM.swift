@@ -157,6 +157,7 @@ extension TeaView {
 					}
 				}
 			}
+			markTeaAsViewed()
 		}
 		
 		func nextDraftOrTea() {
@@ -244,6 +245,19 @@ extension TeaView {
 			return false
 		}
 		
+		func markTeaAsViewed() {
+			guard let currentTeaId = self.currentTeaId else { return }
+			if !currentTeaViewersIds.contains(self.currentTribeMember.id) {
+				self.apiClient
+					.markMessageAsViewed(messageId: currentTeaId)
+					.sink(
+						receiveCompletion: { _ in },
+						receiveValue: { _ in }
+					)
+					.store(in: &self.cancellables)
+			}
+		}
+		
 		func toggleViewers() {
 			self.isShowingCurrentViewers.toggle()
 			guard let currentTea = self.currentTea else { return }
@@ -255,7 +269,7 @@ extension TeaView {
 						receiveCompletion: { _ in },
 						receiveValue: { walletAddresses in
 							var uniqueWalletAddresses = Set(walletAddresses)
-							uniqueWalletAddresses.remove(self.currentTribeMember.walletAddress)
+							uniqueWalletAddresses.remove(self.currentTribeMember.id)
 							self.teaViewers.updateOrAppend(
 								TeaViewer(
 									id: currentTea.id,
@@ -264,7 +278,7 @@ extension TeaView {
 							)
 						}
 					)
-					.store(in: &cancellables)
+					.store(in: &self.cancellables)
 			}
 		}
 		
