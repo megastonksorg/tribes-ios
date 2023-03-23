@@ -183,13 +183,7 @@ struct TeaView: View {
 				ZStack(alignment: .leading) {
 					let animation: Animation = Animation.easeIn.speed(2.0)
 					HStack {
-						HStack(spacing: -12) {
-							ForEach(0..<viewModel.tribe.members.count, id: \.self) { index in
-								UserAvatar(url: viewModel.tribe.members[index].profilePhoto)
-									.frame(dimension: 24)
-									.zIndex(-Double(index))
-							}
-						}
+						TeaViewTribeAvatar(members: viewModel.tribe.members)
 						HStack(spacing: 0) {
 							Text("\(viewModel.tribe.name)")
 								.font(Font.app.title3)
