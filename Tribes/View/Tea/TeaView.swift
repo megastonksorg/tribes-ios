@@ -182,23 +182,10 @@ struct TeaView: View {
 			HStack(spacing: 6) {
 				ZStack(alignment: .leading) {
 					let animation: Animation = Animation.easeIn.speed(2.0)
-					HStack {
-						TeaViewTribeAvatar(members: viewModel.tribe.members)
-						HStack(spacing: 0) {
-							Text("\(viewModel.tribe.name)")
-								.font(Font.app.title3)
-								.foregroundColor(Color.app.tertiary)
-								.lineLimit(1)
-							Text(" • \(viewModel.currentTea?.timeStamp.timeAgoDisplay() ?? "")")
-								.font(Font.app.body)
-								.foregroundColor(Color.app.tertiary)
-								.opacity(viewModel.currentTea == nil ? 0.0 : 1.0)
-						}
-					}
-					.opacity(viewModel.isShowingCurrentViewers ? 0.0 : 1.0)
-					.transition(.opacity)
-					.animation(animation, value: viewModel.isShowingCurrentViewers)
-					
+					TeaViewTribeHeader(tribe: viewModel.tribe, timeStamp: viewModel.currentTea?.timeStamp)
+						.opacity(viewModel.isShowingCurrentViewers ? 0.0 : 1.0)
+						.transition(.opacity)
+						.animation(animation, value: viewModel.isShowingCurrentViewers)
 					HStack(spacing: 10) {
 						ScrollView(.horizontal, showsIndicators: false) {
 							LazyHStack {

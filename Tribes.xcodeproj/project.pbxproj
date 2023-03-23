@@ -107,7 +107,7 @@
 		D06829BA29C370E600686FCC /* SignalRClient in Frameworks */ = {isa = PBXBuildFile; productRef = D06829B929C370E600686FCC /* SignalRClient */; };
 		D06829BE29C69AC100686FCC /* LShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06829BD29C69AC100686FCC /* LShape.swift */; };
 		D06829C029C6B75300686FCC /* MessageBottomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06829BF29C6B75300686FCC /* MessageBottomButton.swift */; };
-		D069C3C329CD03E500EEFF75 /* TeaViewTribeAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D069C3C229CD03E500EEFF75 /* TeaViewTribeAvatar.swift */; };
+		D069C3C329CD03E500EEFF75 /* TeaViewTribeHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D069C3C229CD03E500EEFF75 /* TeaViewTribeHeader.swift */; };
 		D06FDE7D2999C2EB0013A55E /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06FDE7C2999C2EB0013A55E /* AccountView.swift */; };
 		D06FDE7F2999C2F50013A55E /* AccountVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06FDE7E2999C2F50013A55E /* AccountVM.swift */; };
 		D06FDE81299A03210013A55E /* WalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06FDE80299A03210013A55E /* WalletView.swift */; };
@@ -280,7 +280,7 @@
 		D06829B629C36EC600686FCC /* HubClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HubClient.swift; sourceTree = "<group>"; };
 		D06829BD29C69AC100686FCC /* LShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LShape.swift; sourceTree = "<group>"; };
 		D06829BF29C6B75300686FCC /* MessageBottomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBottomButton.swift; sourceTree = "<group>"; };
-		D069C3C229CD03E500EEFF75 /* TeaViewTribeAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeaViewTribeAvatar.swift; sourceTree = "<group>"; };
+		D069C3C229CD03E500EEFF75 /* TeaViewTribeHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeaViewTribeHeader.swift; sourceTree = "<group>"; };
 		D06FDE7C2999C2EB0013A55E /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		D06FDE7E2999C2F50013A55E /* AccountVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountVM.swift; sourceTree = "<group>"; };
 		D06FDE80299A03210013A55E /* WalletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletView.swift; sourceTree = "<group>"; };
@@ -873,7 +873,7 @@
 			children = (
 				D0B90E5C29B6FAAE00EB90CD /* NoContentView.swift */,
 				D0E65EE329BD15A600763656 /* TextContentView.swift */,
-				D069C3C229CD03E500EEFF75 /* TeaViewTribeAvatar.swift */,
+				D069C3C229CD03E500EEFF75 /* TeaViewTribeHeader.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -1073,7 +1073,7 @@
 				D07278BE297602C100650A15 /* CustomRoundedRectangle.swift in Sources */,
 				D030D2E7295745E90011128F /* TextFieldBackgroundView.swift in Sources */,
 				D030D2FD295745F90011128F /* Authenticate.swift in Sources */,
-				D069C3C329CD03E500EEFF75 /* TeaViewTribeAvatar.swift in Sources */,
+				D069C3C329CD03E500EEFF75 /* TeaViewTribeHeader.swift in Sources */,
 				D076636929948FEB00946F7B /* TokenManager.swift in Sources */,
 				D0C65AA32970988900E527F9 /* Tribe.swift in Sources */,
 				D030D2F7295745F90011128F /* MnemonicWord.swift in Sources */,

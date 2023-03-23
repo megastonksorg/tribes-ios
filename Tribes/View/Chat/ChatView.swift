@@ -178,15 +178,9 @@ struct ChatView: View {
 					isShowingIncomingAuthor: false
 				)
 				.overlay(alignment: .topLeading) {
-					HStack {
-						TeaViewTribeAvatar(members: viewModel.tribe.members)
-						Text("\(viewModel.tribe.name)")
-							.font(Font.app.title3)
-							.foregroundColor(Color.app.tertiary)
-							.lineLimit(1)
-					}
-					.padding(.horizontal)
-					.padding()
+					TeaViewTribeHeader(tribe: viewModel.tribe, timeStamp: currentShowingTea.timeStamp)
+						.padding(.horizontal)
+						.padding()
 				}
 				.background(Color.app.secondary)
 				.transition(.asymmetric(insertion: .opacity, removal: .identity))
