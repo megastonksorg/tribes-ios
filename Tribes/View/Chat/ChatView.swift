@@ -179,8 +179,15 @@ struct ChatView: View {
 				)
 				.overlay(alignment: .topLeading) {
 					TeaViewTribeHeader(tribe: viewModel.tribe, timeStamp: currentShowingTea.timeStamp)
-						.padding(.horizontal)
 						.padding()
+						.if(!currentShowingTea.isEncrypted) { view in
+							/**
+							 We need this because when there is no content,
+							 the view alignment shifts outside of the parent view because we ignore safe area for the content
+							 */
+							view
+								.padding(.horizontal)
+						}
 				}
 				.background(Color.app.secondary)
 				.transition(.asymmetric(insertion: .opacity, removal: .identity))
