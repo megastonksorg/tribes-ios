@@ -30,6 +30,7 @@ struct TribesApp: App {
 			case .active:
 				self.hubClient.initializeConnection()
 			case .inactive, .background:
+				self.hubClient.stopConnection()
 				NotificationCenter.default.post(Notification(name: .appInActive, userInfo: [:]))
 			@unknown default:
 				return
