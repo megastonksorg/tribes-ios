@@ -36,7 +36,11 @@ class HubClient: HubConnectionDelegate {
 		
 		//Register for Events
 		connection?.on(method: "ReceiveMessage", callback: { (tribeId: String, message: MessageResponse) in
-			self.handleMessage(tribeId, message: message)
+			self.handleReceiveMessage(tribeId, message: message)
+		})
+		
+		connection?.on(method: "DeleteMessage", callback: { (tribeId: String, messageId: Message.ID) in
+			self.handleDeleteMessage(tribeId, messageId: messageId)
 		})
 		
 		connection?.on(method: "TribeUpdated") {
@@ -50,9 +54,15 @@ class HubClient: HubConnectionDelegate {
 		self.connection?.stop()
 	}
 	
-	private func handleMessage(_ tribeId: String, message: MessageResponse) {
+	private func handleReceiveMessage(_ tribeId: String, message: MessageResponse) {
 		Task {
 			await MessageClient.shared.messageReceived(tribeId: tribeId, messageResponse: message)
+		}
+	}
+	
+	private func handleDeleteMessage(_ tribeId: String, messageId: Message.ID) {
+		Task {
+			await MessageClient.shared.messageDeleted(tribeId: tribeId, messageId: messageId)
 		}
 	}
 	
