@@ -208,9 +208,11 @@ struct TeaView: View {
 					HStack(spacing: 10) {
 						ScrollView(.horizontal, showsIndicators: false) {
 							LazyHStack {
-								ForEach(0..<viewModel.tribe.members.count, id: \.self) { index in
-									UserAvatar(url: viewModel.tribe.members[index].profilePhoto)
-										.frame(dimension: 40)
+								ForEach(viewModel.currentTeaViewersIds, id: \.self) { viewerId in
+									if let tribeMember = viewModel.tribe.members[id: viewerId] {
+										UserAvatar(url: tribeMember.profilePhoto)
+											.frame(dimension: 40)
+									}
 								}
 							}
 						}

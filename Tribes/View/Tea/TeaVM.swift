@@ -16,7 +16,7 @@ extension TeaView {
 			case text
 		}
 		
-		struct MessageViewer: Identifiable {
+		struct TeaViewer: Identifiable {
 			let id: Message.ID
 			let viewers: [TribeMember.ID]
 		}
@@ -44,6 +44,13 @@ extension TeaView {
 				let currentTea = tea[id: currentTeaId]
 			else { return nil }
 			return currentTea
+		}
+		
+		var currentTeaViewersIds: [TribeMember.ID] {
+			if let currentTeaId = currentTeaId {
+				return teaViewers[id: currentTeaId]?.viewers ?? []
+			}
+			return []
 		}
 		
 		var isAuthorOfCurrentTea: Bool {
@@ -77,7 +84,7 @@ extension TeaView {
 		@Published var currentPill: Int = 0
 		@Published var drafts: IdentifiedArrayOf<MessageDraft>
 		@Published var tea: IdentifiedArrayOf<Message>
-		@Published var messageViewers: IdentifiedArrayOf<MessageViewer> = []
+		@Published var teaViewers: IdentifiedArrayOf<TeaViewer> = []
 		@Published var readTea: MessageClient.ReadTea
 		@Published var text: String = ""
 		@Published var isShowingCurrentViewers: Bool = false
@@ -240,7 +247,7 @@ extension TeaView {
 		func toggleViewers() {
 			self.isShowingCurrentViewers.toggle()
 			guard let currentTea = self.currentTea else { return }
-			if messageViewers[id: currentTea.id] != nil {
+			if teaViewers[id: currentTea.id] != nil {
 				self.apiClient
 					.getMessageViewers(messageId: currentTea.id)
 					.receive(on: DispatchQueue.main)
@@ -248,8 +255,8 @@ extension TeaView {
 						receiveCompletion: { _ in },
 						receiveValue: { walletAddresses in
 							let uniqueWalletAddresses = Set(walletAddresses)
-							self.messageViewers.updateOrAppend(
-								MessageViewer(
+							self.teaViewers.updateOrAppend(
+								TeaViewer(
 									id: currentTea.id,
 									viewers: uniqueWalletAddresses.map { TribeMember.ID($0) }
 								)
