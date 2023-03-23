@@ -261,6 +261,7 @@ extension TeaView {
 		
 		func toggleViewers() {
 			self.isShowingCurrentViewers.toggle()
+			feedbackClient.light()
 			guard let currentTea = self.currentTea else { return }
 			if teaViewers[id: currentTea.id] == nil {
 				self.apiClient
