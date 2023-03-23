@@ -101,7 +101,7 @@ import IdentifiedCollections
 							await self.cacheClient.setData(key: .readTea, value: self.readTea)
 							//Load New Messages
 							messagesResponse.forEach { messageResponse in
-								self.processMessageResponse(tribeId: tribe.id, messageResponse: messageResponse)
+								self.processMessageResponse(tribeId: tribe.id, messageResponse: messageResponse, wasReceived: false)
 							}
 						}
 					}
@@ -223,7 +223,7 @@ import IdentifiedCollections
 		}
 	}
 	
-	func decryptMessage(message: Message, tribeId: Tribe.ID) {
+	func decryptMessage(message: Message, tribeId: Tribe.ID, wasReceived: Bool) {
 		Task {
 			let decryptedMessage: Message = message
 			//Check the keys first
@@ -233,7 +233,7 @@ import IdentifiedCollections
 				let messageKey = message.decryptionKeys.filter( { $0.publicKey == currentPublicKey } ).first,
 				message.isEncrypted
 			else {
-				updateMessageAndCache(decryptedMessage, tribeId: tribeId)
+				updateMessageAndCache(decryptedMessage, tribeId: tribeId, wasReceived: wasReceived)
 				return
 			}
 			
@@ -257,41 +257,41 @@ import IdentifiedCollections
 				guard
 					let decryptedText = encryptionClient.decryptString(encryptedText, for: currentPublicKey, key: decryptionKey)
 				else {
-					updateMessageAndCache(decryptedMessage, tribeId: tribeId)
+					updateMessageAndCache(decryptedMessage, tribeId: tribeId, wasReceived: wasReceived)
 					return
 				}
 				
 				decryptedMessage.body = Message.Body(content: .text(decryptedText), caption: decryptedCaption)
-				updateMessageAndCache(decryptedMessage, tribeId: tribeId)
+				updateMessageAndCache(decryptedMessage, tribeId: tribeId, wasReceived: wasReceived)
 			case .image(let urlForData):
 				guard
 					let encryptedImageData = await self.apiClient.getMediaData(url: urlForData),
 					let decryptedImageData = self.encryptionClient.decrypt(encryptedImageData, for: currentPublicKey, key: decryptionKey),
 					let cacheKey = cacheKey
 				else {
-					updateMessageAndCache(decryptedMessage, tribeId: tribeId)
+					updateMessageAndCache(decryptedMessage, tribeId: tribeId, wasReceived: wasReceived)
 					return
 				}
 				
 				let cachedImageUrl = await self.cacheClient.set(cache: Cache(key: cacheKey, object: decryptedImageData))
 				decryptedMessage.body = Message.Body(content: .image(cachedImageUrl), caption: decryptedCaption)
-				updateMessageAndCache(decryptedMessage, tribeId: tribeId)
+				updateMessageAndCache(decryptedMessage, tribeId: tribeId, wasReceived: wasReceived)
 			case .video(let urlForData):
 				guard
 					let encryptedVideoData = await self.apiClient.getMediaData(url: urlForData),
 					let decryptedVideoData = self.encryptionClient.decrypt(encryptedVideoData, for: currentPublicKey, key: decryptionKey),
 					let cacheKey = cacheKey
 				else {
-					updateMessageAndCache(decryptedMessage, tribeId: tribeId)
+					updateMessageAndCache(decryptedMessage, tribeId: tribeId, wasReceived: wasReceived)
 					return
 				}
 				
 				let cachedVideoUrl = await self.cacheClient.set(cache: Cache(key: cacheKey, object: decryptedVideoData))
 				decryptedMessage.body = Message.Body(content: .video(cachedVideoUrl), caption: decryptedCaption)
-				updateMessageAndCache(decryptedMessage, tribeId: tribeId)
+				updateMessageAndCache(decryptedMessage, tribeId: tribeId, wasReceived: wasReceived)
 			case .systemEvent(let eventText):
 				decryptedMessage.body = Message.Body(content: .systemEvent(eventText), caption: decryptedCaption)
-				updateMessageAndCache(decryptedMessage, tribeId: tribeId)
+				updateMessageAndCache(decryptedMessage, tribeId: tribeId, wasReceived: wasReceived)
 			case .imageData:
 				return
 			}
@@ -330,10 +330,7 @@ import IdentifiedCollections
 	}
 	
 	func messageReceived(tribeId: String, messageResponse: MessageResponse) {
-		processMessageResponse(tribeId: tribeId, messageResponse: messageResponse)
-		if messageResponse.senderWalletAddress != self.user?.walletAddress {
-			soundClient.playSound(.inAppNotification)
-		}
+		processMessageResponse(tribeId: tribeId, messageResponse: messageResponse, wasReceived: true)
 	}
 	
 	func messageDeleted(tribeId: Tribe.ID, messageId: Message.ID) {
@@ -368,11 +365,13 @@ import IdentifiedCollections
 		}
 	}
 	
-	private func updateMessageAndCache(_ message: Message, tribeId: Tribe.ID) {
+	private func updateMessageAndCache(_ message: Message, tribeId: Tribe.ID, wasReceived: Bool) {
 		DispatchQueue.main.async {
 			self.tribesMessages[id: tribeId]?.messages[id: message.id] = message
 		}
-		
+		if wasReceived && message.senderId != self.user?.walletAddress {
+			soundClient.playSound(.inAppNotification)
+		}
 		//Send Message Update Notification
 		let notificationInfo: MessageUpdateNotification = .updated(tribeId, message)
 		let messageUpdateNotification = Notification(name: .messageUpdated, userInfo: [AppConstants.messageNotificationDictionaryKey : notificationInfo])
@@ -450,15 +449,15 @@ import IdentifiedCollections
 		)
 	}
 	
-	private func processMessageResponse(tribeId: Tribe.ID, messageResponse: MessageResponse) {
+	private func processMessageResponse(tribeId: Tribe.ID, messageResponse: MessageResponse, wasReceived: Bool) {
 		let mappedMessage: Message = mapMessageResponseToMessage(messageResponse)
 		if let messageToUpdate = self.tribesMessages[id: tribeId]?.messages[id: messageResponse.id],
 		   isMessageContentCached(message: mappedMessage) {
 			messageToUpdate.reactions = mappedMessage.reactions
-			updateMessageAndCache(messageToUpdate, tribeId: tribeId)
+			updateMessageAndCache(messageToUpdate, tribeId: tribeId, wasReceived: wasReceived)
 		} else {
 			//Decrypt and Load Message Content
-			decryptMessage(message: mappedMessage, tribeId: tribeId)
+			decryptMessage(message: mappedMessage, tribeId: tribeId, wasReceived: wasReceived)
 		}
 	}
 	
