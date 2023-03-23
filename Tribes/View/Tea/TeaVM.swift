@@ -16,6 +16,11 @@ extension TeaView {
 			case text
 		}
 		
+		struct MessageViewer: Identifiable {
+			let id: Message.ID
+			let viewers: [TribeMember.ID]
+		}
+		
 		let currentTribeMember: TribeMember
 		let tribe: Tribe
 		
@@ -72,6 +77,7 @@ extension TeaView {
 		@Published var currentPill: Int = 0
 		@Published var drafts: IdentifiedArrayOf<MessageDraft>
 		@Published var tea: IdentifiedArrayOf<Message>
+		@Published var messageViewers: IdentifiedArrayOf<MessageViewer> = []
 		@Published var readTea: MessageClient.ReadTea
 		@Published var text: String = ""
 		
@@ -227,6 +233,10 @@ extension TeaView {
 				}
 			}
 			return false
+		}
+		
+		func displayViewers() {
+			
 		}
 		
 		private func updateCurrentDraftOrTeaId() {

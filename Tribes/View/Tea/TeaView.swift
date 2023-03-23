@@ -198,11 +198,12 @@ struct TeaView: View {
 						.opacity(viewModel.currentTea == nil ? 0.0 : 1.0)
 				}
 				Spacer(minLength: 0)
-				Button(action: {}) {
+				Button(action: { viewModel.displayViewers() }) {
 					Image(systemName: "eye.circle.fill")
 						.font(.system(size: 30))
 						.foregroundColor(Color.app.tertiary.opacity(0.6))
 						.padding(.vertical, 4)
+						.opacity(viewModel.currentTea == nil ? 0.0 : 1.0)
 				}
 			}
 			.padding(.top)
