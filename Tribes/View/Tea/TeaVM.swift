@@ -254,7 +254,8 @@ extension TeaView {
 					.sink(
 						receiveCompletion: { _ in },
 						receiveValue: { walletAddresses in
-							let uniqueWalletAddresses = Set(walletAddresses)
+							var uniqueWalletAddresses = Set(walletAddresses)
+							uniqueWalletAddresses.remove(self.currentTribeMember.walletAddress)
 							self.teaViewers.updateOrAppend(
 								TeaViewer(
 									id: currentTea.id,
