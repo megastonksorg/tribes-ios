@@ -320,18 +320,9 @@ import IdentifiedCollections
 			.receive(on: DispatchQueue.main)
 			.sink(
 				receiveCompletion: { _ in },
-				receiveValue: { response in
+				receiveValue: { [weak self] response in
 					if response.success {
-						self.tribesMessages[id: tribeId]?.messages.remove(id: message.id)
-						
-						//Send Message Update Notification
-						let notificationInfo: MessageUpdateNotification = .deleted(tribeId, message.id)
-						let messageUpdateNotification = Notification(name: .messageUpdated, userInfo: [AppConstants.messageNotificationDictionaryKey : notificationInfo])
-						NotificationCenter.default.post(messageUpdateNotification)
-						
-						Task {
-							await self.cacheClient.setData(key: .tribesMessages, value: self.tribesMessages)
-						}
+						self?.messageDeleted(tribeId: tribeId, messageId: message.id)
 					}
 				}
 			)
@@ -342,6 +333,21 @@ import IdentifiedCollections
 		processMessageResponse(tribeId: tribeId, messageResponse: messageResponse)
 		if messageResponse.senderWalletAddress != self.user?.walletAddress {
 			soundClient.playSound(.inAppNotification)
+		}
+	}
+	
+	func messageDeleted(tribeId: Tribe.ID, messageId: Message.ID) {
+		DispatchQueue.main.async {
+			self.tribesMessages[id: tribeId]?.messages.remove(id: messageId)
+		}
+		
+		//Send Message Update Notification
+		let notificationInfo: MessageUpdateNotification = .deleted(tribeId, messageId)
+		let messageUpdateNotification = Notification(name: .messageUpdated, userInfo: [AppConstants.messageNotificationDictionaryKey : notificationInfo])
+		NotificationCenter.default.post(messageUpdateNotification)
+		
+		Task {
+			await self.cacheClient.setData(key: .tribesMessages, value: self.tribesMessages)
 		}
 	}
 	
