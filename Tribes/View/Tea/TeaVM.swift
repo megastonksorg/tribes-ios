@@ -121,6 +121,7 @@ extension TeaView {
 		}
 		
 		func setCurrentDraftOrTeaId() {
+			self.isShowingCurrentViewers = false
 			DispatchQueue.main.async {
 				if !self.draftAndTeaIds.isEmpty {
 					let id: String = self.draftAndTeaIds[self.currentPill]
