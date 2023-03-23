@@ -136,6 +136,7 @@ extension TeaView {
 					if self.tea[id: id] != nil {
 						self.currentDraftId = nil
 						self.currentTeaId = id
+						self.markTeaAsViewed()
 						return
 					}
 				}
@@ -157,7 +158,6 @@ extension TeaView {
 					}
 				}
 			}
-			markTeaAsViewed()
 		}
 		
 		func nextDraftOrTea() {
@@ -261,7 +261,7 @@ extension TeaView {
 		func toggleViewers() {
 			self.isShowingCurrentViewers.toggle()
 			guard let currentTea = self.currentTea else { return }
-			if teaViewers[id: currentTea.id] != nil {
+			if teaViewers[id: currentTea.id] == nil {
 				self.apiClient
 					.getMessageViewers(messageId: currentTea.id)
 					.receive(on: DispatchQueue.main)
