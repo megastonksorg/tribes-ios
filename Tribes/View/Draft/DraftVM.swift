@@ -64,7 +64,9 @@ extension DraftView {
 		
 		func resetRecipients() {
 			if let directRecipient = self.directRecipient {
-				self.selectedRecipients = IdentifiedArrayOf(uniqueElements: [directRecipient])
+				if allowedRecipients.contains(directRecipient.id) {
+					self.selectedRecipients = IdentifiedArrayOf(uniqueElements: [directRecipient])
+				}
 			} else {
 				self.recipients = TribesRepository.shared.getTribes().filter { $0.members.count > 1 }
 				self.selectedRecipients = []
