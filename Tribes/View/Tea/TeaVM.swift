@@ -237,9 +237,9 @@ extension TeaView {
 			return false
 		}
 		
-		func displayViewers() {
+		func toggleViewers() {
+			self.isShowingCurrentViewers.toggle()
 			guard let currentTea = self.currentTea else { return }
-			self.isShowingCurrentViewers = true
 			if messageViewers[id: currentTea.id] != nil {
 				self.apiClient
 					.getMessageViewers(messageId: currentTea.id)

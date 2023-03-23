@@ -180,26 +180,40 @@ struct TeaView: View {
 		VStack {
 			pillsView()
 			HStack(spacing: 6) {
-				HStack(spacing: -12) {
-					ForEach(0..<viewModel.tribe.members.count, id: \.self) { index in
-						UserAvatar(url: viewModel.tribe.members[index].profilePhoto)
-							.frame(dimension: 24)
-							.zIndex(-Double(index))
+				if viewModel.isShowingCurrentViewers {
+					HStack(spacing: 10) {
+						ScrollView(.horizontal, showsIndicators: false) {
+							LazyHStack {
+								ForEach(0..<viewModel.tribe.members.count, id: \.self) { index in
+									UserAvatar(url: viewModel.tribe.members[index].profilePhoto)
+										.frame(dimension: 40)
+								}
+							}
+						}
+					}
+					.frame(height: 40)
+				} else {
+					HStack(spacing: -12) {
+						ForEach(0..<viewModel.tribe.members.count, id: \.self) { index in
+							UserAvatar(url: viewModel.tribe.members[index].profilePhoto)
+								.frame(dimension: 24)
+								.zIndex(-Double(index))
+						}
+					}
+					HStack(spacing: 0) {
+						Text("\(viewModel.tribe.name)")
+							.font(Font.app.title3)
+							.foregroundColor(Color.app.tertiary)
+							.lineLimit(1)
+						Text(" • \(viewModel.currentTea?.timeStamp.timeAgoDisplay() ?? "")")
+							.font(Font.app.body)
+							.foregroundColor(Color.app.tertiary)
+							.opacity(viewModel.currentTea == nil ? 0.0 : 1.0)
 					}
 				}
-				HStack(spacing: 0) {
-					Text("\(viewModel.tribe.name)")
-						.font(Font.app.title3)
-						.foregroundColor(Color.app.tertiary)
-						.lineLimit(1)
-					Text(" • \(viewModel.currentTea?.timeStamp.timeAgoDisplay() ?? "")")
-						.font(Font.app.body)
-						.foregroundColor(Color.app.tertiary)
-						.opacity(viewModel.currentTea == nil ? 0.0 : 1.0)
-				}
 				Spacer(minLength: 0)
-				Button(action: { viewModel.displayViewers() }) {
-					Image(systemName: "eye.circle.fill")
+				Button(action: { viewModel.toggleViewers() }) {
+					Image(systemName: viewModel.isShowingCurrentViewers ? "eye.slash.circle.fill" : "eye.circle.fill")
 						.font(.system(size: 30))
 						.foregroundColor(Color.app.tertiary.opacity(0.6))
 						.padding(.vertical, 4)
