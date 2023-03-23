@@ -62,6 +62,7 @@ struct TermsAndConditionsView: View {
 		ScrollView {
 			VStack {
 				Text(EULA.text)
+					.font(Font.app.body)
 					.foregroundColor(.white)
 					.multilineTextAlignment(.center)
 					.padding(.top)
