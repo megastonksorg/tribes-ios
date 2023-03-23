@@ -28,6 +28,7 @@ protocol APIRequests {
 	func getMessageViewers(messageId: Message.ID) -> AnyPublisher<[String], APIClientError>
 	func markMessageAsViewed(messageId: Message.ID) -> AnyPublisher<EmptyResponse, APIClientError>
 	func postMessage(model: PostMessage) -> AnyPublisher<EmptyResponse, APIClientError>
+	func getAllowedTeaRecipients() -> AnyPublisher<[String], APIClientError>
 	//Tribe
 	func createTribe(name: String) -> AnyPublisher<Tribe, APIClientError>
 	func getTribes() -> AnyPublisher<[Tribe], APIClientError>
@@ -220,6 +221,15 @@ final class APIClient: APIRequests {
 			requiresAuth: true
 		)
 		return apiRequest(appRequest: postMessageRequest, output: EmptyResponse.self)
+	}
+	
+	func getAllowedTeaRecipients() -> AnyPublisher<[String], APIClientError> {
+		let getAllowedTeaRecipientsRequest = APPUrlRequest(
+			httpMethod: .get,
+			pathComponents: ["message", "allowedTeaRecipients"],
+			requiresAuth: true
+		)
+		return apiRequest(appRequest: getAllowedTeaRecipientsRequest, output: [String].self)
 	}
 	
 	//Tribes
