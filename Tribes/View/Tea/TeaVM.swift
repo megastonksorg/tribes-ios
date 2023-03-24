@@ -26,7 +26,7 @@ extension TeaView {
 		
 		private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 		
-		var isHintTextHintVisible: Bool {
+		var isHintTextVisible: Bool {
 			text.isEmpty
 		}
 		
