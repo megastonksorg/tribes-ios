@@ -199,7 +199,6 @@ struct TribesView: View {
 			) {
 				if let leaveTribeVM = viewModel.leaveTribeVM {
 					LeaveTribeView(viewModel: leaveTribeVM)
-						.onDisappear { viewModel.loadTribes() }
 				}
 			}
 			.fullScreenCover(
