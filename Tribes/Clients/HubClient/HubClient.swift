@@ -71,7 +71,8 @@ class HubClient: HubConnectionDelegate {
 	}
 	
 	internal func connectionDidOpen(hubConnection: SignalRClient.HubConnection) {
-		return
+		//Join Tribes Group
+		self.subscribeToTribeUpdates()
 	}
 	
 	internal func connectionDidFailToOpen(error: Error) {
