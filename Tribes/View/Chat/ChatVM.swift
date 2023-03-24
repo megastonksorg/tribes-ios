@@ -250,6 +250,13 @@ extension ChatView {
 								self.messages = updatedMessages
 								self.messageChangedId = UUID()
 							}
+							if self.messages.count != self.messageClient.tribesMessages[id: self.tribe.id]?.chat.count {
+								if let tribeChat = self.messageClient.tribesMessages[id: self.tribe.id]?.chat {
+									DispatchQueue.main.async {
+										self.messages = tribeChat
+									}
+								}
+							}
 						}
 					case .deleted(let tribeId, let messageId):
 						if tribeId == self.tribe.id {
