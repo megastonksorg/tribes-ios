@@ -16,9 +16,6 @@ struct MessageTextView: View {
 	@State var didFailToLoadContext: Bool = false
 	@State var isShowingTimeStamp: Bool = false
 	
-	//Clients
-	private let messageClient: MessageClient = MessageClient.shared
-	
 	init(
 		model: MessageBodyModel,
 		isShowingIncomingAuthor: Bool,
@@ -79,7 +76,7 @@ struct MessageTextView: View {
 					.opacity(self.didFailToLoadContext ? 0.4 : 1.0)
 					.onAppear {
 						if let context = self.messageContext {
-							if let message = messageClient.tribesMessages[id: model.tribe.id]?.messages[id: context.id] {
+							if let message = MessageClient.shared.tribesMessages[id: model.tribe.id]?.messages[id: context.id] {
 								self.messageContext = message
 							} else {
 								self.didFailToLoadContext = true

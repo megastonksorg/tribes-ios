@@ -15,7 +15,7 @@ protocol TribesRepositoryProtocol {
 
 final class TribesRepository: TribesRepositoryProtocol {
 	
-	static let shared: TribesRepository = TribesRepository()
+	static private (set) var shared: TribesRepository = TribesRepository()
 	
 	private let queue = DispatchQueue(label: "com.strikingFinancial.tribes.tribesRepository.sessionQueue", target: .global())
 	
@@ -33,6 +33,10 @@ final class TribesRepository: TribesRepositoryProtocol {
 			guard let cachedTribes = cachedTribes else { return }
 			self?.tribes = cachedTribes
 		}
+	}
+	
+	func initialize() {
+		TribesRepository.shared = TribesRepository()
 	}
 	
 	func getTribe(tribeId: Tribe.ID) -> Tribe? {

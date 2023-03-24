@@ -54,15 +54,20 @@ fileprivate let appStateKeyNotification: String = "appState"
 	
 	private func executeAppAction(action: AppAction) {
 		switch action {
-			case .changeAppMode(let mode):
-				switch mode {
-					case .welcome(let welcomeViewModel):
-						self.appMode = .welcome(welcomeViewModel)
-					case .authentication(let authenticationViewModel):
-						self.appMode = .authentication(authenticationViewModel)
-					case .home(let homeViewModel):
-						self.appMode = .home(homeViewModel)
-				}
+		case .changeAppMode(let mode):
+			switch mode {
+			case .welcome(let welcomeViewModel):
+				self.appMode = .welcome(welcomeViewModel)
+			case .authentication(let authenticationViewModel):
+				self.appMode = .authentication(authenticationViewModel)
+			case .home(let homeViewModel):
+				//Reinitialize clients
+				EncryptionClient.shared.initialize()
+				MessageClient.shared.initialize()
+				TribesRepository.shared.initialize()
+				
+				self.appMode = .home(homeViewModel)
+			}
 		case .logUserOut:
 			switch appMode {
 			case .home:

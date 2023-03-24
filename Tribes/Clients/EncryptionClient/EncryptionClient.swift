@@ -23,7 +23,7 @@ extension EncryptionClientProtocol {
 }
 
 class EncryptionClient: EncryptionClientProtocol {
-	static let shared: EncryptionClient = EncryptionClient()
+	static private (set) var shared: EncryptionClient = EncryptionClient()
 	
 	let rsaKeys: RSAKeys?
 	
@@ -41,6 +41,10 @@ class EncryptionClient: EncryptionClientProtocol {
 			}
 			return RSAKeys(privateKey: privateKey, publicKey: publicKey)
 		}()
+	}
+	
+	func initialize() {
+		EncryptionClient.shared = EncryptionClient()
 	}
 	
 	func encrypt(_ data: Data, for publicKeys: Set<String>, symmetricKey: SymmetricKey) -> EncryptedData? {

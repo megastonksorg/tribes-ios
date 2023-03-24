@@ -27,7 +27,7 @@ import IdentifiedCollections
 		case draftsUpdated(_ tribeId: Tribe.ID, _ drafts: IdentifiedArrayOf<MessageDraft>)
 	}
 	
-	static let shared: MessageClient = MessageClient()
+	static private (set) var shared: MessageClient = MessageClient()
 	
 	private let user: User?
 	@Published var tribesMessages: IdentifiedArrayOf<TribeMessage> = []
@@ -66,6 +66,10 @@ import IdentifiedCollections
 				}
 			}
 		}
+	}
+	
+	func initialize() {
+		MessageClient.shared = MessageClient()
 	}
 	
 	func refreshMessages() {
