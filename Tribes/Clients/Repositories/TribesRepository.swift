@@ -35,10 +35,6 @@ final class TribesRepository: TribesRepositoryProtocol {
 		}
 	}
 	
-	func initialize() {
-		TribesRepository.shared = TribesRepository()
-	}
-	
 	func getTribe(tribeId: Tribe.ID) -> Tribe? {
 		return tribes[id: tribeId]
 	}

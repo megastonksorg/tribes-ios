@@ -64,7 +64,6 @@ fileprivate let appStateKeyNotification: String = "appState"
 				//Reinitialize clients
 				EncryptionClient.shared.initialize()
 				MessageClient.shared.initialize()
-				TribesRepository.shared.initialize()
 				
 				self.appMode = .home(homeViewModel)
 			}
