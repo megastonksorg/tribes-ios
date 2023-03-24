@@ -134,7 +134,7 @@ struct MessageTextView: View {
 			if case .text(let text) = model.message.body?.content {
 				textView(text: text, isEncrypted: false)
 			} else {
-				textView(text: "Message is Encrypted. It could not be decrypted. You were not a member of the Tribe when it was sent or your keys were reset after login.", isEncrypted: true)
+				textView(text: "Message is Encrypted. It could not be decrypted.", isEncrypted: true)
 					.overlay (
 						Image(systemName: AppConstants.encryptedIcon)
 							.symbolRenderingMode(.palette)
