@@ -23,9 +23,9 @@ extension APIClient {
 		private let keychainClient: KeychainClient = KeychainClient.shared
 		
 		func refreshToken() -> Future<Bool, Never> {
-			queue.sync {
-				return Future { [weak self] promise in
-					guard let self = self else { return }
+			return Future { [weak self] promise in
+				guard let self = self else { return }
+				self.queue.sync {
 					do {
 						//Force a refresh if it has been more one minute since the last refresh
 						if self.lastRefreshed == nil {
