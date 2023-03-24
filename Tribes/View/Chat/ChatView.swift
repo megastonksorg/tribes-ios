@@ -108,7 +108,7 @@ struct ChatView: View {
 								.foregroundColor(Color.app.tertiary)
 						}
 						.lineLimit(2)
-						.opacity(viewModel.canSendText ? 0.0 : 1.0)
+						.opacity(viewModel.isHintTextVisible ? 1.0 : 0.0)
 						TextField("", text: $viewModel.text, axis: .vertical)
 							.tint(Color.white)
 							.lineLimit(1...4)

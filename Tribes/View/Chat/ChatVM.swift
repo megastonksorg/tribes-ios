@@ -46,6 +46,10 @@ extension ChatView {
 			tribe.members.others.count > 0
 		}
 		
+		var isHintTextVisible: Bool {
+			text.isEmpty
+		}
+		
 		var canSendText: Bool {
 			!text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
 		}
