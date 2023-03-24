@@ -29,6 +29,7 @@ struct TribesApp: App {
 			switch newPhase {
 			case .active:
 				self.hubClient.initializeConnection()
+				TribesRepository.shared.refreshTribes()
 			case .inactive, .background:
 				NotificationCenter.default.post(Notification(name: .appInActive, userInfo: [:]))
 			@unknown default:
