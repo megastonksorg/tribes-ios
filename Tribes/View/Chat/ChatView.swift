@@ -109,7 +109,7 @@ struct ChatView: View {
 						}
 						.lineLimit(2)
 						.opacity(viewModel.isHintTextVisible ? 1.0 : 0.0)
-						TextField("", text: $viewModel.text, axis: .vertical)
+						TextField("", text: $viewModel.text.max(SizeConstants.textMessageLimit), axis: .vertical)
 							.tint(Color.white)
 							.lineLimit(1...4)
 							.foregroundColor(.white)
