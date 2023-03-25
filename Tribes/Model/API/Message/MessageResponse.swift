@@ -9,20 +9,14 @@ import Foundation
 
 // MARK: - Message
 class MessageResponse: Decodable {
-	struct Reaction: Decodable {
-		let senderWalletAddress: String
-		let content: String
-	}
-	
 	let id: String
 	let keys: [MessageKeyEncrypted]
 	let type: Message.Body.Content.`Type`
 	let body: String
 	let caption: String?
-	let context: MessageResponse?
-	let deleted: Bool
+	let context: String?
 	let senderWalletAddress: String
-	let reactions: [Reaction]
+	let reactions: [Message.Reaction]?
 	let expires: String?
 	let tag: Message.Tag
 	let timeStamp: String
@@ -33,10 +27,9 @@ class MessageResponse: Decodable {
 		type: Message.Body.Content.`Type`,
 		body: String,
 		caption: String?,
-		context: MessageResponse?,
-		deleted: Bool,
+		context: String?,
 		senderWalletAddress: String,
-		reactions: [Reaction],
+		reactions: [Message.Reaction]?,
 		expires: String?,
 		tag: Message.Tag,
 		timeStamp: String
@@ -47,7 +40,6 @@ class MessageResponse: Decodable {
 		self.body = body
 		self.caption = caption
 		self.context = context
-		self.deleted = deleted
 		self.senderWalletAddress = senderWalletAddress
 		self.reactions = reactions
 		self.expires = expires

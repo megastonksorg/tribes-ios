@@ -48,15 +48,13 @@ class Message: Codable, Identifiable {
 		let caption: String?
 	}
 	
-	struct Reaction: Codable, Identifiable {
-		let memberId: TribeMember.ID
+	struct Reaction: Codable {
+		let senderWalletAddress: String
 		let content: String
-		
-		var id: TribeMember.ID { memberId }
 	}
 	
 	let id: String
-	let context: Message?
+	let context: Message.ID?
 	let decryptionKeys: [MessageKeyEncrypted]
 	let encryptedBody: Body
 	let senderId: TribeMember.ID
@@ -64,7 +62,7 @@ class Message: Codable, Identifiable {
 	let expires: Date?
 	let timeStamp: Date
 	
-	var reactions: [Reaction]
+	var reactions: [Message.Reaction]?
 	var body: Body?
 	
 	var isEncrypted: Bool {
@@ -73,11 +71,11 @@ class Message: Codable, Identifiable {
 	
 	init(
 		id: String,
-		context: Message?,
+		context: Message.ID?,
 		decryptionKeys: [MessageKeyEncrypted],
 		encryptedBody: Body,
 		senderId: TribeMember.ID,
-		reactions: [Reaction],
+		reactions: [Reaction]?,
 		tag: Tag,
 		expires: Date?,
 		timeStamp: Date
@@ -180,7 +178,7 @@ extension Message {
 	static let noopDecryptedTextWithImageContextChat: Message = {
 		let message = Message(
 			id: "F",
-			context: Message.noopEncryptedImageTea,
+			context: "A",
 			decryptionKeys: [],
 			encryptedBody: Body(content: .text("ENCRYPTED TEXT"), caption: nil),
 			senderId: UUID().uuidString,

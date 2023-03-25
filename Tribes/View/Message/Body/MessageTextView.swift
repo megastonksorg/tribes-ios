@@ -23,7 +23,6 @@ struct MessageTextView: View {
 	) {
 		self.model = model
 		self.isShowingIncomingAuthor = isShowingIncomingAuthor || model.message.context != nil
-		self._messageContext = State(initialValue: model.message.context)
 		self.contextMessageAction = contextMessageAction
 	}
 	
@@ -75,8 +74,8 @@ struct MessageTextView: View {
 					}
 					.opacity(self.didFailToLoadContext ? 0.4 : 1.0)
 					.onAppear {
-						if let context = self.messageContext {
-							if let message = MessageClient.shared.tribesMessages[id: model.tribe.id]?.messages[id: context.id] {
+						if let context = self.model.message.context {
+							if let message = MessageClient.shared.tribesMessages[id: model.tribe.id]?.messages[id: context] {
 								self.messageContext = message
 							} else {
 								self.didFailToLoadContext = true

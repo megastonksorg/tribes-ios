@@ -430,23 +430,16 @@ import IdentifiedCollections
 	}
 	
 	private func mapMessageResponseToMessage(_ messageResponse: MessageResponse) -> Message {
-		let context: Message? = {
-			guard let messageResponseContext = messageResponse.context else { return nil }
-			return mapMessageResponseToMessage(messageResponseContext)
-		}()
-		
 		return Message(
 			id: messageResponse.id,
-			context: context,
+			context: messageResponse.context,
 			decryptionKeys: messageResponse.keys,
 			encryptedBody: Message.Body(
 				content: getContentFromMessageResponse(messageResponse),
 				caption: messageResponse.caption
 			),
 			senderId: messageResponse.senderWalletAddress,
-			reactions: messageResponse.reactions.map {
-				Message.Reaction(memberId: $0.senderWalletAddress, content: $0.content)
-			},
+			reactions: messageResponse.reactions,
 			tag: messageResponse.tag,
 			expires: messageResponse.expires?.utcToCurrent().date,
 			timeStamp: messageResponse.timeStamp.utcToCurrent().date ?? Date.now
