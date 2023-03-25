@@ -183,6 +183,12 @@ extension ChatView {
 			return true
 		}
 		
+		func markAsRead() {
+			if let lastMessage = self.messages.last {
+				self.messageClient.markChatAsRead(tribeId: self.tribe.id, lastRead: lastMessage.timeStamp)
+			}
+		}
+		
 		func showTea(_ messageId: Message.ID) {
 			if let message = self.messageClient.tribesMessages[id: tribe.id]?.tea[id: messageId] {
 				withAnimation(self.teaAnimation) {

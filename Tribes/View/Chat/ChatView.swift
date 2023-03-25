@@ -135,6 +135,7 @@ struct ChatView: View {
 							if viewModel.canSendText {
 								viewModel.sendMessage()
 							} else {
+								viewModel.markAsRead()
 								dismissAction()
 							}
 						}
