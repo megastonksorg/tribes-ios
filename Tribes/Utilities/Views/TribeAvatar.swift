@@ -421,17 +421,6 @@ struct TribeAvatar: View {
 							}
 						}
 					}
-					.overlay(isShown: context == .tribesView && !isChatRead , alignment: .top) {
-						if let lastChat = self.lastChat {
-							switch lastChat.body?.content {
-							case .text(let textContent):
-								CalloutView(content: textContent, fontSize: nameSize * 0.8)
-									.offset(y: -size * 0.1)
-							case .image, .imageData, .video, .systemEvent, .none:
-								EmptyView()
-							}
-						}
-					}
 			}
 			.buttonStyle(.insideScaling)
 			.if(context == .tribesView) { view in
@@ -442,6 +431,20 @@ struct TribeAvatar: View {
 								avatarContextAction(self.tribe)
 							}
 					)
+			}
+			.overlay(isShown: context == .tribesView && !isChatRead , alignment: .top) {
+				if let lastChat = self.lastChat {
+					switch lastChat.body?.content {
+					case .text(let textContent):
+						Button(action: {}) {
+							CalloutView(content: textContent, fontSize: nameSize * 0.8)
+								.offset(y: -size * 0.1)
+						}
+						.buttonStyle(.plain)
+					case .image, .imageData, .video, .systemEvent, .none:
+						EmptyView()
+					}
+				}
 			}
 			switch context {
 			case .tribesView, .draftView:
