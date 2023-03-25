@@ -30,57 +30,61 @@ struct MessageTextView: View {
 		let isIncoming: Bool = model.style == .incoming
 		let dummyTribeMember: TribeMember = TribeMember.dummyTribeMember
 		VStack(alignment: .leading, spacing: 0) {
-			if let context = self.messageContext {
-				HStack(alignment: .bottom) {
-					let shapeCornerRadius: CGFloat = 20
-					avatar()
-						.opacity(0)
-						.overlay(
-							LShape()
-								.stroke(Color.gray, lineWidth: 2)
-								.frame(width: 15, height: 20)
-								.rotation3DEffect(.degrees(180), axis: (x: 1, y: 0, z: 0))
-								.offset(x: 5)
-								.opacity(isIncoming ? 0.2 : 0.0)
-						)
-					if !isIncoming {
-						Spacer()
-					}
-					Group {
-						if didFailToLoadContext {
-							VStack {
-								Image(systemName: "clock.arrow.circlepath")
-									.foregroundColor(Color.gray)
-								TextView("Expired", style: .hint)
-							}
-						} else {
-							Button(action: { contextMessageAction(context.id) }) {
-								MessageView(
-									currentTribeMember: model.currentTribeMember,
-									message: context,
-									tribe: Tribe.noop1,
-									isPlaying: false,
-									isShowingIncomingAuthor: false
-								)
-								.scaledToFill()
-							}
+			Group {
+				if let context = self.model.message.context {
+					HStack(alignment: .bottom) {
+						let shapeCornerRadius: CGFloat = 20
+						avatar()
+							.opacity(0)
+							.overlay(
+								LShape()
+									.stroke(Color.gray, lineWidth: 2)
+									.frame(width: 15, height: 20)
+									.rotation3DEffect(.degrees(180), axis: (x: 1, y: 0, z: 0))
+									.offset(x: 5)
+									.opacity(isIncoming ? 0.2 : 0.0)
+							)
+						if !isIncoming {
+							Spacer()
 						}
-					}
-					.frame(width: 100, height: 140)
-					.clipShape(RoundedRectangle(cornerRadius: shapeCornerRadius))
-					.background {
-						Color.app.secondary
-							.clipShape(RoundedRectangle(cornerRadius: shapeCornerRadius))
-					}
-					.opacity(self.didFailToLoadContext ? 0.4 : 1.0)
-					.onAppear {
-						if let context = self.model.message.context {
-							if let message = MessageClient.shared.tribesMessages[id: model.tribe.id]?.messages[id: context] {
-								self.messageContext = message
+						Group {
+							if self.didFailToLoadContext {
+								VStack {
+									Image(systemName: "clock.arrow.circlepath")
+										.foregroundColor(Color.gray)
+									TextView("Expired", style: .hint)
+								}
 							} else {
-								self.didFailToLoadContext = true
+								if let messageContext = self.messageContext {
+									Button(action: { contextMessageAction(context) }) {
+										MessageView(
+											currentTribeMember: model.currentTribeMember,
+											message: messageContext,
+											tribe: Tribe.noop1,
+											isPlaying: false,
+											isShowingIncomingAuthor: false
+										)
+										.scaledToFill()
+									}
+								}
 							}
 						}
+						.frame(width: 100, height: 140)
+						.clipShape(RoundedRectangle(cornerRadius: shapeCornerRadius))
+						.background {
+							Color.app.secondary
+								.clipShape(RoundedRectangle(cornerRadius: shapeCornerRadius))
+						}
+						.opacity(self.didFailToLoadContext ? 0.4 : 1.0)
+					}
+				}
+			}
+			.onAppear {
+				if let context = self.model.message.context {
+					if let message = MessageClient.shared.tribesMessages[id: model.tribe.id]?.messages[id: context] {
+						self.messageContext = message
+					} else {
+						self.didFailToLoadContext = true
 					}
 				}
 			}
@@ -124,7 +128,7 @@ struct MessageTextView: View {
 				}
 			}
 		}
-		.padding(.top, self.messageContext == nil ? 0 : 6 )
+		.padding(.top, self.model.message.context == nil ? 0 : 6 )
 	}
 	
 	@ViewBuilder
