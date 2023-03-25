@@ -67,6 +67,12 @@ import IdentifiedCollections
 					self.readTea = cachedReadTea
 				}
 			}
+			//Set readChat
+			if let cachedReadChat = await cacheClient.getData(key: .readChat) {
+				await MainActor.run {
+					self.readChat = cachedReadChat
+				}
+			}
 		}
 	}
 	
