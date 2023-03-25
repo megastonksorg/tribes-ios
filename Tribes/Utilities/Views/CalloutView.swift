@@ -12,7 +12,7 @@ struct CalloutView: View {
 	let fill: Color = Color.app.secondary
 	var fontSize: CGFloat = FontSizes.body
 	
-	@State var width: CGFloat = .zero
+	@State var height: CGFloat = .zero
 	
 	var body: some View {
 		Text(content)
@@ -25,25 +25,25 @@ struct CalloutView: View {
 				ZStack {
 					Capsule()
 						.fill(fill)
+					RoundedTriangle(radius: 4)
+						.fill(fill)
+						.frame(dimension: 26)
+						.rotationEffect(.degrees(90))
+						.offset(y: self.height * 0.6)
 				}
+				.compositingGroup()
 			)
-			.background(alignment: .bottom) {
-				RoundedTriangle(radius: 4)
-					.fill(fill)
-					.frame(dimension: 26)
-					.rotationEffect(.degrees(90))
-					.offset(y: 18)
-					.dropShadow()
-					.dropShadow()
-			}
+			.readSize { self.height = $0.height }
 	}
 }
 
 struct CalloutView_Previews: PreviewProvider {
 	static var previews: some View {
 		VStack(spacing: 40) {
-			CalloutView(content: "What is my name? Could you tell me please?")
-			CalloutView(content: "😂")
+			CalloutView(content: "What is my name? Could you tell me")
+			Button(action: {}) {
+				CalloutView(content: "😂")
+			}
 		}
 	}
 }
