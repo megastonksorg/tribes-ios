@@ -434,15 +434,17 @@ struct TribeAvatar: View {
 			}
 			.overlay(isShown: context == .tribesView && !isChatRead , alignment: .top) {
 				if let lastChat = self.lastChat {
-					switch lastChat.body?.content {
-					case .text(let textContent):
-						Button(action: { secondaryAction(self.tribe) }) {
-							CalloutView(content: textContent, fontSize: nameSize * 0.8)
-								.offset(y: -size * 0.1)
+					if lastChat.senderId != self.tribe.members.currentMember?.id {
+						switch lastChat.body?.content {
+						case .text(let textContent):
+							Button(action: { secondaryAction(self.tribe) }) {
+								CalloutView(content: textContent, fontSize: nameSize * 0.8)
+									.offset(y: -size * 0.1)
+							}
+							.buttonStyle(.plain)
+						case .image, .imageData, .video, .systemEvent, .none:
+							EmptyView()
 						}
-						.buttonStyle(.plain)
-					case .image, .imageData, .video, .systemEvent, .none:
-						EmptyView()
 					}
 				}
 			}
