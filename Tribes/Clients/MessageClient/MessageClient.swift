@@ -361,6 +361,10 @@ import IdentifiedCollections
 		}
 	}
 	
+	func markChatAsRead(tribeId: Tribe.ID, lastRead: Date) {
+		self.readChat[tribeId] = lastRead
+	}
+	
 	private func updateMessageAndCache(_ message: Message, tribeId: Tribe.ID, wasReceived: Bool) {
 		DispatchQueue.main.async {
 			self.tribesMessages[id: tribeId]?.messages[id: message.id] = message
