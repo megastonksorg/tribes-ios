@@ -354,7 +354,7 @@ import IdentifiedCollections
 		}
 	}
 	
-	func markMessageAsRead(_ messageId: Message.ID) {
+	func markTeaAsRead(_ messageId: Message.ID) {
 		self.readTea.insert(messageId)
 		Task {
 			await cacheClient.setData(key: .readTea, value: self.readTea)
