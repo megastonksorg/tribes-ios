@@ -363,6 +363,9 @@ import IdentifiedCollections
 	
 	func markChatAsRead(tribeId: Tribe.ID, lastRead: Date) {
 		self.readChat[tribeId] = lastRead
+		Task {
+			await cacheClient.setData(key: .readChat, value: self.readChat)
+		}
 	}
 	
 	private func updateMessageAndCache(_ message: Message, tribeId: Tribe.ID, wasReceived: Bool) {
