@@ -35,4 +35,5 @@ extension CacheKey {
 	static var tribes: CacheKey<IdentifiedArrayOf<Tribe>> { .init(name: "tribes") }
 	static var tribesMessages: CacheKey<IdentifiedArrayOf<TribeMessage>> { .init(name: "tribesMessages") }
 	static var readTea: CacheKey<MessageClient.ReadTea> { .init(name: "readTea") }
+	static var readChat: CacheKey<MessageClient.ReadChat> { .init(name: "readChat") }
 }
