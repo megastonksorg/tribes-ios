@@ -24,10 +24,10 @@ struct CalloutRectangle: Shape {
 		let p5 = CGPoint(x: rect.maxX, y: corners.contains(.bottomRight) ? rect.maxY - radius : rect.maxY )
 		let p6 = CGPoint(x: corners.contains(.bottomRight) ? rect.maxX - radius : rect.maxX, y: rect.maxY )
 		
-		let p7 = CGPoint(x: rect.maxX * 0.90, y: rect.maxY)
-		let p8 = CGPoint(x: rect.maxX * 0.87, y: rect.maxY + 10)
+		let p7 = CGPoint(x: rect.maxX * 0.48, y: rect.maxY)
+		let p8 = CGPoint(x: rect.maxX * 0.50, y: rect.maxY + 20)
 		
-		let p9 = CGPoint(x: rect.maxX * 0.84, y: rect.maxY)
+		let p9 = CGPoint(x: rect.maxX * 0.52, y: rect.maxY)
 		
 		let p10 = CGPoint(x: corners.contains(.bottomLeft) ? rect.minX + radius : rect.minX, y: rect.maxY )
 		let p11 = CGPoint(x: rect.minX, y: corners.contains(.bottomLeft) ? rect.maxY - radius : rect.maxY )
@@ -76,10 +76,12 @@ struct CalloutRectangle: Shape {
 
 struct CalloutRectangle_Previews: PreviewProvider {
 	static var previews: some View {
-		VStack {
-			CalloutRectangle(calloutRadius: 8, radius: 20)
-				.frame(height: 300)
+		VStack(spacing: 30) {
+			CalloutRectangle(calloutRadius: 2, radius: 30)
+				.frame(height: 60)
 				.padding(.horizontal)
+			CalloutRectangle(calloutRadius: 0, radius: 30)
+				.frame(dimension: 60)
 		}
 	}
 }
