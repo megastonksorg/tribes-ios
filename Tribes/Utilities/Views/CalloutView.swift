@@ -20,7 +20,8 @@ struct CalloutView: View {
 			.foregroundColor(Color.white)
 			.multilineTextAlignment(.center)
 			.lineLimit(2)
-			.padding(10)
+			.padding(.horizontal)
+			.padding(.vertical, 8)
 			.background(
 				ZStack {
 					Capsule()
