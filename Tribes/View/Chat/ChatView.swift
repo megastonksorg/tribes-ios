@@ -28,8 +28,8 @@ struct ChatView: View {
 		VStack {
 			VStack(spacing: 0) {
 				ScrollViewReader { readerProxy in
-					ScrollView(showsIndicators: false) {
-						LazyVStack(spacing: 0) {
+					ScrollView {
+						VStack(spacing: 0) {
 							HStack(spacing: 2) {
 								TextView("Only comms from the past 24 hours", style: .hint)
 								Image(systemName: "clock.fill")
