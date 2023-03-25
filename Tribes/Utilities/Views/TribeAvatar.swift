@@ -436,7 +436,7 @@ struct TribeAvatar: View {
 				if let lastChat = self.lastChat {
 					switch lastChat.body?.content {
 					case .text(let textContent):
-						Button(action: {}) {
+						Button(action: { secondaryAction(self.tribe) }) {
 							CalloutView(content: textContent, fontSize: nameSize * 0.8)
 								.offset(y: -size * 0.1)
 						}
