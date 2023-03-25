@@ -69,17 +69,13 @@ struct MessageImageView: View {
 
 struct MessageImageView_Previews: PreviewProvider {
 	static var previews: some View {
-		let modelWithContent: MessageBodyModel = {
-			let model = MessageBodyModel(
-				currentTribeMember: TribeMember.noop1,
-				sender: nil,
-				style: .incoming,
-				message: Message.noopEncryptedImageChat,
-				tribe: Tribe.noop1
-			)
-			model.message.body = .init(content: .image("".unwrappedContentUrl), caption: nil)
-			return model
-		}()
+		let modelWithContent: MessageBodyModel = MessageBodyModel(
+			currentTribeMember: TribeMember.noop1,
+			sender: nil,
+			style: .incoming,
+			message: Message.noopEncryptedImageChat,
+			tribe: Tribe.noop1
+		)
 		MessageImageView(model: modelWithContent)
 		
 		MessageImageView(

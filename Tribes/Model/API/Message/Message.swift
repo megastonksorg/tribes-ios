@@ -9,7 +9,7 @@ import Foundation
 import IdentifiedCollections
 import UIKit
 
-class Message: Codable, Identifiable {
+struct Message: Codable, Identifiable {
 	enum Style {
 		case incoming
 		case outgoing
@@ -160,7 +160,7 @@ extension Message {
 	
 	//Decrypted
 	static let noopDecryptedTextChat: Message = {
-		let message = Message(
+		var message = Message(
 			id: "F",
 			context: nil,
 			decryptionKeys: [],
@@ -176,7 +176,7 @@ extension Message {
 	}()
 	
 	static let noopDecryptedTextWithImageContextChat: Message = {
-		let message = Message(
+		var message = Message(
 			id: "F",
 			context: "A",
 			decryptionKeys: [],

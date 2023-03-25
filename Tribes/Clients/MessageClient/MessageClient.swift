@@ -229,7 +229,7 @@ import IdentifiedCollections
 	
 	func decryptMessage(message: Message, tribeId: Tribe.ID, wasReceived: Bool) {
 		Task {
-			let decryptedMessage: Message = message
+			var decryptedMessage: Message = message
 			//Check the keys first
 			guard
 				let rsaKeys = encryptionClient.rsaKeys,
@@ -448,7 +448,7 @@ import IdentifiedCollections
 	
 	private func processMessageResponse(tribeId: Tribe.ID, messageResponse: MessageResponse, wasReceived: Bool) {
 		let mappedMessage: Message = mapMessageResponseToMessage(messageResponse)
-		if let messageToUpdate = self.tribesMessages[id: tribeId]?.messages[id: messageResponse.id],
+		if var messageToUpdate = self.tribesMessages[id: tribeId]?.messages[id: messageResponse.id],
 		   isMessageContentCached(message: mappedMessage) {
 			messageToUpdate.reactions = mappedMessage.reactions
 			updateMessageAndCache(messageToUpdate, tribeId: tribeId, wasReceived: wasReceived)
