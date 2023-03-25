@@ -38,12 +38,23 @@ struct TribeAvatar: View {
 		tribe.members.count <= 10
 	}
 	
+	var lastChat: Message? {
+		messageClient.tribesMessages[id: tribe.id]?.chat.last
+	}
+	
 	var hasTea: Bool {
 		!(messageClient.tribesMessages[id: tribe.id]?.tea.isEmpty ?? true)
 	}
 	
 	var isUploadingTea: Bool {
 		!(messageClient.tribesMessages[id: tribe.id]?.teaDrafts.isEmpty ?? true)
+	}
+	
+	var isChatRead: Bool {
+		if let lastReadDate = messageClient.readChat[tribe.id] {
+			return lastReadDate >= lastChat?.timeStamp ?? Date.now
+		}
+		return false
 	}
 	
 	var messagesCount: Int {
@@ -407,6 +418,17 @@ struct TribeAvatar: View {
 								Image(systemName: "cup.and.saucer")
 									.font(.system(size: SizeConstants.teaCupSize))
 									.foregroundColor(Color.app.tertiary)
+							}
+						}
+					}
+					.overlay(isShown: context == .tribesView && !isChatRead , alignment: .top) {
+						if let lastChat = self.lastChat {
+							switch lastChat.body?.content {
+							case .text(let textContent):
+								CalloutView(content: textContent, fontSize: nameSize * 0.8)
+									.offset(y: -size * 0.1)
+							case .image, .imageData, .video, .systemEvent, .none:
+								EmptyView()
 							}
 						}
 					}

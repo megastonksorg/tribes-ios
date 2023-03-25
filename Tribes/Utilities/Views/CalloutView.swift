@@ -10,12 +10,13 @@ import SwiftUI
 struct CalloutView: View {
 	let content: String
 	let fill: Color = Color.app.secondary
+	var fontSize: CGFloat = FontSizes.body
 	
 	@State var width: CGFloat = .zero
 	
 	var body: some View {
 		Text(content)
-			.font(Font.app.body)
+			.font(.system(size: fontSize, weight: .regular, design: .rounded))
 			.foregroundColor(Color.white)
 			.multilineTextAlignment(.center)
 			.lineLimit(2)
