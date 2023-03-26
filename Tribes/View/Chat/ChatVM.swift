@@ -183,9 +183,11 @@ extension ChatView {
 			return true
 		}
 		
-		func markAsRead() {
-			if let lastMessage = self.messages.last {
-				self.messageClient.markMessageAsRead(lastMessage.id)
+		func markAsRead(_ message: Message) {
+			Task {
+				if await !message.isRead {
+					self.messageClient.markMessageAsRead(message.id)
+				}
 			}
 		}
 		
@@ -194,13 +196,9 @@ extension ChatView {
 				withAnimation(self.teaAnimation) {
 					self.currentShowingTea = message
 				}
-				
 				//Mark Tea as read if needed
-				Task {
-					if await !message.isRead {
-						self.messageClient.markMessageAsRead(message.id)
-					}
-				}
+				self.markAsRead(message)
+				
 			} else {
 				withAnimation(self.teaAnimation) {
 					self.currentShowingTea = nil

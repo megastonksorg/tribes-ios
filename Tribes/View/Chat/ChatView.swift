@@ -47,6 +47,7 @@ struct ChatView: View {
 									contextMessageAction: { viewModel.showTea($0) }
 								)
 								.id(message.id)
+								.onAppear { viewModel.markAsRead(message) }
 							}
 							ForEach(viewModel.failedDrafts) { draft in
 								MessageDraftView(
@@ -135,7 +136,6 @@ struct ChatView: View {
 							if viewModel.canSendText {
 								viewModel.sendMessage()
 							} else {
-								viewModel.markAsRead()
 								dismissAction()
 							}
 						}
