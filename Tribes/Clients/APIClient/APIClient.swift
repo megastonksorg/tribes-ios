@@ -317,7 +317,7 @@ final class APIClient: APIRequests {
 	private func updateDeviceToken(token: String) -> AnyPublisher<EmptyResponse, APIClientError> {
 		let updateDeviceTokenRequest = APPUrlRequest(
 			httpMethod: .post,
-			pathComponents: ["account", "updateAppleDeviceToken"],
+			pathComponents: ["account", "appleDeviceToken"],
 			query: [URLQueryItem(name: "deviceToken", value: token)],
 			requiresAuth: true
 		)
