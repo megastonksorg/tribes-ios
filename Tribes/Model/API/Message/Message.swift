@@ -93,9 +93,9 @@ struct Message: Codable, Identifiable {
 }
 
 extension Message {	
-	var isTeaRead: Bool {
+	var isRead: Bool {
 		get async {
-			return await MessageClient.shared.readTea.contains(self.id)
+			return await MessageClient.shared.readMessage.contains(self.id)
 		}
 	}
 }

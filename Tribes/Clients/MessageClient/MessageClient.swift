@@ -19,8 +19,7 @@ import IdentifiedCollections
  */
 
 @MainActor class MessageClient: ObservableObject {
-	typealias ReadTea = Set<Message.ID>
-	typealias ReadChat = [Tribe.ID : Date]
+	typealias ReadMessage = Set<Message.ID>
 	
 	enum MessageUpdateNotification {
 		case updated(_ tribeId: Tribe.ID, _ message: Message)
@@ -32,8 +31,7 @@ import IdentifiedCollections
 	
 	private let user: User?
 	@Published var tribesMessages: IdentifiedArrayOf<TribeMessage> = []
-	@Published var readTea: ReadTea = []
-	@Published var readChat: ReadChat = [:]
+	@Published var readMessage: ReadMessage = []
 	
 	private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 	private var postMessageCancellables: [MessageDraft.ID : AnyCancellable] = [:]
@@ -61,16 +59,10 @@ import IdentifiedCollections
 			} else {
 				refreshMessages()
 			}
-			//Set readTea
-			if let cachedReadTea = await cacheClient.getData(key: .readTea) {
+			//Set readMessage
+			if let cachedReadMessage = await cacheClient.getData(key: .readMessage) {
 				await MainActor.run {
-					self.readTea = cachedReadTea
-				}
-			}
-			//Set readChat
-			if let cachedReadChat = await cacheClient.getData(key: .readChat) {
-				await MainActor.run {
-					self.readChat = cachedReadChat
+					self.readMessage = cachedReadMessage
 				}
 			}
 		}
@@ -104,13 +96,13 @@ import IdentifiedCollections
 						let staleMessageIds: Set<String> = Set(self.tribesMessages[id: tribe.id]?.messages.ids.elements ?? []).subtracting(Set(messagesResponse.map { $0.id }))
 						staleMessageIds.forEach { staleId in
 							self.tribesMessages[id: tribe.id]?.messages.remove(id: staleId)
-							self.readTea.remove(staleId)
+							self.readMessage.remove(staleId)
 						}
 						
 						Task {
 							//Update cache with the current tribesMessages to remove stale data
 							await self.cacheClient.setData(key: .tribesMessages, value: self.tribesMessages)
-							await self.cacheClient.setData(key: .readTea, value: self.readTea)
+							await self.cacheClient.setData(key: .readMessage, value: self.readMessage)
 							//Load New Messages
 							messagesResponse.forEach { messageResponse in
 								self.processMessageResponse(tribeId: tribe.id, messageResponse: messageResponse, wasReceived: false)
@@ -360,17 +352,10 @@ import IdentifiedCollections
 		}
 	}
 	
-	func markTeaAsRead(_ messageId: Message.ID) {
-		self.readTea.insert(messageId)
+	func markMessageAsRead(_ messageId: Message.ID) {
+		self.readMessage.insert(messageId)
 		Task {
-			await cacheClient.setData(key: .readTea, value: self.readTea)
-		}
-	}
-	
-	func markChatAsRead(tribeId: Tribe.ID, lastRead: Date) {
-		self.readChat[tribeId] = lastRead
-		Task {
-			await cacheClient.setData(key: .readChat, value: self.readChat)
+			await cacheClient.setData(key: .readMessage, value: self.readMessage)
 		}
 	}
 	

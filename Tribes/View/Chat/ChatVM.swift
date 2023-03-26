@@ -185,7 +185,7 @@ extension ChatView {
 		
 		func markAsRead() {
 			if let lastMessage = self.messages.last {
-				self.messageClient.markChatAsRead(tribeId: self.tribe.id, lastRead: lastMessage.timeStamp)
+				self.messageClient.markMessageAsRead(lastMessage.id)
 			}
 		}
 		
@@ -197,8 +197,8 @@ extension ChatView {
 				
 				//Mark Tea as read if needed
 				Task {
-					if await !message.isTeaRead {
-						self.messageClient.markTeaAsRead(message.id)
+					if await !message.isRead {
+						self.messageClient.markMessageAsRead(message.id)
 					}
 				}
 			} else {

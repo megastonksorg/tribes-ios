@@ -50,13 +50,6 @@ struct TribeAvatar: View {
 		!(messageClient.tribesMessages[id: tribe.id]?.teaDrafts.isEmpty ?? true)
 	}
 	
-	var isChatRead: Bool {
-		if let lastReadDate = messageClient.readChat[tribe.id] {
-			return lastReadDate >= lastChat?.timeStamp ?? Date.now
-		}
-		return false
-	}
-	
 	var messagesCount: Int {
 		messageClient.tribesMessages[id: tribe.id]?.messages.count ?? 0
 	}
@@ -64,6 +57,7 @@ struct TribeAvatar: View {
 	@ObservedObject var messageClient: MessageClient = MessageClient.shared
 	
 	@State var hasUnreadTea: Bool = false
+	@State var hasUnreadChat: Bool = false
 	
 	init(
 		context: Context,
@@ -432,7 +426,7 @@ struct TribeAvatar: View {
 							}
 					)
 			}
-			.overlay(isShown: context == .tribesView && !isChatRead , alignment: .top) {
+			.overlay(isShown: context == .tribesView && hasUnreadChat , alignment: .top) {
 				if let lastChat = self.lastChat {
 					if lastChat.senderId != self.tribe.members.currentMember?.id {
 						switch lastChat.body?.content {
@@ -463,7 +457,7 @@ struct TribeAvatar: View {
 		}
 		.onAppear { self.checkForUnreadTea() }
 		.onChange(of: self.messagesCount) { _ in self.checkForUnreadTea() }
-		.onChange(of: self.messageClient.readTea) { _ in self.checkForUnreadTea() }
+		.onChange(of: self.messageClient.readMessage) { _ in self.checkForUnreadTea() }
 	}
 	
 	@ViewBuilder
@@ -496,16 +490,26 @@ struct TribeAvatar: View {
 	}
 	
 	func checkForUnreadTea() {
-		Task {
-			if self.context == .tribesView {
+		if self.context == .tribesView {
+			Task {
 				guard let tea = self.messageClient.tribesMessages[id: tribe.id]?.tea else { return }
-				for tea in tea {
-					if await !tea.isTeaRead {
-						self.hasUnreadTea = true
-						return
-					}
+				let teaIds = tea.map { $0.id }
+				let unreadIds = Set(teaIds).subtracting(messageClient.readMessage)
+				if unreadIds.count > 0 {
+					self.hasUnreadTea = true
+				} else {
+					self.hasUnreadTea = false
 				}
-				self.hasUnreadTea = false
+			}
+			Task {
+				guard let chat = self.messageClient.tribesMessages[id: tribe.id]?.chat else { return }
+				let chatIds = chat.map { $0.id }
+				let unreadIds = Set(chatIds).subtracting(messageClient.readMessage)
+				if unreadIds.count > 0 {
+					self.hasUnreadChat = true
+				} else {
+					self.hasUnreadChat = false
+				}
 			}
 		}
 	}
