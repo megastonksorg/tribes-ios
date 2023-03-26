@@ -15,6 +15,7 @@ struct TribesApp: App {
 	
 	//Clients
 	private var hubClient: HubClient = HubClient.shared
+	private var messageClient: MessageClient = MessageClient.shared
 	
 	var body: some Scene {
 		WindowGroup {
@@ -32,6 +33,7 @@ struct TribesApp: App {
 				TribesRepository.shared.refreshTribes()
 			case .inactive, .background:
 				NotificationCenter.default.post(Notification(name: .appInActive, userInfo: [:]))
+				self.messageClient.setAppBadge()
 			@unknown default:
 				return
 			}

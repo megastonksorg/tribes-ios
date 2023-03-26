@@ -9,6 +9,7 @@ import Combine
 import CryptoKit
 import Foundation
 import IdentifiedCollections
+import UIKit
 
 /**
  Sending a Message
@@ -39,6 +40,7 @@ import IdentifiedCollections
 	//Clients
 	private let apiClient: APIClient = APIClient.shared
 	private let cacheClient: CacheClient = CacheClient.shared
+	private let defaultsClient: DefaultsClient = DefaultsClient.shared
 	private let encryptionClient: EncryptionClient = EncryptionClient.shared
 	private let soundClient: SoundClient = SoundClient.shared
 	private let keychainClient: KeychainClient = KeychainClient.shared
@@ -357,6 +359,19 @@ import IdentifiedCollections
 		Task {
 			await cacheClient.setData(key: .readMessage, value: self.readMessage)
 		}
+	}
+	
+	func setAppBadge() {
+		let unreadMessagesCount: Int = {
+			var messageIds: Set<Message.ID> = []
+			self.tribesMessages.elements.forEach { tribeMessage in
+				let existingIds = messageIds
+				messageIds = existingIds.union(Set( tribeMessage.messages.map { $0.id }))
+			}
+			return messageIds.subtracting(self.readMessage).count
+		}()
+		self.defaultsClient.set(key: .badgeCount, value: unreadMessagesCount)
+		UIApplication.shared.applicationIconBadgeNumber = unreadMessagesCount
 	}
 	
 	private func updateMessageAndCache(_ message: Message, tribeId: Tribe.ID, wasReceived: Bool) {

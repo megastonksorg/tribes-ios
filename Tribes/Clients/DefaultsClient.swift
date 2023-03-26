@@ -19,6 +19,7 @@ struct DefaultKey<T: Codable> {
 
 extension DefaultKey {
 	static var cacheTracker: DefaultKey<IdentifiedArrayOf<CacheTrimmer.CacheTracker>> { .init(name: "cacheTracker") }
+	static var badgeCount: DefaultKey<Int> { .init(name: "badgeCount") }
 }
 
 class DefaultsClient: DefaultsClientProtocol {
