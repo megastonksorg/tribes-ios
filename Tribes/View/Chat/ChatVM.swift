@@ -194,6 +194,13 @@ extension ChatView {
 				withAnimation(self.teaAnimation) {
 					self.currentShowingTea = message
 				}
+				
+				//Mark Tea as read if needed
+				Task {
+					if await !message.isTeaRead {
+						self.messageClient.markTeaAsRead(message.id)
+					}
+				}
 			} else {
 				withAnimation(self.teaAnimation) {
 					self.currentShowingTea = nil
