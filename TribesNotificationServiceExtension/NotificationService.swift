@@ -34,8 +34,8 @@ class NotificationService: UNNotificationServiceExtension {
 		if let bestAttemptContent = bestAttemptContent {
 			bestAttemptContent.title = "\(bestAttemptContent.title)"
 			bestAttemptContent.body = "\(bestAttemptContent.body)"
-			bestAttemptContent.badge = count as NSNumber
 			count = count + 1
+			bestAttemptContent.badge = count as NSNumber
 			userDefaults.set(count, forKey: countKey)
 			contentHandler(bestAttemptContent)
 		}
