@@ -39,12 +39,13 @@ protocol APIRequests {
 	func updateTribeName(tribeID: Tribe.ID, name: String) -> AnyPublisher<String, APIClientError>
 	
 	func updateDeviceToken(_ token: String)
+	func updateDeviceBadge(_ count: Int)
 }
 
 final class APIClient: APIRequests {
 	
 	static let shared: APIClient = APIClient()
-
+	
 	private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 	
 	private let queue = DispatchQueue(label: "com.strikingFinancial.tribes.api.sessionQueue", target: .global())
@@ -77,6 +78,15 @@ final class APIClient: APIRequests {
 	
 	func updateDeviceToken(_ token: String) {
 		self.updateDeviceToken(token: token)
+			.sink(
+				receiveCompletion: { _ in },
+				receiveValue: { _ in }
+			)
+			.store(in: &self.cancellables)
+	}
+	
+	func updateDeviceBadge(_ count: Int) {
+		self.updateDeviceBadge(count: count)
 			.sink(
 				receiveCompletion: { _ in },
 				receiveValue: { _ in }
@@ -322,6 +332,16 @@ final class APIClient: APIRequests {
 			requiresAuth: true
 		)
 		return apiRequest(appRequest: updateDeviceTokenRequest, output: EmptyResponse.self)
+	}
+	
+	private func updateDeviceBadge(count: Int) -> AnyPublisher<EmptyResponse, APIClientError> {
+		let updateDeviceBadgeRequest = APPUrlRequest(
+			httpMethod: .post,
+			pathComponents: ["account", "deviceBadge"],
+			query: [URLQueryItem(name: "count", value: "\(count)")],
+			requiresAuth: true
+		)
+		return apiRequest(appRequest: updateDeviceBadgeRequest, output: EmptyResponse.self)
 	}
 	
 	private func apiRequest<Output: Decodable>(appRequest: APPUrlRequest, output: Output.Type) -> AnyPublisher<Output, APIClientError> {
