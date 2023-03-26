@@ -49,6 +49,7 @@ extension APIClient {
 							let tokenRequest: URLRequest = try APPUrlRequest(httpMethod: .post, pathComponents: ["account", "refresh"]).urlRequest
 							
 							APIClient.shared.urlRequest(urlRequest: tokenRequest)
+								.receive(on: self.queue)
 								.decode(type: AuthenticateResponse.self, decoder: self.decoder)
 								.mapError{ $0 as? AppError.APIClientError ?? APIClientError.rawError($0.localizedDescription) }
 								.sink(receiveCompletion: { completion in
