@@ -26,7 +26,7 @@ class DefaultsClient: DefaultsClientProtocol {
 	
 	private let encoder: JSONEncoder = JSONEncoder()
 	private let decoder: JSONDecoder = JSONDecoder()
-	private let defaults: UserDefaults = UserDefaults.standard
+	private let defaults: UserDefaults = UserDefaults(suiteName: "com.strikingfinancial.Tribes")!
 	
 	func get<Data>(key: DefaultKey<Data>) -> Data? where Data : Codable {
 		guard let dataObject = defaults.object(forKey: key.name) as? Foundation.Data else { return nil }
