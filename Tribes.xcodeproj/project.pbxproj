@@ -10,6 +10,8 @@
 		D00443B329C7ECB4005D40B5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00443B229C7ECB4005D40B5 /* AppDelegate.swift */; };
 		D0052A7329C90FCE0051A7AB /* DeepLinkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0052A7229C90FCE0051A7AB /* DeepLinkClient.swift */; };
 		D0052A7629C910260051A7AB /* DeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0052A7529C910260051A7AB /* DeepLink.swift */; };
+		D00A99EA29D0BB100001E92A /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00A99E929D0BB100001E92A /* NotificationService.swift */; };
+		D00A99EE29D0BB100001E92A /* TribesNotificationServiceExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D00A99E729D0BB100001E92A /* TribesNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		D01031572978D73500ACC333 /* UserAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01031562978D73500ACC333 /* UserAvatar.swift */; };
 		D0158076295CAE390087545A /* PermissionClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0158075295CAE390087545A /* PermissionClient.swift */; };
 		D0158079295D14880087545A /* CaptureClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0158078295D14880087545A /* CaptureClient.swift */; };
@@ -181,6 +183,16 @@
 		D0F7E13A29574A330053B21D /* SwiftProtobuf in Frameworks */ = {isa = PBXBuildFile; productRef = D0F7E13929574A330053B21D /* SwiftProtobuf */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		D00A99EC29D0BB100001E92A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D030D27529573E9A0011128F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D00A99E629D0BB100001E92A;
+			remoteInfo = TribesNotificationServiceExtension;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		D00A99DE29D0B60F0001E92A /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -188,6 +200,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				D00A99EE29D0BB100001E92A /* TribesNotificationServiceExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -199,6 +212,9 @@
 		D00443B429C7F382005D40B5 /* Tribes.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Tribes.entitlements; sourceTree = "<group>"; };
 		D0052A7229C90FCE0051A7AB /* DeepLinkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkClient.swift; sourceTree = "<group>"; };
 		D0052A7529C910260051A7AB /* DeepLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLink.swift; sourceTree = "<group>"; };
+		D00A99E729D0BB100001E92A /* TribesNotificationServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TribesNotificationServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		D00A99E929D0BB100001E92A /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		D00A99EB29D0BB100001E92A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D01031562978D73500ACC333 /* UserAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAvatar.swift; sourceTree = "<group>"; };
 		D0158075295CAE390087545A /* PermissionClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionClient.swift; sourceTree = "<group>"; };
 		D0158078295D14880087545A /* CaptureClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureClient.swift; sourceTree = "<group>"; };
@@ -366,6 +382,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		D00A99E429D0BB100001E92A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D030D27A29573E9A0011128F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -389,6 +412,15 @@
 				D0052A7229C90FCE0051A7AB /* DeepLinkClient.swift */,
 			);
 			path = DeeplinkClient;
+			sourceTree = "<group>";
+		};
+		D00A99E829D0BB100001E92A /* TribesNotificationServiceExtension */ = {
+			isa = PBXGroup;
+			children = (
+				D00A99E929D0BB100001E92A /* NotificationService.swift */,
+				D00A99EB29D0BB100001E92A /* Info.plist */,
+			);
+			path = TribesNotificationServiceExtension;
 			sourceTree = "<group>";
 		};
 		D015807A295E03810087545A /* Camera */ = {
@@ -423,6 +455,7 @@
 			isa = PBXGroup;
 			children = (
 				D030D27F29573E9A0011128F /* Tribes */,
+				D00A99E829D0BB100001E92A /* TribesNotificationServiceExtension */,
 				D030D27E29573E9A0011128F /* Products */,
 				D030D321295746C10011128F /* Frameworks */,
 			);
@@ -432,6 +465,7 @@
 			isa = PBXGroup;
 			children = (
 				D030D27D29573E9A0011128F /* Tribes.app */,
+				D00A99E729D0BB100001E92A /* TribesNotificationServiceExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -991,6 +1025,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		D00A99E629D0BB100001E92A /* TribesNotificationServiceExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D00A99EF29D0BB100001E92A /* Build configuration list for PBXNativeTarget "TribesNotificationServiceExtension" */;
+			buildPhases = (
+				D00A99E329D0BB100001E92A /* Sources */,
+				D00A99E429D0BB100001E92A /* Frameworks */,
+				D00A99E529D0BB100001E92A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TribesNotificationServiceExtension;
+			productName = TribesNotificationServiceExtension;
+			productReference = D00A99E729D0BB100001E92A /* TribesNotificationServiceExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		D030D27C29573E9A0011128F /* Tribes */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D030D28B29573E9B0011128F /* Build configuration list for PBXNativeTarget "Tribes" */;
@@ -1003,6 +1054,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				D00A99ED29D0BB100001E92A /* PBXTargetDependency */,
 			);
 			name = Tribes;
 			packageProductDependencies = (
@@ -1027,6 +1079,9 @@
 				LastSwiftUpdateCheck = 1420;
 				LastUpgradeCheck = 1400;
 				TargetAttributes = {
+					D00A99E629D0BB100001E92A = {
+						CreatedOnToolsVersion = 14.2;
+					};
 					D030D27C29573E9A0011128F = {
 						CreatedOnToolsVersion = 14.0;
 					};
@@ -1053,11 +1108,19 @@
 			projectRoot = "";
 			targets = (
 				D030D27C29573E9A0011128F /* Tribes */,
+				D00A99E629D0BB100001E92A /* TribesNotificationServiceExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		D00A99E529D0BB100001E92A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D030D27B29573E9A0011128F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1076,6 +1139,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		D00A99E329D0BB100001E92A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D00A99EA29D0BB100001E92A /* NotificationService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D030D27929573E9A0011128F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1243,7 +1314,67 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		D00A99ED29D0BB100001E92A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D00A99E629D0BB100001E92A /* TribesNotificationServiceExtension */;
+			targetProxy = D00A99EC29D0BB100001E92A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		D00A99F029D0BB100001E92A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HMK8J32K98;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TribesNotificationServiceExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = TribesNotificationServiceExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.strikingfinancial.Tribes.TribesNotificationServiceExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D00A99F129D0BB100001E92A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HMK8J32K98;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TribesNotificationServiceExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = TribesNotificationServiceExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.strikingfinancial.Tribes.TribesNotificationServiceExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		D030D28929573E9B0011128F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1443,6 +1574,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		D00A99EF29D0BB100001E92A /* Build configuration list for PBXNativeTarget "TribesNotificationServiceExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D00A99F029D0BB100001E92A /* Debug */,
+				D00A99F129D0BB100001E92A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		D030D27829573E9A0011128F /* Build configuration list for PBXProject "Tribes" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
