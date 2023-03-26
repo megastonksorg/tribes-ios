@@ -13,7 +13,7 @@ class NotificationService: UNNotificationServiceExtension {
 	var bestAttemptContent: UNMutableNotificationContent?
 	
 	//Clients
-	let userDefaults = UserDefaults(suiteName: "com.strikingfinancial.Tribes")!
+	let userDefaults = UserDefaults(suiteName: "group.com.strikingfinancial.Tribes")!
 	let countKey: String = "badgeCount"
 	
 	override func didReceive(
