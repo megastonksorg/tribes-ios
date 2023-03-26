@@ -215,6 +215,7 @@
 		D00A99E729D0BB100001E92A /* TribesNotificationServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TribesNotificationServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		D00A99E929D0BB100001E92A /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		D00A99EB29D0BB100001E92A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D00A99F229D0BB500001E92A /* TribesNotificationServiceExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TribesNotificationServiceExtension.entitlements; sourceTree = "<group>"; };
 		D01031562978D73500ACC333 /* UserAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAvatar.swift; sourceTree = "<group>"; };
 		D0158075295CAE390087545A /* PermissionClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionClient.swift; sourceTree = "<group>"; };
 		D0158078295D14880087545A /* CaptureClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureClient.swift; sourceTree = "<group>"; };
@@ -417,6 +418,7 @@
 		D00A99E829D0BB100001E92A /* TribesNotificationServiceExtension */ = {
 			isa = PBXGroup;
 			children = (
+				D00A99F229D0BB500001E92A /* TribesNotificationServiceExtension.entitlements */,
 				D00A99E929D0BB100001E92A /* NotificationService.swift */,
 				D00A99EB29D0BB100001E92A /* Info.plist */,
 			);
@@ -1326,6 +1328,7 @@
 		D00A99F029D0BB100001E92A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = TribesNotificationServiceExtension/TribesNotificationServiceExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = HMK8J32K98;
@@ -1352,6 +1355,7 @@
 		D00A99F129D0BB100001E92A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = TribesNotificationServiceExtension/TribesNotificationServiceExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = HMK8J32K98;
