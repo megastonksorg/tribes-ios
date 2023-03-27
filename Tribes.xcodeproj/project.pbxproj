@@ -180,7 +180,7 @@
 		D0E9F7FC298DD20F00A0400A /* CacheClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E9F7FB298DD20F00A0400A /* CacheClient.swift */; };
 		D0E9F7FE298DD5F900A0400A /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E9F7FD298DD5F900A0400A /* Cache.swift */; };
 		D0F7E13A29574A330053B21D /* SwiftProtobuf in Frameworks */ = {isa = PBXBuildFile; productRef = D0F7E13929574A330053B21D /* SwiftProtobuf */; };
-		D0FC782C29D1CE1400B5A8D4 /* pushNotification.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D0FC782B29D1CE1400B5A8D4 /* pushNotification.mp3 */; };
+		D0FC783029D20F8A00B5A8D4 /* pushNotification.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D0FC782F29D20F8A00B5A8D4 /* pushNotification.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -379,7 +379,7 @@
 		D0E8519D296CC0690034AFD1 /* TribeMember.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TribeMember.swift; sourceTree = "<group>"; };
 		D0E9F7FB298DD20F00A0400A /* CacheClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheClient.swift; sourceTree = "<group>"; };
 		D0E9F7FD298DD5F900A0400A /* Cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
-		D0FC782B29D1CE1400B5A8D4 /* pushNotification.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pushNotification.mp3; sourceTree = "<group>"; };
+		D0FC782F29D20F8A00B5A8D4 /* pushNotification.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pushNotification.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -806,7 +806,7 @@
 		D05FCDCB29BFD25500B565AF /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
-				D0FC782B29D1CE1400B5A8D4 /* pushNotification.mp3 */,
+				D0FC782F29D20F8A00B5A8D4 /* pushNotification.mp3 */,
 				D05FCDCC29BFD3D300B565AF /* inAppNotification.mp3 */,
 				D05FCDD629BFDBA200B565AF /* messageSent.mp3 */,
 			);
@@ -1128,7 +1128,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D05FCDCD29BFD3D300B565AF /* inAppNotification.mp3 in Resources */,
-				D0FC782C29D1CE1400B5A8D4 /* pushNotification.mp3 in Resources */,
+				D0FC783029D20F8A00B5A8D4 /* pushNotification.mp3 in Resources */,
 				D047E1992982F88900F5C63A /* CodeWords.json in Resources */,
 				D0C65AAD2970AC6400E527F9 /* Kreon-Bold.ttf in Resources */,
 				D030D28829573E9B0011128F /* Preview Assets.xcassets in Resources */,
