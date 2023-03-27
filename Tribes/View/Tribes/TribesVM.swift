@@ -62,7 +62,7 @@ extension TribesView {
 				.$pendingDeepLink
 				.sink(receiveValue: { deepLink in
 					guard let deepLink = deepLink else { return }
-					switch deepLink {
+					switch deepLink.type {
 					case .tea(let tribeId):
 						if let tribe = self.tribes[id: tribeId] {
 							self.setCurrentTeaTribe(tribe)

@@ -14,9 +14,10 @@ class DeepLinkClient: ObservableObject {
 	
 	func processNotification(_ userInfo: [AnyHashable : Any]) {
 		if let tribeId = userInfo["tribeId"] as? String,
-		   let messageTag = userInfo["messageTag"] as? String
+		   let messageTag = userInfo["messageTag"] as? String,
+		   let messageId = userInfo["messageId"] as? String
 		{
-			setDeepLink(DeepLink(tribeId: tribeId, messageTag: messageTag))
+			setDeepLink(DeepLink(tribeId: tribeId, messageTag: messageTag, messageId: messageId))
 		}
 	}
 	
