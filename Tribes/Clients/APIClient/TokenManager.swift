@@ -27,7 +27,7 @@ extension APIClient {
 				guard let self = self else { return }
 				self.queue.sync {
 					do {
-						//Force a refresh if it has been more one minute since the last refresh
+						//Force a refresh if it has been more than one minute since the last refresh
 						if self.lastRefreshed == nil {
 							self.lastRefreshed = Date.now
 						}
@@ -85,7 +85,6 @@ extension APIClient {
 							promise(.success(true))
 						}
 					} catch {
-						self.isRefreshing = false
 						promise(.success(true))
 					}
 				}
