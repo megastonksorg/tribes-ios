@@ -26,7 +26,9 @@ extension DeepLink {
 		{
 			self.init(tribeId: tribeId, messageTag: messageTag, messageId: messageId)
 		}
-		return nil
+		else {
+			return nil
+		}
 	}
 	
 	init?(_ notification: UNNotification) {
