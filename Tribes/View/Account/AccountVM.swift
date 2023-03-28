@@ -248,6 +248,7 @@ extension AccountView {
 		#if targetEnvironment(simulator)
 			return true
 		#else
+			var result: Bool = false
 			let context = LAContext()
 			var error: NSError?
 			
@@ -256,14 +257,11 @@ extension AccountView {
 				let reason = "Your biometric unlocks your secret key"
 				context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, authenticationError in
 					if success {
-						DispatchQueue.main.async {
-							return true
-						}
+						result = true
 					} else {
 						DispatchQueue.main.async {
 							self.banner = BannerData(detail: "Could not validate your biometric", type: .error)
 						}
-						return false
 					}
 				}
 			} else {
@@ -271,8 +269,8 @@ extension AccountView {
 				DispatchQueue.main.async {
 					self.banner = BannerData(detail: "Configure your biometric in your device settings to access your secret key", type: .error)
 				}
-				return false
 			}
+			return result
 		#endif
 		}
 	}
