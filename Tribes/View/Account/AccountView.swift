@@ -225,6 +225,7 @@ struct AccountView: View {
 						.padding(.top)
 						Text(sheet.body)
 							.padding(.top, 60)
+							.fixedSize(horizontal: false, vertical: true)
 						Text(sheet.requestForConfirmation)
 							.font(Font.app.title3)
 							.padding(.top)
