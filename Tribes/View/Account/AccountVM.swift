@@ -69,6 +69,7 @@ extension AccountView {
 		@Published var isShowingSettings: Bool = false
 		@Published var isUpdatingImage: Bool = false
 		@Published var isUpdatingName: Bool = false
+		@Published var isDeletingAccount: Bool = false
 		@Published var isProcessingLogoutRequest: Bool = false
 		@Published var sheet: Sheet?
 		
@@ -122,7 +123,25 @@ extension AccountView {
 				self.sheet = nil
 				self.isProcessingLogoutRequest = true
 				AppState.updateAppState(with: .userRequestedLogout)
-			case .deleteAccount, .imagePicker, .none:
+			case .deleteAccount:
+				self.isDeletingAccount = true
+				self.apiClient
+					.deleteAccount()
+					.sink(receiveCompletion: { [weak self] completion in
+						guard let self = self else { return }
+						switch completion {
+						case .finished: return
+						case .failure(let error):
+							self.isDeletingAccount = false
+							self.banner = BannerData(error: error)
+						}
+					}, receiveValue: { [weak self] _ in
+						guard let self = self else { return }
+						self.isDeletingAccount = false
+						AppState.updateAppState(with: .userDeleted)
+					})
+					.store(in: &cancellables)
+			case .imagePicker, .none:
 				return
 			}
 		}

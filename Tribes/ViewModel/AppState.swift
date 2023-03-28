@@ -24,6 +24,7 @@ fileprivate let appStateKeyNotification: String = "appState"
 		case logUserOut
 		case userRequestedLogout
 		case userUpdated(User)
+		case userDeleted
 	}
 	
 	@Published var appMode: AppMode = .welcome(WelcomePageView.ViewModel())
@@ -75,7 +76,7 @@ fileprivate let appStateKeyNotification: String = "appState"
 			default:
 				return
 			}
-		case .userRequestedLogout:
+		case .userRequestedLogout, .userDeleted :
 			logOut(isDelayed: false)
 		case .userUpdated(let user):
 			self.user = user

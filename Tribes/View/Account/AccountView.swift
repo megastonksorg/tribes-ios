@@ -196,7 +196,7 @@ struct AccountView: View {
 				EmptyView()
 			}
 		}
-		.overlay(isShown: viewModel.isProcessingLogoutRequest) {
+		.overlay(isShown: viewModel.isProcessingLogoutRequest || viewModel.isDeletingAccount) {
 			AppProgressView()
 		}
 		.onDisappear { viewModel.didDisappear() }
