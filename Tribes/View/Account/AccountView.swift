@@ -76,7 +76,7 @@ struct AccountView: View {
 						Text("Logout")
 					}
 					.buttonStyle(.expanded)
-					Button(action: { viewModel.setSheet(.deleteAccount) }) {
+					Button(action: { viewModel.requestDeleteSheet() }) {
 						Text("Delete Account")
 					}
 					.buttonStyle(.expanded(invertedStyle: true))

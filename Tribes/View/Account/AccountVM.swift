@@ -209,13 +209,25 @@ extension AccountView {
 			}
 		}
 		
+		func requestDeleteSheet() {
+			if isBiometricSuccessful() {
+				self.setSheet(.deleteAccount)
+			}
+		}
+		
 		@objc func lockKey() {
 			self.isSecretKeyLocked = true
 		}
 		
 		func unlockKey() {
+			if self.isBiometricSuccessful() {
+				self.isSecretKeyLocked = false
+			}
+		}
+		
+		private func isBiometricSuccessful() -> Bool {
 		#if targetEnvironment(simulator)
-			self.isSecretKeyLocked = false
+			return true
 		#else
 			let context = LAContext()
 			var error: NSError?
@@ -226,12 +238,13 @@ extension AccountView {
 				context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, authenticationError in
 					if success {
 						DispatchQueue.main.async {
-							self.isSecretKeyLocked = false
+							return true
 						}
 					} else {
 						DispatchQueue.main.async {
 							self.banner = BannerData(detail: "Could not validate your biometric", type: .error)
 						}
+						return false
 					}
 				}
 			} else {
@@ -239,6 +252,7 @@ extension AccountView {
 				DispatchQueue.main.async {
 					self.banner = BannerData(detail: "Configure your biometric in your device settings to access your secret key", type: .error)
 				}
+				return false
 			}
 		#endif
 		}
