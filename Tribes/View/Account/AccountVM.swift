@@ -124,9 +124,11 @@ extension AccountView {
 				self.isProcessingLogoutRequest = true
 				AppState.updateAppState(with: .userRequestedLogout)
 			case .deleteAccount:
+				self.sheet = nil
 				self.isDeletingAccount = true
 				self.apiClient
 					.deleteAccount()
+					.receive(on: DispatchQueue.main)
 					.sink(receiveCompletion: { [weak self] completion in
 						guard let self = self else { return }
 						switch completion {
