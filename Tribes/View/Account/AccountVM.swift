@@ -229,8 +229,10 @@ extension AccountView {
 		}
 		
 		func requestDeleteSheet() {
-			if isBiometricSuccessful() {
-				self.setSheet(.deleteAccount)
+			self.validateBiometric {
+				DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+					self.setSheet(.deleteAccount)
+				}
 			}
 		}
 		
@@ -239,16 +241,15 @@ extension AccountView {
 		}
 		
 		func unlockKey() {
-			if self.isBiometricSuccessful() {
+			self.validateBiometric {
 				self.isSecretKeyLocked = false
 			}
 		}
 		
-		private func isBiometricSuccessful() -> Bool {
+		private func validateBiometric(_ actionToExecute: @escaping () -> ()) {
 		#if targetEnvironment(simulator)
-			return true
+			actionToExecute()
 		#else
-			var result: Bool = false
 			let context = LAContext()
 			var error: NSError?
 			
@@ -257,7 +258,9 @@ extension AccountView {
 				let reason = "Your biometric unlocks your secret key"
 				context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, authenticationError in
 					if success {
-						result = true
+						DispatchQueue.main.async {
+							actionToExecute()
+						}
 					} else {
 						DispatchQueue.main.async {
 							self.banner = BannerData(detail: "Could not validate your biometric", type: .error)
@@ -270,7 +273,6 @@ extension AccountView {
 					self.banner = BannerData(detail: "Configure your biometric in your device settings to access your secret key", type: .error)
 				}
 			}
-			return result
 		#endif
 		}
 	}
