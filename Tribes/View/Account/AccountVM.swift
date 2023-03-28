@@ -34,7 +34,7 @@ extension AccountView {
 				switch self {
 				case .imagePicker: return ""
 				case .logout: return "Please ensure you have stored your account secret somewhere safe because it will be wiped from your device\n\nYou will also lose access to your Tribes conversation history"
-				case .deleteAccount: return "Please ensure you have stored your account secret somewhere safe because it will be wiped from your device\n\n"
+				case .deleteAccount: return "Your account will be wiped from this device\n\nYou will be removed from your Tribes and all your messages will be deleted.\n\nPlease store your secret key somewhere safe to access your funds"
 				}
 			}
 			
