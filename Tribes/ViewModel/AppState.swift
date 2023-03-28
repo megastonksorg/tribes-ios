@@ -93,6 +93,8 @@ fileprivate let appStateKeyNotification: String = "appState"
 		self.keychainClient.clearAllKeys()
 		self.hubClient.stopConnection()
 		
+		MessageClient.shared.initialize()
+		
 		//Resign Keyboard across app before logout
 		keyboardClient.resignKeyboard()
 		AppRouter.popToRoot(stack: .welcome())
