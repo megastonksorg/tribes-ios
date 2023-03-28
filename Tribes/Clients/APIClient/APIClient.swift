@@ -14,12 +14,14 @@ typealias APIClientError = AppError.APIClientError
 protocol APIRequests {
 	func getImage(url: URL) async -> UIImage?
 	func getMediaData(url: URL) async -> Data?
-	//Authentication
+	//Account
 	func doesAccountExist(for walletAddress: String) -> AnyPublisher<SuccessResponse, APIClientError>
 	func authenticateUser(model: AuthenticateRequest) -> AnyPublisher<AuthenticateResponse, APIClientError>
 	func registerUser(model: RegisterRequest) -> AnyPublisher<RegisterResponse, APIClientError>
 	func updateName(fullName: String) -> AnyPublisher<String, APIClientError>
 	func updateProfilePhoto(photoUrl: URL) -> AnyPublisher<URL, APIClientError>
+	func deleteAccount() -> AnyPublisher<EmptyResponse, APIClientError>
+	//Media
 	func uploadImage(imageData: Data) -> AnyPublisher<URL, APIClientError>
 	func uploadVideo(videoData: Data) -> AnyPublisher<URL, APIClientError>
 	//Message
@@ -117,6 +119,7 @@ final class APIClient: APIRequests {
 		}
 	}
 	
+	//Account
 	func doesAccountExist(for walletAddress: String) -> AnyPublisher<SuccessResponse, APIClientError> {
 		let accountExistsRequest = APPUrlRequest(
 			httpMethod: .post,
@@ -164,6 +167,16 @@ final class APIClient: APIRequests {
 		return apiRequest(appRequest: updatePhotoRequest, output: URL.self)
 	}
 	
+	func deleteAccount() -> AnyPublisher<EmptyResponse, APIClientError> {
+		let deleteAccountRequest = APPUrlRequest(
+			httpMethod: .delete,
+			pathComponents: ["account"],
+			requiresAuth: true
+		)
+		return apiRequest(appRequest: deleteAccountRequest, output: EmptyResponse.self)
+	}
+	
+	//Media
 	func uploadImage(imageData: Data) -> AnyPublisher<URL, APIClientError> {
 		let imageUploadRequest = APPUrlRequest(
 			httpMethod: .put,
