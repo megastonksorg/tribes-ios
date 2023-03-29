@@ -65,8 +65,22 @@ extension CameraView {
 			captureClient.recorderDuration / SizeConstants.maxVideoRecordingDuration
 		}
 		
+		var isCallKitSupported: Bool {
+			guard let regionCode = NSLocale.current.regionCode else { return false }
+			if regionCode.contains("CN") ||
+				regionCode.contains("CHN") {
+				return false
+			} else {
+				return true
+			}
+		}
+		
 		var isOnPhoneCall: Bool {
-			CXCallObserver().calls.contains { $0.hasEnded == false }
+			if isCallKitSupported {
+				return CXCallObserver().calls.contains { $0.hasEnded == false }
+			} else {
+				return false
+			}
 		}
 		
 		//Clients
