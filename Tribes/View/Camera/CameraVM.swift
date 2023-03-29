@@ -66,7 +66,7 @@ extension CameraView {
 		}
 		
 		var isCallKitSupported: Bool {
-			guard let regionCode = NSLocale.current.regionCode else { return false }
+			guard let regionCode = NSLocale.current.language.region?.identifier else { return false }
 			if regionCode.contains("CN") ||
 				regionCode.contains("CHN") {
 				return false
