@@ -12,11 +12,11 @@ struct EULA {
 """
  **Read the full Disclaimer below**
  
- Let's keep this short and sweet. Everything you share with your Tribe members is encrypted. This means that no one could view or read them. Not even us!
+Let's keep this short and sweet. Tribes is built to be used by and for you and your loved ones. Everything you share with your tribe members is encrypted. This means that no one could view or read them. Not even us! We do not condone any harassment or bullying of any kind. Please remove a user from your tribe or leave a tribe if you feel uncomfortable with the content being shared.
  
  **What we collect**
- (1). Your name (Anything you want it to be)
- (2). Your Tribe names (Anything you want it to be)
+ (1). Your name
+ (2). Your tribe names
  
  **What other apps collect**
  (1). Your legal name
