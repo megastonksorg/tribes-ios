@@ -272,6 +272,17 @@ struct ChatView: View {
 			.disabled(isCurrentMember)
 			.opacity(isCurrentMember ? 0.5 : 1.0)
 			.padding(.bottom)
+			if !isCurrentMember {
+				Button(action: {}) {
+					Text("Block")
+						.font(Font.app.body)
+						.textCase(.uppercase)
+						.foregroundColor(Color.gray)
+						.padding()
+						.padding(.horizontal)
+						.fixedSize(horizontal: true, vertical: false)
+				}
+			}
 		}
 		.multilineTextAlignment(.center)
 		.onAppear {
