@@ -355,7 +355,7 @@ struct ChatView: View {
 					.font(Font.app.title)
 					.padding(.top)
 					Spacer()
-					Button(action: { viewModel.removeTribeMember() }) {
+					Button(action: { viewModel.executeSheetAction() }) {
 						Text(sheet.title)
 					}
 					.buttonStyle(.expanded(invertedStyle: true))

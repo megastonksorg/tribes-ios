@@ -229,31 +229,55 @@ extension ChatView {
 			setSheet(.blockMember)
 		}
 		
-		func removeTribeMember() {
+		func executeSheetAction() {
 			guard
+				let sheet = self.sheet,
 				let memberToRemove = self.memberToShow,
 				self.isSheetConfirmationButtonEnabled
 			else { return }
 			self.isProcessingSheetRequest = true
-			self.apiClient.removeMember(tribeID: tribe.id, memberId: memberToRemove.id)
-				.receive(on: DispatchQueue.main)
-				.sink(
-					receiveCompletion: { [weak self] completion in
-						switch completion {
-						case .finished:
-							self?.isProcessingSheetRequest = false
-						case .failure(let error):
-							self?.isProcessingSheetRequest = false
-							self?.sheetBanner = BannerData(error: error)
+			switch sheet {
+			case .blockMember:
+				self.apiClient.blockMember(tribeID: tribe.id, memberId: memberToRemove.id)
+					.receive(on: DispatchQueue.main)
+					.sink(
+						receiveCompletion: { [weak self] completion in
+							switch completion {
+							case .finished:
+								self?.isProcessingSheetRequest = false
+							case .failure(let error):
+								self?.isProcessingSheetRequest = false
+								self?.sheetBanner = BannerData(error: error)
+							}
+						},
+						receiveValue: { [weak self] _ in
+							guard let self = self else { return }
+							self.dismissTribeMemberCard()
+							self.setSheet(nil)
 						}
-					},
-					receiveValue: { [weak self] _ in
-						guard let self = self else { return }
-						self.dismissTribeMemberCard()
-						self.setSheet(nil)
-					}
-				)
-				.store(in: &cancellables)
+					)
+					.store(in: &cancellables)
+			case .removeMember:
+				self.apiClient.removeMember(tribeID: tribe.id, memberId: memberToRemove.id)
+					.receive(on: DispatchQueue.main)
+					.sink(
+						receiveCompletion: { [weak self] completion in
+							switch completion {
+							case .finished:
+								self?.isProcessingSheetRequest = false
+							case .failure(let error):
+								self?.isProcessingSheetRequest = false
+								self?.sheetBanner = BannerData(error: error)
+							}
+						},
+						receiveValue: { [weak self] _ in
+							guard let self = self else { return }
+							self.dismissTribeMemberCard()
+							self.setSheet(nil)
+						}
+					)
+					.store(in: &cancellables)
+			}
 		}
 		
 		@objc func updateMessage(notification: NSNotification) {
