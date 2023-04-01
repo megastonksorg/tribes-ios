@@ -256,17 +256,16 @@ struct ChatView: View {
 					.foregroundColor(Color.gray)
 					.padding(.bottom)
 			}
-			if !isCurrentMember {
-				Button(action: { viewModel.requestToBlockTribeMember() }) {
-					Text("Block")
-						.font(Font.app.body)
-						.textCase(.uppercase)
-						.foregroundColor(Color.gray)
-						.padding()
-						.padding(.horizontal)
-						.fixedSize(horizontal: true, vertical: false)
-				}
+			Button(action: { viewModel.requestToBlockTribeMember() }) {
+				Text("Block")
+					.font(Font.app.body)
+					.textCase(.uppercase)
+					.foregroundColor(Color.gray)
+					.padding(.horizontal)
+					.fixedSize(horizontal: true, vertical: false)
 			}
+			.disabled(isCurrentMember)
+			.opacity(isCurrentMember ? 0.0 : 1.0)
 			Button(action: { viewModel.requestToRemoveTribeMember() }) {
 				Text(isCurrentMember ? "You" : "Remove")
 					.font(Font.app.title3)
