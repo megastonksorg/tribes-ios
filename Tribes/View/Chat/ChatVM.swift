@@ -16,22 +16,26 @@ extension ChatView {
 			case text
 		}
 		enum Sheet: Equatable {
+			case blockMember
 			case removeMember
 			
 			var title: String {
 				switch self {
+				case .blockMember: return "Block"
 				case .removeMember: return "Remove"
 				}
 			}
 			
 			var body: String {
 				switch self {
+				case .blockMember: return "Are you sure you would like to block"
 				case .removeMember: return "Are you sure you would like to remove"
 				}
 			}
 			
 			var confirmationTitle: String {
 				switch self {
+				case .blockMember: return "Block"
 				case .removeMember: return "Remove"
 				}
 			}
@@ -70,8 +74,8 @@ extension ChatView {
 			drafts.contains(where: { $0.status == .uploading })
 		}
 		
-		var isRemoveConfirmationButtonEnabled: Bool {
-			return removeConfirmation == sheet?.confirmationTitle
+		var isSheetConfirmationButtonEnabled: Bool {
+			return sheetConfirmation == sheet?.confirmationTitle
 		}
 		
 		@Published var tribe: Tribe
@@ -81,9 +85,9 @@ extension ChatView {
 		@Published var messageChangedId: UUID?
 		@Published var currentShowingTea: Message?
 		@Published var isShowingMember: Bool = false
-		@Published var isProcessingRemoveRequest: Bool = false
+		@Published var isProcessingSheetRequest: Bool = false
 		@Published var memberToShow: TribeMember?
-		@Published var removeConfirmation: String = ""
+		@Published var sheetConfirmation: String = ""
 		@Published var text: String = ""
 		@Published var sheet: Sheet?
 		@Published var sheetBanner: BannerData?
@@ -213,7 +217,7 @@ extension ChatView {
 		}
 		
 		func setSheet(_ sheet: Sheet?) {
-			self.removeConfirmation = ""
+			self.sheetConfirmation = ""
 			self.sheet = sheet
 		}
 		
@@ -221,21 +225,25 @@ extension ChatView {
 			setSheet(.removeMember)
 		}
 		
+		func requestToBlockTribeMember() {
+			setSheet(.blockMember)
+		}
+		
 		func removeTribeMember() {
 			guard
 				let memberToRemove = self.memberToShow,
-				self.isRemoveConfirmationButtonEnabled
+				self.isSheetConfirmationButtonEnabled
 			else { return }
-			self.isProcessingRemoveRequest = true
+			self.isProcessingSheetRequest = true
 			self.apiClient.removeMember(tribeID: tribe.id, memberId: memberToRemove.id)
 				.receive(on: DispatchQueue.main)
 				.sink(
 					receiveCompletion: { [weak self] completion in
 						switch completion {
 						case .finished:
-							self?.isProcessingRemoveRequest = false
+							self?.isProcessingSheetRequest = false
 						case .failure(let error):
-							self?.isProcessingRemoveRequest = false
+							self?.isProcessingSheetRequest = false
 							self?.sheetBanner = BannerData(error: error)
 						}
 					},

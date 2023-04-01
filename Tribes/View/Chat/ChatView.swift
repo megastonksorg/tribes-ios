@@ -219,8 +219,8 @@ struct ChatView: View {
 			)
 		) {
 			switch viewModel.sheet {
-			case .removeMember:
-				removeMemberSheet()
+			case .blockMember, .removeMember:
+				memberSheet()
 			case .none:
 				EmptyView()
 			}
@@ -256,6 +256,17 @@ struct ChatView: View {
 					.foregroundColor(Color.gray)
 					.padding(.bottom)
 			}
+			if !isCurrentMember {
+				Button(action: { viewModel.requestToBlockTribeMember() }) {
+					Text("Block")
+						.font(Font.app.body)
+						.textCase(.uppercase)
+						.foregroundColor(Color.gray)
+						.padding()
+						.padding(.horizontal)
+						.fixedSize(horizontal: true, vertical: false)
+				}
+			}
 			Button(action: { viewModel.requestToRemoveTribeMember() }) {
 				Text(isCurrentMember ? "You" : "Remove")
 					.font(Font.app.title3)
@@ -272,17 +283,6 @@ struct ChatView: View {
 			.disabled(isCurrentMember)
 			.opacity(isCurrentMember ? 0.5 : 1.0)
 			.padding(.bottom)
-			if !isCurrentMember {
-				Button(action: {}) {
-					Text("Block")
-						.font(Font.app.body)
-						.textCase(.uppercase)
-						.foregroundColor(Color.gray)
-						.padding()
-						.padding(.horizontal)
-						.fixedSize(horizontal: true, vertical: false)
-				}
-			}
 		}
 		.multilineTextAlignment(.center)
 		.onAppear {
@@ -299,7 +299,7 @@ struct ChatView: View {
 	}
 	
 	@ViewBuilder
-	func removeMemberSheet() -> some View {
+	func memberSheet() -> some View {
 		if let sheet = viewModel.sheet {
 			VStack {
 				VStack {
@@ -338,8 +338,8 @@ struct ChatView: View {
 						content: {
 							ZStack {
 								Text(sheet.confirmationTitle)
-									.foregroundColor(Color.gray.opacity(viewModel.removeConfirmation.isEmpty ? 0.4 : 0.0))
-								TextField("", text: $viewModel.removeConfirmation)
+									.foregroundColor(Color.gray.opacity(viewModel.sheetConfirmation.isEmpty ? 0.4 : 0.0))
+								TextField("", text: $viewModel.sheetConfirmation)
 									.tint(Color.white)
 									.introspectTextField { textField in
 										//We need this because focusField does not work in a sheet here
@@ -359,7 +359,7 @@ struct ChatView: View {
 						Text(sheet.title)
 					}
 					.buttonStyle(.expanded(invertedStyle: true))
-					.disabled(!viewModel.isRemoveConfirmationButtonEnabled)
+					.disabled(!viewModel.isSheetConfirmationButtonEnabled)
 					.padding(.bottom)
 				}
 				.font(Font.app.subTitle)
@@ -370,7 +370,7 @@ struct ChatView: View {
 			.pushOutFrame()
 			.background(Color.app.background)
 			.banner(data: self.$viewModel.sheetBanner)
-			.overlay(isShown: viewModel.isProcessingRemoveRequest) {
+			.overlay(isShown: viewModel.isProcessingSheetRequest) {
 				AppProgressView()
 			}
 		}
