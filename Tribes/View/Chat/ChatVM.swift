@@ -286,10 +286,10 @@ extension ChatView {
 					switch updateNotification {
 					case .updated(let tribeId, let message):
 						if tribeId == self.tribe.id && message.tag == .chat {
-							var updatedMessages = self.messages
-							updatedMessages.updateOrAppend(message)
-							updatedMessages.sort(by: { $0.timeStamp < $1.timeStamp })
 							DispatchQueue.main.async {
+								var updatedMessages = self.messages
+								updatedMessages.updateOrAppend(message)
+								updatedMessages.sort(by: { $0.timeStamp < $1.timeStamp })
 								self.messages = updatedMessages
 								self.messageChangedId = UUID()
 							}
