@@ -21,10 +21,6 @@ class SoundClient {
 	
 	func playSound(_ sound: Sound) {
 		guard let url = Bundle.main.url(forResource: sound.rawValue, withExtension: ".mp3") else { return }
-		try? AVAudioSession.sharedInstance()
-			.setCategory(.playback, mode: .default, options: [.mixWithOthers])
-		try? AVAudioSession.sharedInstance()
-			.setActive(true)
 		self.player = try? AVAudioPlayer(contentsOf: url)
 		self.player?.play()
 	}
