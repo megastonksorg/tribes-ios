@@ -12,6 +12,8 @@ import SwiftUI
 
 extension CameraView {
 	@MainActor class ViewModel: ObservableObject {
+		let isCallKitSupported: Bool
+		
 		private (set) var captureClient: CaptureClient = CaptureClient()
 		
 		@Published var audioPermissionState: PermissionState
@@ -65,16 +67,6 @@ extension CameraView {
 			captureClient.recorderDuration / SizeConstants.maxVideoRecordingDuration
 		}
 		
-		var isCallKitSupported: Bool {
-			guard let regionCode = NSLocale.current.language.region?.identifier else { return false }
-			if regionCode.contains("CN") ||
-				regionCode.contains("CHN") {
-				return false
-			} else {
-				return true
-			}
-		}
-		
 		var isOnPhoneCall: Bool {
 			if isCallKitSupported {
 				return CXCallObserver().calls.contains { $0.hasEnded == false }
@@ -87,6 +79,15 @@ extension CameraView {
 		let permissionClient = PermissionClient.shared
 		
 		init() {
+			self.isCallKitSupported = {
+				guard let regionCode = NSLocale.current.language.region?.identifier else { return false }
+				if regionCode.contains("CN") ||
+					regionCode.contains("CHN") {
+					return false
+				} else {
+					return true
+				}
+			}()
 			self.audioPermissionState = permissionClient.checkRecordPermission()
 			self.cameraPermissionState = permissionClient.checkCameraPermission()
 			addObservers()
