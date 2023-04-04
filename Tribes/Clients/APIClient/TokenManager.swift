@@ -18,6 +18,7 @@ extension APIClient {
 		private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 		private var isRefreshing: Bool = false
 		private var lastRefreshed: Date?
+		private var refreshFailedCount: Int = 0
 		
 		//Clients
 		private let keychainClient: KeychainClient = KeychainClient.shared
@@ -58,10 +59,16 @@ extension APIClient {
 									case .failure(let error):
 										let expectedDataError: Data = Data("Invalid token".utf8)
 										if error == .httpError(statusCode: 400, data: expectedDataError) {
-											Task {
-												await AppState.updateAppState(with: .logUserOut)
+											self.refreshFailedCount += 1
+											if self.refreshFailedCount == 3 {
+												self.refreshFailedCount = 0
+												Task {
+													await AppState.updateAppState(with: .logUserOut)
+												}
+												promise(.success(false))
+											} else {
+												promise(.success(false))
 											}
-											promise(.success(false))
 										}
 									}
 								}, receiveValue: { authResponse in
@@ -78,6 +85,7 @@ extension APIClient {
 									self.keychainClient.set(key: .user, value: user)
 									self.lastRefreshed = Date.now
 									self.isRefreshing = false
+									self.refreshFailedCount = 0
 									promise(.success(true))
 								})
 								.store(in: &self.cancellables)
