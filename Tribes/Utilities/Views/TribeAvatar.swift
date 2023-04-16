@@ -409,9 +409,9 @@ struct TribeAvatar: View {
 									.fill(Color.app.primary.opacity(0.8))
 								Circle()
 									.stroke(Color.app.secondary, lineWidth: 4)
-								Image(systemName: "cup.and.saucer")
+								Image(systemName: "checkmark.circle.fill")
 									.font(.system(size: SizeConstants.teaCupSize))
-									.foregroundColor(Color.app.tertiary)
+									.foregroundColor(Color.app.secondary)
 							}
 						}
 					}
