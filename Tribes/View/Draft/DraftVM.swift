@@ -81,7 +81,7 @@ extension DraftView {
 					self.selectedRecipients.append(tribe)
 				}
 			} else {
-				self.banner = BannerData(detail: "has shared enough ☕️ (40) for the day", type: .tribe(tribe.name))
+				self.banner = BannerData(detail: "has shared enough (40) for the day", type: .tribe(tribe.name))
 			}
 		}
 		
