@@ -27,7 +27,7 @@ struct MessageBottomButton: View {
 		Button(action: { action() }) {
 			Image(systemName: style.imagename)
 				.font(.system(size: 30))
-				.foregroundColor(Color.app.tertiary)
+				.foregroundColor(Color.app.secondary)
 		}
 	}
 }
