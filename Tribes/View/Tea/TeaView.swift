@@ -180,42 +180,22 @@ struct TeaView: View {
 		VStack {
 			pillsView()
 			HStack(spacing: 6) {
-				ZStack(alignment: .leading) {
-					let animation: Animation = Animation.easeIn.speed(2.0)
-					TeaViewTribeHeader(tribe: viewModel.tribe, timeStamp: viewModel.currentTea?.timeStamp)
-						.opacity(viewModel.isShowingCurrentViewers ? 0.0 : 1.0)
-						.transition(.opacity)
-						.animation(animation, value: viewModel.isShowingCurrentViewers)
-					HStack(spacing: 10) {
-						ScrollView(.horizontal, showsIndicators: false) {
-							LazyHStack {
-								ForEach(viewModel.currentTeaViewersIds, id: \.self) { viewerId in
-									if let tribeMember = viewModel.tribe.members[id: viewerId] {
-										UserAvatar(url: tribeMember.profilePhoto)
-											.frame(dimension: 40)
-									}
-								}
-							}
-						}
-					}
-					.frame(height: 40)
-					.opacity(viewModel.isShowingCurrentViewers ? 1.0 : 0.0)
-					.transition(.opacity)
-					.animation(animation, value: viewModel.isShowingCurrentViewers)
-				}
+				TeaViewTribeHeader(tribe: viewModel.tribe, timeStamp: viewModel.currentTea?.timeStamp)
 				Spacer(minLength: 0)
 				let isShowingViewersButton: Bool = {
 					return viewModel.currentTea != nil && !(viewModel.currentTea?.isEncrypted ?? false)
 				}()
-				Button(action: { viewModel.toggleViewers() }) {
+				HStack(spacing: 0) {
+					let viewersCount = viewModel.currentTeaViewersIds.count
 					Image(systemName: viewModel.isShowingCurrentViewers ? "eye.slash.circle.fill" : "eye.circle.fill")
-						.font(.system(size: 30))
 						.foregroundColor(Color.app.tertiary.opacity(0.6))
-						.padding(.vertical, 4)
-						.transition(.identity)
-						.animation(.easeInOut, value: viewModel.isShowingCurrentViewers)
-						.opacity(isShowingViewersButton ? 1.0 : 0.0)
+					Text("\(viewersCount)")
+						.font(Font.app.body)
+						.foregroundColor(Color.app.tertiary)
+						.opacity(viewersCount == 0 ? 0.0 : 1.0)
 				}
+				.font(.system(size: 20))
+				.opacity(isShowingViewersButton ? 1.0 : 0.0)
 			}
 			.padding(.top)
 		}
