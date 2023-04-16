@@ -138,12 +138,13 @@ struct DraftView: View {
 	@ViewBuilder
 	func sendTeaButton() -> some View {
 		Button(action: { viewModel.sendTea() }) {
-			Image(systemName: "cup.and.saucer.fill")
+			Image(systemName: "photo.on.rectangle.angled")
 				.font(.system(size: SizeConstants.teaCupSize))
-				.foregroundColor(Color.app.tertiary)
+				.foregroundColor(Color.white)
 				.padding()
 				.background(Circle().fill(Color.app.secondary))
 				.offset(y: -10)
+				.padding(.horizontal)
 		}
 	}
 }
