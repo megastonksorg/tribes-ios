@@ -409,9 +409,11 @@ struct TribeAvatar: View {
 									.fill(Color.app.primary.opacity(0.8))
 								Circle()
 									.stroke(Color.app.secondary, lineWidth: 4)
-								Image(systemName: "checkmark.circle.fill")
-									.font(.system(size: SizeConstants.teaCupSize))
-									.foregroundColor(Color.app.secondary)
+								Image(systemName: "checkmark")
+									.font(.system(size: FontSizes.body))
+									.foregroundColor(Color.white)
+									.padding(4)
+									.background(Color.app.secondary, in: Circle())
 							}
 						}
 					}
@@ -573,7 +575,7 @@ struct TribeAvatar_Previews: PreviewProvider {
 				)
 				Spacer()
 				TribeAvatar(
-					context: .tribesView,
+					context: .draftView(true),
 					tribe: Tribe(
 						id: "1",
 						name: "Body does not Lie. But do not think that I would",

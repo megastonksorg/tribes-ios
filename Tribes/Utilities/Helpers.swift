@@ -42,7 +42,6 @@ struct SizeConstants {
 	static let profileImageFrame: CGFloat = 150
 	static let profileImageSize: CGSize = CGSize(width: 400, height: 400)
 	static let subTitleSpacing: CGFloat = 50
-	static let teaCupSize: CGFloat = 24
 	static let teaCaptionOffset: CGFloat = 160
 	static let tribeNameLimit: Int = 24
 	static let captionLimit: Int = 100

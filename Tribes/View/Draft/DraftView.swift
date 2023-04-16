@@ -139,7 +139,7 @@ struct DraftView: View {
 	func sendTeaButton() -> some View {
 		Button(action: { viewModel.sendTea() }) {
 			Image(systemName: "photo.on.rectangle.angled")
-				.font(.system(size: SizeConstants.teaCupSize))
+				.font(.system(size: 24))
 				.foregroundColor(Color.white)
 				.padding()
 				.background(Circle().fill(Color.app.secondary))
