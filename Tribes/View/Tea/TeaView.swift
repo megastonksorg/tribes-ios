@@ -173,6 +173,7 @@ struct TeaView: View {
 				}
 			}
 		}
+		.onAppear { viewModel.didAppear() }
 	}
 	
 	@ViewBuilder
@@ -180,21 +181,22 @@ struct TeaView: View {
 		VStack {
 			pillsView()
 			HStack(spacing: 6) {
+				let viewersCount = viewModel.currentTeaViewersIds.count
+				let isShowingViewersButton: Bool = {
+					return viewModel.currentTea != nil &&
+					!(viewModel.currentTea?.isEncrypted ?? false) &&
+					viewersCount > 0
+				}()
 				TeaViewTribeHeader(tribe: viewModel.tribe, timeStamp: viewModel.currentTea?.timeStamp)
 				Spacer(minLength: 0)
-				let isShowingViewersButton: Bool = {
-					return viewModel.currentTea != nil && !(viewModel.currentTea?.isEncrypted ?? false)
-				}()
 				HStack(spacing: 0) {
-					let viewersCount = viewModel.currentTeaViewersIds.count
-					Image(systemName: viewModel.isShowingCurrentViewers ? "eye.slash.circle.fill" : "eye.circle.fill")
+					Image(systemName: "eye.circle.fill")
+						.font(.system(size: 20))
 						.foregroundColor(Color.app.tertiary.opacity(0.6))
 					Text("\(viewersCount)")
 						.font(Font.app.body)
 						.foregroundColor(Color.app.tertiary)
-						.opacity(viewersCount == 0 ? 0.0 : 1.0)
 				}
-				.font(.system(size: 20))
 				.opacity(isShowingViewersButton ? 1.0 : 0.0)
 			}
 			.padding(.top)

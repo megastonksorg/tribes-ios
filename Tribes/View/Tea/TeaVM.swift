@@ -87,7 +87,6 @@ extension TeaView {
 		@Published var teaViewers: IdentifiedArrayOf<TeaViewer> = []
 		@Published var readTea: MessageClient.ReadMessage
 		@Published var text: String = ""
-		@Published var isShowingCurrentViewers: Bool = false
 		
 		//Clients
 		let apiClient: APIClient = APIClient.shared
@@ -120,8 +119,11 @@ extension TeaView {
 				)
 		}
 		
+		func didAppear() {
+			self.loadTeaViewers()
+		}
+		
 		func setCurrentDraftOrTeaId() {
-			self.isShowingCurrentViewers = false
 			DispatchQueue.main.async {
 				if !self.draftAndTeaIds.isEmpty {
 					let id: String = self.draftAndTeaIds[self.currentPill]
@@ -255,13 +257,10 @@ extension TeaView {
 			}
 		}
 		
-		func toggleViewers() {
-			self.isShowingCurrentViewers.toggle()
-			feedbackClient.light()
-			guard let currentTea = self.currentTea else { return }
-			if teaViewers[id: currentTea.id] == nil {
+		func loadTeaViewers() {
+			self.tea.forEach { tea in
 				self.apiClient
-					.getMessageViewers(messageId: currentTea.id)
+					.getMessageViewers(messageId: tea.id)
 					.receive(on: DispatchQueue.main)
 					.sink(
 						receiveCompletion: { _ in },
@@ -270,7 +269,7 @@ extension TeaView {
 							uniqueWalletAddresses.remove(self.currentTribeMember.id)
 							self.teaViewers.updateOrAppend(
 								TeaViewer(
-									id: currentTea.id,
+									id: tea.id,
 									viewers: uniqueWalletAddresses.map { TribeMember.ID($0) }
 								)
 							)
