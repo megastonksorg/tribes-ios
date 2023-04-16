@@ -68,7 +68,7 @@ struct TeaView: View {
 				.frame(height: 140)
 				.ignoresSafeArea()
 		}
-		.background(Color.app.secondary)
+		.background(Color.app.primary)
 		.overlay {
 			VStack {
 				let yOffset: CGFloat = {
