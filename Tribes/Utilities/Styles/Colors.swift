@@ -13,8 +13,8 @@ extension Color {
 
 extension Color.app {
 	//Main
-	static let primary: Color = Color(uiColor: UIColor(hex: "1F0602"))
-	static let secondary: Color = Color(uiColor: UIColor(hex: "561C10"))
+	static let primary: Color = Color(uiColor: UIColor(hex: "450E00"))
+	static let secondary: Color = Color(uiColor: UIColor(hex: "941E00"))
 	static let tertiary: Color = Color(uiColor: UIColor(hex: "B79489"))
 	
 	//Others
