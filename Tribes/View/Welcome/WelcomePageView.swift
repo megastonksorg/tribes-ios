@@ -98,7 +98,7 @@ struct WelcomePageView: View {
 				.navigationTitle("")
 			}
 		}
-		.tint(Color.app.tertiary)
+		.tint(Color.app.secondary)
 	}
 	
 	@ViewBuilder
