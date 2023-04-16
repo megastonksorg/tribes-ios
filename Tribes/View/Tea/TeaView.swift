@@ -275,10 +275,10 @@ struct TeaView: View {
 				}
 			}()
 			Capsule()
-				.fill(viewModel.isDraftOrTeaRead(pillIndex: index) ? Color.app.tertiary.opacity(0.2) : Color.white)
+				.fill(viewModel.isDraftOrTeaRead(pillIndex: index) ? Color.app.secondary.opacity(0.2) : Color.white)
 				.id(index)
 			Capsule()
-				.fill(Color.app.tertiary)
+				.fill(Color.app.secondary)
 				.transition(.opacity)
 				.opacity(viewModel.currentPill == index ? 1.0 : 0.0)
 				.animation(.linear, value: self.currentPlaybackProgress)
