@@ -227,10 +227,10 @@ struct TeaView: View {
 			TextView("Looks like everyone is still asleep", style: .pageTitle)
 				.multilineTextAlignment(.center)
 			HStack {
-				TextView("Wake them up with some", style: .pageTitle)
-				Image(systemName: "cup.and.saucer.fill")
+				TextView("Be the first to share", style: .pageTitle)
+				Image(systemName: "photo.on.rectangle.angled")
 					.font(Font.app.title)
-					.foregroundColor(Color.app.tertiary)
+					.foregroundColor(Color.white)
 			}
 		}
 	}
