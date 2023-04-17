@@ -27,21 +27,14 @@ struct TextContentView: View {
 		
 		let color: Color = {
 			switch style {
-			case .incoming: return Color.app.secondary
-			case .outgoing: return Color.app.tertiary
-			}
-		}()
-		
-		let foregroundColor: Color = {
-			switch style {
-			case .incoming: return Color.white
-			case .outgoing: return Color.black
+			case .incoming: return Color.app.darkRed
+			case .outgoing: return Color.app.secondary
 			}
 		}()
 		
 		Text(content)
 			.font(Font.app.body)
-			.foregroundColor(foregroundColor)
+			.foregroundColor(Color.white)
 			.padding(10)
 			.padding(.leading, 6)
 			.blur(radius: isEncrypted ? 4.0 : 0.0)
