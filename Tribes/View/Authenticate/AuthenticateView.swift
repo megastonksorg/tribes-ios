@@ -47,16 +47,12 @@ struct AuthenticateView: View {
 			)
 			.frame(dimension: SizeConstants.profileImageFrame)
 			.padding(.top, 40)
-			.opacity(viewModel.context == .signUp ? 1.0 : 0.0)
 			
 			Text(viewModel.context == .signIn ? "Welcome Back 😀" : viewModel.user.fullName)
 				.font(Font.app.title3)
 				.fontWeight(.semibold)
 				.foregroundColor(.white)
 				.padding(.top)
-			
-			WalletView(address: viewModel.user.walletAddress, copyAction: { viewModel.copyAddress() })
-				.padding(.top, 60)
 			
 			Spacer()
 			
@@ -96,6 +92,6 @@ struct AuthenticateView: View {
 
 struct AuthenticateView_Previews: PreviewProvider {
 	static var previews: some View {
-		AuthenticateView(viewModel: .init(context: .signIn, user: User.noop))
+		AuthenticateView(viewModel: .init(context: .signIn, user: User.noop2))
 	}
 }

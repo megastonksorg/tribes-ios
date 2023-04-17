@@ -126,7 +126,7 @@ extension ImportSecretKeyView {
 							let user: User = User(
 								walletAddress: address,
 								fullName: "",
-								profilePhoto: URL(string: "https://tribes.ca")!,
+								profilePhoto: URL(string: "https://tribesapp.ca")!,
 								currency: "USD",
 								acceptTerms: true,
 								isOnboarded: true

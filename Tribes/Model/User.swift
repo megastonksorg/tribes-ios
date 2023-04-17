@@ -27,4 +27,12 @@ extension User {
 		acceptTerms: false,
 		isOnboarded: false
 	)
+	static let noop2: User = User(
+		walletAddress: "0x1D1479C185d32EB90533a08b36B3CFa5F84A0E6B",
+		fullName: "Michael Richards",
+		profilePhoto: URL(string: "https://kingsleyokeke.blob.core.windows.net/images/1597276037537.jpe")!,
+		currency: "USD",
+		acceptTerms: false,
+		isOnboarded: false
+	)
 }
