@@ -261,18 +261,12 @@ struct TribesView: View {
 				Text("Create Your First Tribe")
 					.font(Font.app.title2)
 					.foregroundColor(Color.app.tertiary)
-				Text("Remember the tea and messages you share with your tribe members are private and encrypted. \nNo one can view or read them. Not even us! \n\nTo get started, tap the (+) above!")
+				Text("Remember the images and videos you share with your tribe members are private and encrypted. \nNo one can view or read them. Not even us! \n\nTo get started, tap the (+) above!")
 					.multilineTextAlignment(.center)
 					.font(Font.app.footnote)
-					.foregroundColor(Color.app.tertiary)
+					.foregroundColor(Color.gray)
 					.padding(.top, 2)
 				Spacer()
-			}
-			.overlay(alignment: .bottomLeading) {
-				Image("swipeForCamera")
-					.resizable()
-					.scaledToFit()
-					.frame(height: 100)
 			}
 		case 1:
 			let size: CGFloat = sizeWidth * 0.7
