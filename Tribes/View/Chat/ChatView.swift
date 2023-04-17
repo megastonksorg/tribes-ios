@@ -44,7 +44,10 @@ struct ChatView: View {
 									tribe: viewModel.tribe,
 									isPlaying: false,
 									isShowingIncomingAuthor: viewModel.shouldShowMessageAuthor(message: message),
-									contextMessageAction: { viewModel.showTea($0) }
+									contextMessageAction: {
+										self.focusedField = nil
+										viewModel.showTea($0)
+									}
 								)
 								.id(message.id)
 								.onAppear { viewModel.markAsRead(message) }
