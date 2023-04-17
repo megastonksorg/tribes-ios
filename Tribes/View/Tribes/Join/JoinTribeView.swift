@@ -35,7 +35,7 @@ struct JoinTribeView: View {
 								Text("Paste")
 								Image(systemName: "doc.on.clipboard")
 							}
-							.foregroundColor(Color.app.tertiary)
+							.foregroundColor(Color.white)
 							.padding(.top, 20)
 							.opacity(viewModel.isShowingPasteButton ? 1.0 : 0.0)
 						}
@@ -60,13 +60,13 @@ struct JoinTribeView: View {
 									ForEach(0..<SizeConstants.pinLimit, id: \.self) { index in
 										Spacer()
 										RoundedRectangle(cornerRadius: 10)
-											.stroke(Color.app.tertiary, lineWidth: 1)
+											.stroke(Color.app.secondary, lineWidth: 1)
 											.frame(dimension: 40)
 											.overlay {
 												if index < viewModel.pin.count {
 													Text(String(viewModel.pin[index]))
 														.font(Font.app.title2)
-														.foregroundColor(Color.app.tertiary)
+														.foregroundColor(Color.app.secondary)
 												}
 											}
 										Spacer()
@@ -135,7 +135,7 @@ struct JoinTribeView: View {
 						.textCase(.uppercase)
 				}
 				.font(Font.app.title2)
-				.foregroundColor(Color.app.tertiary)
+				.foregroundColor(Color.app.secondary)
 			}
 			.padding(.top, 30)
 			.opacity(viewModel.stage == .code ? 1.0 : 0.0)
