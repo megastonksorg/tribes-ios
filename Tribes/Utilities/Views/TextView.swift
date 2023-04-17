@@ -47,15 +47,15 @@ struct TextViewModifier: ViewModifier {
 		case .largeTitle:
 			content
 				.font(Font.app.title)
-				.foregroundColor(.white)
+				.foregroundColor(Color.white)
 		case .pageTitle:
 			content
 				.font(Font.app.title3)
-				.foregroundColor(Color.app.tertiary)
+				.foregroundColor(Color.white)
 		case .pageSubTitle:
 			content
 				.font(Font.app.subHeader)
-				.foregroundColor(Color.app.tertiary)
+				.foregroundColor(Color.white)
 		case .tribeName(let size):
 			content
 				.font(.system(size: size, weight: .semibold, design: .rounded))
