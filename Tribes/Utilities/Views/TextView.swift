@@ -26,7 +26,7 @@ struct TextViewModifier: ViewModifier {
 		switch style {
 		case .appTitle:
 			content
-				.font(.custom(FontNames.kreon, fixedSize: 40))
+				.font(.custom(FontNames.kreon, fixedSize: 34))
 				.foregroundColor(Color.app.tertiary)
 		case .bodyTitle:
 			content
