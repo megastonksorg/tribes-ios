@@ -83,7 +83,6 @@ struct AccountView: View {
 					.padding(.bottom)
 				} else {
 					VStack {
-						WalletView(address: viewModel.user.walletAddress, copyAction: { viewModel.copyAddress() })
 						VStack(spacing: 0) {
 							HStack {
 								Text("Secret Key")
