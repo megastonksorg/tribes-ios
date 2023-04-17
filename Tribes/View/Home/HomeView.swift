@@ -53,7 +53,7 @@ struct HomeView: View {
 				}
 			}
 		}
-		.tint(Color.app.tertiary)
+		.tint(Color.app.secondary)
 	}
 }
 
