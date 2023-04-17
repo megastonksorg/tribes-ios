@@ -122,7 +122,7 @@ struct ChatView: View {
 					.padding(.vertical, 10)
 					.background {
 						RoundedRectangle(cornerRadius: 14)
-							.stroke(Color.app.tertiary, lineWidth: 1)
+							.stroke(Color.app.secondary, lineWidth: 1)
 							.opacity(viewModel.canSendText ? 1.0 : 0.0)
 							.transition(.opacity)
 							.animation(.easeInOut, value: viewModel.canSendText)
@@ -389,7 +389,7 @@ fileprivate struct SendingIndicator: View {
 					LinearGradient(
 						colors: [
 							Color.app.secondary,
-							Color.app.tertiary
+							Color.app.darkRed
 						],
 						startPoint: .leading,
 						endPoint: .trailing
