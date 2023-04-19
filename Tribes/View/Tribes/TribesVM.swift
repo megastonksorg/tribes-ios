@@ -206,7 +206,12 @@ extension TribesView {
 			setLeaveTribeVM(LeaveTribeView.ViewModel(tribe: tribe))
 		}
 		
-		func openCompose(_ tribe: Tribe) {
+		func openCompose(_ tribe: Tribe?) {
+			guard let tribe = tribe else {
+				NotificationCenter.default.post(Notification(name: .openCompose))
+				self.feedbackClient.medium()
+				return
+			}
 			if tribe.members.others.count > 0 {
 				NotificationCenter.default.post(Notification(name: .toggleCompose, userInfo: [AppConstants.composeNotificationDictionaryKey: tribe]))
 				self.feedbackClient.medium()

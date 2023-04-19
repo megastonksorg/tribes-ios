@@ -45,6 +45,13 @@ extension HomeView {
 					name: .toggleCompose,
 					object: nil
 				)
+			NotificationCenter
+				.default.addObserver(
+					self,
+					selector: #selector(openCompose),
+					name: .openCompose,
+					object: nil
+				)
 			
 			registerForPushNotifications()
 		}
@@ -93,12 +100,16 @@ extension HomeView {
 				}
 		}
 		
+		@objc func openCompose() {
+			self.composeVM.cameraVM.didAppear()
+			self.currentPage = .compose
+		}
+		
 		@objc func toggleCompose(notification: NSNotification) {
 			if let dict = notification.userInfo as? NSDictionary {
 				if let recipient = dict[AppConstants.composeNotificationDictionaryKey] as? Tribe {
 					self.composeVM.setDraftRecipient(recipient)
-					self.composeVM.cameraVM.didAppear()
-					self.currentPage = .compose
+					self.openCompose()
 				}
 			} else {
 				self.currentPage = .tribes

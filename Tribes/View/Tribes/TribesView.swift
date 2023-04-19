@@ -59,6 +59,17 @@ struct TribesView: View {
 					
 					Spacer()
 				}
+				.overlay(alignment: .bottomTrailing) {
+					Button(action: { viewModel.openCompose(nil) }) {
+						Image(systemName: "camera.fill")
+							.font(.system(size: 24))
+							.foregroundColor(Color.white)
+							.padding()
+							.background(Color.app.secondary, in: Circle())
+					}
+					.padding()
+					.padding(.trailing)
+				}
 			}
 			.pushOutFrame()
 			.background(Color.app.background)
