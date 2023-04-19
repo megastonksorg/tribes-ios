@@ -285,7 +285,7 @@ struct TribesView: View {
 			}
 		case 2:
 			let size: CGFloat = sizeWidth * 0.6
-			VStack(spacing: size * 0.4) {
+			VStack(spacing: size * 0.2) {
 				HStack {
 					tribeAvatar(tribe: viewModel.tribes[0], size: size)
 					Spacer()
