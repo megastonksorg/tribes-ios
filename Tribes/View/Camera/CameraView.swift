@@ -14,6 +14,8 @@ struct CameraView: View {
 	
 	@GestureState var isShutterButtonPressed = false
 	
+	@State var isShowingCloseHint: Bool = true
+	
 	init(viewModel: CameraView.ViewModel) {
 		self._viewModel = StateObject(wrappedValue: viewModel)
 	}
@@ -164,7 +166,28 @@ struct CameraView: View {
 				}
 			}
 		}
+		.overlay(alignment: .bottom) {
+			if self.isShowingCloseHint {
+				HStack {
+					Group {
+						Image(systemName: "arrow.backward")
+						Text("Swipe to close")
+							.font(Font.app.title3)
+					}
+				}
+				.foregroundColor(Color.gray)
+				.padding(.bottom, 140)
+				.transition(.move(edge: .leading).combined(with: .opacity))
+			}
+		}
 		.onBecomingVisible { viewModel.didAppear() }
+		.onAppear {
+			DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+				withAnimation(.easeInOut.speed(1.0)) {
+					self.isShowingCloseHint.toggle()
+				}
+			}
+		}
 		.onDisappear { viewModel.didDisappear() }
 	}
 	
