@@ -57,18 +57,17 @@ struct TribesView: View {
 					tribesView()
 						.padding(.horizontal)
 					
+					if viewModel.tribes.count % 2 == 0 {
+						composeButton()
+							.opacity(0)
+					}
+					
 					Spacer()
 				}
 				.overlay(alignment: .bottomTrailing) {
-					Button(action: { viewModel.openCompose(nil) }) {
-						Image(systemName: "camera.fill")
-							.font(.system(size: 24))
-							.foregroundColor(Color.white)
-							.padding()
-							.background(Color.app.secondary, in: Circle())
-					}
-					.padding()
-					.padding(.trailing)
+					composeButton()
+						.padding()
+						.padding(.trailing)
 				}
 			}
 			.pushOutFrame()
@@ -394,6 +393,17 @@ struct TribesView: View {
 				Circle()
 					.stroke(strokeColor)
 			)
+	}
+	
+	@ViewBuilder
+	func composeButton() -> some View {
+		Button(action: { viewModel.openCompose(nil) }) {
+			Image(systemName: "camera.fill")
+				.font(.system(size: 24))
+				.foregroundColor(Color.white)
+				.padding()
+				.background(Color.app.secondary, in: Circle())
+		}
 	}
 	
 	@ViewBuilder
