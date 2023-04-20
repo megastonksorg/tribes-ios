@@ -184,7 +184,7 @@ struct CameraView: View {
 		.onAppear {
 			DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
 				withAnimation(.easeInOut.speed(1.0)) {
-					self.isShowingCloseHint.toggle()
+					self.isShowingCloseHint = false
 				}
 			}
 		}
