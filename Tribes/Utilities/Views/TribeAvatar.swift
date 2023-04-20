@@ -103,13 +103,13 @@ struct TribeAvatar: View {
 								Spacer()
 								Image(systemName: "person.3.fill")
 									.font(.system(size: fontSize))
-									.foregroundColor(Color.app.tertiary)
+									.foregroundColor(Color.white)
 								Spacer()
 							}
 							.frame(maxWidth: .infinity)
 							.overlay(alignment: .center) {
 								HStack {
-									TextView("Assemble Your Tribe", style: .tribeName(fontSize * 0.4))
+									TextView("Assemble Your Tribe", style: .tribeName(fontSize * 0.4, true))
 										.offset(y: fontSize)
 								}
 							}
@@ -533,7 +533,7 @@ struct TribeNameView: View {
 	var body: some View {
 		Button(action: { action() }) {
 			HStack {
-				TextView(name, style: .tribeName(fontSize))
+				TextView(name, style: .tribeName(fontSize, false))
 				if shouldShowEditIcon {
 					Image(systemName: AppConstants.editIcon)
 						.font(.system(size: fontSize, weight: .black))
@@ -562,8 +562,8 @@ struct TribeAvatar_Previews: PreviewProvider {
 						members: [
 							TribeMember.noop1,
 							TribeMember.noop2,
-							TribeMember.noop3
-//							TribeMember.noop4
+							TribeMember.noop3,
+							TribeMember.noop4
 						]
 					),
 					size: 180,

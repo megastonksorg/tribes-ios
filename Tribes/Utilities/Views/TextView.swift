@@ -17,7 +17,7 @@ struct TextViewModifier: ViewModifier {
 		case largeTitle
 		case pageTitle
 		case pageSubTitle
-		case tribeName(_ size: CGFloat)
+		case tribeName(_ size: CGFloat, _ isAlternate: Bool)
 	}
 	
 	let style: Style
@@ -56,10 +56,10 @@ struct TextViewModifier: ViewModifier {
 			content
 				.font(Font.app.subHeader)
 				.foregroundColor(Color.white)
-		case .tribeName(let size):
+		case .tribeName(let size, let isAlternate):
 			content
 				.font(.system(size: size, weight: .semibold, design: .rounded))
-				.foregroundColor(Color.app.tertiary)
+				.foregroundColor(isAlternate ? Color.white : Color.app.tertiary)
 				.multilineTextAlignment(.center)
 				.lineLimit(2)
 		}
@@ -91,7 +91,7 @@ struct TextView_Previews: PreviewProvider {
 	static var previews: some View {
 		VStack {
 			TextView("Tribes", style: .appTitle)
-			TextView("Belly Squad", style: .tribeName(20))
+			TextView("Belly Squad", style: .tribeName(20, false))
 		}
 	}
 }
