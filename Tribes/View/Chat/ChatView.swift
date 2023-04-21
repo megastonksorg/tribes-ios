@@ -187,6 +187,12 @@ struct ChatView: View {
 					.frame(size: proxy.size)
 				}
 				.ignoresSafeArea()
+				.overlay(alignment: .top) {
+					Color.black.opacity(0.4)
+						.blur(radius: 40)
+						.frame(height: 140)
+						.ignoresSafeArea()
+				}
 				.background(Color.app.secondary)
 				.transition(.asymmetric(insertion: .opacity, removal: .identity))
 				.overlay(alignment: .topLeading) {
