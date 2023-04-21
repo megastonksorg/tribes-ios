@@ -81,7 +81,7 @@ struct ChatView: View {
 						}
 						.onAppear { viewModel.scrollToLastMessage(proxy: readerProxy) }
 					}
-					.scrollDismissesKeyboard(.immediately)
+					.scrollDismissesKeyboard(.interactively)
 				}
 				
 				if !viewModel.canChat {
