@@ -76,7 +76,7 @@ class HubClient: HubConnectionDelegate {
 	}
 	
 	internal func connectionDidFailToOpen(error: Error) {
-		self.connection?.start()
+		self.initializeConnection()
 	}
 	
 	internal func connectionDidClose(error: Error?) {
