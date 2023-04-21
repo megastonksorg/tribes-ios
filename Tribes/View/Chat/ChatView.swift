@@ -174,13 +174,21 @@ struct ChatView: View {
 		}
 		.overlay(isShown: viewModel.currentShowingTea != nil) {
 			if let currentShowingTea = viewModel.currentShowingTea {
-				MessageView(
-					currentTribeMember: viewModel.currentTribeMember,
-					message: currentShowingTea,
-					tribe: viewModel.tribe,
-					isPlaying: true,
-					isShowingIncomingAuthor: false
-				)
+				GeometryReader { proxy in
+					ZStack {
+						MessageView(
+							currentTribeMember: viewModel.currentTribeMember,
+							message: currentShowingTea,
+							tribe: viewModel.tribe,
+							isPlaying: true,
+							isShowingIncomingAuthor: false
+						)
+					}
+					.frame(size: proxy.size)
+				}
+				.ignoresSafeArea()
+				.background(Color.app.secondary)
+				.transition(.asymmetric(insertion: .opacity, removal: .identity))
 				.overlay(alignment: .topLeading) {
 					TeaViewTribeHeader(tribe: viewModel.tribe, timeStamp: currentShowingTea.timeStamp)
 						.padding()
@@ -193,8 +201,6 @@ struct ChatView: View {
 								.padding(.horizontal)
 						}
 				}
-				.background(Color.app.secondary)
-				.transition(.asymmetric(insertion: .opacity, removal: .identity))
 				.overlay(alignment: .bottom) {
 					HStack {
 						Spacer()
@@ -210,7 +216,6 @@ struct ChatView: View {
 								}
 						}
 					}
-					.padding(.horizontal)
 					.padding(.horizontal)
 				}
 			}
