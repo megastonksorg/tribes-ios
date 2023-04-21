@@ -287,11 +287,14 @@ extension ChatView {
 					case .updated(let tribeId, let message):
 						if tribeId == self.tribe.id && message.tag == .chat {
 							DispatchQueue.main.async {
+								let doesNotExist = !self.messages.ids.contains(message.id)
 								var updatedMessages = self.messages
 								updatedMessages.updateOrAppend(message)
 								updatedMessages.sort(by: { $0.timeStamp < $1.timeStamp })
 								self.messages = updatedMessages
-								self.messageChangedId = UUID()
+								if doesNotExist {
+									self.messageChangedId = UUID()
+								}
 							}
 							if self.messages.count != self.messageClient.tribesMessages[id: self.tribe.id]?.chat.count {
 								if let tribeChat = self.messageClient.tribesMessages[id: self.tribe.id]?.chat {
