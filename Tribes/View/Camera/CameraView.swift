@@ -193,27 +193,24 @@ struct CameraView: View {
 	
 	@ViewBuilder
 	func captureButton() -> some View {
-		let isRecordingVideo = viewModel.videoRecordingProgress > 0.05
-		let color: Color = {
-			return isRecordingVideo ? Color.app.secondary : Color.white
-		}()
 		Circle()
-			.fill(color.opacity(0.3))
+			.stroke(LinearGradient.camera, lineWidth: 4)
 			.overlay(
 				Circle()
-					.inset(by: 2)
 					.trim(from: 0, to: viewModel.videoRecordingProgress)
-					.stroke(color, style: StrokeStyle(lineWidth: 6, lineCap: .round))
+					.stroke(Color.app.secondary, style: StrokeStyle(lineWidth: 4, lineCap: .round))
 					.animation(.linear, value: viewModel.videoRecordingProgress)
 					.rotationEffect(Angle(degrees: -90))
 			)
 			.frame(dimension: 85)
 			.overlay(
 				Circle()
-					.fill(color.opacity(isRecordingVideo ? 0.5 : 1.0))
+					.fill(LinearGradient.camera)
 					.padding(4)
+					.scaleEffect(isShutterButtonPressed ? 0.9 : 1.0, anchor: .center)
+					.transition(.scale)
+					.animation(.easeInOut, value: isShutterButtonPressed)
 			)
-			.opacity(isShutterButtonPressed && !isRecordingVideo ? 0.5 : 1.0)
 			.overlay(isShown: viewModel.isCapturingImage) {
 				LoadingIndicator(style: .camera)
 					.frame(dimension: SizeConstants.loadingIndicatorSize)
