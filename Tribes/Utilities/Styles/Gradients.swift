@@ -10,6 +10,8 @@ import SwiftUI
 extension LinearGradient {
 	static let background = LinearGradient(colors: [.app.primary, .app.secondary, .black, .black], startPoint: .top, endPoint: .bottom)
 	
+	static let camera = LinearGradient(colors: [.white, .app.camera.opacity(0.37)], startPoint: .topLeading, endPoint: .bottomTrailing)
+	
 	static let dropShadow = LinearGradient(colors: [.clear, .black.opacity(0.2), .black.opacity(0.2), .black.opacity(0.2)], startPoint: .top, endPoint: .bottom)
 	
 	static let black = LinearGradient(colors: [.black, .black.opacity(0.2), .black.opacity(0.2), .black.opacity(0.2)], startPoint: .top, endPoint: .bottom)
