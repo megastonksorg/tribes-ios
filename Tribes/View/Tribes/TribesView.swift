@@ -397,12 +397,31 @@ struct TribesView: View {
 	
 	@ViewBuilder
 	func composeButton() -> some View {
+		let gradient: LinearGradient = LinearGradient(
+			colors: [
+				Color.white,
+				Color(uiColor: UIColor(hex: "F1C5BA")).opacity(0.37)
+			],
+			startPoint: .topLeading,
+			endPoint: .bottomTrailing
+		)
 		Button(action: { viewModel.openCompose(nil) }) {
-			Image(systemName: "camera.fill")
-				.font(.system(size: 24))
-				.foregroundColor(Color.white)
-				.padding()
-				.background(Color.app.secondary, in: Circle())
+			ZStack {
+				Circle()
+					.fill(gradient)
+					.frame(dimension: 24)
+				Circle()
+					.stroke(gradient, lineWidth: 2)
+					.frame(dimension: 30)
+			}
+			.padding()
+			.background(Color.app.secondary, in: Circle())
+			.overlay(alignment: .topLeading) {
+				Circle()
+					.fill(gradient)
+					.frame(dimension: 5)
+					.padding(12)
+			}
 		}
 	}
 	
