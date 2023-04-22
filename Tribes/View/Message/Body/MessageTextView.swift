@@ -56,7 +56,12 @@ struct MessageTextView: View {
 								}
 							} else {
 								if let messageContext = self.messageContext {
-									Button(action: { contextMessageAction(context) }) {
+									Button(
+										action: {
+											contextMessageAction(context)
+											updateMessageContext()
+										}
+									) {
 										MessageView(
 											currentTribeMember: model.currentTribeMember,
 											message: messageContext,
@@ -171,6 +176,16 @@ struct MessageTextView: View {
 			}
 		}
 		.frame(dimension: 38)
+	}
+	
+	func updateMessageContext() {
+		Task {
+			if let messageContext = self.messageContext {
+				if messageContext.isEncrypted {
+					self.messageContext = await MessageClient.shared.tribesMessages[id: model.tribe.id]?.messages[id: messageContext.id]
+				}
+			}
+		}
 	}
 }
 
