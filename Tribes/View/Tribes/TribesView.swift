@@ -13,7 +13,7 @@ struct TribesView: View {
 	
 	@FocusState private var focusedField: ViewModel.FocusField?
 	@StateObject var viewModel: ViewModel
-	@State var sizeWidth: CGFloat = UIScreen.main.bounds.maxX > 500 ? 500 :  UIScreen.main.bounds.maxX
+	@State var sizeWidth: CGFloat = UIScreen.main.bounds.maxX > 500 ? 500 :  UIScreen.main.bounds.maxX * 0.8
 	
 	init(viewModel: ViewModel) {
 		self._viewModel = StateObject(wrappedValue: viewModel)
