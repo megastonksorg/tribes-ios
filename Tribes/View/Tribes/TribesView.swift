@@ -18,7 +18,7 @@ struct TribesView: View {
 		if maxX < 400 {
 			return maxX * 0.8
 		} else if maxX < 500 {
-			return maxX
+			return maxX * 0.9
 		} else {
 			return 500
 		}
