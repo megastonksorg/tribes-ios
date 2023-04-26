@@ -314,7 +314,7 @@ struct TribesView: View {
 			}
 		case 4:
 			let size: CGFloat = sizeWidth * 0.46
-			VStack(spacing: size * 0.7) {
+			VStack(spacing: size * 0.5) {
 				customHStack(
 					size: size,
 					contentA: {
