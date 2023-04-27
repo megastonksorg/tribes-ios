@@ -8,12 +8,15 @@
 import UIKit
 
 class NavBarTheme {
-	static func setup(background : UIColor? = nil){
+	static func setup(){
 		let navigationAppearance = UINavigationBarAppearance()
 		navigationAppearance.configureWithOpaqueBackground()
-		navigationAppearance.backgroundColor = background ?? .black
+		navigationAppearance.backgroundColor = .black
+		navigationAppearance.shadowColor = .clear
+		navigationAppearance.shadowImage = UIImage()
 		
 		UINavigationBar.appearance().standardAppearance = navigationAppearance
 		UINavigationBar.appearance().compactAppearance = navigationAppearance
+		UINavigationBar.appearance().scrollEdgeAppearance = navigationAppearance
 	}
 }
