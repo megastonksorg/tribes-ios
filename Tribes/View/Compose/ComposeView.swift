@@ -18,6 +18,11 @@ struct ComposeView: View {
 	var body: some View {
 		if viewModel.hasContentBeenCaptured {
 			DraftView(viewModel: viewModel.draftVM)
+				.onAppear {
+					if viewModel.allowedRecipients.count == 0 {
+						viewModel.fetchAllowedTeaRecipients()
+					}
+				}
 		} else {
 			CameraView(viewModel: viewModel.cameraVM)
 				.onAppear { viewModel.fetchAllowedTeaRecipients() }
