@@ -147,11 +147,13 @@ struct ChatView: View {
 		.background(Color.app.background)
 		.toolbar {
 			ToolbarItem(placement: .principal) {
-				ChatHeaderView(
-					members: IdentifiedArrayOf(
-						uniqueElements: viewModel.tribe.members
+				Button(action: { }) {
+					ChatHeaderView(
+						members: IdentifiedArrayOf(
+							uniqueElements: viewModel.tribe.members
+						)
 					)
-				)
+				}
 			}
 		}
 		.cardView(
