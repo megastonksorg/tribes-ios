@@ -213,16 +213,6 @@ struct TribesView: View {
 				}
 			}
 			.fullScreenCover(
-				isPresented: $viewModel.isShowingChatView
-			) {
-				if let tribe = viewModel.currentChatTribe {
-					ChatView(
-						viewModel: ChatView.ViewModel(tribe: tribe),
-						dismissAction: { viewModel.dismissChatView() }
-					)
-				}
-			}
-			.fullScreenCover(
 				isPresented: $viewModel.isShowingAccountView
 			) {
 				AccountView(viewModel: viewModel.accountVM)

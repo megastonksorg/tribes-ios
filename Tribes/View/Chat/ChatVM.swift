@@ -96,8 +96,10 @@ extension ChatView {
 		let apiClient: APIClient = APIClient.shared
 		let feedbackClient: FeedbackClient = FeedbackClient.shared
 		let messageClient: MessageClient = MessageClient.shared
+		let tribesRepository: TribesRepository = TribesRepository.shared
 		
-		init(tribe: Tribe) {
+		init(tribeId: Tribe.ID) {
+			let tribe = tribesRepository.getTribes().first(where: { $0.id == tribeId }) ?? Tribe.noop1
 			let tribeMessage: TribeMessage? = messageClient.tribesMessages[id: tribe.id]
 			self.currentTribeMember = tribe.members.currentMember ?? TribeMember.dummyTribeMember
 			self.tribe = tribe

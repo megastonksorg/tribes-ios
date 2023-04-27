@@ -9,7 +9,6 @@ import IdentifiedCollections
 import SwiftUI
 
 struct ChatView: View {
-	var dismissAction: () -> Void
 	var screenHeight: CGFloat = UIScreen.main.bounds.maxY
 	var screenWidth: CGFloat = UIScreen.main.bounds.maxX
 	
@@ -19,9 +18,8 @@ struct ChatView: View {
 	
 	@State var isShowingMemberImage: Bool = false
 	
-	init(viewModel: ViewModel, dismissAction: @escaping () -> Void) {
+	init(viewModel: ViewModel) {
 		self._viewModel = StateObject(wrappedValue: viewModel)
-		self.dismissAction = dismissAction
 	}
 	
 	var body: some View {
@@ -134,16 +132,11 @@ struct ChatView: View {
 					.disabled(!viewModel.canChat)
 					Spacer()
 					MessageBottomButton(
-						style: viewModel.canSendText ? .send : .close,
-						action: {
-							if viewModel.canSendText {
-								viewModel.sendMessage()
-							} else {
-								dismissAction()
-							}
-						}
+						style: .send,
+						action: { viewModel.sendMessage() }
 					)
 					.frame(dimension: textFieldBarButtonSize)
+					.opacity(viewModel.canSendText ? 1.0 : 0.0)
 				}
 				.padding(.horizontal)
 				.padding(.top, 4)
@@ -425,7 +418,7 @@ fileprivate struct SendingIndicator: View {
 struct ChatView_Previews: PreviewProvider {
 	static var previews: some View {
 		VStack {
-			ChatView(viewModel: .init(tribe: Tribe.noop1), dismissAction: {})
+			ChatView(viewModel: .init(tribeId: Tribe.noop1.id))
 		}
 	}
 }

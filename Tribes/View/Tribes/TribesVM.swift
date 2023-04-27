@@ -29,10 +29,8 @@ extension TribesView {
 		@Published var editTribeNameText: String?
 		@Published var user: User
 		@Published var currentTeaTribe: Tribe?
-		@Published var currentChatTribe: Tribe?
 		
 		@Published var isShowingAccountView: Bool = false
-		@Published var isShowingChatView: Bool = false
 		@Published var isShowingTribeInvite: Bool = false
 		
 		var isEditingTribeName: Bool {
@@ -71,7 +69,7 @@ extension TribesView {
 						return
 					case .chat(let tribeId):
 						if let tribe = self.tribes[id: tribeId] {
-							self.setCurrentChatTribe(tribe)
+							self.showTribeChat(tribe)
 							self.deepLinkClient.setDeepLink(nil)
 						}
 						return
@@ -108,11 +106,6 @@ extension TribesView {
 					}
 				)
 				.store(in: &cancellables)
-		}
-		
-		func dismissChatView() {
-			self.isShowingChatView = false
-			self.currentChatTribe = nil
 		}
 		
 		func toggleAccountView() {
@@ -192,9 +185,8 @@ extension TribesView {
 			}
 		}
 		
-		func setCurrentChatTribe(_ tribe: Tribe) {
-			self.currentChatTribe = tribe
-			self.isShowingChatView = true
+		func showTribeChat(_ tribe: Tribe) {
+			AppRouter.pushStack(stack: .home(.chat(tribeId: tribe.id)))
 		}
 		
 		func setLeaveTribeVM(_ viewModel: LeaveTribeView.ViewModel?) {
@@ -229,7 +221,7 @@ extension TribesView {
 		}
 		
 		func tribeSecondaryActionTapped(_ tribe: Tribe) {
-			setCurrentChatTribe(tribe)
+			showTribeChat(tribe)
 		}
 		
 		func tribeInviteActionTapped(_ tribe: Tribe) {

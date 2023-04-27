@@ -20,6 +20,7 @@ fileprivate let stackKeyNotification: String = "stack"
 		enum HomeStack: Hashable {
 			case createTribe
 			case joinTribe
+			case chat(tribeId: Tribe.ID)
 		}
 		
 		case welcome(WelcomeStack? = nil)
