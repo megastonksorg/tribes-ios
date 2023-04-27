@@ -446,7 +446,7 @@ struct TribeAvatar: View {
 			}
 			switch context {
 			case .tribesView, .draftView:
-				TribeNameView(name: name, fontSize: nameSize, action: { secondaryAction(self.tribe) })
+				TribeNameView(name: name, shouldShowChevron: context == .tribesView, fontSize: nameSize, action: { secondaryAction(self.tribe) })
 					.simultaneousGesture(
 						LongPressGesture(minimumDuration: longPressMinimumDuration)
 							.onEnded { _ in
@@ -520,12 +520,20 @@ struct TribeAvatar: View {
 struct TribeNameView: View {
 	let name: String
 	let shouldShowEditIcon: Bool
+	let shouldShowChevron: Bool
 	let fontSize: CGFloat
 	let action: () -> ()
 	
-	init(name: String, shouldShowEditIcon: Bool = false, fontSize: CGFloat, action: @escaping () -> Void) {
+	init(
+		name: String,
+		shouldShowEditIcon: Bool = false,
+		shouldShowChevron: Bool = false,
+		fontSize: CGFloat,
+		action: @escaping () -> Void
+	) {
 		self.name = name
 		self.shouldShowEditIcon = shouldShowEditIcon
+		self.shouldShowChevron = shouldShowChevron
 		self.fontSize = fontSize
 		self.action = action
 	}
@@ -541,6 +549,11 @@ struct TribeNameView: View {
 						.padding(4)
 						.padding(.vertical, 4)
 						.background(Circle().fill(Color.gray.opacity(0.01)))
+				}
+				if shouldShowChevron {
+					Image(systemName: "chevron.right")
+						.font(.system(size: fontSize, weight: .black))
+						.foregroundColor(Color.app.tertiary)
 				}
 			}
 			.background(Color.black.opacity(0.01))
