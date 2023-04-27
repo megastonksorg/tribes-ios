@@ -35,6 +35,7 @@ struct ChatView: View {
 								TextView("are shown", style: .hint)
 							}
 							.padding(.bottom, 8)
+							.padding(.top)
 							ForEach(viewModel.messages) { message in
 								MessageView(
 									currentTribeMember: viewModel.currentTribeMember,
@@ -144,16 +145,14 @@ struct ChatView: View {
 			.padding(.bottom, 4)
 		}
 		.background(Color.app.background)
-		.safeAreaInset(edge: .top) {
-			ChatHeaderView(
-				action: {
-					self.focusedField = nil
-					viewModel.showTribeMemberCard($0)
-				},
-				members: IdentifiedArrayOf(
-					uniqueElements: viewModel.tribe.members
+		.toolbar {
+			ToolbarItem(placement: .principal) {
+				ChatHeaderView(
+					members: IdentifiedArrayOf(
+						uniqueElements: viewModel.tribe.members
+					)
 				)
-			)
+			}
 		}
 		.cardView(
 			isShowing: $viewModel.isShowingMember,
@@ -417,8 +416,11 @@ fileprivate struct SendingIndicator: View {
 
 struct ChatView_Previews: PreviewProvider {
 	static var previews: some View {
-		VStack {
-			ChatView(viewModel: .init(tribeId: Tribe.noop1.id))
+		NavigationView {
+			VStack {
+				ChatView(viewModel: .init(tribeId: Tribe.noop1.id))
+			}
+			.navigationBarTitleDisplayMode(.large)
 		}
 	}
 }
