@@ -362,16 +362,28 @@ import UIKit
 	}
 	
 	func setAppBadge() {
-		let unreadMessagesCount: Int = {
-			var messageIds: Set<Message.ID> = []
-			self.tribesMessages.elements.forEach { tribeMessage in
-				let existingIds = messageIds
-				messageIds = existingIds.union(Set( tribeMessage.messages.map { $0.id }))
+		Task {
+			//Update Tribe Messages
+			let tribeIds = Set(TribesRepository.shared.getTribes().map { $0.id })
+			var tribeMessages = self.tribesMessages
+			tribeMessages.removeAll(where: { !tribeIds.contains($0.tribeId) })
+			
+			DispatchQueue.main.async {
+				self.tribesMessages = tribeMessages
 			}
-			return messageIds.subtracting(self.readMessage).count
-		}()
-		self.defaultsClient.set(key: .badgeCount, value: unreadMessagesCount)
-		UIApplication.shared.applicationIconBadgeNumber = unreadMessagesCount
+			await self.cacheClient.setData(key: .tribesMessages, value: self.tribesMessages)
+			
+			let unreadMessagesCount: Int = {
+				var messageIds: Set<Message.ID> = []
+				self.tribesMessages.elements.forEach { tribeMessage in
+					let existingIds = messageIds
+					messageIds = existingIds.union(Set( tribeMessage.messages.map { $0.id }))
+				}
+				return messageIds.subtracting(self.readMessage).count
+			}()
+			self.defaultsClient.set(key: .badgeCount, value: unreadMessagesCount)
+			UIApplication.shared.applicationIconBadgeNumber = unreadMessagesCount
+		}
 	}
 	
 	private func updateMessageAndCache(_ message: Message, tribeId: Tribe.ID, wasReceived: Bool) {
