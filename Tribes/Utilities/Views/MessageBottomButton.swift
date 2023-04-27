@@ -22,11 +22,12 @@ struct MessageBottomButton: View {
 	
 	let style: Style
 	let action: () -> Void
+	var size: CGFloat = 30
 	
 	var body: some View {
 		Button(action: { action() }) {
 			Image(systemName: style.imagename)
-				.font(.system(size: 30))
+				.font(.system(size: size))
 				.foregroundColor(Color.app.secondary)
 		}
 	}

@@ -92,7 +92,6 @@ struct ChatView: View {
 					}
 				}
 				
-				let textFieldBarButtonSize: CGFloat = 40
 				ZStack {
 					Color.clear
 					if viewModel.isSendingMessage {
@@ -101,7 +100,7 @@ struct ChatView: View {
 				}
 				.frame(height: 4)
 				HStack {
-					ZStack(alignment: .topLeading) {
+					ZStack(alignment: .leading) {
 						Group {
 							Text("Message ")
 								.foregroundColor(Color.gray)
@@ -111,11 +110,19 @@ struct ChatView: View {
 						}
 						.lineLimit(2)
 						.opacity(viewModel.isHintTextVisible ? 1.0 : 0.0)
-						TextField("", text: $viewModel.text.max(SizeConstants.textMessageLimit), axis: .vertical)
-							.tint(Color.white)
-							.lineLimit(1...4)
-							.foregroundColor(.white)
-							.focused($focusedField, equals: .text)
+						HStack(spacing: 2) {
+							TextField("", text: $viewModel.text.max(SizeConstants.textMessageLimit), axis: .vertical)
+								.tint(Color.white)
+								.lineLimit(1...4)
+								.foregroundColor(.white)
+								.focused($focusedField, equals: .text)
+							MessageBottomButton(
+								style: .send,
+								action: { viewModel.sendMessage() },
+								size: 24
+							)
+							.opacity(viewModel.canSendText ? 1.0 : 0.0)
+						}
 					}
 					.font(Font.app.body)
 					.multilineTextAlignment(.leading)
@@ -130,13 +137,6 @@ struct ChatView: View {
 					}
 					.opacity(viewModel.canChat ? 1.0 : 0.5)
 					.disabled(!viewModel.canChat)
-					Spacer()
-					MessageBottomButton(
-						style: .send,
-						action: { viewModel.sendMessage() }
-					)
-					.frame(dimension: textFieldBarButtonSize)
-					.opacity(viewModel.canSendText ? 1.0 : 0.0)
 				}
 				.padding(.horizontal)
 				.padding(.top, 4)
