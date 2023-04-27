@@ -124,7 +124,7 @@ struct ChatView: View {
 					.background {
 						RoundedRectangle(cornerRadius: 14)
 							.stroke(Color.app.secondary, lineWidth: 1)
-							.opacity(viewModel.canSendText ? 1.0 : 0.0)
+							.opacity(viewModel.canSendText ? 1.0 : 0.5)
 							.transition(.opacity)
 							.animation(.easeInOut, value: viewModel.canSendText)
 					}
