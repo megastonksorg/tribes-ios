@@ -84,6 +84,8 @@ extension HomeView {
 					self.composeVM.setDraftRecipient(recipient)
 					self.openCompose()
 				}
+			} else {
+				self.isShowingCompose = false
 			}
 		}
 		

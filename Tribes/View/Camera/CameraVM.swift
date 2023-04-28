@@ -76,6 +76,7 @@ extension CameraView {
 		}
 		
 		//Clients
+		let feedbackClient = FeedbackClient.shared
 		let permissionClient = PermissionClient.shared
 		
 		init() {
@@ -114,6 +115,11 @@ extension CameraView {
 			self.captureClient.cancelVideoRecording()
 			self.videoRecorderTimer?.invalidate()
 			self.videoRecorderTimer = nil
+		}
+		
+		func close() {
+			NotificationCenter.default.post(Notification(name: .toggleCompose))
+			self.feedbackClient.medium()
 		}
 		
 		func didAppear() {

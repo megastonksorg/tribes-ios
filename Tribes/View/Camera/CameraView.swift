@@ -52,14 +52,19 @@ struct CameraView: View {
 				HStack {
 					Button(action: { viewModel.toggleFlash() }) {
 						Image(systemName: viewModel.isFlashOn ? "bolt.circle.fill" : "bolt.slash.circle")
-							.font(.system(size: 30))
-							.foregroundColor(.white)
-							.padding(.leading, 20)
 					}
 					.opacity(viewModel.isRecordingVideo ? 0.0 : 1.0)
 					
 					Spacer()
+					
+					Button(action: { viewModel.close() }) {
+						Image(systemName: "x.circle.fill")
+							.foregroundColor(Color.white)
+					}
 				}
+				.font(.system(size: 30))
+				.foregroundColor(.white)
+				.padding(.horizontal, 20)
 				
 				Spacer()
 				
