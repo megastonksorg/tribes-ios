@@ -23,7 +23,6 @@ struct HomeView: View {
 				.fullScreenCover(isPresented: $viewModel.isShowingCompose) {
 					ComposeView(viewModel: viewModel.composeVM)
 				}
-				.ignoresSafeArea()
 				.navigationTitle("")
 				.navigationDestination(for: AppRouter.Route.HomeStack.self) { stack in
 					Group {

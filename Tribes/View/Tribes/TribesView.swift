@@ -71,7 +71,6 @@ struct TribesView: View {
 						.padding(.trailing)
 				}
 			}
-			.pushOutFrame()
 			.background(Color.app.background)
 			.overlay {
 				contextMenuBackground()
