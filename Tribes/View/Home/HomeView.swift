@@ -18,7 +18,12 @@ struct HomeView: View {
 	}
 	
 	var body: some View {
-		NavigationStack(path: $appRouter.homeStack) {
+		NavigationStack(
+			path: Binding(
+				get: { appRouter.homeStack },
+				set: { appRouter.setHomeStack($0) }
+			)
+		) {
 			TribesView(viewModel: viewModel.tribesVM)
 				.fullScreenCover(isPresented: $viewModel.isShowingCompose) {
 					ComposeView(viewModel: viewModel.composeVM)

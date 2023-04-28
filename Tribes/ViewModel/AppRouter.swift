@@ -77,6 +77,12 @@ fileprivate let stackKeyNotification: String = "stack"
 		}
 	}
 	
+	func setHomeStack(_ stack: [Route.HomeStack]) {
+		DispatchQueue.main.async {
+			self.homeStack = stack
+		}
+	}
+	
 	@objc func handlePushStackRequest(notification: NSNotification) {
 		if let dict = notification.userInfo as? NSDictionary {
 			if let route = dict[stackKeyNotification] as? Route{
