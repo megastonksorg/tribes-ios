@@ -186,7 +186,7 @@ extension TribesView {
 		}
 		
 		func showTribeChat(_ tribe: Tribe) {
-			AppRouter.pushStack(stack: .home(.chat(tribeId: tribe.id)))
+			AppRouter.pushStack(stack: .home(.chat(tribe: tribe)))
 		}
 		
 		func setLeaveTribeVM(_ viewModel: LeaveTribeView.ViewModel?) {

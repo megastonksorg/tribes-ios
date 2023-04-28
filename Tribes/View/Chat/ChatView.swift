@@ -419,7 +419,7 @@ struct ChatView_Previews: PreviewProvider {
 	static var previews: some View {
 		NavigationView {
 			VStack {
-				ChatView(viewModel: .init(tribeId: Tribe.noop1.id))
+				ChatView(viewModel: .init(tribe: Tribe.noop1))
 			}
 			.navigationBarTitleDisplayMode(.large)
 		}

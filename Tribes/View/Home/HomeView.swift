@@ -36,8 +36,8 @@ struct HomeView: View {
 							CreateTribeView(viewModel: CreateTribeView.ViewModel())
 						case .joinTribe:
 							JoinTribeView(viewModel: JoinTribeView.ViewModel())
-						case .chat(tribeId: let tribeId):
-							ChatView(viewModel: ChatView.ViewModel(tribeId: tribeId))
+						case .chat(tribe: let tribe):
+							ChatView(viewModel: ChatView.ViewModel(tribe: tribe))
 						}
 					}
 					.navigationBarTitleDisplayMode(.inline)

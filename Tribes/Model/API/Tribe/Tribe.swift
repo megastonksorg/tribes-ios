@@ -8,7 +8,7 @@
 import Foundation
 import IdentifiedCollections
 
-struct Tribe: Codable, Identifiable {
+struct Tribe: Codable, Equatable, Identifiable, Hashable {
 	let id: String
 	let name: String
 	let timestampId: String

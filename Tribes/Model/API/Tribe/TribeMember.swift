@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TribeMember: Codable, Identifiable {
+struct TribeMember: Codable, Equatable, Identifiable, Hashable {
 	let fullName: String
 	let profilePhoto: URL
 	let publicKey: String
