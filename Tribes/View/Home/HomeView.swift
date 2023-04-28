@@ -37,7 +37,6 @@ struct HomeView: View {
 					}
 					.navigationBarTitleDisplayMode(.inline)
 				}
-
 		}
 		.tint(Color.app.secondary)
 	}

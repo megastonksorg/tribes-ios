@@ -45,8 +45,10 @@ struct DraftView: View {
 						viewModel.resetContent()
 					}
 					.overlay(
-						XButton {
-							viewModel.resetContent()
+						Button(action: { viewModel.resetContent() }) {
+							Image(systemName: "x.circle.fill")
+								.font(.system(size: SizeConstants.navigationButtonSize))
+								.foregroundColor(Color.white)
 						}
 					)
 			}

@@ -175,7 +175,7 @@ struct AccountView: View {
 					}
 				}
 			}
-			.frame(height: 30)
+			.frame(height: SizeConstants.navigationButtonSize)
 			.foregroundColor(Color.white)
 			.padding(.horizontal)
 		}

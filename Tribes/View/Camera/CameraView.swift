@@ -166,9 +166,10 @@ struct CameraView: View {
 							.foregroundColor(Color.white)
 					}
 				}
-				.font(.system(size: 30))
+				.font(.system(size: SizeConstants.navigationButtonSize))
 				.foregroundColor(.white)
 				.padding(.horizontal, 20)
+				.padding(.top)
 			}
 		}
 		.onBecomingVisible { viewModel.didAppear() }

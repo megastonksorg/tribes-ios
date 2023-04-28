@@ -49,4 +49,5 @@ struct SizeConstants {
 	static let wordCornerRadius: CGFloat = 5.0
 	static let wordSize: CGSize = CGSize(width: 100, height: 30)
 	static let draftRetryDelay: Double = 60.0
+	static let navigationButtonSize: CGFloat = 30
 }
