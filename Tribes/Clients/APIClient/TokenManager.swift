@@ -56,7 +56,13 @@ extension APIClient {
 									switch completion {
 									case .finished:
 										return
-									case .failure:
+									case .failure(let error):
+										let expectedDataError: Data = Data("Invalid token".utf8)
+										if error == .httpError(statusCode: 400, data: expectedDataError) {
+											Task {
+												await AppState.updateAppState(with: .logUserOut)
+											}
+										}
 										promise(.success(false))
 									}
 								}, receiveValue: { authResponse in
