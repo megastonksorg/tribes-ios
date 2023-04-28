@@ -49,23 +49,6 @@ struct CameraView: View {
 		.ignoresSafeArea()
 		.overlay {
 			VStack {
-				HStack {
-					Button(action: { viewModel.toggleFlash() }) {
-						Image(systemName: viewModel.isFlashOn ? "bolt.circle.fill" : "bolt.slash.circle")
-					}
-					.opacity(viewModel.isRecordingVideo ? 0.0 : 1.0)
-					
-					Spacer()
-					
-					Button(action: { viewModel.close() }) {
-						Image(systemName: "x.circle.fill")
-							.foregroundColor(Color.white)
-					}
-				}
-				.font(.system(size: 30))
-				.foregroundColor(.white)
-				.padding(.horizontal, 20)
-				
 				Spacer()
 				
 				captureButton()
@@ -86,6 +69,7 @@ struct CameraView: View {
 						}
 					}
 			}
+			.pushOutFrame()
 			.background(
 				Color.clear
 					.contentShape(Rectangle())
@@ -167,6 +151,24 @@ struct CameraView: View {
 					.pushOutFrame()
 					.background(Color.gray.opacity(0.8))
 				}
+			}
+			.overlay(alignment: .top) {
+				HStack {
+					Button(action: { viewModel.toggleFlash() }) {
+						Image(systemName: viewModel.isFlashOn ? "bolt.circle.fill" : "bolt.slash.circle")
+					}
+					.opacity(viewModel.isRecordingVideo ? 0.0 : 1.0)
+					
+					Spacer()
+					
+					Button(action: { viewModel.close() }) {
+						Image(systemName: "x.circle.fill")
+							.foregroundColor(Color.white)
+					}
+				}
+				.font(.system(size: 30))
+				.foregroundColor(.white)
+				.padding(.horizontal, 20)
 			}
 		}
 		.onBecomingVisible { viewModel.didAppear() }
