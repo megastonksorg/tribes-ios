@@ -168,8 +168,6 @@
 		D0D266A52963466200A94183 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D266A42963466200A94183 /* PlayerView.swift */; };
 		D0D266A9296524AC00A94183 /* Recorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D266A8296524AC00A94183 /* Recorder.swift */; };
 		D0D266AF296AAC4E00A94183 /* EdgeInsets+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D266AE296AAC4E00A94183 /* EdgeInsets+Extensions.swift */; };
-		D0D266B1296AACE000A94183 /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D266B0296AACE000A94183 /* PageView.swift */; };
-		D0D266B3296AAD2300A94183 /* HomeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D266B2296AAD2300A94183 /* HomeContentView.swift */; };
 		D0D266B5296B542500A94183 /* View+OnBecomingVisible.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D266B4296B542500A94183 /* View+OnBecomingVisible.swift */; };
 		D0D6811929B967A9000C1EF0 /* MessageDraftView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D6811829B967A9000C1EF0 /* MessageDraftView.swift */; };
 		D0E65EE029BB8DF200763656 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E65EDF29BB8DF200763656 /* Date+Extensions.swift */; };
@@ -369,8 +367,6 @@
 		D0D266A42963466200A94183 /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
 		D0D266A8296524AC00A94183 /* Recorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recorder.swift; sourceTree = "<group>"; };
 		D0D266AE296AAC4E00A94183 /* EdgeInsets+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EdgeInsets+Extensions.swift"; sourceTree = "<group>"; };
-		D0D266B0296AACE000A94183 /* PageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageView.swift; sourceTree = "<group>"; };
-		D0D266B2296AAD2300A94183 /* HomeContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeContentView.swift; sourceTree = "<group>"; };
 		D0D266B4296B542500A94183 /* View+OnBecomingVisible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+OnBecomingVisible.swift"; sourceTree = "<group>"; };
 		D0D6811829B967A9000C1EF0 /* MessageDraftView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageDraftView.swift; sourceTree = "<group>"; };
 		D0E65EDF29BB8DF200763656 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
@@ -618,7 +614,6 @@
 				D030D2CB295745E90011128F /* TextFieldBackgroundView.swift */,
 				D030D2CC295745E90011128F /* ImagePlaceHolderView.swift */,
 				D0D2669F2960C8D400A94183 /* LoadingIndicator.swift */,
-				D0D266B0296AACE000A94183 /* PageView.swift */,
 				D0E8519B296CA3C10034AFD1 /* TribeAvatar.swift */,
 				D0C65AA42970A24D00E527F9 /* TextView.swift */,
 				D0C65AAE2970BEA100E527F9 /* SymmetricHStack.swift */,
@@ -769,7 +764,6 @@
 			children = (
 				D03B30A22968DAFB00F797CE /* HomeVM.swift */,
 				D03B30A42968DB3D00F797CE /* HomeView.swift */,
-				D0D266B2296AAD2300A94183 /* HomeContentView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -1205,7 +1199,6 @@
 				D0766363298C7EC500946F7B /* LeaveTribeVM.swift in Sources */,
 				D0E65EE429BD15A600763656 /* TextContentView.swift in Sources */,
 				D06088B42996D55000A3D383 /* OnBoardingPageView.swift in Sources */,
-				D0D266B3296AAD2300A94183 /* HomeContentView.swift in Sources */,
 				D030D2A6295745C20011128F /* APIClient.swift in Sources */,
 				D0B90E5F29B8FF5900EB90CD /* KeyboardClient.swift in Sources */,
 				D00443B329C7ECB4005D40B5 /* AppDelegate.swift in Sources */,
@@ -1233,7 +1226,6 @@
 				D030D2E6295745E90011128F /* AppProgressView.swift in Sources */,
 				D0D266A52963466200A94183 /* PlayerView.swift in Sources */,
 				D03B30A32968DAFB00F797CE /* HomeVM.swift in Sources */,
-				D0D266B1296AACE000A94183 /* PageView.swift in Sources */,
 				D030D2F8295745F90011128F /* AppError.swift in Sources */,
 				D0D26692295FED0500A94183 /* ComposeVM.swift in Sources */,
 				D030D2E8295745E90011128F /* ImagePlaceHolderView.swift in Sources */,

@@ -22,7 +22,7 @@ extension HomeView {
 		@Published var composeVM: ComposeView.ViewModel = ComposeView.ViewModel()
 		@Published var tribesVM: TribesView.ViewModel
 		
-		@Published var currentPage: Page = .tribes
+		@Published var isShowingCompose: Bool = false
 		
 		//Clients
 		let keychainClient: KeychainClient = KeychainClient.shared
@@ -56,32 +56,6 @@ extension HomeView {
 			registerForPushNotifications()
 		}
 		
-		func setCurrentPage(page: Page) {
-			self.currentPage = page
-			switch page {
-			case .compose: return
-			case .tribes:
-				self.composeVM.setDraftRecipient(nil)
-				self.composeVM.cameraVM.didDisappear()
-				self.composeVM.draftVM.didDisappear()
-				DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-					self.composeVM.cameraVM.didDisappear()
-				}
-			}
-		}
-		
-		func didNotCompletePageScroll() {
-			switch currentPage {
-			case .compose:
-				DispatchQueue.main.async {
-					self.setCurrentPage(page: .compose)
-				}
-				return
-			case .tribes:
-				self.composeVM.cameraVM.didDisappear()
-			}
-		}
-		
 		func registerForPushNotifications() {
 			UNUserNotificationCenter
 				.current()
@@ -101,8 +75,7 @@ extension HomeView {
 		}
 		
 		@objc func openCompose() {
-			self.composeVM.cameraVM.didAppear()
-			self.currentPage = .compose
+			self.isShowingCompose = true
 		}
 		
 		@objc func toggleCompose(notification: NSNotification) {
@@ -111,8 +84,6 @@ extension HomeView {
 					self.composeVM.setDraftRecipient(recipient)
 					self.openCompose()
 				}
-			} else {
-				self.currentPage = .tribes
 			}
 		}
 		
