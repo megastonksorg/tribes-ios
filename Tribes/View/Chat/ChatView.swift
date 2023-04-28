@@ -129,9 +129,9 @@ struct ChatView: View {
 					.padding(.horizontal, 12)
 					.padding(.vertical, 10)
 					.background {
-						Capsule()
+						RoundedRectangle(cornerRadius: 20)
 							.stroke(Color.app.secondary, lineWidth: 1)
-							.opacity(viewModel.canSendText ? 1.0 : 0.5)
+							.opacity(viewModel.canSendText ? 1.0 : 0.4)
 							.transition(.opacity)
 							.animation(.easeInOut, value: viewModel.canSendText)
 					}
@@ -153,6 +153,7 @@ struct ChatView: View {
 						)
 					)
 				}
+				.offset(y: -4)
 			}
 		}
 		.cardView(
@@ -419,7 +420,7 @@ struct ChatView_Previews: PreviewProvider {
 	static var previews: some View {
 		NavigationView {
 			VStack {
-				ChatView(viewModel: .init(tribe: Tribe.noop1))
+				ChatView(viewModel: .init(tribe: Tribe.noop2))
 			}
 			.navigationBarTitleDisplayMode(.large)
 		}
