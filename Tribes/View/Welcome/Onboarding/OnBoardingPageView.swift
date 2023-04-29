@@ -102,21 +102,18 @@ struct OnBoardingPageView: View {
 					Spacer()
 				}
 				.pushOutFrame()
-			case .createTribe, .sendInvites, .shareTea:
+			case .createTribe, .sendInvites, .sendMessages, .shareTea:
 				imageView(page: page)
-			case .sendMessages:
-				imageView(page: page, shouldPad: false)
 			}
 		}
 		.frame(maxHeight: page == .stayConnected ? .infinity : 400)
 	}
 	
 	@ViewBuilder
-	func imageView(page: Page, shouldPad: Bool = true) -> some View {
+	func imageView(page: Page) -> some View {
 		Image(page.id)
 			.resizable()
 			.scaledToFit()
-			.padding(.horizontal, shouldPad ? 40 : 0)
 	}
 	
 	@ViewBuilder
