@@ -71,7 +71,6 @@ struct OnBoardingPageView: View {
 					footer(page: .stayConnected)
 						.opacity(0)
 					footer(page: page)
-						.padding(.bottom, page == .stayConnected ? 20 : 0)
 				}
 			}
 	}
