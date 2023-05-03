@@ -12,7 +12,27 @@ struct TeaPotView: View {
 	
 	var body: some View {
 		VStack {
-			
+			ScrollView {
+				
+			}
+		}
+		.background(Color.app.background)
+		.safeAreaInset(edge: .top) {
+			VStack {
+				ChatHeaderView(context: .teaPot, members: viewModel.tribe.members)
+				TextView(viewModel.tribe.name, style: .tribeName(20, false))
+					.padding(.bottom, 6)
+			}
+			.frame(maxWidth: .infinity)
+			.background {
+				ZStack {
+					Rectangle()
+						.fill(.ultraThinMaterial)
+					Rectangle()
+						.fill(Color.app.background.opacity(0.6))
+				}
+				.edgesIgnoringSafeArea(.top)
+			}
 		}
 	}
 }
