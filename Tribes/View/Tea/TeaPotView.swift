@@ -15,11 +15,26 @@ struct TeaPotView: View {
 		VStack {
 			ScrollView(showsIndicators: false) {
 				LazyVGrid(columns: Array(repeating: GridItem(.flexible(maximum: 160), spacing: gridSpacing), count: 3), spacing: gridSpacing) {
-					ForEach(0..<41) {
-						Rectangle()
-							.fill(Color.red)
-							.frame(height: 200)
-							.id($0)
+					ForEach(viewModel.drafts) { draft in
+						MessageDraftView(
+							draft: draft,
+							isPlaying: true,
+							retryDraft: { _ in },
+							deleteDraft: { _ in }
+						)
+						.frame(height: 200)
+						.id(draft.id)
+					}
+					ForEach(viewModel.tea) { tea in
+						MessageView(
+							currentTribeMember: viewModel.currentTribeMember,
+							message: tea,
+							tribe: viewModel.tribe,
+							isPlaying: true,
+							isShowingIncomingAuthor: false
+						)
+						.frame(height: 200)
+						.id(tea.body)
 					}
 				}
 			}
