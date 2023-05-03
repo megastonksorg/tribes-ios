@@ -17,20 +17,18 @@ struct TeaPotView: View {
 			ScrollView(showsIndicators: false) {
 				LazyVGrid(columns: Array(repeating: GridItem(.flexible(maximum: 160), spacing: gridSpacing), count: 3), spacing: gridSpacing) {
 					ForEach(viewModel.drafts) { draft in
-						Button(action: {}) {
+						gridElement(action: {}) {
 							MessageDraftView(
 								draft: draft,
 								isPlaying: true,
 								retryDraft: { _ in },
 								deleteDraft: { _ in }
 							)
-							.frame(height: 200)
 						}
-						.buttonStyle(.bright)
 						.id(draft.id)
 					}
 					ForEach(viewModel.tea) { tea in
-						Button(action: {}) {
+						gridElement(action: {}) {
 							MessageView(
 								currentTribeMember: viewModel.currentTribeMember,
 								message: tea,
@@ -40,9 +38,7 @@ struct TeaPotView: View {
 								isShowingCaption: false,
 								isShowingIncomingAuthor: false
 							)
-							.frame(height: 200)
 						}
-						.buttonStyle(.bright)
 						.id(tea.body)
 					}
 				}
@@ -76,6 +72,16 @@ struct TeaPotView: View {
 				.edgesIgnoringSafeArea(.top)
 			}
 		}
+	}
+	
+	@ViewBuilder
+	func gridElement<Element: View>(action: @escaping () -> (), element: @escaping () -> Element) -> some View {
+		Button(action: { action() }) {
+			element()
+				.frame(height: 200)
+				.clipShape(Rectangle())
+		}
+		.buttonStyle(.bright)
 	}
 }
 
