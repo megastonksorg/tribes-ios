@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MessageVideoView: View {
 	let model: MessageBodyModel
+	let isMuted: Bool
 	let isPlaying: Bool
 	
 	@State var url: URL? //The local Url of the video to play
@@ -28,7 +29,7 @@ struct MessageVideoView: View {
 					LoadingIndicator(speed: 0.4)
 						.frame(dimension: SizeConstants.loadingIndicatorSize)
 				} else if let url = self.url {
-					VideoPlayerView(url: url, isPlaying: isPlaying)
+					VideoPlayerView(url: url, isMuted: isMuted, isPlaying: isPlaying)
 						.onPreferenceChange(PlaybackProgressKey.self) {
 							playbackProgress = $0
 						}
@@ -93,6 +94,7 @@ struct MessageVideoView_Previews: PreviewProvider {
 				message: Message.noopEncryptedVideoTea,
 				tribe: Tribe.noop1
 			),
+			isMuted: false,
 			isPlaying: false
 		)
 	}

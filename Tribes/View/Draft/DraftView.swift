@@ -22,7 +22,7 @@ struct DraftView: View {
 	var body: some View {
 		if let content = viewModel.content {
 			GeometryReader { proxy in
-				ContentView(content: content, isPlaying: viewModel.isPlaying)
+				ContentView(content: content, isMuted: false, isPlaying: viewModel.isPlaying)
 					.frame(size: proxy.size)
 			}
 			.ignoresSafeArea()

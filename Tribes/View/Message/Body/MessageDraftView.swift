@@ -42,11 +42,11 @@ struct MessageDraftView: View {
 					.foregroundColor(Color.white)
 				}
 				Spacer(minLength: 0)
-				ContentView(content: draft.content, isPlaying: false)
+				ContentView(content: draft.content, isMuted: true, isPlaying: false)
 					.opacity(0.6)
 			}
 		} else {
-			ContentView(content: draft.content, isPlaying: isPlaying)
+			ContentView(content: draft.content, isMuted: false, isPlaying: isPlaying)
 				.onPreferenceChange(PlaybackProgressKey.self) {
 					playbackProgress = $0
 				}

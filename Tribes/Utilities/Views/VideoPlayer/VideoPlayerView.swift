@@ -10,6 +10,7 @@ import SwiftUI
 
 struct VideoPlayerView: View {
 	let url: URL
+	let isMuted: Bool
 	let isPlaying: Bool
 	
 	@State private var shouldShowThumbnail = true
@@ -19,8 +20,9 @@ struct VideoPlayerView: View {
 	//Clients
 	let cacheClient: CacheClient = CacheClient.shared
 	
-	init(url: URL, isPlaying: Bool) {
+	init(url: URL, isMuted: Bool, isPlaying: Bool) {
 		self.url = url
+		self.isMuted = isMuted
 		self.isPlaying = isPlaying
 	}
 	
@@ -43,7 +45,7 @@ struct VideoPlayerView: View {
 			PlayerView(
 				url: url,
 				isPlaying: isPlaying,
-				isMuted: false,
+				isMuted: isMuted,
 				shouldShowThumbnail: $shouldShowThumbnail,
 				onPlaybackProgressChange: { progress in playbackProgress = progress }
 			)
@@ -75,6 +77,7 @@ struct VideoPlayerView_Previews: PreviewProvider {
 	static var previews: some View {
 		VideoPlayerView(
 			url: URL(string: "https://kingsleyokeke.blob.core.windows.net/megastonksvideo/MegaStonks.mp4")!,
+			isMuted: false,
 			isPlaying: false
 		)
 	}

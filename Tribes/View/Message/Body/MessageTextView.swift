@@ -66,6 +66,7 @@ struct MessageTextView: View {
 											currentTribeMember: model.currentTribeMember,
 											message: messageContext,
 											tribe: Tribe.noop1,
+											isMuted: true,
 											isPlaying: false,
 											isShowingIncomingAuthor: false
 										)

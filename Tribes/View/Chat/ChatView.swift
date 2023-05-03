@@ -41,6 +41,7 @@ struct ChatView: View {
 									currentTribeMember: viewModel.currentTribeMember,
 									message: message,
 									tribe: viewModel.tribe,
+									isMuted: true,
 									isPlaying: false,
 									isShowingIncomingAuthor: viewModel.shouldShowMessageAuthor(message: message),
 									contextMessageAction: {
@@ -174,6 +175,7 @@ struct ChatView: View {
 							currentTribeMember: viewModel.currentTribeMember,
 							message: currentShowingTea,
 							tribe: viewModel.tribe,
+							isMuted: false,
 							isPlaying: true,
 							isShowingIncomingAuthor: false
 						)

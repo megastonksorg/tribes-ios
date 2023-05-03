@@ -14,6 +14,7 @@ struct MessageView: View {
 	let style: Message.Style
 	let message: Message
 	let tribe: Tribe
+	let isMuted: Bool
 	let isPlaying: Bool
 	let isShowingIncomingAuthor: Bool
 	let contextMessageAction: (_ messageId: Message.ID) -> ()
@@ -24,6 +25,7 @@ struct MessageView: View {
 		currentTribeMember: TribeMember,
 		message: Message,
 		tribe: Tribe,
+		isMuted: Bool,
 		isPlaying: Bool,
 		isShowingIncomingAuthor: Bool,
 		contextMessageAction: @escaping (_ messageId: Message.ID) -> () = { _ in }
@@ -41,6 +43,7 @@ struct MessageView: View {
 		}()
 		self.message = message
 		self.tribe = tribe
+		self.isMuted = isMuted
 		self.isPlaying = isPlaying
 		self.isShowingIncomingAuthor = isShowingIncomingAuthor
 		self.contextMessageAction = contextMessageAction
@@ -65,7 +68,7 @@ struct MessageView: View {
 			case .image:
 				MessageImageView(model: bodyModel)
 			case .video:
-				MessageVideoView(model: bodyModel, isPlaying: isPlaying)
+				MessageVideoView(model: bodyModel, isMuted: isMuted, isPlaying: isPlaying)
 					.onPreferenceChange(PlaybackProgressKey.self) {
 						self.playbackProgress = $0
 					}
@@ -92,6 +95,7 @@ struct MessageView_Previews: PreviewProvider {
 			currentTribeMember: TribeMember.noop1,
 			message: Message.noopEncryptedTextChat,
 			tribe: Tribe.noop1,
+			isMuted: true,
 			isPlaying: false,
 			isShowingIncomingAuthor: false
 		)

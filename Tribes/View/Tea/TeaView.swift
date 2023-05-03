@@ -46,6 +46,7 @@ struct TeaView: View {
 						currentTribeMember: viewModel.currentTribeMember,
 						message: tea,
 						tribe: viewModel.tribe,
+						isMuted: false,
 						isPlaying: tea.id == viewModel.currentTeaId,
 						isShowingIncomingAuthor: false
 					)

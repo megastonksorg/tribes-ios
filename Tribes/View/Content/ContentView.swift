@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
 	let content: Message.Body.Content
+	let isMuted: Bool
 	let isPlaying: Bool
 	
 	@State var playbackProgress: Float = 0
@@ -40,7 +41,7 @@ struct ContentView: View {
 			case .imageData(let imageData):
 				imageView(uiImage: UIImage(data: imageData) ?? UIImage())
 			case .video(let url):
-				VideoPlayerView(url: url, isPlaying: isPlaying)
+				VideoPlayerView(url: url, isMuted: isMuted, isPlaying: isPlaying)
 					.onPreferenceChange(PlaybackProgressKey.self) {
 						self.playbackProgress = $0
 					}
@@ -64,6 +65,7 @@ struct ContentView_Previews: PreviewProvider {
 	static var previews: some View {
 		ContentView(
 			content: .video(URL(string: "https://kingsleyokeke.blob.core.windows.net/videos/Untitled.mp4")!),
+			isMuted: false,
 			isPlaying: false
 		)
 	}
