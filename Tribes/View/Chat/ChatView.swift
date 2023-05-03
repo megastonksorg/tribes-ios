@@ -148,6 +148,7 @@ struct ChatView: View {
 			ToolbarItem(placement: .principal) {
 				Button(action: { }) {
 					ChatHeaderView(
+						context: .chat,
 						members: IdentifiedArrayOf(
 							uniqueElements: viewModel.tribe.members
 						)

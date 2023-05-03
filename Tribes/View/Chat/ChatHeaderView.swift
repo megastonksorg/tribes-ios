@@ -9,13 +9,23 @@ import IdentifiedCollections
 import SwiftUI
 
 struct ChatHeaderView: View {
+	enum Context {
+		case chat
+		case teaPot
+	}
+	
+	let context: Context
+	let limit: Int = 10
 	let members: IdentifiedArrayOf<TribeMember>
 	
 	var body: some View {
-		let limit: Int = 10
-		let spacing: CGFloat = 6
-		let dimension: CGFloat = 36
-		HStack(spacing: -spacing) {
+		let dimension: CGFloat = {
+			switch context {
+			case .chat: return 36
+			case .teaPot: return 40
+			}
+		}()
+		HStack(spacing: -dimension * 0.2) {
 			ForEach(members.prefix(limit)) {
 				UserAvatar(url: $0.profilePhoto)
 					.frame(dimension: dimension)
@@ -39,6 +49,7 @@ struct ChatHeaderView_Previews: PreviewProvider {
 		NavigationView {
 			VStack {
 				ChatHeaderView(
+					context: .teaPot,
 					members: IdentifiedArrayOf(
 						uniqueElements:
 							[
