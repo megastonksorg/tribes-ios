@@ -22,9 +22,14 @@ struct MessageBottomButton: View {
 	
 	let style: Style
 	let action: () -> Void
-	var size: CGFloat = 30
 	
 	var body: some View {
+		let size: CGFloat = {
+			switch style {
+			case .close: return 40
+			case .send: return 24
+			}
+		}()
 		Button(action: { action() }) {
 			Image(systemName: style.imagename)
 				.font(.system(size: size))

@@ -118,8 +118,7 @@ struct ChatView: View {
 								.focused($focusedField, equals: .text)
 							MessageBottomButton(
 								style: .send,
-								action: { viewModel.sendMessage() },
-								size: 24
+								action: { viewModel.sendMessage() }
 							)
 							.opacity(viewModel.canSendText ? 1.0 : 0.0)
 						}
