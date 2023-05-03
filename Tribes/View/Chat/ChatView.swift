@@ -130,7 +130,7 @@ struct ChatView: View {
 					.padding(.horizontal, 12)
 					.padding(.vertical, 10)
 					.background {
-						RoundedRectangle(cornerRadius: 20)
+						RoundedRectangle(cornerRadius: 30)
 							.stroke(Color.app.secondary, lineWidth: 1)
 							.opacity(viewModel.canSendText ? 1.0 : 0.4)
 							.transition(.opacity)
