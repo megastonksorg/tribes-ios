@@ -9,6 +9,7 @@ import SwiftUI
 
 struct TeaPotView: View {
 	let gridSpacing: CGFloat = 2
+	let closeButtonAction: () -> ()
 	@StateObject var viewModel: TeaView.ViewModel
 	
 	var body: some View {
@@ -37,6 +38,16 @@ struct TeaPotView: View {
 						.id(tea.body)
 					}
 				}
+				MessageBottomButton(style: .close) {
+					
+				}
+				.opacity(0)
+			}
+			.overlay(alignment: .bottomTrailing) {
+				MessageBottomButton(style: .close) {
+					
+				}
+				.padding(.horizontal)
 			}
 		}
 		.background(Color.app.background)
@@ -62,6 +73,6 @@ struct TeaPotView: View {
 
 struct TeaPotView_Previews: PreviewProvider {
 	static var previews: some View {
-		TeaPotView(viewModel: .init(tribe: Tribe.noop2))
+		TeaPotView(closeButtonAction: {}, viewModel: .init(tribe: Tribe.noop2))
 	}
 }
