@@ -17,25 +17,31 @@ struct TeaPotView: View {
 			ScrollView(showsIndicators: false) {
 				LazyVGrid(columns: Array(repeating: GridItem(.flexible(maximum: 160), spacing: gridSpacing), count: 3), spacing: gridSpacing) {
 					ForEach(viewModel.drafts) { draft in
-						MessageDraftView(
-							draft: draft,
-							isPlaying: true,
-							retryDraft: { _ in },
-							deleteDraft: { _ in }
-						)
-						.frame(height: 200)
+						Button(action: {}) {
+							MessageDraftView(
+								draft: draft,
+								isPlaying: true,
+								retryDraft: { _ in },
+								deleteDraft: { _ in }
+							)
+							.frame(height: 200)
+						}
+						.buttonStyle(.bright)
 						.id(draft.id)
 					}
 					ForEach(viewModel.tea) { tea in
-						MessageView(
-							currentTribeMember: viewModel.currentTribeMember,
-							message: tea,
-							tribe: viewModel.tribe,
-							isMuted: true,
-							isPlaying: true,
-							isShowingIncomingAuthor: false
-						)
-						.frame(height: 200)
+						Button(action: {}) {
+							MessageView(
+								currentTribeMember: viewModel.currentTribeMember,
+								message: tea,
+								tribe: viewModel.tribe,
+								isMuted: true,
+								isPlaying: true,
+								isShowingIncomingAuthor: false
+							)
+							.frame(height: 200)
+						}
+						.buttonStyle(.bright)
 						.id(tea.body)
 					}
 				}

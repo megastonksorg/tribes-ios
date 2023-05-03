@@ -95,3 +95,15 @@ extension ButtonStyle where Self == ScalingButtonStyle {
 	static var insideScaling: Self { ScalingButtonStyle(direction: .inside) }
 	static var outsideScaling: Self { ScalingButtonStyle(direction: .outside) }
 }
+
+struct BrightButtonStyle: ButtonStyle {
+	func makeBody(configuration: Configuration) -> some View {
+		configuration.label
+			.brightness(configuration.isPressed ? 0.2 : 0.0)
+			.animation(.easeInOut, value: configuration.isPressed)
+	}
+}
+
+extension ButtonStyle where Self == BrightButtonStyle {
+	static var bright: Self { BrightButtonStyle() }
+}
