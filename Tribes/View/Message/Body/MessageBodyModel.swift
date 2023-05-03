@@ -9,6 +9,7 @@ import Foundation
 
 struct MessageBodyModel {
 	let currentTribeMember: TribeMember
+	let isShowingCaption: Bool
 	let sender: TribeMember?
 	let style: Message.Style
 	let message: Message

@@ -16,6 +16,7 @@ struct MessageView: View {
 	let tribe: Tribe
 	let isMuted: Bool
 	let isPlaying: Bool
+	let isShowingCaption: Bool
 	let isShowingIncomingAuthor: Bool
 	let contextMessageAction: (_ messageId: Message.ID) -> ()
 	
@@ -27,6 +28,7 @@ struct MessageView: View {
 		tribe: Tribe,
 		isMuted: Bool,
 		isPlaying: Bool,
+		isShowingCaption: Bool,
 		isShowingIncomingAuthor: Bool,
 		contextMessageAction: @escaping (_ messageId: Message.ID) -> () = { _ in }
 	) {
@@ -45,6 +47,7 @@ struct MessageView: View {
 		self.tribe = tribe
 		self.isMuted = isMuted
 		self.isPlaying = isPlaying
+		self.isShowingCaption = isShowingCaption
 		self.isShowingIncomingAuthor = isShowingIncomingAuthor
 		self.contextMessageAction = contextMessageAction
 	}
@@ -52,6 +55,7 @@ struct MessageView: View {
 	var body: some View {
 		let bodyModel: MessageBodyModel = MessageBodyModel(
 			currentTribeMember: currentTribeMember,
+			isShowingCaption: isShowingCaption,
 			sender: sender,
 			style: style,
 			message: message,
@@ -97,6 +101,7 @@ struct MessageView_Previews: PreviewProvider {
 			tribe: Tribe.noop1,
 			isMuted: true,
 			isPlaying: false,
+			isShowingCaption: false,
 			isShowingIncomingAuthor: false
 		)
 	}

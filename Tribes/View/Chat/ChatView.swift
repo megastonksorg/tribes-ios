@@ -43,6 +43,7 @@ struct ChatView: View {
 									tribe: viewModel.tribe,
 									isMuted: true,
 									isPlaying: false,
+									isShowingCaption: true,
 									isShowingIncomingAuthor: viewModel.shouldShowMessageAuthor(message: message),
 									contextMessageAction: {
 										self.focusedField = nil
@@ -177,6 +178,7 @@ struct ChatView: View {
 							tribe: viewModel.tribe,
 							isMuted: false,
 							isPlaying: true,
+							isShowingCaption: true,
 							isShowingIncomingAuthor: false
 						)
 					}

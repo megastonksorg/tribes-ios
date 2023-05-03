@@ -33,7 +33,7 @@ struct MessageVideoView: View {
 						.onPreferenceChange(PlaybackProgressKey.self) {
 							playbackProgress = $0
 						}
-						.overlay {
+						.overlay(isShown: model.isShowingCaption) {
 							if let caption = model.message.body?.caption {
 								Text(caption)
 									.styleForCaption()
@@ -89,6 +89,7 @@ struct MessageVideoView_Previews: PreviewProvider {
 		MessageVideoView(
 			model: MessageBodyModel(
 				currentTribeMember: TribeMember.noop1,
+				isShowingCaption: true,
 				sender: nil,
 				style: .incoming,
 				message: Message.noopEncryptedVideoTea,

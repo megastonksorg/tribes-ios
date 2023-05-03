@@ -31,7 +31,7 @@ struct MessageImageView: View {
 					Image(uiImage: uiImage)
 						.resizable()
 						.scaledToFill()
-						.overlay {
+						.overlay(isShown: model.isShowingCaption) {
 							if let caption = model.message.body?.caption {
 								Text(caption)
 									.styleForCaption()
@@ -71,6 +71,7 @@ struct MessageImageView_Previews: PreviewProvider {
 	static var previews: some View {
 		let modelWithContent: MessageBodyModel = MessageBodyModel(
 			currentTribeMember: TribeMember.noop1,
+			isShowingCaption: false,
 			sender: nil,
 			style: .incoming,
 			message: Message.noopEncryptedImageChat,
@@ -81,6 +82,7 @@ struct MessageImageView_Previews: PreviewProvider {
 		MessageImageView(
 			model: MessageBodyModel(
 				currentTribeMember: TribeMember.noop1,
+				isShowingCaption: true,
 				sender: nil,
 				style: .incoming,
 				message: Message.noopEncryptedImageTea,

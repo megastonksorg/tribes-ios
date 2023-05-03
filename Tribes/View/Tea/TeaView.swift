@@ -48,6 +48,7 @@ struct TeaView: View {
 						tribe: viewModel.tribe,
 						isMuted: false,
 						isPlaying: tea.id == viewModel.currentTeaId,
+						isShowingCaption: true,
 						isShowingIncomingAuthor: false
 					)
 					.onPreferenceChange(PlaybackProgressKey.self) {

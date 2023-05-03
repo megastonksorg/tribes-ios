@@ -37,6 +37,7 @@ struct TeaPotView: View {
 								tribe: viewModel.tribe,
 								isMuted: true,
 								isPlaying: true,
+								isShowingCaption: false,
 								isShowingIncomingAuthor: false
 							)
 							.frame(height: 200)

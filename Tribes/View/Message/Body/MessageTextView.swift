@@ -68,6 +68,7 @@ struct MessageTextView: View {
 											tribe: model.tribe,
 											isMuted: true,
 											isPlaying: false,
+											isShowingCaption: false,
 											isShowingIncomingAuthor: false
 										)
 										.scaledToFill()
@@ -196,6 +197,7 @@ struct MessageTextView_Previews: PreviewProvider {
 		MessageTextView(
 			model: MessageBodyModel(
 				currentTribeMember: TribeMember.noop1,
+				isShowingCaption: false,
 				sender: nil,
 				style: .outgoing,
 				message: Message.noopDecryptedTextWithImageContextChat,
