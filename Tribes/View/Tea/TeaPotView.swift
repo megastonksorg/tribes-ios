@@ -31,6 +31,7 @@ struct TeaPotView: View {
 							currentTribeMember: viewModel.currentTribeMember,
 							message: tea,
 							tribe: viewModel.tribe,
+							isMuted: true,
 							isPlaying: true,
 							isShowingIncomingAuthor: false
 						)
@@ -47,7 +48,7 @@ struct TeaPotView: View {
 				MessageBottomButton(style: .close) {
 					closeButtonAction()
 				}
-				.padding(.trailing, 4)
+				.padding(.trailing)
 			}
 		}
 		.background(Color.app.background)
