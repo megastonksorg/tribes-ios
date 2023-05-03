@@ -45,16 +45,16 @@ struct TeaPotView: View {
 			}
 			.overlay(alignment: .bottomTrailing) {
 				MessageBottomButton(style: .close) {
-					
+					closeButtonAction()
 				}
-				.padding(.horizontal)
+				.padding(.trailing, 4)
 			}
 		}
 		.background(Color.app.background)
 		.safeAreaInset(edge: .top) {
 			VStack {
 				ChatHeaderView(context: .teaPot, members: viewModel.tribe.members)
-				TextView(viewModel.tribe.name, style: .tribeName(20, false))
+				TextView(viewModel.tribe.name, style: .tribeName(15, false))
 					.padding(.bottom, 6)
 			}
 			.frame(maxWidth: .infinity)
