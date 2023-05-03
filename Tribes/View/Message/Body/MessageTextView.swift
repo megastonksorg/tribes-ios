@@ -65,13 +65,14 @@ struct MessageTextView: View {
 										MessageView(
 											currentTribeMember: model.currentTribeMember,
 											message: messageContext,
-											tribe: Tribe.noop1,
+											tribe: model.tribe,
 											isMuted: true,
 											isPlaying: false,
 											isShowingIncomingAuthor: false
 										)
 										.scaledToFill()
 									}
+									.buttonStyle(.bright)
 								}
 							}
 						}
