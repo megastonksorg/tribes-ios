@@ -8,12 +8,20 @@
 import SwiftUI
 
 struct TeaPotView: View {
+	let gridSpacing: CGFloat = 2
 	@StateObject var viewModel: TeaView.ViewModel
 	
 	var body: some View {
 		VStack {
-			ScrollView {
-				
+			ScrollView(showsIndicators: false) {
+				LazyVGrid(columns: Array(repeating: GridItem(.flexible(maximum: 160), spacing: gridSpacing), count: 3), spacing: gridSpacing) {
+					ForEach(0..<41) {
+						Rectangle()
+							.fill(Color.red)
+							.frame(height: 200)
+							.id($0)
+					}
+				}
 			}
 		}
 		.background(Color.app.background)
