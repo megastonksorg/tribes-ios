@@ -174,6 +174,7 @@ struct TeaView: View {
 					}
 				}
 			}
+			.ignoresSafeArea(.keyboard)
 		}
 		.onAppear { viewModel.didAppear() }
 	}
