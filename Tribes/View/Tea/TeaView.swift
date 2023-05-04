@@ -112,9 +112,13 @@ struct TeaView: View {
 						.padding(.horizontal, 12)
 						.padding(.vertical, 14)
 						.background {
-							RoundedRectangle(cornerRadius: 14)
-								.stroke(Color.white, lineWidth: 1)
-								.transition(.opacity)
+							ZStack {
+								let cornerRadius: CGFloat = SizeConstants.textFieldCornerRadius
+								RoundedRectangle(cornerRadius: cornerRadius)
+									.fill(LinearGradient.dropShadow.opacity(0.5))
+								RoundedRectangle(cornerRadius: cornerRadius)
+									.stroke(Color.white, lineWidth: 1)
+							}
 						}
 						.dropShadow()
 						.dropShadow()

@@ -45,6 +45,7 @@ struct SizeConstants {
 	static let teaCaptionOffset: CGFloat = 160
 	static let tribeNameLimit: Int = 24
 	static let captionLimit: Int = 100
+	static let textFieldCornerRadius: CGFloat = 30
 	static let textMessageLimit: Int = 300
 	static let wordCornerRadius: CGFloat = 5.0
 	static let wordSize: CGSize = CGSize(width: 100, height: 30)
