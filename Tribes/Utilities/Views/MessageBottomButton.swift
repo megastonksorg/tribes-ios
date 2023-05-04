@@ -31,10 +31,16 @@ struct MessageBottomButton: View {
 			}
 		}()
 		Button(action: { action() }) {
-			Image(systemName: style.imagename)
-				.font(.system(size: size))
-				.foregroundColor(Color.app.secondary)
+			ZStack {
+				Circle()
+					.fill(Color.white)
+					.frame(dimension: size * 0.8)
+				Image(systemName: style.imagename)
+					.font(.system(size: size))
+					.foregroundColor(Color.app.secondary)
+			}
 		}
+		.buttonStyle(.bright)
 	}
 }
 
