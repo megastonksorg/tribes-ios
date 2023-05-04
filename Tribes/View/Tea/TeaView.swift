@@ -177,6 +177,10 @@ struct TeaView: View {
 						draftRetryButton(currentDraft: currentDraft)
 					}
 				}
+				.overlay(isShown: keyboardClient.height != 0) {
+					Color.black.opacity(0.4)
+						.ignoresSafeArea()
+				}
 			}
 			.ignoresSafeArea(.keyboard)
 		}
