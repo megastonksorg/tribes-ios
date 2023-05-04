@@ -17,7 +17,7 @@ struct TeaPotView: View {
 			ScrollView(showsIndicators: false) {
 				LazyVGrid(columns: Array(repeating: GridItem(.flexible(maximum: 160), spacing: gridSpacing), count: 3), spacing: gridSpacing) {
 					ForEach(viewModel.drafts) { draft in
-						gridElement(action: {}) {
+						gridElement(action: {}, timeStamp: draft.timeStamp) {
 							MessageDraftView(
 								draft: draft,
 								isPlaying: true,
@@ -28,7 +28,7 @@ struct TeaPotView: View {
 						.id(draft.id)
 					}
 					ForEach(viewModel.tea) { tea in
-						gridElement(action: {}) {
+						gridElement(action: {}, timeStamp: tea.timeStamp) {
 							MessageView(
 								currentTribeMember: viewModel.currentTribeMember,
 								message: tea,
@@ -75,11 +75,18 @@ struct TeaPotView: View {
 	}
 	
 	@ViewBuilder
-	func gridElement<Element: View>(action: @escaping () -> (), element: @escaping () -> Element) -> some View {
+	func gridElement<Element: View>(action: @escaping () -> (), timeStamp: Date?, element: @escaping () -> Element) -> some View {
 		Button(action: { action() }) {
 			element()
 				.frame(height: 200)
 				.clipShape(Rectangle())
+				.overlay(alignment: .bottomLeading) {
+					Text("\(timeStamp?.timeAgoDisplay() ?? "")")
+						.font(Font.app.callout)
+						.foregroundColor(Color.white)
+						.padding([.leading, .bottom], 6)
+						.fixedSize(horizontal: true, vertical: false)
+				}
 		}
 		.buttonStyle(.bright)
 	}
