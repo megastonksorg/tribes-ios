@@ -87,6 +87,7 @@ extension TeaView {
 		@Published var teaViewers: IdentifiedArrayOf<TeaViewer> = []
 		@Published var readTea: MessageClient.ReadMessage
 		@Published var text: String = ""
+		@Published var isShowingTeaView: Bool = false
 		
 		//Clients
 		let apiClient: APIClient = APIClient.shared
@@ -157,6 +158,18 @@ extension TeaView {
 					}
 				}
 			}
+		}
+		
+		func showTeaView(id: String) {
+			self.isShowingTeaView = true
+			if let index = self.draftAndTeaIds.firstIndex(of: id) {
+				self.currentPill = index
+				setCurrentDraftOrTeaId()
+			}
+		}
+		
+		func dismissTeaView() {
+			self.isShowingTeaView = false
 		}
 		
 		func nextDraftOrTea() {

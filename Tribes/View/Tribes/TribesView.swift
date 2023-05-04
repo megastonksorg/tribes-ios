@@ -191,15 +191,6 @@ struct TribesView: View {
 					}
 				}
 			}
-			.overlay(isShown: viewModel.currentTeaTribe != nil) {
-				if let currentTeaTribe = viewModel.currentTeaTribe {
-					TeaView(
-						viewModel: TeaView.ViewModel(tribe: currentTeaTribe),
-						closeButtonAction: { viewModel.setCurrentTeaTribe(nil) }
-					)
-					.transition(.asymmetric(insertion: .opacity, removal: .identity))
-				}
-			}
 			.banner(data: self.$viewModel.banner)
 			.sheet(
 				isPresented: Binding(
@@ -209,6 +200,19 @@ struct TribesView: View {
 			) {
 				if let leaveTribeVM = viewModel.leaveTribeVM {
 					LeaveTribeView(viewModel: leaveTribeVM)
+				}
+			}
+			.fullScreenCover(
+				isPresented: Binding(
+					get: { viewModel.currentTeaTribe != nil },
+					set: { _ in viewModel.setCurrentTeaTribe(nil) }
+				)
+			) {
+				if let currentTeaTribe = viewModel.currentTeaTribe {
+					TeaPotView(
+						closeButtonAction: { viewModel.setCurrentTeaTribe(nil) },
+						viewModel: TeaView.ViewModel(tribe: currentTeaTribe)
+					)
 				}
 			}
 			.fullScreenCover(

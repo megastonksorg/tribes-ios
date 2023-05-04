@@ -17,7 +17,7 @@ struct TeaPotView: View {
 			ScrollView(showsIndicators: false) {
 				LazyVGrid(columns: Array(repeating: GridItem(.flexible(maximum: 160), spacing: gridSpacing), count: 3), spacing: gridSpacing) {
 					ForEach(viewModel.drafts) { draft in
-						gridElement(action: {}, timeStamp: draft.timeStamp) {
+						gridElement(action: { viewModel.showTeaView(id: draft.id.uuidString) }, timeStamp: draft.timeStamp) {
 							MessageDraftView(
 								draft: draft,
 								isPlaying: true,
@@ -28,7 +28,7 @@ struct TeaPotView: View {
 						.id(draft.id)
 					}
 					ForEach(viewModel.tea) { tea in
-						gridElement(action: {}, timeStamp: tea.timeStamp) {
+						gridElement(action: { viewModel.showTeaView(id: tea.id) }, timeStamp: tea.timeStamp) {
 							MessageView(
 								currentTribeMember: viewModel.currentTribeMember,
 								message: tea,
@@ -71,6 +71,13 @@ struct TeaPotView: View {
 				}
 				.edgesIgnoringSafeArea(.top)
 			}
+		}
+		.overlay(isShown: viewModel.isShowingTeaView) {
+			TeaView(
+				viewModel: self.viewModel,
+				closeButtonAction: { viewModel.dismissTeaView() }
+			)
+			.transition(.asymmetric(insertion: .opacity, removal: .identity))
 		}
 	}
 	
