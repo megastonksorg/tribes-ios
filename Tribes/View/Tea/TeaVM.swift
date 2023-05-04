@@ -169,7 +169,9 @@ extension TeaView {
 		}
 		
 		func dismissTeaView() {
-			self.isShowingTeaView = false
+			DispatchQueue.main.async {
+				self.isShowingTeaView = false
+			}
 		}
 		
 		func nextDraftOrTea() {
