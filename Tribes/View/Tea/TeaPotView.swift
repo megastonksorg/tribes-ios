@@ -77,16 +77,20 @@ struct TeaPotView: View {
 	@ViewBuilder
 	func gridElement<Element: View>(action: @escaping () -> (), timeStamp: Date?, element: @escaping () -> Element) -> some View {
 		Button(action: { action() }) {
-			element()
-				.frame(height: 200)
-				.clipShape(Rectangle())
-				.overlay(alignment: .bottomLeading) {
-					Text("\(timeStamp?.timeAgoDisplay() ?? "")")
-						.font(Font.app.callout)
-						.foregroundColor(Color.white)
-						.padding([.leading, .bottom], 6)
-						.fixedSize(horizontal: true, vertical: false)
-				}
+			ZStack {
+				Rectangle()
+					.fill(Color.black)
+				element()
+			}
+			.frame(height: 200)
+			.clipShape(Rectangle())
+			.overlay(alignment: .bottomLeading) {
+				Text("\(timeStamp?.timeAgoDisplay() ?? "")")
+					.font(Font.app.callout)
+					.foregroundColor(Color.white)
+					.padding([.leading, .bottom], 6)
+					.fixedSize(horizontal: true, vertical: false)
+			}
 		}
 		.buttonStyle(.bright)
 	}
