@@ -102,6 +102,14 @@ struct ChatView: View {
 				}
 				.frame(height: 4)
 				HStack {
+					Button(action: { self.focusedField = nil }) {
+						Image(systemName: "keyboard.chevron.compact.down")
+							.font(Font.app.title2)
+							.foregroundColor(Color.gray)
+							.opacity(self.focusedField == nil ? 0.2 : 0.5)
+					}
+					.disabled(self.focusedField == nil)
+					
 					ZStack(alignment: .leading) {
 						Group {
 							Text("Message ")
