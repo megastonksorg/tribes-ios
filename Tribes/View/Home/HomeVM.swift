@@ -75,6 +75,7 @@ extension HomeView {
 		}
 		
 		@objc func openCompose() {
+			self.composeVM.setDraftRecipient(nil)
 			self.isShowingCompose = true
 		}
 		
@@ -82,7 +83,7 @@ extension HomeView {
 			if let dict = notification.userInfo as? NSDictionary {
 				if let recipient = dict[AppConstants.composeNotificationDictionaryKey] as? Tribe {
 					self.composeVM.setDraftRecipient(recipient)
-					self.openCompose()
+					self.isShowingCompose = true
 				}
 			} else {
 				self.isShowingCompose = false
