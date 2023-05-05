@@ -140,6 +140,7 @@ struct TeaView: View {
 					.dropShadow()
 					.dropShadow()
 					.opacity(viewModel.isAuthorOfCurrentTea ? 1.0 : 0.0)
+					.frame(height: 30)
 					
 					Spacer()
 					MessageBottomButton(style: .close) {
