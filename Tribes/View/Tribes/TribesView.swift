@@ -72,7 +72,7 @@ struct TribesView: View {
 						.padding(.trailing)
 				}
 			}
-			.frame(width: proxy.size.width, height: proxy.size.height)
+			.frame(size: proxy.size)
 		}
 		.ignoresSafeArea(.keyboard)
 		.background(Color.app.background)
