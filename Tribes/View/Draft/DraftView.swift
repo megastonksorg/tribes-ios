@@ -110,6 +110,7 @@ struct DraftView: View {
 					}
 				}
 			}
+			.ignoresSafeArea(.keyboard)
 			.banner(data: self.$viewModel.banner)
 			.overlay(isShown: viewModel.isUploading) {
 				AppProgressView()
