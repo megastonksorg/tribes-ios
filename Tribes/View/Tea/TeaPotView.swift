@@ -24,6 +24,7 @@ struct TeaPotView: View {
 								retryDraft: { _ in },
 								deleteDraft: { _ in }
 							)
+							.overlay(Color.black.opacity(0.8))
 						}
 						.id(draft.id)
 					}
