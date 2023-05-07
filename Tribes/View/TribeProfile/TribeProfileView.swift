@@ -16,6 +16,7 @@ struct TribeProfileView: View {
 		NavigationStack(path: $viewModel.stack) {
 			VStack {
 				let tribeAvatarSize: CGFloat = 200
+				let padding: CGFloat = 20
 				HStack {
 					Spacer()
 					Button(action: {}) {
@@ -56,12 +57,50 @@ struct TribeProfileView: View {
 							.onAppear { self.focusedField = nil }
 					}
 				}
-				.padding(.top)
 				.padding(.horizontal, 20)
+				
+				HStack(spacing: 10) {
+					Spacer()
+					actionButton(action: {}) {
+						VStack {
+							Image(systemName: "person.fill.badge.plus")
+								.font(.system(size: FontSizes.title3))
+							Text("Invite")
+						}
+					}
+					.disabled(viewModel.tribe.members.count >= 10)
+					Spacer()
+					actionButton(action: {}) {
+						VStack {
+							Image(systemName: "rectangle.portrait.and.arrow.forward.fill")
+								.font(.system(size: FontSizes.body))
+							Text("Leave")
+						}
+					}
+					Spacer()
+				}
+				.font(.system(size: FontSizes.body))
+				.foregroundColor(Color.white)
+				.padding(.horizontal, padding)
+				.padding(.vertical, padding / 1.5)
+				.padding(.horizontal)
+				.transition(.asymmetric(insertion: .scale, removal: .identity))
+				.opacity(viewModel.isEditingTribeName ? 0.0 : 1.0)
+				.animation(.easeInOut, value: viewModel.isEditingTribeName)
+				
 				Spacer()
 			}
 			.pushOutFrame()
 			.background(Color.app.background)
+		}
+	}
+	
+	@ViewBuilder
+	func actionButton<Label: View>(action: @escaping () -> (), label: @escaping () -> Label) -> some View {
+		Button(action: { action() }) {
+			label()
+				.frame(width: 70, height: 60)
+				.background(Color.app.secondary, in: RoundedRectangle(cornerRadius: 10))
 		}
 	}
 }
