@@ -11,7 +11,7 @@ import SwiftUI
 struct TribeAvatar: View {
 	enum Context: Equatable {
 		case tribesView
-		case tribesContextView
+		case profileView
 		case draftView(_ isSelected: Bool)
 	}
 	
@@ -401,7 +401,7 @@ struct TribeAvatar: View {
 					}
 					.overlay {
 						switch context {
-						case .tribesView, .tribesContextView, .draftView(false):
+						case .tribesView, .profileView, .draftView(false):
 							EmptyView()
 						case .draftView(true):
 							ZStack {
@@ -453,7 +453,7 @@ struct TribeAvatar: View {
 								nameContextAction(self.tribe)
 							}
 					)
-			case .tribesContextView:
+			case .profileView:
 				EmptyView()
 			}
 		}
@@ -469,25 +469,31 @@ struct TribeAvatar: View {
 	
 	@ViewBuilder
 	func avatarBackground() -> some View {
-		let lineWidth: CGFloat = size * 0.03
-		ZStack {
-			Circle()
-				.fill(Color.app.primary)
-			Circle()
-				.stroke(Color(uiColor: UIColor(hex: "561504")), lineWidth: lineWidth)
-				.opacity(hasTea ? 1.0 : 0.0)
-			Circle()
-				.stroke(Color.app.secondary, lineWidth: lineWidth)
-				.opacity(hasUnreadTea || isUploadingTea ? 1.0 : 0.0)
-				.transition(.opacity)
-			if isUploadingTea {
-				LoadingIndicator(
-					speed: 0.2,
-					style: .tribeAvatar,
-					lineWidth: lineWidth,
-					trim: 0.2
-				)
+		switch self.context {
+		case .tribesView, .draftView:
+			let lineWidth: CGFloat = size * 0.03
+			ZStack {
+				Circle()
+					.fill(Color.app.primary)
+				Circle()
+					.stroke(Color(uiColor: UIColor(hex: "561504")), lineWidth: lineWidth)
+					.opacity(hasTea ? 1.0 : 0.0)
+				Circle()
+					.stroke(Color.app.secondary, lineWidth: lineWidth)
+					.opacity(hasUnreadTea || isUploadingTea ? 1.0 : 0.0)
+					.transition(.opacity)
+				if isUploadingTea {
+					LoadingIndicator(
+						speed: 0.2,
+						style: .tribeAvatar,
+						lineWidth: lineWidth,
+						trim: 0.2
+					)
+				}
 			}
+		case .profileView:
+			Circle()
+				.fill(Color.clear)
 		}
 	}
 	
@@ -567,7 +573,7 @@ struct TribeAvatar_Previews: PreviewProvider {
 		VStack {
 			HStack {
 				TribeAvatar(
-					context: .tribesView,
+					context: .profileView,
 					tribe: Tribe(
 						id: "1",
 						name: "Body does not Lie. But do not for one second think that this is",
