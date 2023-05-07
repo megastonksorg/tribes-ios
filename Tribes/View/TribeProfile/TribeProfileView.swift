@@ -16,15 +16,6 @@ struct TribeProfileView: View {
 	var body: some View {
 		NavigationStack(path: $viewModel.stack) {
 			VStack {
-				HStack {
-					Spacer()
-					Button(action: { dismiss() }) {
-						Text("Cancel")
-							.font(Font.app.title3)
-							.foregroundColor(Color.white)
-					}
-				}
-				.padding([.top, .trailing])
 				VStack(spacing: 2) {
 					let tribeAvatarSize: CGFloat = 200
 					
@@ -55,7 +46,7 @@ struct TribeProfileView: View {
 								.multilineTextAlignment(.center)
 								.focused($focusedField, equals: .editTribeName)
 								.onAppear { self.focusedField = .editTribeName }
-								.onAppear { self.focusedField = nil }
+								.onDisappear { self.focusedField = nil }
 						}
 					}
 					.padding(.horizontal, 20)
@@ -95,10 +86,20 @@ struct TribeProfileView: View {
 					}
 				}
 				.padding([.leading, .top])
+				.opacity(viewModel.isEditingTribeName ? 0.0 : 1.0)
 				Spacer()
 			}
 			.pushOutFrame()
 			.background(Color.app.background)
+			.toolbar {
+				ToolbarItem(placement: .navigationBarTrailing) {
+					Button(action: { dismiss() }) {
+						Text("Cancel")
+							.font(Font.app.title3)
+							.foregroundColor(Color.white)
+					}
+				}
+			}
 			.overlay(isShown: viewModel.isLoading) {
 				AppProgressView()
 			}
