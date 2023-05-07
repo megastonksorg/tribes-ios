@@ -99,9 +99,13 @@ struct TribeProfileView: View {
 						Spacer()
 					}
 				}
+				.padding(.leading)
 			}
 			.pushOutFrame()
 			.background(Color.app.background)
+			.overlay(isShown: viewModel.isLoading) {
+				AppProgressView()
+			}
 		}
 	}
 	
@@ -109,8 +113,8 @@ struct TribeProfileView: View {
 	func actionButton<Label: View>(action: @escaping () -> (), label: @escaping () -> Label) -> some View {
 		Button(action: { action() }) {
 			label()
-				.frame(width: 70, height: 60)
-				.background(Color.app.secondary, in: RoundedRectangle(cornerRadius: 10))
+				.frame(width: 100, height: 60)
+				.background(Color.app.secondary, in: Capsule())
 		}
 	}
 	
@@ -130,6 +134,7 @@ struct TribeProfileView: View {
 					Image(systemName: "chevron.right")
 						.font(.system(size: FontSizes.title2, weight: .medium))
 						.foregroundColor(tintColor)
+						.padding(.trailing, 4)
 				}
 				HStack {
 					Rectangle()

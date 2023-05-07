@@ -19,13 +19,13 @@ extension TribeProfileView {
 			case userProfile
 		}
 		
-		let tribe: Tribe
-		
 		private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 		
+		@Published var tribe: Tribe
 		@Published var editTribeNameText: String
 		@Published var stack: [Stack] = []
 		@Published var isEditingTribeName: Bool = false
+		@Published var isLoading: Bool = false
 		
 		@Published var banner: BannerData?
 		
@@ -56,6 +56,9 @@ extension TribeProfileView {
 		}
 		
 		func updateTribeName() {
+			self.isEditingTribeName = false
+			self.isLoading = true
+			
 			let newTribeName = self.editTribeNameText.trimmingCharacters(in: .whitespacesAndNewlines)
 			
 			guard
@@ -63,6 +66,7 @@ extension TribeProfileView {
 				newTribeName != tribe.name
 			else {
 				self.editTribeNameText = tribe.name
+				self.isLoading = false
 				return
 			}
 			
@@ -73,11 +77,21 @@ extension TribeProfileView {
 						switch completion {
 							case .finished: return
 							case .failure(let error):
+							self?.isLoading = false
 							self?.banner = BannerData(error: error)
 						}
 					},
-					receiveValue: { [weak self] _ in
-						//Notify everyone that the Tribe has been updated
+					receiveValue: { [weak self] newTribeName in
+						guard let self = self else { return }
+						let updatedTribe: Tribe = Tribe(
+							id: self.tribe.id,
+							name: newTribeName,
+							timestampId: self.tribe.timestampId,
+							members: self.tribe.members
+						)
+						self.tribe = updatedTribe
+						self.isLoading = false
+						//Notify the repository that the Tribe has been updated
 					}
 				)
 				.store(in: &cancellables)
