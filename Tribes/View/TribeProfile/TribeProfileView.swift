@@ -11,13 +11,14 @@ struct TribeProfileView: View {
 	@StateObject var viewModel: ViewModel
 	
 	@FocusState private var focusedField: ViewModel.FocusField?
+	@Environment(\.dismiss) var dismiss
 	
 	var body: some View {
 		NavigationStack(path: $viewModel.stack) {
 			VStack {
 				HStack {
 					Spacer()
-					Button(action: {}) {
+					Button(action: { dismiss() }) {
 						Text("Cancel")
 							.font(Font.app.title2)
 							.foregroundColor(Color.white)

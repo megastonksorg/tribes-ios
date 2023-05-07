@@ -155,7 +155,7 @@ struct ChatView: View {
 		.background(Color.app.background)
 		.toolbar {
 			ToolbarItem(placement: .principal) {
-				Button(action: { }) {
+				Button(action: { viewModel.showTribeProfile() }) {
 					ChatHeaderView(
 						context: .chat,
 						members: IdentifiedArrayOf(
@@ -231,6 +231,9 @@ struct ChatView: View {
 					.padding(.horizontal)
 				}
 			}
+		}
+		.sheet(isPresented: $viewModel.isShowingTribeProfile) {
+			TribeProfileView(viewModel: TribeProfileView.ViewModel(tribe: viewModel.tribe))
 		}
 		.sheet(
 			isPresented: Binding(

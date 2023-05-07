@@ -85,6 +85,7 @@ extension ChatView {
 		@Published var messageChangedId: UUID?
 		@Published var currentShowingTea: Message?
 		@Published var isShowingMember: Bool = false
+		@Published var isShowingTribeProfile: Bool = false
 		@Published var isProcessingSheetRequest: Bool = false
 		@Published var memberToShow: TribeMember?
 		@Published var sheetConfirmation: String = ""
@@ -215,6 +216,10 @@ extension ChatView {
 			withAnimation(self.teaAnimation) {
 				self.currentShowingTea = nil
 			}
+		}
+		
+		func showTribeProfile() {
+			self.isShowingTribeProfile = true
 		}
 		
 		func setSheet(_ sheet: Sheet?) {
