@@ -72,7 +72,7 @@ struct TribeAvatar: View {
 	) {
 		self.context = context
 		self.name = tribe.name
-		self.members = tribe.members.others
+		self.members = context == .profileView ? tribe.members : tribe.members.others
 		self.tribe = tribe
 		
 		self.size = size
