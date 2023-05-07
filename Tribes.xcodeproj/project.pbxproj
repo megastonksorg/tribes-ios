@@ -91,6 +91,8 @@
 		D033258329A27BE000F94834 /* View+If.swift in Sources */ = {isa = PBXBuildFile; fileRef = D033258229A27BE000F94834 /* View+If.swift */; };
 		D03B30A32968DAFB00F797CE /* HomeVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B30A22968DAFB00F797CE /* HomeVM.swift */; };
 		D03B30A52968DB3D00F797CE /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B30A42968DB3D00F797CE /* HomeView.swift */; };
+		D041785C2A0822C5001A8B05 /* TribeProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D041785B2A0822C5001A8B05 /* TribeProfileView.swift */; };
+		D041785F2A0822F8001A8B05 /* TribeProfileVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D041785E2A0822F8001A8B05 /* TribeProfileVM.swift */; };
 		D047E1992982F88900F5C63A /* CodeWords.json in Resources */ = {isa = PBXBuildFile; fileRef = D047E1982982F88900F5C63A /* CodeWords.json */; };
 		D055BD6129AEF5680070025D /* MessageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D055BD6029AEF5680070025D /* MessageResponse.swift */; };
 		D055BD6429AEF73D0070025D /* PostMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D055BD6329AEF73D0070025D /* PostMessage.swift */; };
@@ -292,6 +294,8 @@
 		D033258229A27BE000F94834 /* View+If.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+If.swift"; sourceTree = "<group>"; };
 		D03B30A22968DAFB00F797CE /* HomeVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVM.swift; sourceTree = "<group>"; };
 		D03B30A42968DB3D00F797CE /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		D041785B2A0822C5001A8B05 /* TribeProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TribeProfileView.swift; sourceTree = "<group>"; };
+		D041785E2A0822F8001A8B05 /* TribeProfileVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TribeProfileVM.swift; sourceTree = "<group>"; };
 		D047E1982982F88900F5C63A /* CodeWords.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = CodeWords.json; sourceTree = "<group>"; };
 		D055BD6029AEF5680070025D /* MessageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageResponse.swift; sourceTree = "<group>"; };
 		D055BD6329AEF73D0070025D /* PostMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostMessage.swift; sourceTree = "<group>"; };
@@ -675,6 +679,7 @@
 				D055BD6929AFC7910070025D /* Content */,
 				D06FDE7B2999C15D0013A55E /* Account */,
 				D07278B22974CCAD00650A15 /* Tribes */,
+				D041785D2A0822CA001A8B05 /* TribeProfile */,
 				D03B30A12968DAE700F797CE /* Home */,
 				D0D2669A296010C900A94183 /* Tea */,
 				D0D2669529600BAB00A94183 /* Draft */,
@@ -768,6 +773,15 @@
 				D03B30A42968DB3D00F797CE /* HomeView.swift */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		D041785D2A0822CA001A8B05 /* TribeProfile */ = {
+			isa = PBXGroup;
+			children = (
+				D041785B2A0822C5001A8B05 /* TribeProfileView.swift */,
+				D041785E2A0822F8001A8B05 /* TribeProfileVM.swift */,
+			);
+			path = TribeProfile;
 			sourceTree = "<group>";
 		};
 		D055BD5E29AEF52A0070025D /* Tribe */ = {
@@ -1278,6 +1292,7 @@
 				D0A3F0832980AA0B000308BF /* TribeInviteVM.swift in Sources */,
 				D055BD6829AEFDE20070025D /* Message.swift in Sources */,
 				D030D2A7295745C20011128F /* HttpMethod.swift in Sources */,
+				D041785F2A0822F8001A8B05 /* TribeProfileVM.swift in Sources */,
 				D0766365298E288100946F7B /* CachedImage.swift in Sources */,
 				D0D266A02960C8D400A94183 /* LoadingIndicator.swift in Sources */,
 				D030D2DE295745E90011128F /* TermsAndConditionsView.swift in Sources */,
@@ -1306,6 +1321,7 @@
 				D06829BE29C69AC100686FCC /* LShape.swift in Sources */,
 				D0AAF2DE29761F49003536C6 /* ChatType.swift in Sources */,
 				D015807E295E057F0087545A /* CMSampleBuffer+Image.swift in Sources */,
+				D041785C2A0822C5001A8B05 /* TribeProfileView.swift in Sources */,
 				D08EBF23297FC4D1001B7A5C /* CreateTribeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
