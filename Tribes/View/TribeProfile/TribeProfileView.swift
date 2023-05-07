@@ -20,7 +20,7 @@ struct TribeProfileView: View {
 					Spacer()
 					Button(action: { dismiss() }) {
 						Text("Cancel")
-							.font(Font.app.title2)
+							.font(Font.app.title3)
 							.foregroundColor(Color.white)
 					}
 				}
