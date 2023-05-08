@@ -95,22 +95,24 @@ struct TribeProfileView: View {
 				ScrollView(showsIndicators: true) {
 					VStack {
 						if let currentMember = viewModel.tribe.members.currentMember {
-							memberRow(member: currentMember, isCurrentMember: true)
+							memberRow(member: currentMember, isCurrentMember: true, shouldShowDivider: true)
 								.opacity(0.5)
 						}
-						ForEach(viewModel.tribe.members.others) { member in
+						let members = viewModel.tribe.members.others
+						let membersCount = members.count
+						ForEach(0..<membersCount, id: \.self) { index in
 							NavigationLink(
 								destination: {
 									TribeMemberView(
 										viewModel: TribeMemberView.ViewModel(
-											member: member,
+											member: members[index],
 											tribe: viewModel.tribe,
 											didCompleteAction: { dismiss() }
 										)
 									)
 								}
 							) {
-								memberRow(member: member, isCurrentMember: false)
+								memberRow(member: members[index], isCurrentMember: false, shouldShowDivider: index < membersCount - 1)
 							}
 						}
 					}
@@ -155,7 +157,7 @@ struct TribeProfileView: View {
 	}
 	
 	@ViewBuilder
-	func memberRow(member: TribeMember, isCurrentMember: Bool) -> some View {
+	func memberRow(member: TribeMember, isCurrentMember: Bool, shouldShowDivider: Bool) -> some View {
 		let avatarSize: CGFloat = 40
 		let tintColor: Color = Color.gray.opacity(0.5)
 		VStack(spacing: 4) {
@@ -183,9 +185,11 @@ struct TribeProfileView: View {
 				Rectangle()
 					.fill(Color.clear)
 					.frame(width: avatarSize)
-				Rectangle()
-					.fill(tintColor)
-					.frame(height: 0.5)
+				if shouldShowDivider {
+					Rectangle()
+						.fill(tintColor)
+						.frame(height: 0.5)
+				}
 			}
 		}
 	}
