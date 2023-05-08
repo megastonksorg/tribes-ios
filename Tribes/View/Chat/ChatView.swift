@@ -233,7 +233,11 @@ struct ChatView: View {
 			}
 		}
 		.sheet(isPresented: $viewModel.isShowingTribeProfile) {
-			TribeProfileView(viewModel: TribeProfileView.ViewModel(tribe: viewModel.tribe))
+			NavigationView {
+				TribeProfileView(viewModel: TribeProfileView.ViewModel(tribe: viewModel.tribe))
+					.navigationTitle("")
+			}
+			.tint(Color.app.secondary)
 		}
 		.sheet(
 			isPresented: Binding(
