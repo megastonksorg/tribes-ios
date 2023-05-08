@@ -34,6 +34,14 @@ extension TribeProfileView {
 		init(tribe: Tribe) {
 			self.editTribeNameText = tribe.name
 			self.tribe = tribe
+			
+			NotificationCenter
+				.default.addObserver(
+					self,
+					selector: #selector(updateTribe),
+					name: .tribesUpdated,
+					object: nil
+				)
 		}
 		
 		func dismissTribeInviteCard() {
@@ -109,6 +117,14 @@ extension TribeProfileView {
 					}
 				)
 				.store(in: &cancellables)
+		}
+		
+		@objc func updateTribe() {
+			DispatchQueue.main.async {
+				if let tribe = self.tribesRepository.getTribe(tribeId: self.tribe.id) {
+					self.tribe = tribe
+				}
+			}
 		}
 	}
 }
