@@ -95,8 +95,19 @@ struct TribeProfileView: View {
 				}
 				ScrollView(showsIndicators: true) {
 					VStack {
-						ForEach(viewModel.tribe.members.others) {
-							memberRow(member: $0)
+						ForEach(viewModel.tribe.members.others) { member in
+							NavigationLink(
+								destination: {
+									TribeMemberView(
+										viewModel: TribeMemberView.ViewModel(
+											member: member,
+											tribe: viewModel.tribe
+										)
+									)
+								}
+							) {
+								memberRow(member: member)
+							}
 						}
 					}
 				}
@@ -143,28 +154,26 @@ struct TribeProfileView: View {
 	func memberRow(member: TribeMember) -> some View {
 		let avatarSize: CGFloat = 40
 		let tintColor: Color = Color.gray.opacity(0.5)
-		Button(action: {}) {
-			VStack(spacing: 4) {
-				HStack(spacing: 10) {
-					UserAvatar(url: member.profilePhoto)
-						.frame(dimension: avatarSize)
-					Text(member.fullName)
-						.font(Font.body)
-						.foregroundColor(Color.white)
-					Spacer()
-					Image(systemName: "chevron.right")
-						.font(.system(size: FontSizes.title2, weight: .medium))
-						.foregroundColor(tintColor)
-						.padding(.trailing, 4)
-				}
-				HStack {
-					Rectangle()
-						.fill(Color.clear)
-						.frame(width: avatarSize)
-					Rectangle()
-						.fill(tintColor)
-						.frame(height: 0.5)
-				}
+		VStack(spacing: 4) {
+			HStack(spacing: 10) {
+				UserAvatar(url: member.profilePhoto)
+					.frame(dimension: avatarSize)
+				Text(member.fullName)
+					.font(Font.body)
+					.foregroundColor(Color.white)
+				Spacer()
+				Image(systemName: "chevron.right")
+					.font(.system(size: FontSizes.title2, weight: .medium))
+					.foregroundColor(tintColor)
+					.padding(.trailing, 4)
+			}
+			HStack {
+				Rectangle()
+					.fill(Color.clear)
+					.frame(width: avatarSize)
+				Rectangle()
+					.fill(tintColor)
+					.frame(height: 0.5)
 			}
 		}
 	}
@@ -172,6 +181,8 @@ struct TribeProfileView: View {
 
 struct TribeProfile_Previews: PreviewProvider {
 	static var previews: some View {
-		TribeProfileView(viewModel: .init(tribe: Tribe.noop2))
+		NavigationView {
+			TribeProfileView(viewModel: .init(tribe: Tribe.noop2))
+		}
 	}
 }

@@ -18,7 +18,7 @@ struct TribeMemberView: View {
 		VStack(spacing: 20) {
 			let member: TribeMember = viewModel.member
 			UserAvatar(url: member.profilePhoto)
-				.frame(dimension: 200)
+				.frame(dimension: 240)
 				.padding(.top)
 				
 			Text(member.fullName)
