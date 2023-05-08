@@ -7,6 +7,7 @@
 
 import Combine
 import Foundation
+import SwiftUI
 
 extension TribeProfileView {
 	@MainActor class ViewModel: ObservableObject {
@@ -15,17 +16,14 @@ extension TribeProfileView {
 			
 			var id: String { self.rawValue }
 		}
-		enum Stack: Hashable {
-			case userProfile
-		}
 		
 		private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 		
 		@Published var tribe: Tribe
 		@Published var editTribeNameText: String
-		@Published var stack: [Stack] = []
 		@Published var isEditingTribeName: Bool = false
 		@Published var isLoading: Bool = false
+		@Published var isShowingTribeInvite: Bool = false
 		
 		@Published var banner: BannerData?
 		
@@ -36,6 +34,12 @@ extension TribeProfileView {
 		init(tribe: Tribe) {
 			self.editTribeNameText = tribe.name
 			self.tribe = tribe
+		}
+		
+		func dismissTribeInviteCard() {
+			withAnimation(Animation.cardViewDisappear) {
+				self.isShowingTribeInvite = false
+			}
 		}
 		
 		func editTribeName() {
@@ -51,8 +55,18 @@ extension TribeProfileView {
 			}
 		}
 		
+		func inviteTapped() {
+			withAnimation(Animation.cardViewAppear) {
+				self.isShowingTribeInvite = true
+			}
+		}
+		
 		func resetEditTribeName() {
 			self.editTribeNameText = self.tribe.name
+		}
+		
+		func showTribeInviteCopyBanner() {
+			self.banner = BannerData(detail: "Pin Code copied to clipboard", type: .success)
 		}
 		
 		func updateTribeName() {

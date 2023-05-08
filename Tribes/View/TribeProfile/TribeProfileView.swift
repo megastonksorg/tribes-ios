@@ -14,7 +14,6 @@ struct TribeProfileView: View {
 	@Environment(\.dismiss) var dismiss
 	
 	var body: some View {
-		NavigationStack(path: $viewModel.stack) {
 			VStack {
 				VStack(spacing: 2) {
 					let tribeAvatarSize: CGFloat = 200
@@ -53,20 +52,28 @@ struct TribeProfileView: View {
 					
 					HStack(spacing: 10) {
 						Spacer()
-						actionButton(action: {}) {
-							VStack {
-								Image(systemName: "person.fill.badge.plus")
-									.font(.system(size: FontSizes.title3))
-								Text("Invite")
+						Button(action: { viewModel.inviteTapped() }) {
+							actionButtonView {
+								VStack {
+									Image(systemName: "person.fill.badge.plus")
+										.font(.system(size: FontSizes.title3))
+									Text("Invite")
+								}
 							}
 						}
 						.disabled(viewModel.tribe.members.count >= 10)
 						Spacer()
-						actionButton(action: {}) {
-							VStack {
-								Image(systemName: "rectangle.portrait.and.arrow.forward.fill")
-									.font(.system(size: FontSizes.body))
-								Text("Leave")
+						NavigationLink(
+							destination: {
+								LeaveTribeView(viewModel: LeaveTribeView.ViewModel(tribe: viewModel.tribe))
+							}
+						) {
+							actionButtonView {
+								VStack {
+									Image(systemName: "rectangle.portrait.and.arrow.forward.fill")
+										.font(.system(size: FontSizes.body))
+									Text("Leave")
+								}
 							}
 						}
 						Spacer()
@@ -89,6 +96,7 @@ struct TribeProfileView: View {
 				.opacity(viewModel.isEditingTribeName ? 0.0 : 1.0)
 				Spacer()
 			}
+			.navigationBarTitleDisplayMode(.inline)
 			.pushOutFrame()
 			.background(Color.app.background)
 			.toolbar {
@@ -103,16 +111,24 @@ struct TribeProfileView: View {
 			.overlay(isShown: viewModel.isLoading) {
 				AppProgressView()
 			}
-		}
+			.cardView(
+				isShowing: $viewModel.isShowingTribeInvite,
+				dismissAction: { viewModel.dismissTribeInviteCard() }
+			) {
+				TribeInviteView(
+					didCopyAction: { viewModel.showTribeInviteCopyBanner() },
+					dismissAction: { viewModel.dismissTribeInviteCard() },
+					viewModel: TribeInviteView.ViewModel(tribe: viewModel.tribe)
+				)
+			}
+			.banner(data: self.$viewModel.banner)
 	}
 	
 	@ViewBuilder
-	func actionButton<Label: View>(action: @escaping () -> (), label: @escaping () -> Label) -> some View {
-		Button(action: { action() }) {
-			label()
-				.frame(width: 80, height: 50)
-				.background(Color.app.secondary, in: Capsule())
-		}
+	func actionButtonView<Label: View>(label: @escaping () -> Label) -> some View {
+		label()
+			.frame(width: 80, height: 50)
+			.background(Color.app.secondary, in: Capsule())
 	}
 	
 	@ViewBuilder
