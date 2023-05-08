@@ -425,15 +425,15 @@ struct TribeAvatar: View {
 			.overlay(isShown: context == .tribesView && hasUnreadChat , alignment: .top) {
 				if let lastChat = self.lastChat {
 					if lastChat.senderId != self.tribe.members.currentMember?.id {
-						switch lastChat.body?.content {
-						case .text(let textContent):
-							Button(action: { secondaryAction(self.tribe) }) {
-								CalloutView(content: textContent, fontSize: nameSize * 0.9)
-									.offset(y: -size * 0.1)
+						if case .systemEvent(let textContent) = lastChat.encryptedBody.content {
+							callOutIndicator(content: textContent, style: .alternate)
+						} else {
+							switch lastChat.body?.content {
+							case .text(let textContent):
+								callOutIndicator(content: textContent, style: .regular)
+							case .image, .imageData, .video, .systemEvent, .none:
+								EmptyView()
 							}
-							.buttonStyle(.plain)
-						case .image, .imageData, .video, .systemEvent, .none:
-							EmptyView()
 						}
 					}
 				}
@@ -489,6 +489,15 @@ struct TribeAvatar: View {
 			Circle()
 				.fill(Color.clear)
 		}
+	}
+	
+	@ViewBuilder
+	func callOutIndicator(content: String, style: CalloutView.Style) -> some View {
+		Button(action: { secondaryAction(self.tribe) }) {
+			CalloutView(content: content, style: style, fontSize: nameSize * 0.9)
+				.offset(y: -size * 0.1)
+		}
+		.buttonStyle(.plain)
 	}
 	
 	func checkForUnreadTea() {
