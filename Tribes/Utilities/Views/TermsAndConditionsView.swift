@@ -49,6 +49,9 @@ struct TermsAndConditionsView: View {
 					}
 				) {
 					Text(didAcceptTerms ? "Terms Accepted" : "Read and Accept Terms To Proceed")
+						.if(!didAcceptTerms) { view in
+							view.underline()
+						}
 				}
 				.opacity(opacity)
 				Spacer()
