@@ -52,11 +52,27 @@ struct TribeMemberView: View {
 		.multilineTextAlignment(.center)
 		.pushOutFrame()
 		.background(Color.app.background)
+		.confirmationDialog("Remove \(viewModel.member.fullName)", isPresented: $viewModel.isShowingRemoveRequest) {
+			Button("Remove") {
+				viewModel.removeTribeMember()
+			}
+			Button("Cancel", role: .cancel) {}
+		} message: {
+			Text("Are you sure you would like to remove \(viewModel.member.fullName) from \(viewModel.tribe.name)")
+		}
+		.confirmationDialog("Block \(viewModel.member.fullName)", isPresented: $viewModel.isShowingBlockRequest) {
+			Button("Block", role: .destructive) {
+				viewModel.blockTribeMember()
+			}
+			Button("Cancel", role: .cancel) {}
+		} message: {
+			Text("Are you sure you would like to block \(viewModel.member.fullName)")
+		}
 	}
 }
 
 struct TribeMemberView_Previews: PreviewProvider {
 	static var previews: some View {
-		TribeMemberView(viewModel: .init(member: TribeMember.noop2, tribe: Tribe.noop2))
+		TribeMemberView(viewModel: .init(member: TribeMember.noop2, tribe: Tribe.noop2, didCompleteAction: {}))
 	}
 }

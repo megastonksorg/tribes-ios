@@ -12,26 +12,30 @@ extension TribeMemberView {
 	@MainActor class ViewModel: ObservableObject {
 		let member: TribeMember
 		let tribe: Tribe
+		let didCompleteAction: () -> ()
 		
 		private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 		
 		@Published var isProcessingRequest: Bool = false
+		@Published var isShowingBlockRequest: Bool = false
+		@Published var isShowingRemoveRequest: Bool = false
 		@Published var banner: BannerData?
 		
 		//Clients
 		let apiClient: APIClient = APIClient.shared
 		
-		init(member: TribeMember, tribe: Tribe) {
+		init(member: TribeMember, tribe: Tribe, didCompleteAction: @escaping () -> ()) {
 			self.member = member
 			self.tribe = tribe
+			self.didCompleteAction = didCompleteAction
 		}
 		
 		func requestToBlockTribeMember() {
-			
+			self.isShowingBlockRequest = true
 		}
 		
 		func requestToRemoveTribeMember() {
-		
+			self.isShowingRemoveRequest = true
 		}
 		
 		func blockTribeMember() {
@@ -49,6 +53,7 @@ extension TribeMemberView {
 					},
 					receiveValue: { [weak self] _ in
 						guard let self = self else { return }
+						self.didCompleteAction()
 					}
 				)
 				.store(in: &cancellables)
@@ -69,6 +74,7 @@ extension TribeMemberView {
 					},
 					receiveValue: { [weak self] _ in
 						guard let self = self else { return }
+						self.didCompleteAction()
 					}
 				)
 				.store(in: &cancellables)

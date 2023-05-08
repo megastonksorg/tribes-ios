@@ -101,7 +101,8 @@ struct TribeProfileView: View {
 									TribeMemberView(
 										viewModel: TribeMemberView.ViewModel(
 											member: member,
-											tribe: viewModel.tribe
+											tribe: viewModel.tribe,
+											didCompleteAction: { dismiss() }
 										)
 									)
 								}
