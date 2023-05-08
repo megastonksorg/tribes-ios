@@ -16,8 +16,6 @@ struct ChatView: View {
 	
 	@StateObject var viewModel: ViewModel
 	
-	@State var isShowingMemberImage: Bool = false
-	
 	init(viewModel: ViewModel) {
 		self._viewModel = StateObject(wrappedValue: viewModel)
 	}
@@ -166,16 +164,6 @@ struct ChatView: View {
 				.offset(y: -4)
 			}
 		}
-		.cardView(
-			isShowing: $viewModel.isShowingMember,
-			dismissAction: { viewModel.dismissTribeMemberCard() }
-		) {
-			Group {
-				if let member = viewModel.memberToShow {
-					memberCard(member)
-				}
-			}
-		}
 		.overlay(isShown: viewModel.currentShowingTea != nil) {
 			if let currentShowingTea = viewModel.currentShowingTea {
 				GeometryReader { proxy in
@@ -238,167 +226,6 @@ struct ChatView: View {
 					.navigationTitle("")
 			}
 			.tint(Color.app.secondary)
-		}
-		.sheet(
-			isPresented: Binding(
-				get: { viewModel.sheet != nil },
-				set: { _ in viewModel.setSheet(nil) }
-			)
-		) {
-			switch viewModel.sheet {
-			case .blockMember, .removeMember:
-				memberSheet()
-			case .none:
-				EmptyView()
-			}
-		}
-	}
-	
-	@ViewBuilder
-	func memberCard(_ member: TribeMember) -> some View {
-		let isCurrentMember: Bool = viewModel.currentTribeMember.id == member.id
-		VStack {
-			SymmetricHStack(
-				content: {
-					Text(member.fullName)
-						.font(Font.app.title3)
-						.foregroundColor(Color.white)
-				},
-				leading: { EmptyView() },
-				trailing: {
-					XButton {
-						viewModel.dismissTribeMemberCard()
-					}
-				}
-			)
-			.padding()
-			UserAvatar(url: member.profilePhoto)
-				.frame(dimension: 140)
-				.opacity(self.isShowingMemberImage ? 1.0 : 0.0)
-				.transition(.opacity)
-			Spacer()
-			if let tenure = member.joined.utcToCurrent().date?.timeAgoDisplay() {
-				Text("Joined \(tenure)")
-					.font(Font.app.footnote)
-					.foregroundColor(Color.gray)
-					.padding(.bottom)
-			}
-			Button(action: { viewModel.requestToBlockTribeMember() }) {
-				Text("Block")
-					.font(Font.app.body)
-					.textCase(.uppercase)
-					.foregroundColor(Color.gray)
-					.padding(.horizontal)
-					.fixedSize(horizontal: true, vertical: false)
-			}
-			.disabled(isCurrentMember)
-			.opacity(isCurrentMember ? 0.0 : 1.0)
-			Button(action: { viewModel.requestToRemoveTribeMember() }) {
-				Text(isCurrentMember ? "You" : "Remove")
-					.font(Font.app.title3)
-					.textCase(.uppercase)
-					.foregroundColor(Color.app.tertiary)
-					.padding()
-					.padding(.horizontal)
-					.background(
-						RoundedRectangle(cornerRadius: SizeConstants.secondaryCornerRadius)
-							.stroke(Color.app.tertiary)
-					)
-					.fixedSize(horizontal: true, vertical: false)
-			}
-			.disabled(isCurrentMember)
-			.opacity(isCurrentMember ? 0.5 : 1.0)
-			.padding(.bottom)
-		}
-		.multilineTextAlignment(.center)
-		.onAppear {
-			//Need this workaround because the Image view does not animate with the Card View
-			DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-				withAnimation(.easeInOut(duration: 0.5)) {
-					self.isShowingMemberImage = true
-				}
-			}
-		}
-		.onDisappear {
-			self.isShowingMemberImage = false
-		}
-	}
-	
-	@ViewBuilder
-	func memberSheet() -> some View {
-		if let sheet = viewModel.sheet {
-			VStack {
-				VStack {
-					SymmetricHStack(
-						content: {
-							Text(sheet.title)
-								.textCase(.uppercase)
-								.font(Font.app.title3)
-								.fontWeight(.semibold)
-						},
-						leading: { EmptyView() },
-						trailing: {
-							XButton {
-								viewModel.setSheet(nil)
-							}
-						}
-					)
-					.padding(.top)
-					
-					Group {
-						Text("\(sheet.body)")
-							.foregroundColor(Color.gray)
-						+
-						Text(" \(viewModel.memberToShow?.fullName ?? "")")
-							.foregroundColor(Color.white)
-						+
-						Text(" from ")
-							.foregroundColor(Color.gray)
-						+
-						Text(viewModel.tribe.name)
-							.foregroundColor(Color.app.tertiary)
-					}
-					.padding(.top, 60)
-					Spacer()
-					SymmetricHStack(
-						content: {
-							ZStack {
-								Text(sheet.confirmationTitle)
-									.foregroundColor(Color.gray.opacity(viewModel.sheetConfirmation.isEmpty ? 0.4 : 0.0))
-								TextField("", text: $viewModel.sheetConfirmation)
-									.tint(Color.white)
-									.introspectTextField { textField in
-										//We need this because focusField does not work in a sheet here
-										textField.becomeFirstResponder()
-									}
-							}
-						},
-						leading: {
-							Image(systemName: "exclamationmark.circle.fill")
-						},
-						trailing: { EmptyView() }
-					)
-					.font(Font.app.title)
-					.padding(.top)
-					Spacer()
-					Button(action: { viewModel.executeSheetAction() }) {
-						Text(sheet.title)
-					}
-					.buttonStyle(.expanded(invertedStyle: true))
-					.disabled(!viewModel.isSheetConfirmationButtonEnabled)
-					.padding(.bottom)
-				}
-				.font(Font.app.subTitle)
-				.multilineTextAlignment(.center)
-				.foregroundColor(Color.white)
-				.padding(.horizontal)
-			}
-			.pushOutFrame()
-			.background(Color.app.background)
-			.banner(data: self.$viewModel.sheetBanner)
-			.overlay(isShown: viewModel.isProcessingSheetRequest) {
-				AppProgressView()
-			}
 		}
 	}
 }

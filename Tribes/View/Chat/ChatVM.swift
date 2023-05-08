@@ -15,31 +15,6 @@ extension ChatView {
 		enum FocusField: Hashable {
 			case text
 		}
-		enum Sheet: Equatable {
-			case blockMember
-			case removeMember
-			
-			var title: String {
-				switch self {
-				case .blockMember: return "Block"
-				case .removeMember: return "Remove"
-				}
-			}
-			
-			var body: String {
-				switch self {
-				case .blockMember: return "Are you sure you would like to block"
-				case .removeMember: return "Are you sure you would like to remove"
-				}
-			}
-			
-			var confirmationTitle: String {
-				switch self {
-				case .blockMember: return "Block"
-				case .removeMember: return "Remove"
-				}
-			}
-		}
 		
 		let scrollAnimation: Animation = Animation.easeIn
 		let teaAnimation: Animation = Animation.easeInOut
@@ -74,24 +49,16 @@ extension ChatView {
 			drafts.contains(where: { $0.status == .uploading })
 		}
 		
-		var isSheetConfirmationButtonEnabled: Bool {
-			return sheetConfirmation == sheet?.confirmationTitle
-		}
-		
 		@Published var tribe: Tribe
 		@Published var drafts: IdentifiedArrayOf<MessageDraft>
 		@Published var messages: IdentifiedArrayOf<Message>
 		@Published var draftChangedId: UUID?
 		@Published var messageChangedId: UUID?
 		@Published var currentShowingTea: Message?
-		@Published var isShowingMember: Bool = false
 		@Published var isShowingTribeProfile: Bool = false
-		@Published var isProcessingSheetRequest: Bool = false
 		@Published var memberToShow: TribeMember?
 		@Published var sheetConfirmation: String = ""
 		@Published var text: String = ""
-		@Published var sheet: Sheet?
-		@Published var sheetBanner: BannerData?
 		
 		//Clients
 		let apiClient: APIClient = APIClient.shared
@@ -121,20 +88,6 @@ extension ChatView {
 					name: .messageUpdated,
 					object: nil
 				)
-		}
-		
-		func showTribeMemberCard(_ member: TribeMember) {
-			withAnimation(Animation.cardViewAppear) {
-				self.isShowingMember = true
-				self.memberToShow = member
-			}
-		}
-		
-		func dismissTribeMemberCard() {
-			withAnimation(Animation.cardViewDisappear) {
-				self.isShowingMember = false
-			}
-			self.memberToShow = nil
 		}
 		
 		func retryDraft(draft: MessageDraft) {
@@ -220,70 +173,6 @@ extension ChatView {
 		
 		func showTribeProfile() {
 			self.isShowingTribeProfile = true
-		}
-		
-		func setSheet(_ sheet: Sheet?) {
-			self.sheetConfirmation = ""
-			self.sheet = sheet
-		}
-		
-		func requestToRemoveTribeMember() {
-			setSheet(.removeMember)
-		}
-		
-		func requestToBlockTribeMember() {
-			setSheet(.blockMember)
-		}
-		
-		func executeSheetAction() {
-			guard
-				let sheet = self.sheet,
-				let memberToRemove = self.memberToShow,
-				self.isSheetConfirmationButtonEnabled
-			else { return }
-			self.isProcessingSheetRequest = true
-			switch sheet {
-			case .blockMember:
-				self.apiClient.blockMember(tribeID: tribe.id, memberId: memberToRemove.id)
-					.receive(on: DispatchQueue.main)
-					.sink(
-						receiveCompletion: { [weak self] completion in
-							switch completion {
-							case .finished:
-								self?.isProcessingSheetRequest = false
-							case .failure(let error):
-								self?.isProcessingSheetRequest = false
-								self?.sheetBanner = BannerData(error: error)
-							}
-						},
-						receiveValue: { [weak self] _ in
-							guard let self = self else { return }
-							self.dismissTribeMemberCard()
-							self.setSheet(nil)
-						}
-					)
-					.store(in: &cancellables)
-			case .removeMember:
-				self.apiClient.removeMember(tribeID: tribe.id, memberId: memberToRemove.id)
-					.receive(on: DispatchQueue.main)
-					.sink(
-						receiveCompletion: { [weak self] completion in
-							switch completion {
-							case .finished:
-								self?.isProcessingSheetRequest = false
-							case .failure(let error):
-								self?.isProcessingSheetRequest = false
-								self?.sheetBanner = BannerData(error: error)
-							}
-						},
-						receiveValue: { [weak self] _ in
-							guard let self = self else { return }
-							self.dismissTribeMemberCard()
-							self.setSheet(nil)
-						}
-					)
-					.store(in: &cancellables)
-			}
 		}
 		
 		@objc func updateMessage(notification: NSNotification) {
