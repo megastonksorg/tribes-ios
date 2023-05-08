@@ -31,8 +31,9 @@ struct TribesApp: App {
 			case .active:
 				self.hubClient.initializeConnection()
 				TribesRepository.shared.refreshTribes()
-			case .inactive, .background:
+			case .inactive:
 				NotificationCenter.default.post(Notification(name: .appInActive, userInfo: [:]))
+			case .background:
 				self.messageClient.setAppBadge()
 			@unknown default:
 				return
