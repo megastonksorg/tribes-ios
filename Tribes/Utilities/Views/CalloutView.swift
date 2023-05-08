@@ -8,11 +8,27 @@
 import SwiftUI
 
 struct CalloutView: View {
+	enum Style {
+		case regular
+		case alternate
+	}
+	
 	let content: String
-	let fill: Color = Color.app.secondary
-	var fontSize: CGFloat = FontSizes.body
+	let fill: Color
+	let fontSize: CGFloat
 	
 	@State var height: CGFloat = .zero
+	
+	init(content: String, style: Style = .regular, fontSize: CGFloat = FontSizes.body) {
+		self.content = content
+		self.fill = {
+			switch style {
+			case .regular: return Color.app.secondary
+			case .alternate: return Color.app.divider
+			}
+		}()
+		self.fontSize = fontSize
+	}
 	
 	var body: some View {
 		Text(content)
@@ -43,7 +59,7 @@ struct CalloutView_Previews: PreviewProvider {
 		VStack(spacing: 40) {
 			CalloutView(content: "What is my name? Could you tell me")
 			Button(action: {}) {
-				CalloutView(content: "😂")
+				CalloutView(content: "😂", style: .alternate)
 			}
 		}
 	}
