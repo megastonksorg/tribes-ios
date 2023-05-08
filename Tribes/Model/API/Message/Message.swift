@@ -35,6 +35,15 @@ struct Message: Codable, Identifiable {
 				case systemEvent
 			}
 			
+			var type: `Type` {
+				switch self {
+				case .text: return .text
+				case .image, .imageData: return .image
+				case .video: return .video
+				case .systemEvent: return .systemEvent
+				}
+			}
+			
 			var outgoingType: `Type`? {
 				switch self {
 				case .text: return .text
