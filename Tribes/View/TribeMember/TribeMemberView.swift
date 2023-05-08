@@ -52,6 +52,9 @@ struct TribeMemberView: View {
 		.multilineTextAlignment(.center)
 		.pushOutFrame()
 		.background(Color.app.background)
+		.overlay(isShown: viewModel.isProcessingRequest) {
+			AppProgressView()
+		}
 		.confirmationDialog("Remove \(viewModel.member.fullName)", isPresented: $viewModel.isShowingRemoveRequest) {
 			Button("Remove") {
 				viewModel.removeTribeMember()

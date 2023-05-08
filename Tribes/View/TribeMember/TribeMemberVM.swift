@@ -39,6 +39,7 @@ extension TribeMemberView {
 		}
 		
 		func blockTribeMember() {
+			self.isProcessingRequest = true
 			self.apiClient.blockMember(tribeID: tribe.id, memberId: member.id)
 				.receive(on: DispatchQueue.main)
 				.sink(
@@ -60,6 +61,7 @@ extension TribeMemberView {
 		}
 		
 		func removeTribeMember() {
+			self.isProcessingRequest = true
 			self.apiClient.removeMember(tribeID: tribe.id, memberId: member.id)
 				.receive(on: DispatchQueue.main)
 				.sink(
