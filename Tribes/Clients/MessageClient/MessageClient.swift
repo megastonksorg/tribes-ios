@@ -390,8 +390,12 @@ import UIKit
 		DispatchQueue.main.async {
 			self.tribesMessages[id: tribeId]?.messages[id: message.id] = message
 		}
-		if wasReceived && message.senderId != self.user?.walletAddress {
-			soundClient.playSound(.inAppNotification)
+		if wasReceived {
+			if message.senderId == self.user?.walletAddress {
+				self.markMessageAsRead(message.id)
+			} else {
+				soundClient.playSound(.inAppNotification)
+			}
 		}
 		//Send Message Update Notification
 		let notificationInfo: MessageUpdateNotification = .updated(tribeId, message)
