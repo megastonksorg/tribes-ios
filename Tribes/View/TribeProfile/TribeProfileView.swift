@@ -65,7 +65,15 @@ struct TribeProfileView: View {
 						Spacer()
 						NavigationLink(
 							destination: {
-								LeaveTribeView(viewModel: LeaveTribeView.ViewModel(tribe: viewModel.tribe))
+								LeaveTribeView(
+									viewModel: LeaveTribeView.ViewModel(
+										tribe: viewModel.tribe,
+										didLeaveTribe: {
+											dismiss()
+											AppRouter.popStack(stack: .home(.chat(tribe: viewModel.tribe)))
+										}
+									)
+								)
 							}
 						) {
 							actionButtonView {

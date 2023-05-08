@@ -18,6 +18,7 @@ extension LeaveTribeView {
 		static let confirmationTitle: String = "Leave"
 		let tribe: Tribe
 		let tribeMembers: IdentifiedArrayOf<TribeMember>
+		let didLeaveTribe: () -> ()
 		
 		var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 		
@@ -26,16 +27,16 @@ extension LeaveTribeView {
 		}
 		
 		@Published var confirmation: String = ""
-		@Published var didLeaveTribe: Bool = false
 		@Published var isLoading: Bool = false
 		@Published var banner: BannerData?
 		
 		//Clients
 		let apiClient: APIClient = APIClient.shared
 		
-		init(tribe: Tribe) {
+		init(tribe: Tribe, didLeaveTribe: @escaping () -> ()) {
 			self.tribeMembers = tribe.members.others
 			self.tribe = tribe
+			self.didLeaveTribe = didLeaveTribe
 		}
 		
 		func leaveTribe() {
@@ -53,7 +54,9 @@ extension LeaveTribeView {
 						}
 					}, receiveValue: { [weak self] successResponse in
 						self?.isLoading = false
-						self?.didLeaveTribe = successResponse.success
+						if successResponse.success {
+							self?.didLeaveTribe()
+						}
 					}
 				)
 				.store(in: &self.cancellables)

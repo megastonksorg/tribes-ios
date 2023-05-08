@@ -13,8 +13,6 @@ struct LeaveTribeView: View {
 	@State var avatarsWidth: CGFloat = 0
 	@StateObject var viewModel: ViewModel
 	
-	@Environment(\.dismiss) var dismiss
-	
 	init(viewModel: ViewModel) {
 		self._viewModel = StateObject(wrappedValue: viewModel)
 	}
@@ -95,9 +93,6 @@ struct LeaveTribeView: View {
 				.padding(.bottom)
 			}
 			.padding(.horizontal)
-			.onChange(of: viewModel.didLeaveTribe) { _ in
-				dismiss()
-			}
 		}
 		.multilineTextAlignment(.center)
 		.font(Font.app.body)
@@ -132,6 +127,6 @@ struct LeaveTribeView: View {
 
 struct LeaveTribeView_Previews: PreviewProvider {
 	static var previews: some View {
-		LeaveTribeView(viewModel: .init(tribe: Tribe.noop2))
+		LeaveTribeView(viewModel: .init(tribe: Tribe.noop2, didLeaveTribe: {}))
 	}
 }
