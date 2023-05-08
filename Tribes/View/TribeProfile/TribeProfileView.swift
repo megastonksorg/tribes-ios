@@ -94,6 +94,10 @@ struct TribeProfileView: View {
 				}
 				ScrollView(showsIndicators: true) {
 					VStack {
+						if let currentMember = viewModel.tribe.members.currentMember {
+							memberRow(member: currentMember, isCurrentMember: true)
+								.opacity(0.5)
+						}
 						ForEach(viewModel.tribe.members.others) { member in
 							NavigationLink(
 								destination: {
@@ -106,7 +110,7 @@ struct TribeProfileView: View {
 									)
 								}
 							) {
-								memberRow(member: member)
+								memberRow(member: member, isCurrentMember: false)
 							}
 						}
 					}
@@ -151,7 +155,7 @@ struct TribeProfileView: View {
 	}
 	
 	@ViewBuilder
-	func memberRow(member: TribeMember) -> some View {
+	func memberRow(member: TribeMember, isCurrentMember: Bool) -> some View {
 		let avatarSize: CGFloat = 40
 		let tintColor: Color = Color.gray.opacity(0.5)
 		VStack(spacing: 4) {
@@ -162,10 +166,18 @@ struct TribeProfileView: View {
 					.font(Font.body)
 					.foregroundColor(Color.white)
 				Spacer()
-				Image(systemName: "chevron.right")
-					.font(.system(size: FontSizes.title2, weight: .medium))
-					.foregroundColor(tintColor)
-					.padding(.trailing, 4)
+				Group {
+					if isCurrentMember {
+						Text("(You)")
+							.font(Font.app.body)
+							.foregroundColor(tintColor)
+					} else {
+						Image(systemName: "chevron.right")
+							.font(.system(size: FontSizes.title2, weight: .medium))
+							.foregroundColor(tintColor)
+					}
+				}
+				.padding(.trailing, 4)
 			}
 			HStack {
 				Rectangle()
