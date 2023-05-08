@@ -31,8 +31,6 @@ struct TribeAvatar: View {
 	let nameContextAction: (_ tribe: Tribe) -> ()
 	let primaryAction: (_ tribe: Tribe) -> ()
 	let secondaryAction: (_ tribe: Tribe) -> ()
-	let inviteAction: (_ tribe: Tribe) -> ()
-	let leaveAction: (_ tribe: Tribe) -> ()
 	
 	var isInviteButtonEnabled: Bool {
 		tribe.members.count <= 10
@@ -66,9 +64,7 @@ struct TribeAvatar: View {
 		avatarContextAction: @escaping (_ tribe: Tribe) -> () = { _ in },
 		nameContextAction: @escaping (_ tribe: Tribe) -> () = { _ in },
 		primaryAction: @escaping (_ tribe: Tribe) -> (),
-		secondaryAction: @escaping (_ tribe: Tribe) -> (),
-		inviteAction: @escaping (_ tribe: Tribe) -> () = { _ in },
-		leaveAction: @escaping (_ tribe: Tribe) -> () = { _ in }
+		secondaryAction: @escaping (_ tribe: Tribe) -> ()
 	) {
 		self.context = context
 		self.name = tribe.name
@@ -86,8 +82,6 @@ struct TribeAvatar: View {
 		self.nameContextAction = nameContextAction
 		self.primaryAction = primaryAction
 		self.secondaryAction = secondaryAction
-		self.inviteAction = inviteAction
-		self.leaveAction = leaveAction
 	}
 	
 	var body: some View {
@@ -588,9 +582,7 @@ struct TribeAvatar_Previews: PreviewProvider {
 					size: 180,
 					avatarContextAction: { _ in },
 					primaryAction: { _ in },
-					secondaryAction: { _ in },
-					inviteAction: {_ in },
-					leaveAction: { _ in }
+					secondaryAction: { _ in }
 				)
 				Spacer()
 				TribeAvatar(
@@ -611,9 +603,7 @@ struct TribeAvatar_Previews: PreviewProvider {
 					size: 80,
 					avatarContextAction: { _ in },
 					primaryAction: { _ in },
-					secondaryAction: { _ in },
-					inviteAction: { _ in },
-					leaveAction: { _ in }
+					secondaryAction: { _ in }
 				)
 			}
 		}
