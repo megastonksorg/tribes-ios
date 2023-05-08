@@ -58,9 +58,13 @@ struct TeaPotView: View {
 		.background(Color.app.background)
 		.safeAreaInset(edge: .top) {
 			VStack {
-				ChatHeaderView(context: .teaPot, members: viewModel.tribe.members)
-				TextView(viewModel.tribe.name, style: .tribeName(15, false))
-					.padding(.bottom, 6)
+				Button(action: { viewModel.showTribeProfile() }) {
+					VStack {
+						ChatHeaderView(context: .teaPot, members: viewModel.tribe.members)
+						TextView(viewModel.tribe.name, style: .tribeName(15, false))
+							.padding(.bottom, 6)
+					}
+				}
 			}
 			.frame(maxWidth: .infinity)
 			.background {
@@ -72,6 +76,13 @@ struct TeaPotView: View {
 				}
 				.edgesIgnoringSafeArea(.top)
 			}
+		}
+		.sheet(isPresented: $viewModel.isShowingTribeProfile) {
+			NavigationView {
+				TribeProfileView(viewModel: TribeProfileView.ViewModel(tribe: viewModel.tribe))
+					.navigationTitle("")
+			}
+			.tint(Color.app.secondary)
 		}
 		.overlay(isShown: viewModel.isShowingTeaView) {
 			TeaView(

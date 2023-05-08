@@ -88,6 +88,7 @@ extension TeaView {
 		@Published var readTea: MessageClient.ReadMessage
 		@Published var text: String = ""
 		@Published var isShowingTeaView: Bool = false
+		@Published var isShowingTribeProfile: Bool = false
 		
 		//Clients
 		let apiClient: APIClient = APIClient.shared
@@ -166,6 +167,10 @@ extension TeaView {
 				self.currentPill = index
 				setCurrentDraftOrTeaId()
 			}
+		}
+		
+		func showTribeProfile() {
+			self.isShowingTribeProfile = true
 		}
 		
 		func dismissTeaView() {
