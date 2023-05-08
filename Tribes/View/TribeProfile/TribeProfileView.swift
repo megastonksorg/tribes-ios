@@ -48,7 +48,6 @@ struct TribeProfileView: View {
 								.onDisappear { self.focusedField = nil }
 						}
 					}
-					.padding(.horizontal, 20)
 					
 					HStack(spacing: 10) {
 						Spacer()
