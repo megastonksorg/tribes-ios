@@ -9,7 +9,6 @@ import SwiftUI
 import IdentifiedCollections
 
 struct TribesView: View {
-	@Namespace var namespace
 	
 	let sizeWidth: CGFloat = UIScreen.main.bounds.maxY * 0.45
 	
@@ -76,111 +75,6 @@ struct TribesView: View {
 		}
 		.ignoresSafeArea(.keyboard)
 		.background(Color.app.background)
-		.overlay {
-			contextMenuBackground()
-				.opacity(viewModel.focusedTribe == nil ? 0.0 : 1.0)
-				.transition(.opacity)
-				.onTapGesture {
-					viewModel.setFocusedTribe(nil)
-				}
-				.overlay(
-					VStack {
-						Spacer()
-						if let focusedTribe = viewModel.focusedTribe {
-							let size: CGFloat = 200
-							TribeAvatar(
-								context: .tribesContextView,
-								tribe: focusedTribe,
-								size: size,
-								avatarContextAction: { _ in },
-								primaryAction: { _ in },
-								secondaryAction: { _ in },
-								inviteAction: { viewModel.tribeInviteActionTapped($0) },
-								leaveAction: { viewModel.tribeLeaveActionTapped($0) }
-							)
-							.scaleEffect(viewModel.focusedTribe == nil ? 1.0 : 1.1)
-							.transition(.scale)
-							.matchedGeometryEffect(id: focusedTribe.id, in: namespace, properties: .position)
-							
-							ZStack {
-								let fontSize: CGFloat =  size.getTribeNameSize() + 4
-								
-								TribeNameView(name: focusedTribe.name, shouldShowEditIcon: true, fontSize: fontSize) {
-									viewModel.editTribeName()
-								}
-								.opacity(viewModel.isEditingTribeName ? 0.0 : 1.0)
-								
-								if viewModel.isEditingTribeName {
-									TextField(
-										"",
-										text: Binding(
-											get: { viewModel.editTribeNameText ?? "" },
-											set: { viewModel.setEditTribeNameText($0) }
-										)
-									)
-									.disableAutoCorrection(isNameField: false)
-									.submitLabel(.done)
-									.onSubmit { viewModel.updateTribeName() }
-									.font(.system(size: fontSize, weight: .medium, design: .rounded))
-									.foregroundColor(Color.app.tertiary)
-									.multilineTextAlignment(.center)
-									.focused($focusedField, equals: .editTribeName)
-									.onAppear { self.focusedField = .editTribeName }
-									.onDisappear { viewModel.setEditTribeNameText(nil) }
-								}
-							}
-							.padding(.top)
-							.padding(.horizontal, 20)
-							
-							let padding: CGFloat = 20
-							
-							VStack(spacing: 10) {
-								Group {
-									Button(action: { viewModel.tribeInviteActionTapped(focusedTribe) }) {
-										HStack {
-											Text("Invite")
-											Spacer()
-											Image(systemName: "person.fill.badge.plus")
-										}
-									}
-									.disabled(focusedTribe.members.count >= 10)
-									Rectangle()
-										.fill(Color.app.cardStroke)
-										.frame(height: 1)
-										.padding(.horizontal, -padding)
-									Button(action: { viewModel.tribeLeaveActionTapped(focusedTribe) }) {
-										HStack {
-											Text("Leave")
-											Spacer()
-											Image(systemName: "rectangle.portrait.and.arrow.forward.fill")
-												.offset(x: 4)
-										}
-									}
-								}
-								.frame(width: 180)
-								.font(.system(size: FontSizes.body))
-								.foregroundColor(Color.white)
-							}
-							.padding(.horizontal, padding)
-							.padding(.vertical, padding / 1.5)
-							.background {
-								ZStack {
-									RoundedRectangle(cornerRadius: 10)
-										.fill(Color.app.black.opacity(0.6))
-									RoundedRectangle(cornerRadius: 10)
-										.stroke(Color.app.cardStroke)
-								}
-							}
-							.padding(.horizontal)
-							.transition(.asymmetric(insertion: .scale, removal: .identity))
-							.opacity(viewModel.isEditingTribeName ? 0.0 : 1.0)
-							.animation(.easeInOut, value: viewModel.isEditingTribeName)
-						}
-						Spacer()
-						Spacer()
-					}
-				)
-		}
 		.cardView(
 			isShowing: $viewModel.isShowingTribeInvite,
 			dismissAction: { viewModel.dismissTribeInviteCard() }
@@ -196,16 +90,6 @@ struct TribesView: View {
 			}
 		}
 		.banner(data: self.$viewModel.banner)
-		.sheet(
-			isPresented: Binding(
-				get: { viewModel.leaveTribeVM != nil },
-				set: { $0 == false ? viewModel.setLeaveTribeVM(nil) : () }
-			)
-		) {
-			if let leaveTribeVM = viewModel.leaveTribeVM {
-				LeaveTribeView(viewModel: leaveTribeVM)
-			}
-		}
 		.fullScreenCover(
 			isPresented: Binding(
 				get: { viewModel.currentTeaTribe != nil },
@@ -419,21 +303,16 @@ struct TribesView: View {
 	
 	@ViewBuilder
 	func tribeAvatar(tribe: Tribe, size: CGFloat) -> some View {
-		if viewModel.focusedTribe?.id != tribe.id {
-			TribeAvatar(
-				context: .tribesView,
-				tribe: tribe,
-				size: size,
-				avatarContextAction: { viewModel.openCompose($0) },
-				nameContextAction: { viewModel.setFocusedTribe($0) },
-				primaryAction: { viewModel.tribePrimaryActionTapped($0) },
-				secondaryAction: { viewModel.tribeSecondaryActionTapped($0) },
-				inviteAction: { viewModel.tribeInviteActionTapped($0) },
-				leaveAction: { viewModel.tribeLeaveActionTapped($0) }
-			)
-			.id(tribe.id)
-			.matchedGeometryEffect(id: tribe.id, in: namespace)
-		}
+		TribeAvatar(
+			context: .tribesView,
+			tribe: tribe,
+			size: size,
+			avatarContextAction: { viewModel.openCompose($0) },
+			nameContextAction: { _ in },
+			primaryAction: { viewModel.tribePrimaryActionTapped($0) },
+			secondaryAction: { viewModel.tribeSecondaryActionTapped($0) }
+		)
+		.id(tribe.id)
 	}
 	
 	@ViewBuilder
