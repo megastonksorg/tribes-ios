@@ -129,9 +129,7 @@ struct DraftView: View {
 			size: 90,
 			avatarContextAction: { _ in },
 			primaryAction: { viewModel.tribeTapped(tribe: $0) },
-			secondaryAction: { viewModel.tribeTapped(tribe: $0) },
-			inviteAction: { _ in },
-			leaveAction: { _ in }
+			secondaryAction: { viewModel.tribeTapped(tribe: $0) }
 		)
 		.dropShadow()
 		.opacity(viewModel.canSendTea ? 1.0 : 0.5)
