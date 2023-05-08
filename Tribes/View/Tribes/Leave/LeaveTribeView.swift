@@ -22,22 +22,6 @@ struct LeaveTribeView: View {
 	var body: some View {
 		VStack {
 			VStack {
-				SymmetricHStack(
-					content: {
-						Text("\(ViewModel.confirmationTitle)?")
-							.font(Font.app.title2)
-							.fontWeight(.semibold)
-							.foregroundColor(Color.app.tertiary)
-					},
-					leading: { EmptyView() },
-					trailing: {
-						XButton {
-							dismiss()
-						}
-					}
-				)
-				.padding(.top)
-				
 				VStack {
 					Text("Are you sure you want to \(ViewModel.confirmationTitle) ")
 					+
@@ -109,8 +93,6 @@ struct LeaveTribeView: View {
 				.buttonStyle(.expanded)
 				.disabled(!viewModel.isConfirmed)
 				.padding(.bottom)
-				.padding(.bottom)
-				.ignoresSafeArea(.keyboard)
 			}
 			.padding(.horizontal)
 			.onChange(of: viewModel.didLeaveTribe) { _ in
@@ -126,6 +108,14 @@ struct LeaveTribeView: View {
 		}
 		.banner(data: self.$viewModel.banner)
 		.background(Color.app.background)
+		.toolbar {
+			ToolbarItem(placement: .principal) {
+				Text("\(ViewModel.confirmationTitle)?")
+					.font(Font.app.title2)
+					.fontWeight(.semibold)
+					.foregroundColor(Color.white)
+			}
+		}
 	}
 	
 	@ViewBuilder
