@@ -49,7 +49,7 @@ struct TribeProfileView: View {
 						}
 					}
 					
-					HStack(spacing: 10) {
+					HStack(spacing: 0) {
 						Spacer()
 						Button(action: { viewModel.inviteTapped() }) {
 							actionButtonView {
