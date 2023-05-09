@@ -25,6 +25,7 @@ protocol APIRequests {
 	func uploadImage(imageData: Data) -> AnyPublisher<URL, APIClientError>
 	func uploadVideo(videoData: Data) -> AnyPublisher<URL, APIClientError>
 	//Message
+	func getMessage(messageId: String) -> AnyPublisher<MessageResponse, APIClientError>
 	func getMessages(tribeId: Tribe.ID) -> AnyPublisher<[MessageResponse], APIClientError>
 	func deleteMessage(messageId: Message.ID) -> AnyPublisher<SuccessResponse, APIClientError>
 	func getMessageViewers(messageId: Message.ID) -> AnyPublisher<[String], APIClientError>
@@ -197,6 +198,16 @@ final class APIClient: APIRequests {
 	}
 	
 	//Message
+	func getMessage(messageId: String) -> AnyPublisher<MessageResponse, APIClientError> {
+		let getMessageRequest = APPUrlRequest(
+			httpMethod: .get,
+			pathComponents: ["message", "id"],
+			query: [URLQueryItem(name: "messageId", value: messageId)],
+			requiresAuth: true
+		)
+		return apiRequest(appRequest: getMessageRequest, output: MessageResponse.self)
+	}
+	
 	func getMessages(tribeId: Tribe.ID) -> AnyPublisher<[MessageResponse], APIClientError> {
 		let getMessagesRequest = APPUrlRequest(
 			httpMethod: .get,
