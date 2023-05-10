@@ -15,6 +15,7 @@ struct DeepLink {
 	}
 	
 	let messageId: Message.ID
+	let tribeId: Tribe.ID
 	let type: `Type`
 }
 
@@ -39,9 +40,9 @@ extension DeepLink {
 		guard let messageTag = Message.Tag(rawValue: messageTag) else { return nil }
 		switch messageTag {
 		case .chat:
-			self = DeepLink(messageId: messageId, type: .chat(tribeId))
+			self = DeepLink(messageId: messageId, tribeId: tribeId, type: .chat(tribeId))
 		case .tea:
-			self = DeepLink(messageId: messageId, type: .tea(tribeId))
+			self = DeepLink(messageId: messageId, tribeId: tribeId, type: .tea(tribeId))
 		}
 	}
 }
