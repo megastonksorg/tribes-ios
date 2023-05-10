@@ -42,7 +42,7 @@ struct TeaPotView: View {
 							.if(!tea.isRead) { view in
 								view
 									.scaledToFit()
-									.blur(radius: 30)
+									.blur(radius: 16)
 							}
 						}
 						.id(tea.body)
