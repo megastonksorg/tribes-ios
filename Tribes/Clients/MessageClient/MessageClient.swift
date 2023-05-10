@@ -335,8 +335,16 @@ import UIKit
 			.store(in: &self.cancellables)
 	}
 	
-	func messageReceived(tribeId: String, messageResponse: MessageResponse) {
-		processMessageResponse(tribeId: tribeId, messageResponse: messageResponse, wasReceived: true)
+	func processMessageResponse(tribeId: Tribe.ID, messageResponse: MessageResponse, wasReceived: Bool) {
+		let mappedMessage: Message = mapMessageResponseToMessage(messageResponse)
+		if var messageToUpdate = self.tribesMessages[id: tribeId]?.messages[id: messageResponse.id],
+		   isMessageContentCached(message: mappedMessage) {
+			messageToUpdate.reactions = mappedMessage.reactions
+			updateMessageAndCache(messageToUpdate, tribeId: tribeId, wasReceived: wasReceived)
+		} else {
+			//Decrypt and Load Message Content
+			decryptMessage(message: mappedMessage, tribeId: tribeId, wasReceived: wasReceived)
+		}
 	}
 	
 	func messageDeleted(tribeId: Tribe.ID, messageId: Message.ID) {
@@ -465,18 +473,6 @@ import UIKit
 			expires: messageResponse.expires?.utcToCurrent().date,
 			timeStamp: messageResponse.timeStamp.utcToCurrent().date ?? Date.now
 		)
-	}
-	
-	private func processMessageResponse(tribeId: Tribe.ID, messageResponse: MessageResponse, wasReceived: Bool) {
-		let mappedMessage: Message = mapMessageResponseToMessage(messageResponse)
-		if var messageToUpdate = self.tribesMessages[id: tribeId]?.messages[id: messageResponse.id],
-		   isMessageContentCached(message: mappedMessage) {
-			messageToUpdate.reactions = mappedMessage.reactions
-			updateMessageAndCache(messageToUpdate, tribeId: tribeId, wasReceived: wasReceived)
-		} else {
-			//Decrypt and Load Message Content
-			decryptMessage(message: mappedMessage, tribeId: tribeId, wasReceived: wasReceived)
-		}
 	}
 	
 	private func getContentFromMessageResponse(_ messageResponse: MessageResponse) -> Message.Body.Content {

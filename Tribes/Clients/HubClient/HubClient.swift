@@ -56,7 +56,7 @@ class HubClient: HubConnectionDelegate {
 	
 	private func handleReceiveMessage(_ tribeId: String, message: MessageResponse) {
 		Task {
-			await MessageClient.shared.messageReceived(tribeId: tribeId, messageResponse: message)
+			await MessageClient.shared.processMessageResponse(tribeId: tribeId, messageResponse: message, wasReceived: true)
 		}
 	}
 	
