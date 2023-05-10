@@ -148,14 +148,12 @@ extension TeaView {
 					}
 				}
 			}
-			Task {
-				if !self.draftAndTeaIds.isEmpty {
-					let id: String = self.draftAndTeaIds[self.currentPill]
-					//Mark the tea as read
-					if let tea = self.tea[id: id] {
-						if await !tea.isRead {
-							self.messageClient.markMessageAsRead(tea.id)
-						}
+			if !self.draftAndTeaIds.isEmpty {
+				let id: String = self.draftAndTeaIds[self.currentPill]
+				//Mark the tea as read
+				if let tea = self.tea[id: id] {
+					if !tea.isRead {
+						self.messageClient.markMessageAsRead(tea.id)
 					}
 				}
 			}

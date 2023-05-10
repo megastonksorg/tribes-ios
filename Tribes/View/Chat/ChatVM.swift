@@ -143,10 +143,8 @@ extension ChatView {
 		}
 		
 		func markAsRead(_ message: Message) {
-			Task {
-				if await !message.isRead {
-					self.messageClient.markMessageAsRead(message.id)
-				}
+			if !message.isRead {
+				self.messageClient.markMessageAsRead(message.id)
 			}
 		}
 		

@@ -101,11 +101,9 @@ struct Message: Codable, Identifiable {
 	}
 }
 
-extension Message {	
-	var isRead: Bool {
-		get async {
-			return await MessageClient.shared.readMessage.contains(self.id)
-		}
+extension Message {
+	@MainActor var isRead: Bool {
+		return MessageClient.shared.readMessage.contains(self.id)
 	}
 }
 
