@@ -39,6 +39,11 @@ struct TeaPotView: View {
 								isShowingCaption: false,
 								isShowingIncomingAuthor: false
 							)
+							.if(!tea.isRead) { view in
+								view
+									.scaledToFit()
+									.blur(radius: 30)
+							}
 						}
 						.id(tea.body)
 					}
