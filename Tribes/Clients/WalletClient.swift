@@ -64,7 +64,7 @@ class WalletClient: WalletClientProtocol {
 	}
 	
 	func saveMnemonic(mnemonic: String) {
-		keychainClient.set(key: .mnemonic, value: mnemonic)
+		keychainClient.set(key: .mnemonic, value: mnemonic, isLocked: true)
 	}
 	
 	func signMessage(message: String) -> Result<SignedMessage, WalletClientError> {

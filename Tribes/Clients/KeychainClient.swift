@@ -28,7 +28,7 @@ extension KeychainClientKey {
 
 protocol KeychainClientProtocol {
 	func get<Data: Codable>(key: KeychainClientKey<Data>) -> Data?
-	func set<Data: Codable>(key: KeychainClientKey<Data>, value: Data)
+	func set<Data: Codable>(key: KeychainClientKey<Data>, value: Data, isLocked: Bool)
 	func clearAllKeys()
 }
 
@@ -43,15 +43,15 @@ class KeychainClient: KeychainClientProtocol {
 		return nil
 	}
 	
-	func set<Data>(key: KeychainClientKey<Data>, value: Data) where Data : Codable {
+	func set<Data>(key: KeychainClientKey<Data>, value: Data, isLocked: Bool = false) where Data : Codable {
 		if let data = try? JSONEncoder().encode(value) {
-			KeychainWrapper.standard.set(data, forKey: key.name)
+			KeychainWrapper.standard.set(data, forKey: key.name, withAccessibility: isLocked ? .whenUnlocked : .alwaysThisDeviceOnly)
 		}
 	}
 	
 	func clearAllKeys() {
 		KeyDefinitions.allCases.forEach { key in
-			KeychainWrapper.standard.set("", forKey: key.rawValue)
+			KeychainWrapper.standard.set("", forKey: key.rawValue, withAccessibility: .alwaysThisDeviceOnly)
 		}
 		KeychainWrapper.standard.removeAllKeys()
 	}
