@@ -29,7 +29,7 @@ final class TribesRepository: TribesRepositoryProtocol {
 	
 	init() {
 		Task { [weak self] in
-			let cachedTribes = await cacheClient.getData(key: .tribes)
+			let cachedTribes = await self?.cacheClient.getData(key: .tribes)
 			guard let cachedTribes = cachedTribes else { return }
 			self?.tribes = cachedTribes
 		}
