@@ -257,6 +257,7 @@ struct TribesView: View {
 				LazyVGrid(columns: Array(repeating: GridItem(), count: 2)) {
 					ForEach(viewModel.tribes) {
 						tribeAvatar(tribe: $0, size: size)
+							.id($0.id)
 							.padding(.top)
 					}
 				}
@@ -312,17 +313,7 @@ struct TribesView: View {
 			primaryAction: { viewModel.tribePrimaryActionTapped($0) },
 			secondaryAction: { viewModel.tribeSecondaryActionTapped($0) }
 		)
-		.id(tribe.id)
-	}
-	
-	@ViewBuilder
-	func contextMenuBackground() -> some View {
-		Rectangle()
-			.fill(.ultraThinMaterial)
-			.overlay {
-				Color.app.background.opacity(0.6)
-			}
-			.edgesIgnoringSafeArea(.all)
+		.animation(nil, value: viewModel.currentTeaTribe)
 	}
 	
 	@ViewBuilder

@@ -109,7 +109,7 @@ extension TribesView {
 		}
 		
 		func setCurrentTeaTribe(_ tribe: Tribe?) {
-			withAnimation(.easeInOut) {
+			DispatchQueue.main.async {
 				self.currentTeaTribe = tribe
 			}
 		}
