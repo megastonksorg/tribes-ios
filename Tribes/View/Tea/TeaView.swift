@@ -92,7 +92,7 @@ struct TeaView: View {
 								Text(viewModel.tribe.name)
 									.foregroundColor(Color.app.tertiary)
 							}
-							.lineLimit(2)
+							.lineLimit(1)
 							.opacity(viewModel.isHintTextVisible ? 1.0 : 0.0)
 							TextField("", text: $viewModel.text.max(SizeConstants.textMessageLimit), axis: .vertical)
 								.tint(Color.white)
