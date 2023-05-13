@@ -454,7 +454,9 @@ import UIKit
 						}
 					}
 				},
-				receiveValue: { _ in }
+				receiveValue: { [weak self] messageResponse in
+					self?.processMessageResponse(tribeId: model.tribeId, messageResponse: messageResponse, wasReceived: false)
+				}
 			)
 	}
 	
