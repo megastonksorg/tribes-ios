@@ -107,7 +107,7 @@ extension ProfileSettingsView {
 						guard let walletAddress = self.walletAddress,
 							  let image = self.image,
 							  let resizedImage = image.resizedTo(megaBytes: SizeConstants.imageMaxSizeInMb),
-							  let croppedImageData = resizedImage.croppedAndScaled(toFill: SizeConstants.profileImageSize).pngData()
+							  let croppedImageData = resizedImage.croppedAndScaled(toFill: SizeConstants.profileImageSize).jpegData(compressionQuality: 1.0)
 						else {
 							self.isLoading = false
 							return

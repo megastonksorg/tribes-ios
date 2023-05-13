@@ -29,7 +29,7 @@ extension ComposeView {
 				.sink(receiveValue: { [weak self] image in
 					guard
 						let image = image,
-						let imageData = image.pngData()
+						let imageData = image.jpegData(compressionQuality: 0.5)
 					else { return }
 					self?.draftVM.setContent(content: .imageData(imageData))
 				})
