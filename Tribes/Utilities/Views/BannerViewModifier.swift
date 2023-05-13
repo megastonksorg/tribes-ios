@@ -31,7 +31,7 @@ extension BannerData {
 		case .authExpired:
 			self.init(detail: "", type: .info)
 		case .rawError(let description):
-			if description.contains("1001") {
+			if description.contains("1001") || description.contains("1020") {
 				self.init(detail: "Not connected to the internet", type: .info)
 			} else {
 				self.init(detail: error.errorDescription ?? "", type: .info)
