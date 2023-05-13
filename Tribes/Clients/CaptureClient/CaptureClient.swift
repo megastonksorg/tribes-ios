@@ -351,10 +351,13 @@ class CaptureClient:
 					!self.isRecording,
 					let captureDevice = self.captureDevice,
 					let captureVideoDataOutput = self.captureVideoDataOutput,
-					let videoSettings = captureVideoDataOutput.recommendedVideoSettingsForAssetWriter(writingTo: fileType)
+					var videoSettings = captureVideoDataOutput.recommendedVideoSettingsForAssetWriter(writingTo: fileType)
 				else {
 					throw AppError.CaptureClientError.failedToGenerateAudioAndVideoSettings
 				}
+				
+				//Video Settings
+				videoSettings[AVVideoCompressionPropertiesKey] = [AVVideoAverageBitRateKey: 4_000_000]
 				
 				//Use Torch if the flash mode is on
 				if captureDevice.hasTorch && self.captureFlashMode == .on {
