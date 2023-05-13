@@ -128,32 +128,34 @@ extension TeaView {
 		func setCurrentDraftOrTeaId() {
 			DispatchQueue.main.async {
 				if !self.draftAndTeaIds.isEmpty {
-					let id: String = self.draftAndTeaIds[self.currentPill]
-					//Set Draft
-					if let draftId = UUID(uuidString: id),
-						self.drafts[id: draftId] != nil {
-						self.currentDraftId = draftId
-						self.currentTeaId = nil
-						return
-					}
-					
-					//Set Tea
-					if self.tea[id: id] != nil {
-						self.currentDraftId = nil
-						self.currentTeaId = id
-						if !(self.currentTea?.isEncrypted ?? false) {
-							self.markTeaAsViewed()
+					if let id: String = self.draftAndTeaIds[safe: self.currentPill] {
+						//Set Draft
+						if let draftId = UUID(uuidString: id),
+							self.drafts[id: draftId] != nil {
+							self.currentDraftId = draftId
+							self.currentTeaId = nil
+							return
 						}
-						return
+						
+						//Set Tea
+						if self.tea[id: id] != nil {
+							self.currentDraftId = nil
+							self.currentTeaId = id
+							if !(self.currentTea?.isEncrypted ?? false) {
+								self.markTeaAsViewed()
+							}
+							return
+						}
 					}
 				}
 			}
 			if !self.draftAndTeaIds.isEmpty {
-				let id: String = self.draftAndTeaIds[self.currentPill]
-				//Mark the tea as read
-				if let tea = self.tea[id: id] {
-					if !tea.isRead {
-						self.messageClient.markMessageAsRead(tea.id)
+				if let id: String = self.draftAndTeaIds[safe: self.currentPill] {
+					//Mark the tea as read
+					if let tea = self.tea[id: id] {
+						if !tea.isRead {
+							self.messageClient.markMessageAsRead(tea.id)
+						}
 					}
 				}
 			}
@@ -247,16 +249,17 @@ extension TeaView {
 		
 		func isDraftOrTeaRead(pillIndex: Int) -> Bool {
 			if !self.draftAndTeaIds.isEmpty {
-				let id: String = self.draftAndTeaIds[pillIndex]
-				//Return true if it is a draft
-				if let draftId = UUID(uuidString: id),
-				   self.drafts[id: draftId] != nil {
-					return true
-				}
-				
-				//Return the message read state
-				if let tea = self.tea[id: id] {
-					return self.readTea.contains(tea.id)
+				if let id: String = self.draftAndTeaIds[safe: pillIndex] {
+					//Return true if it is a draft
+					if let draftId = UUID(uuidString: id),
+					   self.drafts[id: draftId] != nil {
+						return true
+					}
+					
+					//Return the message read state
+					if let tea = self.tea[id: id] {
+						return self.readTea.contains(tea.id)
+					}
 				}
 			}
 			return false

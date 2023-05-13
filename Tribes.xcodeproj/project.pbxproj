@@ -108,6 +108,7 @@
 		D05FCDD729BFDBA200B565AF /* messageSent.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D05FCDD629BFDBA200B565AF /* messageSent.mp3 */; };
 		D06088B42996D55000A3D383 /* OnBoardingPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06088B32996D55000A3D383 /* OnBoardingPageView.swift */; };
 		D063134329B6F90200CCCE13 /* MessageVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D063134229B6F90200CCCE13 /* MessageVideoView.swift */; };
+		D06803B72A100E9E00A1C19D /* Collections+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06803B62A100E9E00A1C19D /* Collections+Extension.swift */; };
 		D06829B729C36EC600686FCC /* HubClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06829B629C36EC600686FCC /* HubClient.swift */; };
 		D06829BA29C370E600686FCC /* SignalRClient in Frameworks */ = {isa = PBXBuildFile; productRef = D06829B929C370E600686FCC /* SignalRClient */; };
 		D06829BE29C69AC100686FCC /* LShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06829BD29C69AC100686FCC /* LShape.swift */; };
@@ -313,6 +314,7 @@
 		D05FCDD629BFDBA200B565AF /* messageSent.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = messageSent.mp3; sourceTree = "<group>"; };
 		D06088B32996D55000A3D383 /* OnBoardingPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingPageView.swift; sourceTree = "<group>"; };
 		D063134229B6F90200CCCE13 /* MessageVideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageVideoView.swift; sourceTree = "<group>"; };
+		D06803B62A100E9E00A1C19D /* Collections+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collections+Extension.swift"; sourceTree = "<group>"; };
 		D06829B629C36EC600686FCC /* HubClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HubClient.swift; sourceTree = "<group>"; };
 		D06829BD29C69AC100686FCC /* LShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LShape.swift; sourceTree = "<group>"; };
 		D06829BF29C6B75300686FCC /* MessageBottomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBottomButton.swift; sourceTree = "<group>"; };
@@ -591,6 +593,7 @@
 				D076636F2995C1EE00946F7B /* CGFloat+Extensions.swift */,
 				D055BD6E29B0CBF40070025D /* Binding+Extensions.swift */,
 				D0E65EDF29BB8DF200763656 /* Date+Extensions.swift */,
+				D06803B62A100E9E00A1C19D /* Collections+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1321,6 +1324,7 @@
 				D018C8F8299EDF2D005765A2 /* RSAKeys.swift in Sources */,
 				D030D2D5295745E90011128F /* View+ReadSize.swift in Sources */,
 				D030D2DC295745E90011128F /* ButtonStyles.swift in Sources */,
+				D06803B72A100E9E00A1C19D /* Collections+Extension.swift in Sources */,
 				D030D3172957460B0011128F /* VerifySecretKeyVM.swift in Sources */,
 				D030D2D3295745E90011128F /* Font+Extension.swift in Sources */,
 				D0A3F0802980949B000308BF /* Animation+Extension.swift in Sources */,
