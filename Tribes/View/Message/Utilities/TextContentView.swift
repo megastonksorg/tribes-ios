@@ -39,7 +39,7 @@ struct TextContentView: View {
 			.padding(.leading, 6)
 			.blur(radius: isEncrypted ? 4.0 : 0.0)
 			.background(
-				CustomRoundedRectangle(cornerRadius: 30, corners: corners)
+				CustomRoundedRectangle(cornerRadius: SizeConstants.textFieldCornerRadius - 8, corners: corners)
 					.fill(color)
 			)
 	}
