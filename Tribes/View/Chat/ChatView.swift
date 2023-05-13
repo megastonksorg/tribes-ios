@@ -54,6 +54,7 @@ struct ChatView: View {
 							ForEach(viewModel.failedDrafts) { draft in
 								MessageDraftView(
 									draft: draft,
+									isMuted: true,
 									isPlaying: false,
 									retryDraft: { viewModel.retryDraft(draft: $0) },
 									deleteDraft: { viewModel.deleteDraft(draft: $0) }

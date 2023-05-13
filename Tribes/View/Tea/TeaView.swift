@@ -30,9 +30,11 @@ struct TeaView: View {
 		GeometryReader { proxy in
 			ZStack {
 				ForEach(viewModel.drafts) { draft in
+					let isPlaying: Bool = draft.id == viewModel.currentDraftId
 					MessageDraftView(
 						draft: draft,
-						isPlaying: draft.id == viewModel.currentDraftId,
+						isMuted: !isPlaying,
+						isPlaying: isPlaying,
 						retryDraft: { _ in },
 						deleteDraft: { _ in }
 					)

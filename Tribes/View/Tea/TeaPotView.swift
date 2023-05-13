@@ -20,6 +20,7 @@ struct TeaPotView: View {
 						gridElement(action: { viewModel.showTeaView(id: draft.id.uuidString) }, timeStamp: draft.timeStamp) {
 							MessageDraftView(
 								draft: draft,
+								isMuted: true,
 								isPlaying: true,
 								retryDraft: { _ in },
 								deleteDraft: { _ in }

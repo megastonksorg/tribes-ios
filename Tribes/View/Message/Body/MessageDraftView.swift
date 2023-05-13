@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MessageDraftView: View {
 	let draft: MessageDraft
+	let isMuted: Bool
 	let isPlaying: Bool
 	let retryDraft: (MessageDraft) -> Void
 	let deleteDraft: (MessageDraft) -> Void
@@ -46,7 +47,7 @@ struct MessageDraftView: View {
 					.opacity(0.6)
 			}
 		} else {
-			ContentView(content: draft.content, isMuted: false, isPlaying: isPlaying)
+			ContentView(content: draft.content, isMuted: isMuted, isPlaying: isPlaying)
 				.onPreferenceChange(PlaybackProgressKey.self) {
 					playbackProgress = $0
 				}
@@ -67,6 +68,7 @@ struct MessageDraftView_Previews: PreviewProvider {
 	static var previews: some View {
 		MessageDraftView(
 			draft: MessageDraft.noop2,
+			isMuted: false,
 			isPlaying: false,
 			retryDraft: { _ in },
 			deleteDraft: { _ in }
