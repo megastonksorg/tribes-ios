@@ -64,6 +64,7 @@ extension ChatView {
 		let apiClient: APIClient = APIClient.shared
 		let feedbackClient: FeedbackClient = FeedbackClient.shared
 		let messageClient: MessageClient = MessageClient.shared
+		let pendingContentClient: PendingContentClient = PendingContentClient.shared
 		let tribesRepository: TribesRepository = TribesRepository.shared
 		
 		init(tribe: Tribe) {
@@ -91,7 +92,7 @@ extension ChatView {
 		}
 		
 		func retryDraft(draft: MessageDraft) {
-			messageClient.postMessage(draft: draft)
+			messageClient.postDraft(draft)
 			self.feedbackClient.medium()
 		}
 		
@@ -101,18 +102,23 @@ extension ChatView {
 		}
 		
 		func sendMessage() {
-			guard canSendText else { return }
+			let content: Message.Body.Content = .text(self.text)
+			guard canSendText,
+				  let pendingContent = self.pendingContentClient.set(content: content)
+			else { return }
+			
 			let draft = MessageDraft(
 				id: UUID(),
-				content: .text(self.text),
+				content: content,
 				contextId: nil,
 				caption: nil,
 				tag: .chat,
 				tribeId: tribe.id,
-				timeStamp: Date.now
+				timeStamp: Date.now,
+				pendingContent: pendingContent
 			)
 			self.text = ""
-			messageClient.postMessage(draft: draft)
+			messageClient.postDraft(draft)
 			self.feedbackClient.medium()
 		}
 		
