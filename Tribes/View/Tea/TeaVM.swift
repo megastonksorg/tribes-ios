@@ -94,6 +94,7 @@ extension TeaView {
 		let apiClient: APIClient = APIClient.shared
 		let feedbackClient: FeedbackClient = FeedbackClient.shared
 		let messageClient: MessageClient = MessageClient.shared
+		let pendingContentClient: PendingContentClient = PendingContentClient.shared
 		
 		init(tribe: Tribe) {
 			let drafts = messageClient.tribesMessages[id: tribe.id]?.teaDrafts ?? []
@@ -206,7 +207,7 @@ extension TeaView {
 		func retryFailedDraft() {
 			if let failedDraftId = currentDraftId {
 				if let failedDraft = self.drafts[id: failedDraftId] {
-					self.messageClient.postMessage(draft: failedDraft)
+					self.messageClient.postDraft(failedDraft)
 				}
 			}
 		}
@@ -227,23 +228,26 @@ extension TeaView {
 		
 		func sendMessage() {
 			let text = self.text.trimmingCharacters(in: .whitespacesAndNewlines)
+			let content: Message.Body.Content = .text(text)
 			guard
 				!text.isEmpty,
-				let currentTeaId = self.currentTeaId
+				let currentTeaId = self.currentTeaId,
+				let pendingContent = self.pendingContentClient.set(content: content)
 			else { return }
 			
 			let draft: MessageDraft = MessageDraft(
 				id: UUID(),
-				content: .text(text),
+				content: content,
 				contextId: currentTeaId,
 				caption: nil,
 				tag: .chat,
 				tribeId: tribe.id,
-				timeStamp: Date.now
+				timeStamp: Date.now,
+				pendingContent: pendingContent
 			)
 			
 			self.text = ""
-			messageClient.postMessage(draft: draft)
+			messageClient.postDraft(draft)
 			self.feedbackClient.medium()
 		}
 		
