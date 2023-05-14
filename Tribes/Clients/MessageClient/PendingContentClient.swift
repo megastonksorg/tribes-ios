@@ -20,7 +20,7 @@ struct PendingContent: Codable, Equatable, Identifiable {
 @MainActor class PendingContentClient: ObservableObject {
 	static private (set) var shared: PendingContentClient = PendingContentClient()
 	
-	private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
+	private var uploadCancellables: [UUID : AnyCancellable] = [:]
 	
 	//Clients
 	private let apiClient: APIClient = APIClient.shared
@@ -77,47 +77,57 @@ struct PendingContent: Codable, Equatable, Identifiable {
 		return newPendingContent
 	}
 	
+	func remove(pendingContent: PendingContent) {
+		self.pendingContentSet.remove(id: pendingContent.id)
+		self.uploadCancellables[pendingContent.id]?.cancel()
+	}
+	
 	func uploadContent(_ pendingContent: PendingContent) {
-		let data = pendingContent.encryptedData.data
 		switch pendingContent.content {
 		case .imageData:
-			self.apiClient.uploadImage(imageData: data)
-				.receive(on: DispatchQueue.main)
-				.sink(
-					receiveCompletion: { _ in },
-					receiveValue: { [weak self] url in
-						guard let self = self else { return }
-						self.pendingContentSet[id: pendingContent.id]?.uploadedContent = .image(url)
-						self.updateDraft(with: pendingContent)
-					}
-				)
-				.store(in: &cancellables)
+			self.uploadCancellables[pendingContent.id] = uploadImage(pendingContent: pendingContent)
 		case .video:
-			self.apiClient.uploadVideo(videoData: data)
-				.receive(on: DispatchQueue.main)
-				.sink(
-					receiveCompletion: { _ in },
-					receiveValue: { [weak self] url in
-						guard let self = self else { return }
-						self.pendingContentSet[id: pendingContent.id]?.uploadedContent = .video(url)
-						self.updateDraft(with: pendingContent)
-					}
-				)
-				.store(in: &cancellables)
+			self.uploadCancellables[pendingContent.id] = uploadVideo(pendingContent: pendingContent)
 		case .text, .image, .systemEvent:
 			return
 		}
+	}
+	
+	private func uploadImage(pendingContent: PendingContent) -> AnyCancellable {
+		return self.apiClient.uploadImage(imageData: pendingContent.encryptedData.data)
+			.receive(on: DispatchQueue.main)
+			.sink(
+				receiveCompletion: { _ in },
+				receiveValue: { [weak self] url in
+					guard let self = self else { return }
+					self.pendingContentSet[id: pendingContent.id]?.uploadedContent = .image(url)
+					self.updateDraft(with: pendingContent)
+				}
+			)
+	}
+	
+	private func uploadVideo(pendingContent: PendingContent) -> AnyCancellable {
+		return self.apiClient.uploadVideo(videoData: pendingContent.encryptedData.data)
+			.receive(on: DispatchQueue.main)
+			.sink(
+				receiveCompletion: { _ in },
+				receiveValue: { [weak self] url in
+					guard let self = self else { return }
+					self.pendingContentSet[id: pendingContent.id]?.uploadedContent = .video(url)
+					self.updateDraft(with: pendingContent)
+				}
+			)
 	}
 	
 	private func updateDraft(with pendingContent: PendingContent) {
 		let tribes = TribesRepository.shared.getTribes()
 		
 		tribes.forEach { tribe in
-			if var correspondingDraft = self.messageClient.tribesMessages[id: tribe.id]?.drafts.first(where: { $0.pendingContent.id == pendingContent.id }) {
+			if let correspondingDraft = self.messageClient.tribesMessages[id: tribe.id]?.drafts.first(where: { $0.pendingContent.id == pendingContent.id }) {
 				self.messageClient.tribesMessages[id: tribe.id]?.drafts[id: correspondingDraft.id]?.pendingContent = pendingContent
 				
 				//Post draft if needed
-				
+				self.messageClient.postDraft(correspondingDraft)
 			}
 		}
 	}
