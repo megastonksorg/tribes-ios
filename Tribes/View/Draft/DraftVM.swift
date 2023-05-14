@@ -46,7 +46,7 @@ extension DraftView {
 		}
 		
 		func didDisappear() {
-			self.resetContent()
+			self.resetContent(shouldResetPendingContent: false)
 			self.resetRecipients()
 		}
 		
@@ -55,14 +55,16 @@ extension DraftView {
 			self.pendingContent = self.pendingContentClient.set(content: content)
 		}
 		
-		func resetContent() {
+		func resetContent(shouldResetPendingContent: Bool) {
 			self.content = nil
-			if let pendingContent = self.pendingContent {
-				self.pendingContentClient.remove(pendingContent: pendingContent)
-			}
-			self.pendingContent = nil
 			self.caption = ""
 			self.isPlaying = true
+			if shouldResetPendingContent {
+				if let pendingContent = self.pendingContent {
+					self.pendingContentClient.remove(pendingContent: pendingContent)
+				}
+			}
+			self.pendingContent = nil
 		}
 		
 		func setAllowedRecipients(_ recipients: Set<Tribe.ID>) {

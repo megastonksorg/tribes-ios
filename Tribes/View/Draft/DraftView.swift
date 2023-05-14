@@ -42,10 +42,10 @@ struct DraftView: View {
 				Color.gray.opacity(0.01)
 					.frame(dimension: 70)
 					.onTapGesture {
-						viewModel.resetContent()
+						viewModel.resetContent(shouldResetPendingContent: true)
 					}
 					.overlay(
-						Button(action: { viewModel.resetContent() }) {
+						Button(action: { viewModel.resetContent(shouldResetPendingContent: true) }) {
 							Image(systemName: "x.circle.fill")
 								.font(.system(size: SizeConstants.navigationButtonSize))
 								.foregroundColor(Color.white)
