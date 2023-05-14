@@ -14,7 +14,7 @@ struct PendingContent: Codable, Equatable, Identifiable {
 	let id: UUID
 	let content: Message.Body.Content
 	let encryptedData: EncryptedData?
-	let uploadedContent: Message.Body.Content?
+	var uploadedContent: Message.Body.Content?
 }
 
 @MainActor class PendingContentClient: ObservableObject {
@@ -69,6 +69,37 @@ struct PendingContent: Codable, Equatable, Identifiable {
 			uploadedContent: uploadedContent
 		)
 		
+		uploadContent(newPendingContent)
 		return newPendingContent
+	}
+	
+	func uploadContent(_ pendingContent: PendingContent) {
+		guard let encryptedData = pendingContent.encryptedData else { return }
+		switch pendingContent.content {
+		case .imageData:
+			self.apiClient.uploadImage(imageData: encryptedData.data)
+				.receive(on: DispatchQueue.main)
+				.sink(
+					receiveCompletion: { _ in },
+					receiveValue: { [weak self] url in
+						guard let self = self else { return }
+						self.pendingContentSet[id: pendingContent.id]?.uploadedContent = .image(url)
+					}
+				)
+				.store(in: &cancellables)
+		case .video:
+			self.apiClient.uploadVideo(videoData: encryptedData.data)
+				.receive(on: DispatchQueue.main)
+				.sink(
+					receiveCompletion: { _ in },
+					receiveValue: { [weak self] url in
+						guard let self = self else { return }
+						self.pendingContentSet[id: pendingContent.id]?.uploadedContent = .video(url)
+					}
+				)
+				.store(in: &cancellables)
+		case .text, .image, .systemEvent:
+			return
+		}
 	}
 }
