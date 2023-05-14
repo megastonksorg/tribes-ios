@@ -69,6 +69,8 @@ struct PendingContent: Codable, Equatable, Identifiable {
 			uploadedContent: uploadedContent
 		)
 		
+		self.pendingContentSet.updateOrAppend(newPendingContent)
+		
 		uploadContent(newPendingContent)
 		return newPendingContent
 	}
@@ -84,6 +86,7 @@ struct PendingContent: Codable, Equatable, Identifiable {
 					receiveValue: { [weak self] url in
 						guard let self = self else { return }
 						self.pendingContentSet[id: pendingContent.id]?.uploadedContent = .image(url)
+						self.updateDraft(with: pendingContent)
 					}
 				)
 				.store(in: &cancellables)
@@ -95,11 +98,25 @@ struct PendingContent: Codable, Equatable, Identifiable {
 					receiveValue: { [weak self] url in
 						guard let self = self else { return }
 						self.pendingContentSet[id: pendingContent.id]?.uploadedContent = .video(url)
+						self.updateDraft(with: pendingContent)
 					}
 				)
 				.store(in: &cancellables)
 		case .text, .image, .systemEvent:
 			return
+		}
+	}
+	
+	private func updateDraft(with pendingContent: PendingContent) {
+		let tribes = TribesRepository.shared.getTribes()
+		
+		tribes.forEach { tribe in
+			if var correspondingDraft = self.messageClient.tribesMessages[id: tribe.id]?.drafts.first(where: { $0.pendingContent.id == pendingContent.id }) {
+				self.messageClient.tribesMessages[id: tribe.id]?.drafts[id: correspondingDraft.id]?.pendingContent = pendingContent
+				
+				//Post draft if needed
+				
+			}
 		}
 	}
 }
