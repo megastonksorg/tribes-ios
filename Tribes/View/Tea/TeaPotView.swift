@@ -46,7 +46,7 @@ struct TeaPotView: View {
 									.blur(radius: 16)
 							}
 						}
-						.id(tea.body)
+						.id(tea.id)
 					}
 				}
 				MessageBottomButton(style: .close) {
