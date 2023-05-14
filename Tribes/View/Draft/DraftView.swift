@@ -147,6 +147,7 @@ struct DraftView: View {
 				.offset(y: -10)
 				.padding(.horizontal)
 		}
+		.disabled(viewModel.isUploading)
 	}
 }
 
