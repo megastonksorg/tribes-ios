@@ -9,7 +9,8 @@ import CryptoKit
 import Foundation
 
 protocol EncryptionClientProtocol {
-	func encrypt(_ data: Data, for publicKeys: Set<String>, symmetricKey: SymmetricKey) -> EncryptedData?
+	func encrypt(_ data: Data, symmetricKey: SymmetricKey) -> EncryptedData?
+	func encryptKey(symmetricKey: SymmetricKey, for publicKeys: Set<String>) -> [MessageKeyEncrypted]
 	func decrypt(_ data: Data, for publicKey: String, key: String) -> Data?
 }
 
@@ -47,7 +48,15 @@ class EncryptionClient: EncryptionClientProtocol {
 		EncryptionClient.shared = EncryptionClient()
 	}
 	
-	func encrypt(_ data: Data, for publicKeys: Set<String>, symmetricKey: SymmetricKey) -> EncryptedData? {
+	func encrypt(_ data: Data, symmetricKey: SymmetricKey) -> EncryptedData? {
+		if let encryptedData = encryptAES(message: data, key: symmetricKey) {
+			return EncryptedData(key: symmetricKey.toBase64EncodedString(), data: encryptedData)
+		} else {
+			return nil
+		}
+	}
+	
+	func encryptKey(symmetricKey: SymmetricKey, for publicKeys: Set<String>) -> [MessageKeyEncrypted] {
 		var keys: [MessageKeyEncrypted] = []
 		publicKeys.forEach { pubKey in
 			if let pubKeyData = Data(base64Encoded: pubKey),
@@ -57,11 +66,7 @@ class EncryptionClient: EncryptionClientProtocol {
 				keys.append(MessageKeyEncrypted(publicKey: pubKey, encryptionKey: encryptedKey.base64EncodedString()))
 			}
 		}
-		if let encryptedData = encryptAES(message: data, key: symmetricKey) {
-			return EncryptedData(keys: keys, data: encryptedData)
-		} else {
-			return nil
-		}
+		return keys
 	}
 	
 	func decrypt(_ data: Data, for publicKey: String, key: String) -> Data? {
@@ -93,7 +98,7 @@ class EncryptionClient: EncryptionClientProtocol {
 	}
 }
 
-fileprivate extension SymmetricKey {
+extension SymmetricKey {
 	func toBase64EncodedString() -> String {
 		return self.withUnsafeBytes { body in
 			Data(body).base64EncodedString()
