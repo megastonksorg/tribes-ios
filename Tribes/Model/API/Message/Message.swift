@@ -237,6 +237,7 @@ struct MessageDraft: Codable, Identifiable {
 	let tribeId: Tribe.ID
 	var timeStamp: Date
 	var status: Status = .uploading
+	var pendingContent: PendingContent
 	
 	var isStuckUploading: Bool {
 		Date.now.timeIntervalSince(timeStamp) > SizeConstants.draftRetryDelay
@@ -252,7 +253,12 @@ extension MessageDraft {
 		tag: .tea,
 		tribeId: Tribe.noop1.id,
 		timeStamp: Date.now,
-		status: .failedToUpload
+		status: .failedToUpload,
+		pendingContent: PendingContent(
+			id: UUID(),
+			content: .image("".unwrappedContentUrl),
+			encryptedData: nil
+		)
 	)
 	
 	static let noop2: MessageDraft = MessageDraft(
@@ -263,6 +269,11 @@ extension MessageDraft {
 		tag: .chat,
 		tribeId: Tribe.noop1.id,
 		timeStamp: Calendar.current.date(byAdding: .hour, value: -1, to: Date())!,
-		status: .uploading
+		status: .uploading,
+		pendingContent: PendingContent(
+			id: UUID(),
+			content: .image("".unwrappedContentUrl),
+			encryptedData: nil
+		)
 	)
 }
