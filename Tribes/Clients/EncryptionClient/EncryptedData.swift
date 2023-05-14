@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct EncryptedData {
-	let keys: [MessageKeyEncrypted]
+struct EncryptedData: Codable, Equatable {
+	let key: String
 	let data: Data
 }
