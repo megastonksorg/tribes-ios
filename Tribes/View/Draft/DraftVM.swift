@@ -17,6 +17,7 @@ extension DraftView {
 		
 		@Published var caption: String = ""
 		@Published var content: Message.Body.Content?
+		@Published var pendingContent: PendingContent?
 		@Published var directRecipient: Tribe?
 		@Published var allowedRecipients: Set<Tribe.ID> = []
 		@Published var selectedRecipients: IdentifiedArrayOf<Tribe> = []
@@ -37,6 +38,7 @@ extension DraftView {
 		//Clients
 		let feedbackClient: FeedbackClient = FeedbackClient.shared
 		let messageClient: MessageClient = MessageClient.shared
+		let pendingContentClient: PendingContentClient = PendingContentClient.shared
 		
 		init(content: Message.Body.Content? = nil) {
 			self.content = content
@@ -50,10 +52,15 @@ extension DraftView {
 		
 		func setContent(content: Message.Body.Content) {
 			self.content = content
+			self.pendingContent = self.pendingContentClient.set(content: content)
 		}
 		
 		func resetContent() {
 			self.content = nil
+			if let pendingContent = self.pendingContent {
+				self.pendingContentClient.remove(pendingContent: pendingContent)
+			}
+			self.pendingContent = nil
 			self.caption = ""
 			self.isPlaying = true
 		}
@@ -86,7 +93,10 @@ extension DraftView {
 		}
 		
 		func sendTea() {
-			guard let content = self.content else { return }
+			guard
+				let content = self.content,
+				let pendingContent = self.pendingContent
+			else { return }
 			//Stop playing content when the upload starts
 			self.isPlaying = false
 			self.isUploading = true
@@ -105,9 +115,10 @@ extension DraftView {
 					caption: caption,
 					tag: .tea,
 					tribeId: directRecipient.id,
-					timeStamp: Date.now
+					timeStamp: Date.now,
+					pendingContent: pendingContent
 				)
-				messageClient.postMessage(draft: teaDraft)
+				messageClient.postDraft(teaDraft)
 			} else {
 				self.selectedRecipients.forEach { tribe in
 					let teaDraft = 	MessageDraft(
@@ -117,9 +128,10 @@ extension DraftView {
 						caption: caption,
 						tag: .tea,
 						tribeId: tribe.id,
-						timeStamp: Date.now
+						timeStamp: Date.now,
+						pendingContent: pendingContent
 					)
-					messageClient.postMessage(draft: teaDraft)
+					messageClient.postDraft(teaDraft)
 				}
 			}
 			NotificationCenter.default.post(Notification(name: .toggleCompose))
