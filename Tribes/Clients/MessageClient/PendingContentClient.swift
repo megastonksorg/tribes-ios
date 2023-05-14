@@ -13,7 +13,7 @@ import IdentifiedCollections
 struct PendingContent: Codable, Equatable, Identifiable {
 	let id: UUID
 	let content: Message.Body.Content
-	let encryptedData: EncryptedData?
+	let encryptedData: EncryptedData
 	var uploadedContent: Message.Body.Content?
 }
 
@@ -33,7 +33,7 @@ struct PendingContent: Codable, Equatable, Identifiable {
 		
 	}
 	
-	func set(content: Message.Body.Content) -> PendingContent {
+	func set(content: Message.Body.Content) -> PendingContent? {
 		let symmetricKey: SymmetricKey = SymmetricKey(size: .bits256)
 		
 		let encryptedData: EncryptedData? = {
@@ -48,6 +48,8 @@ struct PendingContent: Codable, Equatable, Identifiable {
 			case .image, .systemEvent: return nil
 			}
 		}()
+		
+		guard let encryptedData = encryptedData else { return nil }
 		
 		/**
 		 Because we do not have to upload anything for text, the uploaded content will be the same as the content.
@@ -76,10 +78,10 @@ struct PendingContent: Codable, Equatable, Identifiable {
 	}
 	
 	func uploadContent(_ pendingContent: PendingContent) {
-		guard let encryptedData = pendingContent.encryptedData else { return }
+		let data = pendingContent.encryptedData.data
 		switch pendingContent.content {
 		case .imageData:
-			self.apiClient.uploadImage(imageData: encryptedData.data)
+			self.apiClient.uploadImage(imageData: data)
 				.receive(on: DispatchQueue.main)
 				.sink(
 					receiveCompletion: { _ in },
@@ -91,7 +93,7 @@ struct PendingContent: Codable, Equatable, Identifiable {
 				)
 				.store(in: &cancellables)
 		case .video:
-			self.apiClient.uploadVideo(videoData: encryptedData.data)
+			self.apiClient.uploadVideo(videoData: data)
 				.receive(on: DispatchQueue.main)
 				.sink(
 					receiveCompletion: { _ in },
