@@ -116,7 +116,7 @@ import UIKit
 		}
 	}
 	
-	func postMessage(draft: MessageDraft) {
+	func postDraft(_ draft: MessageDraft) {
 		//Add to Draft
 		var draft = draft
 		draft.status = .uploading
@@ -133,35 +133,39 @@ import UIKit
 			await self.cacheClient.setData(key: .tribesMessages, value: self.tribesMessages)
 		}
 		
-		//Encrypt Data
+		//Retrieve Tribe
 		guard let tribe: Tribe = TribesRepository.shared.getTribe(tribeId: draft.tribeId) else { return }
-		let memberKeys: Set<String> = Set(tribe.members.map({ $0.publicKey }))
 		
-		let symmetricKey = SymmetricKey(size: .bits256)
-		let encryptedContent: EncryptedData? = {
-			switch draft.content {
-			case .imageData(let imageData):
-				return self.encryptionClient.encrypt(imageData, for: memberKeys, symmetricKey: symmetricKey)
-			case .text(let text):
-				return self.encryptionClient.encrypt(Data(text.utf8), for: memberKeys, symmetricKey: symmetricKey)
-			case .video(let url):
-				guard let videoData = try? Data(contentsOf: url) else { return nil }
-				return self.encryptionClient.encrypt(videoData, for: memberKeys, symmetricKey: symmetricKey)
-			case .image, .systemEvent: return nil
-			}
-		}()
+		//Retrieve Pending Content
+		guard
+			let pendingContent = PendingContentClient.shared.pendingContentSet[id: draft.pendingContent.id],
+			let uploadedContent = pendingContent.uploadedContent
+		else {
+			// We are going to do nothing here because this means the pending content is still being uploaded
+			return
+		}
 		
+		//Retrieve Symmetric Key
+		guard let symmetricKeyData = Data(base64Encoded: pendingContent.encryptedData.key) else { return }
+		let symmetricKey = SymmetricKey(data: symmetricKeyData)
+		
+		//Encrypt Caption
 		let encryptedCaptionString: String? = {
 			guard
 				let caption = draft.caption,
-				let encryptedData = self.encryptionClient.encrypt(Data(caption.utf8), for: memberKeys, symmetricKey: symmetricKey)?.data
+				let encryptedData = self.encryptionClient.encrypt(Data(caption.utf8), symmetricKey: symmetricKey)?.data
 			else { return nil }
 			let encryptedString = encryptedData.base64EncodedString()
 			return encryptedString.isEmpty ? nil : encryptedString
 		}()
 		
+		//Encrypt Keys for recipients
+		let encryptedKeys: [MessageKeyEncrypted] = {
+			let memberKeys = Set(tribe.members.map({ $0.publicKey }))
+			return self.encryptionClient.encryptKey(symmetricKey: symmetricKey, for: memberKeys)
+		}()
+		
 		guard
-			let encryptedContent = encryptedContent,
 			let outgoingContentType = draft.content.outgoingType?.rawValue
 		else {
 			var failedDraft = draft
@@ -185,39 +189,18 @@ import UIKit
 			tag: draft.tag.rawValue,
 			tribeId: tribe.id,
 			tribeTimestampId: tribe.timestampId,
-			keys: encryptedContent.keys
+			keys: encryptedKeys
 		)
 		
 		//Post Message
-		switch draft.content {
-		case .imageData:
-			self.apiClient.uploadImage(imageData: encryptedContent.data)
-				.receive(on: DispatchQueue.main)
-				.sink(
-					receiveCompletion: { _ in },
-					receiveValue: { [weak self] url in
-						guard let self = self else { return }
-						postMessageModel.body = url.absoluteString
-						self.postMessageCancellables[draft.id] = self.postMessage(draft: draft, model: postMessageModel)
-					}
-				)
-				.store(in: &cancellables)
-		case .video:
-			self.apiClient.uploadVideo(videoData: encryptedContent.data)
-				.receive(on: DispatchQueue.main)
-				.sink(
-					receiveCompletion: { _ in },
-					receiveValue: { [weak self] url in
-						guard let self = self else { return }
-						postMessageModel.body = url.absoluteString
-						self.postMessageCancellables[draft.id] = self.postMessage(draft: draft, model: postMessageModel)
-					}
-				)
-				.store(in: &cancellables)
+		switch uploadedContent {
+		case .image(let url), .video(let url):
+			postMessageModel.body = url.absoluteString
+			self.postMessageCancellables[draft.id] = self.postMessage(draft: draft, model: postMessageModel)
 		case .text:
-			postMessageModel.body = encryptedContent.data.base64EncodedString()
+			postMessageModel.body = pendingContent.encryptedData.data.base64EncodedString()
 			postMessageCancellables[draft.id] = self.postMessage(draft: draft, model: postMessageModel)
-		case .image, .systemEvent:
+		case .imageData, .systemEvent:
 			self.tribesMessages[id: draft.tribeId]?.drafts.remove(id: draft.id)
 			
 			//Send Message Update Notification
@@ -437,7 +420,7 @@ import UIKit
 								.sink(
 									receiveCompletion: { _ in },
 									receiveValue: { _ in
-										self.postMessage(draft: draft)
+										self.postDraft(draft)
 									}
 								)
 								.store(in: &self.cancellables)

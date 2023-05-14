@@ -257,7 +257,7 @@ extension MessageDraft {
 		pendingContent: PendingContent(
 			id: UUID(),
 			content: .image("".unwrappedContentUrl),
-			encryptedData: nil
+			encryptedData: EncryptedData(key: "", data: Data())
 		)
 	)
 	
@@ -273,7 +273,7 @@ extension MessageDraft {
 		pendingContent: PendingContent(
 			id: UUID(),
 			content: .image("".unwrappedContentUrl),
-			encryptedData: nil
+			encryptedData: EncryptedData(key: "", data: Data())
 		)
 	)
 }
