@@ -97,11 +97,11 @@ extension TeaView {
 		let pendingContentClient: PendingContentClient = PendingContentClient.shared
 		
 		init(tribe: Tribe) {
-			let drafts = messageClient.tribesMessages[id: tribe.id]?.teaDrafts ?? []
+			let drafts = messageClient.tribesMessages[id: tribe.id]?.teaDrafts.sorted(by: { $0.timeStamp > $1.timeStamp }) ?? []
 			let tea = messageClient.tribesMessages[id: tribe.id]?.tea ?? []
 			self.currentTribeMember = tribe.members.currentMember ?? TribeMember.dummyTribeMember
 			self.tribe = tribe
-			self.drafts = drafts
+			self.drafts = IdentifiedArrayOf(uniqueElements: drafts)
 			self.tea = tea
 			self.readTea = messageClient.readMessage
 			
