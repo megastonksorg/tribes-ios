@@ -64,6 +64,9 @@ struct TeaView: View {
 				}
 			}
 			.frame(size: proxy.size)
+			.onChange(of: viewModel.currentPill) { _ in
+				self.currentPlaybackProgress = 0
+			}
 		}
 		.ignoresSafeArea()
 		.overlay(alignment: .top) {
