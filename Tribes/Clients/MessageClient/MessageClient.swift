@@ -346,7 +346,9 @@ import UIKit
 	}
 	
 	func markMessageAsRead(_ messageId: Message.ID) {
-		self.readMessage.insert(messageId)
+		DispatchQueue.main.async {
+			self.readMessage.insert(messageId)
+		}
 		Task {
 			await cacheClient.setData(key: .readMessage, value: self.readMessage)
 		}
@@ -378,25 +380,27 @@ import UIKit
 	}
 	
 	private func updateMessageAndCache(_ message: Message, tribeId: Tribe.ID, wasReceived: Bool) {
-		DispatchQueue.main.async {
-			self.tribesMessages[id: tribeId]?.messages[id: message.id] = message
-		}
-		if wasReceived {
-			if message.senderId == self.user?.walletAddress {
-				self.markMessageAsRead(message.id)
-			} else {
-				soundClient.playSound(.inAppNotification)
+		if self.tribesMessages[id: tribeId]?.messages[id: message.id] != message {
+			DispatchQueue.main.async {
+				self.tribesMessages[id: tribeId]?.messages[id: message.id] = message
 			}
-		}
-		//Send Message Update Notification
-		let notificationInfo: MessageUpdateNotification = .updated(tribeId, message)
-		let messageUpdateNotification = Notification(name: .messageUpdated, userInfo: [AppConstants.messageNotificationDictionaryKey : notificationInfo])
-		NotificationCenter.default.post(messageUpdateNotification)
-		
-		Task {
-			if var existingTribesMessagesInCache = await self.cacheClient.getData(key: .tribesMessages) {
-				existingTribesMessagesInCache[id: tribeId]?.messages.updateOrAppend(message)
-				await self.cacheClient.setData(key: .tribesMessages, value: existingTribesMessagesInCache)
+			if wasReceived {
+				if message.senderId == self.user?.walletAddress {
+					self.markMessageAsRead(message.id)
+				} else {
+					soundClient.playSound(.inAppNotification)
+				}
+			}
+			//Send Message Update Notification
+			let notificationInfo: MessageUpdateNotification = .updated(tribeId, message)
+			let messageUpdateNotification = Notification(name: .messageUpdated, userInfo: [AppConstants.messageNotificationDictionaryKey : notificationInfo])
+			NotificationCenter.default.post(messageUpdateNotification)
+			
+			Task {
+				if var existingTribesMessagesInCache = await self.cacheClient.getData(key: .tribesMessages) {
+					existingTribesMessagesInCache[id: tribeId]?.messages.updateOrAppend(message)
+					await self.cacheClient.setData(key: .tribesMessages, value: existingTribesMessagesInCache)
+				}
 			}
 		}
 	}
