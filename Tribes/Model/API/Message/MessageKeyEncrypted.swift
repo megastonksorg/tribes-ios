@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MessageKeyEncrypted: Codable, Identifiable {
+struct MessageKeyEncrypted: Codable, Equatable, Identifiable {
 	let publicKey: String
 	let encryptionKey: String
 	

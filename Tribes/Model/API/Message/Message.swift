@@ -9,7 +9,7 @@ import Foundation
 import IdentifiedCollections
 import UIKit
 
-struct Message: Codable, Identifiable {
+struct Message: Codable, Equatable, Identifiable {
 	enum Style {
 		case incoming
 		case outgoing
@@ -57,7 +57,7 @@ struct Message: Codable, Identifiable {
 		let caption: String?
 	}
 	
-	struct Reaction: Codable {
+	struct Reaction: Codable, Equatable {
 		let senderWalletAddress: String
 		let content: String
 	}
