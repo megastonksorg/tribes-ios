@@ -220,7 +220,7 @@ import UIKit
 				let rsaKeys = encryptionClient.rsaKeys,
 				let currentPublicKey = rsaKeys.publicKey.key.exportToData()?.base64EncodedString(),
 				let messageKey = message.decryptionKeys.filter( { $0.publicKey == currentPublicKey } ).first,
-				message.isEncrypted
+				!isMessageContentCached(message: decryptedMessage)
 			else {
 				updateMessageAndCache(decryptedMessage, tribeId: tribeId, wasReceived: wasReceived)
 				return

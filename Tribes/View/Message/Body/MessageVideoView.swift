@@ -23,7 +23,12 @@ struct MessageVideoView: View {
 	var body: some View {
 		Group {
 			if model.message.isEncrypted {
-				NoContentView(isEncrypted: true)
+				NoContentView(
+					isEncrypted: true,
+					reloadContent: {
+						decryptOrLoadMessageContent()
+					}
+				)
 			} else {
 				if isLoadingVideo {
 					LoadingIndicator(speed: 0.4)
@@ -41,7 +46,12 @@ struct MessageVideoView: View {
 							}
 						}
 				} else {
-					NoContentView(isEncrypted: false)
+					NoContentView(
+						isEncrypted: false,
+						reloadContent: {
+							decryptOrLoadMessageContent()
+						}
+					)
 				}
 			}
 		}
@@ -80,6 +90,16 @@ struct MessageVideoView: View {
 				self.url = url
 				self.isLoadingVideo = false
 			}
+		}
+	}
+	
+	func decryptOrLoadMessageContent() {
+		Task {
+			self.isLoadingVideo = true
+			await MessageClient.shared.decryptMessage(message: model.message, tribeId: model.tribe.id, wasReceived: false)
+			try await Task.sleep(for: .seconds(2.8))
+			self.isLoadingVideo = false
+			loadVideo()
 		}
 	}
 }

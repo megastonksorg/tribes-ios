@@ -22,7 +22,12 @@ struct MessageImageView: View {
 	var body: some View {
 		Group {
 			if model.message.isEncrypted {
-				NoContentView(isEncrypted: true)
+				NoContentView(
+					isEncrypted: true,
+					reloadContent: {
+						decryptOrLoadMessageContent()
+					}
+				)
 			} else {
 				if isLoadingImage {
 					LoadingIndicator(speed: 0.4)
@@ -39,7 +44,12 @@ struct MessageImageView: View {
 							}
 						}
 				} else {
-					NoContentView(isEncrypted: false)
+					NoContentView(
+						isEncrypted: false,
+						reloadContent: {
+							decryptOrLoadMessageContent()
+						}
+					)
 				}
 			}
 		}
@@ -63,6 +73,16 @@ struct MessageImageView: View {
 			}
 			self.uiImage = uiImage
 			self.isLoadingImage = false
+		}
+	}
+	
+	func decryptOrLoadMessageContent() {
+		Task {
+			self.isLoadingImage = true
+			await MessageClient.shared.decryptMessage(message: model.message, tribeId: model.tribe.id, wasReceived: false)
+			try await Task.sleep(for: .seconds(2.8))
+			self.isLoadingImage = false
+			loadImage()
 		}
 	}
 }
