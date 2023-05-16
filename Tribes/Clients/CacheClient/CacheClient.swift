@@ -54,10 +54,11 @@ class CacheClient: CacheClientProtocol {
 	private let cacheDirectory: URL = try! FileManager.default
 		.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
 		.appendingPathComponent(cacheFolderName)
-	private let cacheTrimmer: CacheTrimmer = CacheTrimmer()
 	private let encoder: JSONEncoder = JSONEncoder()
 	private let decoder: JSONDecoder = JSONDecoder()
 	private let queue = DispatchQueue(label: "com.strikingFinancial.tribes.cache.sessionQueue", target: .global())
+	
+	let cacheTrimmer: CacheTrimmer = CacheTrimmer()
 	
 	private var cache: IdentifiedArrayOf<Cache> = []
 	private var memorySubscription: AnyCancellable!
