@@ -112,9 +112,13 @@ class CacheClient: CacheClientProtocol {
 				guard let self = self else { return }
 				guard let data = try? self.encoder.encode(cache.object) else { return }
 				let filePath: URL = fileName(for: cache.key)
-				try? data.write(to: filePath, options: [.atomic, .completeFileProtection])
-				self.cache[id: cache.key] = cache
-				self.cacheTrimmer.track(key: cache.key)
+				do {
+					try data.write(to: filePath, options: [.atomic, .completeFileProtection])
+					self.cache[id: cache.key] = cache
+					self.cacheTrimmer.track(key: cache.key)
+				} catch {
+					self.cache[id: cache.key] = cache
+				}
 				continuation.resume(returning: filePath)
 			}
 		}
