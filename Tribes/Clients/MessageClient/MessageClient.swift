@@ -478,9 +478,14 @@ import UIKit
 	}
 	
 	private func isMessageContentCached(message: Message) -> Bool {
-		//Here, we assume the content is already cached if the cacheKey is nil
-		//This is because the getCacheKey function only returns a key for image and video which are the only types that need to be fetched at this moment
-		guard let cacheKey = Cache.getContentCacheKey(encryptedContent: message.encryptedBody.content) else { return true }
+		/**
+		 Here, we assume the content is already cached if the cacheKey is nil and the message has been decrypted.
+		 This is because the getCacheKey function only returns a key for image and video which are the only types that need to be fetched at this moment.
+		 If the message is decrypted and it is not an image or video, then it is definitely cached in the TribeMessages.
+		 */
+		guard let cacheKey = Cache.getContentCacheKey(encryptedContent: message.encryptedBody.content) else {
+			return message.isEncrypted ? false : true
+		}
 		return self.cacheClient.cacheTrimmer.isFileTracked(key: cacheKey)
 	}
 }
