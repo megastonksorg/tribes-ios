@@ -87,7 +87,7 @@ struct MessageView: View {
 		.id(message.body)
 		.onAppear {
 			if bodyModel.message.isEncrypted {
-				MessageClient.shared.decryptMessage(message: bodyModel.message, tribeId: tribeId, wasReceived: false)
+				MessageClient.shared.decryptMessage(message: bodyModel.message, tribeId: tribeId, wasReceived: false, force: true)
 			}
 		}
 	}
