@@ -166,12 +166,14 @@ struct TeaView: View {
 			.background {
 				HStack(spacing: 10) {
 					Color.clear.pushOutFrame()
+						.allowsHitTesting(true)
 						.contentShape(Rectangle())
 						.onTapGesture {
 							viewModel.previousDraftOrTea()
 						}
 					
 					Color.clear.pushOutFrame()
+						.allowsHitTesting(true)
 						.contentShape(Rectangle())
 						.onTapGesture {
 							viewModel.nextDraftOrTea()
