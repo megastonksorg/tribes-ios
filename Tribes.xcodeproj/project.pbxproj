@@ -1366,7 +1366,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = TribesNotificationServiceExtension/TribesNotificationServiceExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_TEAM = HMK8J32K98;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TribesNotificationServiceExtension/Info.plist;
@@ -1393,7 +1393,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = TribesNotificationServiceExtension/TribesNotificationServiceExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_TEAM = HMK8J32K98;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TribesNotificationServiceExtension/Info.plist;
@@ -1537,7 +1537,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Tribes/Tribes.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_ASSET_PATHS = "\"Tribes/Preview Content\"";
 				DEVELOPMENT_TEAM = HMK8J32K98;
 				ENABLE_PREVIEWS = YES;
@@ -1578,7 +1578,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Tribes/Tribes.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_ASSET_PATHS = "\"Tribes/Preview Content\"";
 				DEVELOPMENT_TEAM = HMK8J32K98;
 				ENABLE_PREVIEWS = YES;
