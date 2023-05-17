@@ -321,7 +321,7 @@ extension TeaView {
 				if let updateNotification = dict[AppConstants.messageNotificationDictionaryKey] as? MessageClient.MessageUpdateNotification {
 					switch updateNotification {
 					case .updated(let tribeId, let message):
-						if tribeId == self.tribe.id && message.tag == .tea && !self.tea.contains(message) {
+						if tribeId == self.tribe.id && message.tag == .tea {
 							DispatchQueue.main.async {
 								self.tea.updateOrAppend(message)
 							}
