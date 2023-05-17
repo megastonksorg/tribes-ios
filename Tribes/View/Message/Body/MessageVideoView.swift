@@ -22,7 +22,7 @@ struct MessageVideoView: View {
 	
 	var body: some View {
 		Group {
-			if model.message.isEncrypted {
+			if model.message.isEncrypted && !isLoadingVideo {
 				NoContentView(
 					isEncrypted: true,
 					reloadContent: {
@@ -96,8 +96,8 @@ struct MessageVideoView: View {
 	func decryptOrLoadMessageContent() {
 		Task {
 			self.isLoadingVideo = true
-			await MessageClient.shared.decryptMessage(message: model.message, tribeId: model.tribe.id, wasReceived: false)
-			try await Task.sleep(for: .seconds(2.8))
+			await MessageClient.shared.decryptMessage(message: model.message, tribeId: model.tribe.id, wasReceived: false, force: true)
+			try await Task.sleep(for: .seconds(4.0))
 			self.isLoadingVideo = false
 			loadVideo()
 		}

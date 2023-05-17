@@ -21,7 +21,7 @@ struct MessageImageView: View {
 	
 	var body: some View {
 		Group {
-			if model.message.isEncrypted {
+			if model.message.isEncrypted && !isLoadingImage {
 				NoContentView(
 					isEncrypted: true,
 					reloadContent: {
@@ -79,8 +79,8 @@ struct MessageImageView: View {
 	func decryptOrLoadMessageContent() {
 		Task {
 			self.isLoadingImage = true
-			await MessageClient.shared.decryptMessage(message: model.message, tribeId: model.tribe.id, wasReceived: false)
-			try await Task.sleep(for: .seconds(2.8))
+			await MessageClient.shared.decryptMessage(message: model.message, tribeId: model.tribe.id, wasReceived: false, force: true)
+			try await Task.sleep(for: .seconds(4.0))
 			self.isLoadingImage = false
 			loadImage()
 		}
