@@ -87,6 +87,7 @@ extension HomeView {
 				}
 			} else {
 				self.isShowingCompose = false
+				SoundClient.shared.setAudioCategory(for: .playback)
 			}
 		}
 		
