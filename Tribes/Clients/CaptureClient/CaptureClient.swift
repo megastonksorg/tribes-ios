@@ -132,21 +132,8 @@ class CaptureClient:
 		//Add Input and Output to Capture Session
 		do {
 			captureSession.beginConfiguration()
+			captureSession.automaticallyConfiguresApplicationAudioSession = false
 			try addInputAndOutput()
-		} catch {
-			captureSession.commitConfiguration()
-			self.setupResult = .configurationFailed
-			print("Camera Setup Failed: \(error.localizedDescription)")
-		}
-		
-		//Configure audio session
-		do {
-			try AVAudioSession.sharedInstance()
-				.setCategory(
-					.playAndRecord,
-					options: [.mixWithOthers, .allowBluetoothA2DP, .defaultToSpeaker]
-			)
-			try AVAudioSession.sharedInstance().setAllowHapticsAndSystemSoundsDuringRecording(true)
 			captureSession.commitConfiguration()
 		} catch {
 			captureSession.commitConfiguration()
@@ -209,29 +196,54 @@ class CaptureClient:
 		} else {
 			throw AppError.CaptureClientError.couldNotAddDataConnection
 		}
-		
-		//Add audio input
-		let audioDeviceInput = try? AVCaptureDeviceInput(device: AVCaptureDevice.default(for: .audio)!)
-		self.captureAudioDeviceInput = audioDeviceInput
-		
-		guard let captureAudioDeviceInput = self.captureAudioDeviceInput,
-			  self.captureSession.canAddInput(captureAudioDeviceInput) else {
-			throw AppError.CaptureClientError.couldNotAddAudioDevice
+	}
+	
+	private func addAudioInputAndOutput() throws {
+		Task(priority: .userInitiated) {
+			//Add audio input
+			let audioDeviceInput = try? AVCaptureDeviceInput(device: AVCaptureDevice.default(for: .audio)!)
+			self.captureAudioDeviceInput = audioDeviceInput
+			
+			guard let captureAudioDeviceInput = self.captureAudioDeviceInput,
+				  self.captureSession.canAddInput(captureAudioDeviceInput) else {
+				throw AppError.CaptureClientError.couldNotAddAudioDevice
+			}
+			
+			captureSession.beginConfiguration()
+			self.captureSession.addInput(captureAudioDeviceInput)
+			
+			//Add audio output
+			self.captureAudioDataOutput?.setSampleBufferDelegate(nil, queue: nil)
+			
+			let audioDataOutput = AVCaptureAudioDataOutput()
+			audioDataOutput.setSampleBufferDelegate(self, queue: self.dataOutputQueue)
+			self.captureAudioDataOutput = audioDataOutput
+			
+			guard let captureAudioDataOutput = self.captureAudioDataOutput,
+				  captureSession.canAddOutput(captureAudioDataOutput) else {
+				captureSession.commitConfiguration()
+				throw AppError.CaptureClientError.couldNotAddAudioOutput
+			}
+			captureSession.addOutput(captureAudioDataOutput)
+			captureSession.commitConfiguration()
 		}
-		self.captureSession.addInput(captureAudioDeviceInput)
-		
-		//Add audio output
-		self.captureAudioDataOutput?.setSampleBufferDelegate(nil, queue: nil)
-		
-		let audioDataOutput = AVCaptureAudioDataOutput()
-		audioDataOutput.setSampleBufferDelegate(self, queue: self.dataOutputQueue)
-		self.captureAudioDataOutput = audioDataOutput
-		
-		guard let captureAudioDataOutput = self.captureAudioDataOutput,
-			  captureSession.canAddOutput(captureAudioDataOutput) else {
-			throw AppError.CaptureClientError.couldNotAddAudioOutput
+	}
+	
+	private func removeAudioInputAndOutput() throws {
+		captureSession.beginConfiguration()
+		//Remove audio input
+		if let captureAudioDeviceInput = self.captureAudioDeviceInput {
+			self.captureSession.removeInput(captureAudioDeviceInput)
+			self.captureAudioDeviceInput = nil
 		}
-		captureSession.addOutput(captureAudioDataOutput)
+		
+		//Remove audio output
+		if let captureAudioDataOutput = self.captureAudioDataOutput {
+			self.captureAudioDataOutput?.setSampleBufferDelegate(nil, queue: nil)
+			self.captureSession.removeOutput(captureAudioDataOutput)
+			self.captureAudioDataOutput = nil
+		}
+		captureSession.commitConfiguration()
 	}
 	
 	private func addObservers() {
@@ -288,7 +300,7 @@ class CaptureClient:
 		)
 		#endif
 	}
-		
+	
 	private func removeSessionIO() {
 		self.captureSession.inputs.forEach(self.captureSession.removeInput)
 		self.captureSession.outputs.forEach(self.captureSession.removeOutput)
@@ -356,6 +368,9 @@ class CaptureClient:
 					throw AppError.CaptureClientError.failedToGenerateAudioAndVideoSettings
 				}
 				
+				
+				await SoundClient.shared.setAudioCategory(for: .record)
+				try self.addAudioInputAndOutput()
 				//Video Settings
 				videoSettings[AVVideoCompressionPropertiesKey] = [AVVideoAverageBitRateKey: 4_000_000]
 				
@@ -375,18 +390,21 @@ class CaptureClient:
 	}
 	
 	func stopVideoRecording() {
-		//removeAudioInputAndOutput()
-		guard let recorder = self.recorder else { return }
-		
-		recorder
-		.stopRecording()
-		.sink(
-			receiveCompletion: { _ in },
-			receiveValue: { [weak self] url in
-				self?.captureValueSubject.send(.video(url))
-			}
-		)
-		.store(in: &self.cancellables)
+		do {
+			guard let recorder = self.recorder else { return }
+			try self.removeAudioInputAndOutput()
+			recorder
+			.stopRecording()
+			.sink(
+				receiveCompletion: { _ in },
+				receiveValue: { [weak self] url in
+					self?.captureValueSubject.send(.video(url))
+				}
+			)
+			.store(in: &self.cancellables)
+		} catch {
+			print("Could not stop Video Recording: \(error)")
+		}
 	}
 	
 	func toggleCamera() {
