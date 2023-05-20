@@ -384,16 +384,19 @@ class CaptureClient:
 	}
 	
 	func stopVideoRecording() {
-		guard let recorder = self.recorder else { return }
-		recorder
-			.stopRecording()
-			.sink(
-				receiveCompletion: { _ in },
-				receiveValue: { [weak self] url in
-					self?.captureValueSubject.send(.video(url))
-				}
-			)
-			.store(in: &self.cancellables)
+		Task(priority: .userInitiated) {
+			guard let recorder = self.recorder else { return }
+			await SoundClient.shared.setAudioCategory(for: .playback)
+			recorder
+				.stopRecording()
+				.sink(
+					receiveCompletion: { _ in },
+					receiveValue: { [weak self] url in
+						self?.captureValueSubject.send(.video(url))
+					}
+				)
+				.store(in: &self.cancellables)
+		}
 	}
 	
 	func toggleCamera() {
