@@ -23,11 +23,10 @@ import Foundation
 	static private (set) var shared: SoundClient = SoundClient()
 	
 	private var player: AVAudioPlayer? = nil
-	private var category: Category
+	private var category: Category?
 	
 	init() {
-		self.category = .playback
-		self.setAudioCategory(for: self.category)
+		self.setAudioCategory(for: .playback)
 	}
 	
 	func playSound(_ sound: Sound) {
@@ -39,7 +38,7 @@ import Foundation
 	func setAudioCategory(for category: Category) {
 		switch category {
 		case .record:
-			if self.category == .playback {
+			if self.category != .record {
 				try? AVAudioSession.sharedInstance().setActive(false, options: [.notifyOthersOnDeactivation])
 				try? AVAudioSession.sharedInstance()
 					.setCategory(
@@ -54,7 +53,7 @@ import Foundation
 				self.category = .record
 			}
 		case .playback:
-			if self.category == .record {
+			if self.category != .playback {
 				try? AVAudioSession.sharedInstance().setActive(false, options: [.notifyOthersOnDeactivation])
 				try? AVAudioSession.sharedInstance().setCategory(.ambient)
 				try? AVAudioSession.sharedInstance().setActive(true)
