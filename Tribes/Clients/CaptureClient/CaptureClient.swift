@@ -391,12 +391,12 @@ class CaptureClient:
 				receiveCompletion: { _ in },
 				receiveValue: { [weak self] url in
 					self?.captureValueSubject.send(.video(url))
-					Task(priority: .userInitiated) {
-						await SoundClient.shared.setAudioCategory(for: .playback)
-					}
 				}
 			)
 			.store(in: &self.cancellables)
+		Task(priority: .userInitiated) {
+			await SoundClient.shared.setAudioCategory(for: .playback)
+		}
 	}
 	
 	func toggleCamera() {
