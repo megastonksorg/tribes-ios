@@ -37,33 +37,29 @@ import Foundation
 	}
 	
 	func setAudioCategory(for category: Category) {
-		do {
-			switch category {
-			case .record:
-				if self.category == .playback {
-					try AVAudioSession.sharedInstance().setActive(false, options: [.notifyOthersOnDeactivation])
-					try AVAudioSession.sharedInstance()
-						.setCategory(
-							.playAndRecord,
-							options: [
-								.mixWithOthers,
-								.allowBluetoothA2DP,
-								.defaultToSpeaker
-							]
-					)
-					try AVAudioSession.sharedInstance().setActive(true)
-					self.category = .record
-				}
-			case .playback:
-				if self.category == .record {
-					try AVAudioSession.sharedInstance().setActive(false, options: [.notifyOthersOnDeactivation])
-					try AVAudioSession.sharedInstance().setCategory(.ambient)
-					try AVAudioSession.sharedInstance().setActive(true)
-					self.category = .playback
-				}
+		switch category {
+		case .record:
+			if self.category == .playback {
+				try? AVAudioSession.sharedInstance().setActive(false, options: [.notifyOthersOnDeactivation])
+				try? AVAudioSession.sharedInstance()
+					.setCategory(
+						.playAndRecord,
+						options: [
+							.mixWithOthers,
+							.allowBluetoothA2DP,
+							.defaultToSpeaker
+						]
+				)
+				try? AVAudioSession.sharedInstance().setActive(true)
+				self.category = .record
 			}
-		} catch {
-			print("Could not set Audio Category {\(category.rawValue)} \(error)")
+		case .playback:
+			if self.category == .record {
+				try? AVAudioSession.sharedInstance().setActive(false, options: [.notifyOthersOnDeactivation])
+				try? AVAudioSession.sharedInstance().setCategory(.ambient)
+				try? AVAudioSession.sharedInstance().setActive(true)
+				self.category = .playback
+			}
 		}
 	}
 }
