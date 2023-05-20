@@ -343,7 +343,7 @@ class CaptureClient:
 			self.audioSession.stopRunning()
 			self.captureSession.stopRunning()
 			self.isSessionRunning = self.captureSession.isRunning
-			self.removeSessionIO(shouldRemoveAudioIO: false)
+			self.removeSessionIO(shouldRemoveAudioIO: true)
 		}
 	}
 	
@@ -384,19 +384,19 @@ class CaptureClient:
 	}
 	
 	func stopVideoRecording() {
-		Task(priority: .userInitiated) {
-			guard let recorder = self.recorder else { return }
-			await SoundClient.shared.setAudioCategory(for: .playback)
-			recorder
-				.stopRecording()
-				.sink(
-					receiveCompletion: { _ in },
-					receiveValue: { [weak self] url in
-						self?.captureValueSubject.send(.video(url))
+		guard let recorder = self.recorder else { return }
+		recorder
+			.stopRecording()
+			.sink(
+				receiveCompletion: { _ in },
+				receiveValue: { [weak self] url in
+					self?.captureValueSubject.send(.video(url))
+					Task(priority: .userInitiated) {
+						await SoundClient.shared.setAudioCategory(for: .playback)
 					}
-				)
-				.store(in: &self.cancellables)
-		}
+				}
+			)
+			.store(in: &self.cancellables)
 	}
 	
 	func toggleCamera() {
