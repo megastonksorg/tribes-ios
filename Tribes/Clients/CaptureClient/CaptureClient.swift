@@ -77,6 +77,7 @@ class CaptureClient:
 	private var captureAudioDataOutput: AVCaptureAudioDataOutput?
 	private var captureVideoDataOutput: AVCaptureVideoDataOutput?
 	private let captureSession: AVCaptureSession = AVCaptureSession()
+	private let audioSession: AVCaptureSession = AVCaptureSession()
 	private let captureValueSubject = PassthroughSubject<CaptureValue, Never>()
 	
 	private var recorder: Recorder?
@@ -143,7 +144,6 @@ class CaptureClient:
 		guard let captureDevice = self.captureDevice else {
 			throw AppError.CaptureClientError.noCaptureDevice
 		}
-		captureSession.automaticallyConfiguresApplicationAudioSession = false
 		captureSession.sessionPreset = .hd1920x1080
 		
 		let captureDeviceInput = try AVCaptureDeviceInput(device: captureDevice)
@@ -198,14 +198,18 @@ class CaptureClient:
 	private func addAudioInputAndOutput() {
 		sessionQueue.async { [weak self] in
 			guard let self = self else { return }
-			self.captureSession.beginConfiguration()
+			self.audioSession.beginConfiguration()
+			
+			self.audioSession.automaticallyConfiguresApplicationAudioSession = false
+			self.audioSession.usesApplicationAudioSession = true
+			
 			//Add audio input
 			let audioDeviceInput = try? AVCaptureDeviceInput(device: AVCaptureDevice.default(for: .audio)!)
 			self.captureAudioDeviceInput = audioDeviceInput
 			
 			if let captureAudioDeviceInput = self.captureAudioDeviceInput,
-			   self.captureSession.canAddInput(captureAudioDeviceInput) {
-				self.captureSession.addInput(captureAudioDeviceInput)
+			   self.audioSession.canAddInput(captureAudioDeviceInput) {
+				self.audioSession.addInput(captureAudioDeviceInput)
 			}
 			
 			//Add audio output
@@ -216,34 +220,35 @@ class CaptureClient:
 			self.captureAudioDataOutput = audioDataOutput
 			
 			if let captureAudioDataOutput = self.captureAudioDataOutput,
-			   self.captureSession.canAddOutput(captureAudioDataOutput) {
-				self.captureSession.addOutput(captureAudioDataOutput)
+			   self.audioSession.canAddOutput(captureAudioDataOutput) {
+				self.audioSession.addOutput(captureAudioDataOutput)
 			}
-			self.captureSession.commitConfiguration()
+			
+			self.audioSession.commitConfiguration()
 		}
 	}
 	
 	private func removeAudioInputAndOutput() {
 		sessionQueue.async { [weak self] in
 			guard let self = self else { return }
-			self.captureSession.beginConfiguration()
+			self.audioSession.beginConfiguration()
 			//Remove audio input
 			if let captureAudioDeviceInput = self.captureAudioDeviceInput {
-				if self.captureSession.canAddInput(captureAudioDeviceInput) {
-					self.captureSession.removeInput(captureAudioDeviceInput)
+				if self.audioSession.canAddInput(captureAudioDeviceInput) {
+					self.audioSession.removeInput(captureAudioDeviceInput)
 					self.captureAudioDeviceInput = nil
 				}
 			}
 			
 			//Remove audio output
 			if let captureAudioDataOutput = self.captureAudioDataOutput {
-				if self.captureSession.canAddOutput(captureAudioDataOutput) {
+				if self.audioSession.canAddOutput(captureAudioDataOutput) {
 					self.captureAudioDataOutput?.setSampleBufferDelegate(nil, queue: nil)
-					self.captureSession.removeOutput(captureAudioDataOutput)
+					self.audioSession.removeOutput(captureAudioDataOutput)
 					self.captureAudioDataOutput = nil
 				}
 			}
-			self.captureSession.commitConfiguration()
+			self.audioSession.commitConfiguration()
 		}
 	}
 	
@@ -303,9 +308,15 @@ class CaptureClient:
 	}
 	
 	private func removeSessionIO() {
+		//Capture Session
 		self.captureSession.inputs.forEach(self.captureSession.removeInput)
 		self.captureSession.outputs.forEach(self.captureSession.removeOutput)
 		self.captureSession.connections.forEach(self.captureSession.removeConnection)
+		
+		//Audio Session
+		self.audioSession.inputs.forEach(self.audioSession.removeInput)
+		self.audioSession.outputs.forEach(self.audioSession.removeOutput)
+		self.audioSession.outputs.forEach(self.audioSession.removeOutput)
 	}
 	
 	func resetZoomFactor() {
@@ -344,6 +355,7 @@ class CaptureClient:
 			self.setUp()
 			self.resetZoomFactor()
 			self.captureSession.startRunning()
+			self.audioSession.startRunning()
 			self.isSessionRunning = self.captureSession.isRunning
 		}
 	}
@@ -351,6 +363,7 @@ class CaptureClient:
 	func stopCaptureSession() {
 		sessionQueue.async {
 			self.stopVideoRecording()
+			self.audioSession.stopRunning()
 			self.captureSession.stopRunning()
 			self.isSessionRunning = self.captureSession.isRunning
 			self.removeSessionIO()
@@ -392,21 +405,17 @@ class CaptureClient:
 	}
 	
 	func stopVideoRecording() {
-		do {
-			guard let recorder = self.recorder else { return }
-			try self.removeAudioInputAndOutput()
-			recorder
-				.stopRecording()
-				.sink(
-					receiveCompletion: { _ in },
-					receiveValue: { [weak self] url in
-						self?.captureValueSubject.send(.video(url))
-					}
-				)
-				.store(in: &self.cancellables)
-		} catch {
-			print("Could not stop Video Recording: \(error)")
-		}
+		guard let recorder = self.recorder else { return }
+		self.removeAudioInputAndOutput()
+		recorder
+			.stopRecording()
+			.sink(
+				receiveCompletion: { _ in },
+				receiveValue: { [weak self] url in
+					self?.captureValueSubject.send(.video(url))
+				}
+			)
+			.store(in: &self.cancellables)
 	}
 	
 	func toggleCamera() {
