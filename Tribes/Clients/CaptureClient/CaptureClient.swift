@@ -90,6 +90,7 @@ class CaptureClient:
 	var isCapturingImage: Bool = false
 	var isRecording: Bool = false
 	var isSessionRunning: Bool = false
+	var isSwitchingCamera: Bool = false
 	var setupResult: SessionSetupResult = .success
 	var recorderDuration: Double = 0
 	
@@ -202,7 +203,6 @@ class CaptureClient:
 	private func addAudioInputAndOutput() {
 		sessionQueue.async { [weak self] in
 			guard let self = self else { return }
-			self.audioSession.beginConfiguration()
 			
 			//Add audio input
 			let audioDeviceInput = try? AVCaptureDeviceInput(device: AVCaptureDevice.default(for: .audio)!)
@@ -224,32 +224,6 @@ class CaptureClient:
 			   self.audioSession.canAddOutput(captureAudioDataOutput) {
 				self.audioSession.addOutput(captureAudioDataOutput)
 			}
-			
-			self.audioSession.commitConfiguration()
-		}
-	}
-	
-	private func removeAudioInputAndOutput() {
-		sessionQueue.async { [weak self] in
-			guard let self = self else { return }
-			self.audioSession.beginConfiguration()
-			//Remove audio input
-			if let captureAudioDeviceInput = self.captureAudioDeviceInput {
-				if self.audioSession.canAddInput(captureAudioDeviceInput) {
-					self.audioSession.removeInput(captureAudioDeviceInput)
-					self.captureAudioDeviceInput = nil
-				}
-			}
-			
-			//Remove audio output
-			if let captureAudioDataOutput = self.captureAudioDataOutput {
-				if self.audioSession.canAddOutput(captureAudioDataOutput) {
-					self.captureAudioDataOutput?.setSampleBufferDelegate(nil, queue: nil)
-					self.audioSession.removeOutput(captureAudioDataOutput)
-					self.captureAudioDataOutput = nil
-				}
-			}
-			self.audioSession.commitConfiguration()
 		}
 	}
 	
@@ -308,16 +282,18 @@ class CaptureClient:
 		#endif
 	}
 	
-	private func removeSessionIO() {
+	private func removeSessionIO(shouldRemoveAudioIO: Bool) {
 		//Capture Session
 		self.captureSession.inputs.forEach(self.captureSession.removeInput)
 		self.captureSession.outputs.forEach(self.captureSession.removeOutput)
 		self.captureSession.connections.forEach(self.captureSession.removeConnection)
 		
-		//Audio Session
-		self.audioSession.inputs.forEach(self.audioSession.removeInput)
-		self.audioSession.outputs.forEach(self.audioSession.removeOutput)
-		self.audioSession.outputs.forEach(self.audioSession.removeOutput)
+		if shouldRemoveAudioIO {
+			//Audio Session
+			self.audioSession.inputs.forEach(self.audioSession.removeInput)
+			self.audioSession.outputs.forEach(self.audioSession.removeOutput)
+			self.audioSession.connections.forEach(self.audioSession.removeConnection)
+		}
 	}
 	
 	func resetZoomFactor() {
@@ -367,7 +343,7 @@ class CaptureClient:
 			self.audioSession.stopRunning()
 			self.captureSession.stopRunning()
 			self.isSessionRunning = self.captureSession.isRunning
-			self.removeSessionIO()
+			self.removeSessionIO(shouldRemoveAudioIO: false)
 		}
 	}
 	
@@ -386,7 +362,9 @@ class CaptureClient:
 				}
 				
 				await SoundClient.shared.setAudioCategory(for: .record)
+				self.audioSession.beginConfiguration()
 				self.addAudioInputAndOutput()
+				self.audioSession.commitConfiguration()
 				//Video Settings
 				videoSettings[AVVideoCompressionPropertiesKey] = [AVVideoAverageBitRateKey: 4_000_000]
 				
@@ -407,7 +385,6 @@ class CaptureClient:
 	
 	func stopVideoRecording() {
 		guard let recorder = self.recorder else { return }
-		self.removeAudioInputAndOutput()
 		recorder
 			.stopRecording()
 			.sink(
@@ -423,13 +400,18 @@ class CaptureClient:
 		guard let currentDevicePosition = self.captureDevice?.position,
 			  let oppositeDevice: AVCaptureDevice = currentDevicePosition == .back ? frontDevice : backDevice
 		else { return }
-		
+		self.isSwitchingCamera = true
+		self.audioSession.beginConfiguration()
 		self.captureSession.beginConfiguration()
-		removeSessionIO()
+		removeSessionIO(shouldRemoveAudioIO: self.isRecording)
 		self.captureDevice = oppositeDevice
-		addAudioInputAndOutput()
 		try? addInputAndOutput()
+		if self.isRecording {
+			self.addAudioInputAndOutput()
+		}
+		self.audioSession.commitConfiguration()
 		self.captureSession.commitConfiguration()
+		self.isSwitchingCamera = false
 	}
 	
 	func toggleFlash() {
@@ -455,7 +437,7 @@ class CaptureClient:
 	// MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
 	func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
 		if let recorder = recorder, recorder.isRecording {
-			if output == self.captureAudioDataOutput {
+			if output == self.captureAudioDataOutput && !self.isSwitchingCamera {
 				recorder.recordAudio(sampleBuffer: sampleBuffer)
 			}
 			else { recorder.recordVideo(sampleBuffer: sampleBuffer) }
