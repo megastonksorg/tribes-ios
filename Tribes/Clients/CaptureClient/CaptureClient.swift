@@ -131,6 +131,10 @@ class CaptureClient:
 		do {
 			captureSession.beginConfiguration()
 			captureSession.automaticallyConfiguresApplicationAudioSession = false
+			
+			self.audioSession.automaticallyConfiguresApplicationAudioSession = false
+			self.audioSession.usesApplicationAudioSession = true
+			
 			try addInputAndOutput()
 			captureSession.commitConfiguration()
 		} catch {
@@ -199,9 +203,6 @@ class CaptureClient:
 		sessionQueue.async { [weak self] in
 			guard let self = self else { return }
 			self.audioSession.beginConfiguration()
-			
-			self.audioSession.automaticallyConfiguresApplicationAudioSession = false
-			self.audioSession.usesApplicationAudioSession = true
 			
 			//Add audio input
 			let audioDeviceInput = try? AVCaptureDeviceInput(device: AVCaptureDevice.default(for: .audio)!)
@@ -426,6 +427,7 @@ class CaptureClient:
 		self.captureSession.beginConfiguration()
 		removeSessionIO()
 		self.captureDevice = oppositeDevice
+		addAudioInputAndOutput()
 		try? addInputAndOutput()
 		self.captureSession.commitConfiguration()
 	}
