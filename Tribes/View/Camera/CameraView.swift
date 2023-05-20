@@ -137,19 +137,6 @@ struct CameraView: View {
 					}
 					.pushOutFrame()
 					.background(Color.app.primary.opacity(0.8))
-				} else if viewModel.isOnPhoneCall {
-					VStack {
-						HStack {
-							Image(systemName: "phone.circle.fill")
-								.font(Font.app.title)
-								.foregroundColor(Color.green)
-							Text("On a call")
-								.font(Font.app.title2)
-								.foregroundColor(Color.white)
-						}
-					}
-					.pushOutFrame()
-					.background(Color.gray.opacity(0.8))
 				}
 			}
 			.overlay(alignment: .top) {
