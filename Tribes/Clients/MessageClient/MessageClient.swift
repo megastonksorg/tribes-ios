@@ -370,7 +370,7 @@ import UIKit
 				var messageIds: Set<Message.ID> = []
 				self.tribesMessages.elements.forEach { tribeMessage in
 					let existingIds = messageIds
-					messageIds = existingIds.union(Set( tribeMessage.messages.map { $0.id }))
+					messageIds = existingIds.union(Set( tribeMessage.messages.filter{ !$0.isEncrypted }.map { $0.id }))
 				}
 				return messageIds.subtracting(self.readMessage).count
 			}()
