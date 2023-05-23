@@ -67,7 +67,7 @@ extension AuthenticateView {
 		func authenticate() {
 			self.isLoading = true
 			guard
-				let rsaKeys = RSAKeys.generateRandomRSAKeyPair(),
+				let rsaKeys = getRSAKeys(),
 				let privateKeyData = rsaKeys.privateKey.key.exportToData(),
 				let publicKeyData = rsaKeys.publicKey.key.exportToData()
 			else {
@@ -111,6 +111,14 @@ extension AuthenticateView {
 				case .failure(let error):
 					self.isLoading = false
 					self.banner = BannerData(error: error)
+			}
+		}
+		
+		func getRSAKeys() -> RSAKeys? {
+			if let savedMessageKey = KeychainClient.shared.get(key: .messageKey) {
+				return RSAKeys(messageKey: savedMessageKey)
+			} else {
+				return RSAKeys.generateRandomRSAKeyPair()
 			}
 		}
 	}
