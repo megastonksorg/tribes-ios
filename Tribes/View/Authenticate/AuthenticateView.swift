@@ -34,21 +34,30 @@ struct AuthenticateView: View {
 						.opacity(0.8)
 				}
 			}
-			CachedImage(
-				url: user.profilePhoto,
-				content: { uiImage in
-					Image(uiImage: uiImage)
-						.resizable()
-						.clipShape(Circle())
-				},
-				placeHolder: {
-					ImagePlaceholderView()
-				}
-			)
-			.frame(dimension: SizeConstants.profileImageFrame)
-			.padding(.top, 40)
 			
-			Text(viewModel.context == .signIn ? "Welcome Back 😀" : viewModel.user.fullName)
+			Spacer()
+			
+			switch viewModel.context {
+			case .signIn:
+				Image(systemName: "person.and.background.dotted")
+					.foregroundColor(Color.gray)
+					.font(.system(size: 100))
+			case .signUp:
+				CachedImage(
+					url: user.profilePhoto,
+					content: { uiImage in
+						Image(uiImage: uiImage)
+							.resizable()
+							.clipShape(Circle())
+					},
+					placeHolder: {
+						ImagePlaceholderView()
+					}
+				)
+				.frame(dimension: SizeConstants.profileImageFrame)
+			}
+			
+			Text(viewModel.context == .signIn ? "Welcome Back" : viewModel.user.fullName)
 				.font(Font.app.title3)
 				.fontWeight(.semibold)
 				.foregroundColor(.white)
@@ -56,7 +65,7 @@ struct AuthenticateView: View {
 			
 			Spacer()
 			
-			Text("By clicking authenticate, you will sign a message with your wallet for verification")
+			Text(viewModel.authenticateHint)
 				.font(Font.app.caption)
 				.foregroundColor(.gray)
 				.multilineTextAlignment(.center)

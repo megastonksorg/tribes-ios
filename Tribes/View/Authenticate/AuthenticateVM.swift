@@ -32,6 +32,13 @@ extension AuthenticateView {
 			}
 		}
 		
+		var authenticateHint: String {
+			switch context {
+			case .signIn: return "Please authenticate to continue"
+			case .signUp: return "By clicking authenticate, you will sign a message with your wallet for verification"
+			}
+		}
+		
 		//Clients
 		let apiClient = APIClient.shared
 		let keychainClient = KeychainClient.shared
