@@ -34,6 +34,7 @@ fileprivate let appStateKeyNotification: String = "appState"
 	
 	//Clients
 	let cacheClient = CacheClient.shared
+	let defaultsClient = DefaultsClient.shared
 	let hubClient = HubClient.shared
 	let keyboardClient = KeyboardClient.shared
 	let keychainClient = KeychainClient.shared
@@ -91,6 +92,7 @@ fileprivate let appStateKeyNotification: String = "appState"
 	
 	private func logOut(isDelayed: Bool) {
 		self.cacheClient.clear()
+		self.defaultsClient.clear()
 		self.keychainClient.clearAllKeys()
 		self.hubClient.stopConnection()
 		

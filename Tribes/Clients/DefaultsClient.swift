@@ -8,18 +8,27 @@
 import Foundation
 import IdentifiedCollections
 
+fileprivate enum KeyDefinitions: String, CaseIterable {
+	case cacheTracker
+	case badgeCount
+	case didAuthenticationFail
+}
+
 protocol DefaultsClientProtocol {
 	func get<Data: Codable>(key: DefaultKey<Data>) -> Data?
 	func set<Data: Codable>(key: DefaultKey<Data>, value: Data)
+	func clear()
 }
 
 struct DefaultKey<T: Codable> {
 	let name: String
 }
 
+
 extension DefaultKey {
-	static var cacheTracker: DefaultKey<IdentifiedArrayOf<CacheTrimmer.CacheTracker>> { .init(name: "cacheTracker") }
-	static var badgeCount: DefaultKey<Int> { .init(name: "badgeCount") }
+	static var cacheTracker: DefaultKey<IdentifiedArrayOf<CacheTrimmer.CacheTracker>> { .init(name: KeyDefinitions.cacheTracker.rawValue) }
+	static var badgeCount: DefaultKey<Int> { .init(name: KeyDefinitions.badgeCount.rawValue) }
+	static var didAuthenticationFail: DefaultKey<Bool> { .init(name: KeyDefinitions.didAuthenticationFail.rawValue) }
 }
 
 class DefaultsClient: DefaultsClientProtocol {
@@ -37,5 +46,11 @@ class DefaultsClient: DefaultsClientProtocol {
 	func set<Data>(key: DefaultKey<Data>, value: Data) where Data : Codable {
 		let encodedData = try? self.encoder.encode(value)
 		defaults.set(encodedData, forKey: key.name)
+	}
+	
+	func clear() {
+		KeyDefinitions.allCases.forEach { key in
+			defaults.removeObject(forKey: key.rawValue)
+		}
 	}
 }
