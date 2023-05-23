@@ -41,6 +41,7 @@ extension AuthenticateView {
 		
 		//Clients
 		let apiClient = APIClient.shared
+		let defaultsClient = DefaultsClient.shared
 		let keychainClient = KeychainClient.shared
 		let walletClient = WalletClient.shared
 		
@@ -61,7 +62,7 @@ extension AuthenticateView {
 		
 		func alertYesTapped() {
 			AppRouter.popToRoot(stack: .welcome())
-			AppState.updateAppState(with: .changeAppMode(.welcome(WelcomePageView.ViewModel())))
+			AppState.updateAppState(with: .userRequestedLogout)
 		}
 		
 		func authenticate() {
@@ -100,6 +101,7 @@ extension AuthenticateView {
 								acceptTerms: authenticateResponse.acceptTerms,
 								isOnboarded: authenticateResponse.isOnboarded
 							)
+							self?.defaultsClient.set(key: .didAuthenticationFail, value: false)
 							self?.keychainClient.set(key: .user, value: user)
 							self?.keychainClient.set(key: .token, value: Token(jwt: authenticateResponse.jwtToken, refresh: authenticateResponse.refreshToken))
 							self?.keychainClient.set(key: .messageKey, value: MessageKey(privateKey: privateKeyString, publicKey: publicKeyString))

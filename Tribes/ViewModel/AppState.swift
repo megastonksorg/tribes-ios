@@ -50,7 +50,12 @@ fileprivate let appStateKeyNotification: String = "appState"
 			)
 		if let user = keychainClient.get(key: .user) {
 			self.user = user
-			self.appMode = .home(HomeView.ViewModel(user: user))
+			if let didAuthenticationFail = defaultsClient.get(key: .didAuthenticationFail),
+				didAuthenticationFail {
+				self.appMode = .authentication(AuthenticateView.ViewModel(context: .signIn, user: user))
+			} else {
+				self.appMode = .home(HomeView.ViewModel(user: user))
+			}
 		}
 	}
 	
@@ -73,12 +78,12 @@ fileprivate let appStateKeyNotification: String = "appState"
 			switch appMode {
 			case .home:
 				self.banner = BannerData(timeOut: 8.0, detail: "Authentication Failed. You will be logged out soon.", type: .error)
-				logOut(isDelayed: true)
+				logOut(isUserRequested: false)
 			default:
 				return
 			}
 		case .userRequestedLogout, .userDeleted :
-			logOut(isDelayed: false)
+			logOut(isUserRequested: true)
 		case .userUpdated(let user):
 			self.user = user
 			switch self.appMode {
@@ -90,28 +95,34 @@ fileprivate let appStateKeyNotification: String = "appState"
 		}
 	}
 	
-	private func logOut(isDelayed: Bool) {
-		self.cacheClient.clear()
-		self.defaultsClient.clear()
-		self.keychainClient.clearAllKeys()
-		self.hubClient.stopConnection()
-		
-		MessageClient.shared.initialize()
-		
+	private func logOut(isUserRequested: Bool) {
 		//Resign Keyboard across app before logout
 		keyboardClient.resignKeyboard()
 		AppRouter.popToRoot(stack: .welcome())
 		AppRouter.popToRoot(stack: .home())
-		if isDelayed {
-			Task {
-				try await Task.sleep(for: .seconds(8.0))
-				DispatchQueue.main.async {
-					self.appMode = .welcome(WelcomePageView.ViewModel())
-				}
-			}
-		} else {
+		
+		if isUserRequested {
+			self.cacheClient.clear()
+			self.defaultsClient.clear()
+			self.keychainClient.clearAllKeys()
+			self.hubClient.stopConnection()
+			
+			MessageClient.shared.initialize()
 			DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
 				self.appMode = .welcome(WelcomePageView.ViewModel())
+			}
+		} else {
+			Task {
+				if let user = user {
+					try await Task.sleep(for: .seconds(8.0))
+					self.defaultsClient.set(key: .didAuthenticationFail, value: true)
+					self.hubClient.stopConnection()
+					MessageClient.shared.initialize()
+					
+					await MainActor.run {
+						self.appMode = .authentication(AuthenticateView.ViewModel(context: .signIn, user: user))
+					}
+				}
 			}
 		}
 	}
