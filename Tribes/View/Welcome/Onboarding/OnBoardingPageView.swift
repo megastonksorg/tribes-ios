@@ -30,7 +30,7 @@ struct OnBoardingPageView: View {
 			case .stayConnected: return "Stay connected with the people who matter the most to you"
 			case .createTribe: return "Create a Tribe"
 			case .sendInvites: return "Send secure invites to your tribe members"
-			case .shareTea: return "Share Tea through the day with your tribe members"
+			case .shareTea: return "Share your day with your tribe members"
 			case .sendMessages: return "Exchange secure messages with your tribe members"
 			}
 		}
