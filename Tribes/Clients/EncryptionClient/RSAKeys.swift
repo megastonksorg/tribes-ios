@@ -125,6 +125,20 @@ struct RSAKeys {
 	}
 }
 
+extension RSAKeys {
+	init?(messageKey: MessageKey) {
+		guard
+			let privateKeyData = Data(base64Encoded: messageKey.privateKey),
+			let publicKeyData = Data(base64Encoded: messageKey.publicKey),
+			let privateKey = RSAKeys.PrivateKey(data: privateKeyData),
+			let publicKey = RSAKeys.PublicKey(data: publicKeyData)
+		else {
+			return nil
+		}
+		self.init(privateKey: privateKey, publicKey: publicKey)
+	}
+}
+
 extension SecKey {
 	func exportToData() -> Data? {
 		var error: Unmanaged<CFError>?
