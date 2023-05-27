@@ -93,7 +93,7 @@ struct TribeInviteView: View {
 					.opacity(viewModel.didPinCodeGenerationFail ? 1.0 : 0.0)
 			}
 			
-			TextView("Pin code will expire in 5 minutes. You need a new pin code for each tribe member", style: .callout)
+			TextView("Pin code will expire in 1 hour. You need a new pin code for each tribe member", style: .callout)
 				.fixedSize(horizontal: false, vertical: true)
 			
 			Spacer()
