@@ -11,6 +11,8 @@ struct NoteBackgroundView: View {
 	enum Style {
 		case orange
 		case purple
+		case green
+		case yellow
 	}
 	
 	let style: Style
@@ -30,6 +32,16 @@ struct NoteBackgroundView: View {
 					Color(uiColor: UIColor(hex: "52CEA9")),
 					Color(uiColor: UIColor(hex: "7252CE"))
 				]
+			case .green:
+				return [
+					Color(uiColor: UIColor(hex: "CEC952")),
+					Color(uiColor: UIColor(hex: "67D665"))
+				]
+			case .yellow:
+				return [
+					Color(uiColor: UIColor(hex: "CE526F")),
+					Color(uiColor: UIColor(hex: "CEC252"))
+				]
 			}
 		}()
 		RadialGradient(
@@ -44,6 +56,6 @@ struct NoteBackgroundView: View {
 
 struct NoteBackgroundView_Previews: PreviewProvider {
 	static var previews: some View {
-		NoteBackgroundView(style: .purple)
+		NoteBackgroundView(style: .yellow)
 	}
 }
