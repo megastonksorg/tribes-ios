@@ -50,24 +50,37 @@ struct CameraView: View {
 		.overlay {
 			VStack {
 				Spacer()
-				
-				captureButton()
-					.gesture(
-						DragGesture(minimumDistance: 0)
-							.updating($isShutterButtonPressed) { _, isShutterButtonPressed, _ in
-								isShutterButtonPressed = true
+				SymmetricHStack(
+					content: {
+						captureButton()
+							.gesture(
+								DragGesture(minimumDistance: 0)
+									.updating($isShutterButtonPressed) { _, isShutterButtonPressed, _ in
+										isShutterButtonPressed = true
+									}
+									.onChanged { value in
+										viewModel.updateZoomFactor(low: value.startLocation.y, high: value.location.y)
+									}
+							)
+							.onChange(of: isShutterButtonPressed) { _ in
+								if isShutterButtonPressed {
+									viewModel.didPressShutter()
+								} else {
+									viewModel.didReleaseShutter()
+								}
 							}
-							.onChanged { value in
-								viewModel.updateZoomFactor(low: value.startLocation.y, high: value.location.y)
-							}
-					)
-					.onChange(of: isShutterButtonPressed) { _ in
-						if isShutterButtonPressed {
-							viewModel.didPressShutter()
-						} else {
-							viewModel.didReleaseShutter()
+					},
+					leading: { EmptyView() },
+					trailing: {
+						Button(action: {}) {
+							Image(systemName: "square.and.pencil.circle.fill")
+								.font(.system(size: 40))
+								.foregroundStyle(LinearGradient.camera)
 						}
+						.buttonStyle(.insideScaling)
 					}
+				)
+				.padding(.horizontal)
 			}
 			.pushOutFrame()
 			.background(
