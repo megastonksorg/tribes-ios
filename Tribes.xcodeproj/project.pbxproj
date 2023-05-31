@@ -133,6 +133,8 @@
 		D07663702995C1EE00946F7B /* CGFloat+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D076636F2995C1EE00946F7B /* CGFloat+Extensions.swift */; };
 		D08D930D2A255F7F00A18A35 /* NoteContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08D930C2A255F7F00A18A35 /* NoteContentView.swift */; };
 		D08D930F2A2561A000A18A35 /* NoteBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08D930E2A2561A000A18A35 /* NoteBackgroundView.swift */; };
+		D08D93122A27CA3000A18A35 /* NoteComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08D93112A27CA3000A18A35 /* NoteComposeView.swift */; };
+		D08D93142A27CA5A00A18A35 /* NoteComposeVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08D93132A27CA5A00A18A35 /* NoteComposeVM.swift */; };
 		D08EBF1F297EBEC1001B7A5C /* KeychainClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08EBF1E297EBEC1001B7A5C /* KeychainClient.swift */; };
 		D08EBF23297FC4D1001B7A5C /* CreateTribeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08EBF22297FC4D1001B7A5C /* CreateTribeView.swift */; };
 		D08EBF25297FC508001B7A5C /* CreateTribeVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08EBF24297FC508001B7A5C /* CreateTribeVM.swift */; };
@@ -341,6 +343,8 @@
 		D076636F2995C1EE00946F7B /* CGFloat+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+Extensions.swift"; sourceTree = "<group>"; };
 		D08D930C2A255F7F00A18A35 /* NoteContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteContentView.swift; sourceTree = "<group>"; };
 		D08D930E2A2561A000A18A35 /* NoteBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteBackgroundView.swift; sourceTree = "<group>"; };
+		D08D93112A27CA3000A18A35 /* NoteComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteComposeView.swift; sourceTree = "<group>"; };
+		D08D93132A27CA5A00A18A35 /* NoteComposeVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteComposeVM.swift; sourceTree = "<group>"; };
 		D08EBF1E297EBEC1001B7A5C /* KeychainClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainClient.swift; sourceTree = "<group>"; };
 		D08EBF22297FC4D1001B7A5C /* CreateTribeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTribeView.swift; sourceTree = "<group>"; };
 		D08EBF24297FC508001B7A5C /* CreateTribeVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTribeVM.swift; sourceTree = "<group>"; };
@@ -700,6 +704,7 @@
 				D0D2669529600BAB00A94183 /* Draft */,
 				D0D26690295FECEF00A94183 /* Compose */,
 				D015807A295E03810087545A /* Camera */,
+				D08D93102A27C9AA00A18A35 /* Note */,
 				D0C3DBEE29A3FCB20066FBB8 /* Chat */,
 				D030D3122957460B0011128F /* Profile */,
 				D030D30F2957460B0011128F /* Authenticate */,
@@ -913,6 +918,17 @@
 			path = Repositories;
 			sourceTree = "<group>";
 		};
+		D08D93102A27C9AA00A18A35 /* Note */ = {
+			isa = PBXGroup;
+			children = (
+				D08D930E2A2561A000A18A35 /* NoteBackgroundView.swift */,
+				D08D930C2A255F7F00A18A35 /* NoteContentView.swift */,
+				D08D93112A27CA3000A18A35 /* NoteComposeView.swift */,
+				D08D93132A27CA5A00A18A35 /* NoteComposeVM.swift */,
+			);
+			path = Note;
+			sourceTree = "<group>";
+		};
 		D08EBF21297FC4AF001B7A5C /* Create */ = {
 			isa = PBXGroup;
 			children = (
@@ -957,8 +973,6 @@
 				D0B90E5C29B6FAAE00EB90CD /* NoContentView.swift */,
 				D0E65EE329BD15A600763656 /* TextContentView.swift */,
 				D069C3C229CD03E500EEFF75 /* TeaViewTribeHeader.swift */,
-				D08D930C2A255F7F00A18A35 /* NoteContentView.swift */,
-				D08D930E2A2561A000A18A35 /* NoteBackgroundView.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -1259,6 +1273,7 @@
 				D030D31E2957460B0011128F /* AuthenticateVM.swift in Sources */,
 				D0E9F7FE298DD5F900A0400A /* Cache.swift in Sources */,
 				D06829B729C36EC600686FCC /* HubClient.swift in Sources */,
+				D08D93122A27CA3000A18A35 /* NoteComposeView.swift in Sources */,
 				D0B90E5D29B6FAAE00EB90CD /* NoContentView.swift in Sources */,
 				D0D2669729600BBA00A94183 /* DraftView.swift in Sources */,
 				D030D2D9295745E90011128F /* Gradients.swift in Sources */,
@@ -1307,6 +1322,7 @@
 				D030D3152957460B0011128F /* WelcomePageVM.swift in Sources */,
 				D033258329A27BE000F94834 /* View+If.swift in Sources */,
 				D055BD6429AEF73D0070025D /* PostMessage.swift in Sources */,
+				D08D93142A27CA5A00A18A35 /* NoteComposeVM.swift in Sources */,
 				D030D2AB295745C20011128F /* FeedbackClient.swift in Sources */,
 				D07278B42974CCD100650A15 /* TribesVM.swift in Sources */,
 				D0CED88E299F553D0077A347 /* EncryptedData.swift in Sources */,

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct NoteBackgroundView: View {
-	enum Style {
+	enum Style: CaseIterable {
 		case orange
 		case purple
 		case green
