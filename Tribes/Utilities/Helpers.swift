@@ -34,7 +34,7 @@ struct SizeConstants {
 	static let imageCornerRadius: CGFloat = 10
 	static let imageMaxSizeInMb: Double = 2.0
 	static let imagePixelSize: CGSize = CGSize(width: 1080, height: 1920)
-	static let noteTextSize: CGFloat = 40
+	static let noteTextSize: CGFloat = 38
 	static let loadingIndicatorSize: CGFloat = 40
 	static let maxVideoRecordingDuration: Double = 20
 	static let phraseGridSpacing: CGFloat = 10
