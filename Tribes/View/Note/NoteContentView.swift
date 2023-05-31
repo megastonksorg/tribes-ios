@@ -14,12 +14,19 @@ struct NoteContentView: View {
 	@State private var size: CGSize = .zero
 	
 	var body: some View {
+		let textSize: CGFloat = {
+			if size.height > 200 {
+				return SizeConstants.noteTextSize
+			} else {
+				return size.height * 0.04
+			}
+		}()
 		NoteBackgroundView(style: style)
 			.readSize { self.size = $0 }
 			.ignoresSafeArea()
 			.overlay(
 				Text(content)
-					.font(.system(size: size.height * 0.04, weight: .bold, design: .rounded))
+					.font(.system(size: textSize, weight: .bold, design: .rounded))
 					.foregroundColor(Color.white)
 					.multilineTextAlignment(.center)
 					.padding(.horizontal)
