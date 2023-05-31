@@ -9,6 +9,8 @@ import SwiftUI
 
 struct NoteComposeView: View {
 	
+	@FocusState private var focusedField: ViewModel.FocusField?
+	
 	@StateObject var viewModel: ViewModel
 	
 	init(viewModel: ViewModel) {
@@ -16,7 +18,32 @@ struct NoteComposeView: View {
 	}
 	
 	var body: some View {
-		Text("Hello, World!")
+		NoteBackgroundView(style: viewModel.backgroundStyle)
+			.ignoresSafeArea()
+			.onAppear { self.focusedField = .text } 
+			.overlay(
+				Color.clear
+					.pushOutFrame()
+					.contentShape(Rectangle())
+					.onTapGesture {
+						self.focusedField = .text
+					}
+			)
+			.overlay(
+				TextField("", text: $viewModel.text.max(200), axis: .vertical)
+					.font(.system(size: SizeConstants.noteTextSize, weight: .bold, design: .rounded))
+					.tint(Color.white)
+					.foregroundColor(.white)
+					.multilineTextAlignment(.center)
+					.submitLabel(.done)
+					.focused($focusedField, equals: .text)
+					.onChange(of: viewModel.text) { newValue in
+						guard let indexOfNewLine = newValue.firstIndex(of: "\n") else { return }
+						viewModel.text.remove(at: indexOfNewLine)
+						self.focusedField = nil
+					}
+					.padding(.horizontal)
+			)
 	}
 }
 
