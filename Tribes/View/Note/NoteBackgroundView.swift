@@ -8,11 +8,13 @@
 import SwiftUI
 
 struct NoteBackgroundView: View {
-	enum Style: CaseIterable {
+	enum Style: String, CaseIterable, Identifiable {
 		case orange
 		case purple
 		case green
 		case yellow
+		
+		var id: String { self.rawValue }
 	}
 	
 	let style: Style

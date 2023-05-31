@@ -20,7 +20,7 @@ struct NoteComposeView: View {
 	var body: some View {
 		NoteBackgroundView(style: viewModel.backgroundStyle)
 			.ignoresSafeArea()
-			.onAppear { self.focusedField = .text } 
+			.onAppear { self.focusedField = .text }
 			.overlay(
 				Color.clear
 					.pushOutFrame()
@@ -30,20 +30,50 @@ struct NoteComposeView: View {
 					}
 			)
 			.overlay(
-				TextField("", text: $viewModel.text.max(200), axis: .vertical)
-					.font(.system(size: SizeConstants.noteTextSize, weight: .bold, design: .rounded))
-					.tint(Color.white)
-					.foregroundColor(.white)
-					.multilineTextAlignment(.center)
-					.submitLabel(.done)
-					.focused($focusedField, equals: .text)
-					.onChange(of: viewModel.text) { newValue in
-						guard let indexOfNewLine = newValue.firstIndex(of: "\n") else { return }
-						viewModel.text.remove(at: indexOfNewLine)
-						self.focusedField = nil
-					}
-					.padding(.horizontal)
+				VStack {
+					Spacer()
+					TextField("", text: $viewModel.text.max(200), axis: .vertical)
+						.font(.system(size: SizeConstants.noteTextSize, weight: .bold, design: .rounded))
+						.tint(Color.white)
+						.foregroundColor(.white)
+						.multilineTextAlignment(.center)
+						.submitLabel(.done)
+						.focused($focusedField, equals: .text)
+						.onChange(of: viewModel.text) { newValue in
+							guard let indexOfNewLine = newValue.firstIndex(of: "\n") else { return }
+							viewModel.text.remove(at: indexOfNewLine)
+							self.focusedField = nil
+						}
+						.padding(.horizontal)
+					Spacer()
+					backgroundSelector()
+				}
 			)
+	}
+	
+	@ViewBuilder
+	func backgroundSelector() -> some View {
+		HStack {
+			Spacer()
+			ForEach(NoteBackgroundView.Style.allCases) { style in
+				HStack {
+					Spacer()
+					Button(action: { viewModel.setBackgroundStyle(style: style) }) {
+						NoteBackgroundView(style: style)
+							.clipShape(Circle())
+							.frame(dimension: 60)
+							.overlay(isShown: style == viewModel.backgroundStyle) {
+								Circle()
+									.stroke(Color.white, lineWidth: 4)
+							}
+					}
+					.buttonStyle(.insideScaling)
+					Spacer()
+				}
+				
+			}
+			Spacer()
+		}
 	}
 }
 

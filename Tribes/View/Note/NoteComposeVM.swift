@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 extension NoteComposeView {
 	@MainActor class ViewModel: ObservableObject {
@@ -15,5 +16,12 @@ extension NoteComposeView {
 		
 		@Published var backgroundStyle: NoteBackgroundView.Style = NoteBackgroundView.Style.allCases.randomElement() ?? .green
 		@Published var text: String = ""
+		
+		
+		func setBackgroundStyle(style: NoteBackgroundView.Style) {
+			withAnimation(.easeInOut) {
+				self.backgroundStyle = style
+			}
+		}
 	}
 }
