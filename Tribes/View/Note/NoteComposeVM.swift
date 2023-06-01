@@ -21,6 +21,9 @@ extension NoteComposeView {
 			text.isEmpty
 		}
 		
+		var isTextValid: Bool {
+			!text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+		}
 		
 		func setBackgroundStyle(style: NoteBackgroundView.Style) {
 			withAnimation(.easeInOut) {
