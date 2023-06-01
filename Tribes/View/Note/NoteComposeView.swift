@@ -32,8 +32,7 @@ struct NoteComposeView: View {
 			.overlay(
 				VStack {
 					Spacer()
-					TextField("", text: $viewModel.text.max(200), axis: .vertical)
-						.font(.system(size: SizeConstants.noteTextSize, weight: .bold, design: .rounded))
+					TextField("", text: $viewModel.text.max(240), axis: .vertical)
 						.tint(Color.white)
 						.foregroundColor(.white)
 						.multilineTextAlignment(.center)
@@ -45,10 +44,17 @@ struct NoteComposeView: View {
 							self.focusedField = nil
 						}
 						.padding(.horizontal)
+						.background {
+							if viewModel.isShowingTextHint {
+								Text("Write a note")
+									.foregroundColor(Color.white.opacity(0.5))
+							}
+						}
 					Spacer()
 					backgroundSelector()
 						.padding(.bottom)
 				}
+				.font(.system(size: SizeConstants.noteTextSize, weight: .bold, design: .rounded))
 			)
 	}
 	

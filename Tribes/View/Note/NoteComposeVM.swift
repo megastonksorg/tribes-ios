@@ -17,6 +17,10 @@ extension NoteComposeView {
 		@Published var backgroundStyle: NoteBackgroundView.Style = NoteBackgroundView.Style.allCases.randomElement() ?? .green
 		@Published var text: String = ""
 		
+		var isShowingTextHint: Bool {
+			text.isEmpty
+		}
+		
 		
 		func setBackgroundStyle(style: NoteBackgroundView.Style) {
 			withAnimation(.easeInOut) {
