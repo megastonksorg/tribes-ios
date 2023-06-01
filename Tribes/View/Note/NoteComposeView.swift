@@ -47,6 +47,7 @@ struct NoteComposeView: View {
 						.padding(.horizontal)
 					Spacer()
 					backgroundSelector()
+						.padding(.bottom)
 				}
 			)
 	}
@@ -61,10 +62,10 @@ struct NoteComposeView: View {
 					Button(action: { viewModel.setBackgroundStyle(style: style) }) {
 						NoteBackgroundView(style: style)
 							.clipShape(Circle())
-							.frame(dimension: 60)
+							.frame(dimension: 54)
 							.overlay(isShown: style == viewModel.backgroundStyle) {
 								Circle()
-									.stroke(Color.white, lineWidth: 4)
+									.stroke(Color.white, lineWidth: 3)
 							}
 					}
 					.buttonStyle(.insideScaling)
