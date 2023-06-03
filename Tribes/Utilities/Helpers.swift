@@ -22,6 +22,9 @@ struct AppConstants {
 	static let messageNotificationDictionaryKey: String = "message"
 	
 	static let videoFileType: String = ".mp4"
+	
+	//Note
+	static let noteBackgroundKey: String = "background"
 }
 
 struct SizeConstants {

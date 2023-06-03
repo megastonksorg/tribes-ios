@@ -34,6 +34,20 @@ struct NoteContentView: View {
 	}
 }
 
+extension NoteContentView {
+	init(url: URL, content: String) {
+		self.style = {
+			let defaultStyle: NoteBackgroundView.Style = NoteBackgroundView.Style.allCases.randomElement() ?? .green
+			guard
+				let backgroundValue = url[AppConstants.noteBackgroundKey],
+				let style = NoteBackgroundView.Style(rawValue: backgroundValue)
+			else { return defaultStyle }
+			return style
+		}()
+		self.content = content
+	}
+}
+
 struct NoteContentView_Previews: PreviewProvider {
 	static var previews: some View {
 		NoteContentView(

@@ -162,6 +162,7 @@
 		D0C65AA72970A7E600E527F9 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C65AA62970A7E600E527F9 /* Fonts.swift */; };
 		D0C65AAD2970AC6400E527F9 /* Kreon-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D0C65AAC2970AC6400E527F9 /* Kreon-Bold.ttf */; };
 		D0C65AAF2970BEA100E527F9 /* SymmetricHStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C65AAE2970BEA100E527F9 /* SymmetricHStack.swift */; };
+		D0CB74252A2B77A400E5C19C /* URL+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CB74242A2B77A400E5C19C /* URL+Extension.swift */; };
 		D0CED88C299F03200077A347 /* MessageKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CED88B299F03200077A347 /* MessageKey.swift */; };
 		D0CED88E299F553D0077A347 /* EncryptedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CED88D299F553D0077A347 /* EncryptedData.swift */; };
 		D0D16EDB29B5C8080015FCD5 /* MessageTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D16EDA29B5C8080015FCD5 /* MessageTextView.swift */; };
@@ -372,6 +373,7 @@
 		D0C65AA62970A7E600E527F9 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		D0C65AAC2970AC6400E527F9 /* Kreon-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Kreon-Bold.ttf"; sourceTree = "<group>"; };
 		D0C65AAE2970BEA100E527F9 /* SymmetricHStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymmetricHStack.swift; sourceTree = "<group>"; };
+		D0CB74242A2B77A400E5C19C /* URL+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extension.swift"; sourceTree = "<group>"; };
 		D0CED88B299F03200077A347 /* MessageKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageKey.swift; sourceTree = "<group>"; };
 		D0CED88D299F553D0077A347 /* EncryptedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncryptedData.swift; sourceTree = "<group>"; };
 		D0D16EDA29B5C8080015FCD5 /* MessageTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTextView.swift; sourceTree = "<group>"; };
@@ -605,6 +607,7 @@
 				D055BD6E29B0CBF40070025D /* Binding+Extensions.swift */,
 				D0E65EDF29BB8DF200763656 /* Date+Extensions.swift */,
 				D06803B62A100E9E00A1C19D /* Collections+Extension.swift */,
+				D0CB74242A2B77A400E5C19C /* URL+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1293,6 +1296,7 @@
 				D0D6811929B967A9000C1EF0 /* MessageDraftView.swift in Sources */,
 				D06829C029C6B75300686FCC /* MessageBottomButton.swift in Sources */,
 				D030D3192957460B0011128F /* NewSecretKeyView.swift in Sources */,
+				D0CB74252A2B77A400E5C19C /* URL+Extension.swift in Sources */,
 				D0A3F0852980AA2B000308BF /* TribeInviteView.swift in Sources */,
 				D07278C2297603DC00650A15 /* ChatBubble.swift in Sources */,
 				D06803B92A10458D00A1C19D /* PendingContentClient.swift in Sources */,
