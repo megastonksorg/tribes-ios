@@ -45,6 +45,8 @@ struct ContentView: View {
 					.onPreferenceChange(PlaybackProgressKey.self) {
 						self.playbackProgress = $0
 					}
+			case .note(let url):
+				NoteContentView(url: url, content: "HEY")
 			case .systemEvent(let eventString):
 				Text(eventString)
 			}

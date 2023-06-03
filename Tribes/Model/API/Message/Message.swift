@@ -26,12 +26,14 @@ struct Message: Codable, Equatable, Identifiable {
 			case image(URL)
 			case imageData(Data)
 			case video(URL)
+			case note(URL)
 			case systemEvent(String)
 			
 			enum `Type`: String, Codable, Hashable {
 				case text
 				case image
 				case video
+				case note
 				case systemEvent
 			}
 			
@@ -40,6 +42,7 @@ struct Message: Codable, Equatable, Identifiable {
 				case .text: return .text
 				case .image, .imageData: return .image
 				case .video: return .video
+				case .note: return .note
 				case .systemEvent: return .systemEvent
 				}
 			}
@@ -49,6 +52,7 @@ struct Message: Codable, Equatable, Identifiable {
 				case .text: return .text
 				case .image, .imageData: return .image
 				case .video: return .video
+				case .note: return .note
 				case .systemEvent: return nil
 				}
 			}
