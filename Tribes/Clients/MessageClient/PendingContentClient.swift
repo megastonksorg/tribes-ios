@@ -77,6 +77,11 @@ struct PendingContent: Codable, Equatable, Identifiable {
 		return newPendingContent
 	}
 	
+	func retryFailedDraft(draft: MessageDraft) {
+		self.pendingContentSet.updateOrAppend(draft.pendingContent)
+		uploadContent(draft.pendingContent)
+	}
+	
 	func remove(pendingContent: PendingContent) {
 		self.pendingContentSet.remove(id: pendingContent.id)
 		self.uploadCancellables[pendingContent.id]?.cancel()
@@ -127,7 +132,7 @@ struct PendingContent: Codable, Equatable, Identifiable {
 				self.messageClient.tribesMessages[id: tribe.id]?.drafts[id: correspondingDraft.id]?.pendingContent = pendingContent
 				
 				//Post draft if needed
-				self.messageClient.postDraft(correspondingDraft)
+				self.messageClient.postDraft(correspondingDraft, isRetry: false)
 			}
 		}
 	}

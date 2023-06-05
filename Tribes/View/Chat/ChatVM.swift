@@ -92,7 +92,7 @@ extension ChatView {
 		}
 		
 		func retryDraft(draft: MessageDraft) {
-			messageClient.postDraft(draft)
+			messageClient.postDraft(draft, isRetry: true)
 			self.feedbackClient.medium()
 		}
 		
@@ -118,7 +118,7 @@ extension ChatView {
 				pendingContent: pendingContent
 			)
 			self.text = ""
-			messageClient.postDraft(draft)
+			messageClient.postDraft(draft, isRetry: false)
 			self.feedbackClient.medium()
 		}
 		

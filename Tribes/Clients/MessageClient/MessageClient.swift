@@ -116,7 +116,7 @@ import UIKit
 		}
 	}
 	
-	func postDraft(_ draft: MessageDraft) {
+	func postDraft(_ draft: MessageDraft, isRetry: Bool) {
 		//Add to Draft
 		var draft = draft
 		draft.status = .uploading
@@ -141,6 +141,9 @@ import UIKit
 			let pendingContent = PendingContentClient.shared.pendingContentSet[id: draft.pendingContent.id],
 			let uploadedContent = pendingContent.uploadedContent
 		else {
+			if isRetry {
+				PendingContentClient.shared.retryFailedDraft(draft: draft)
+			}
 			// We are going to do nothing here because this means the pending content is still being uploaded
 			return
 		}
@@ -424,7 +427,7 @@ import UIKit
 								.sink(
 									receiveCompletion: { _ in },
 									receiveValue: { _ in
-										self.postDraft(draft)
+										self.postDraft(draft, isRetry: false)
 									}
 								)
 								.store(in: &self.cancellables)

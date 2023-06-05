@@ -120,7 +120,7 @@ extension DraftView {
 					timeStamp: Date.now,
 					pendingContent: pendingContent
 				)
-				messageClient.postDraft(teaDraft)
+				messageClient.postDraft(teaDraft, isRetry: false)
 			} else {
 				self.selectedRecipients.forEach { tribe in
 					let teaDraft = 	MessageDraft(
@@ -133,7 +133,7 @@ extension DraftView {
 						timeStamp: Date.now,
 						pendingContent: pendingContent
 					)
-					messageClient.postDraft(teaDraft)
+					messageClient.postDraft(teaDraft, isRetry: false)
 				}
 			}
 			NotificationCenter.default.post(Notification(name: .toggleCompose))

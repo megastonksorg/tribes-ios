@@ -207,7 +207,7 @@ extension TeaView {
 		func retryFailedDraft() {
 			if let failedDraftId = currentDraftId {
 				if let failedDraft = self.drafts[id: failedDraftId] {
-					self.messageClient.postDraft(failedDraft)
+					self.messageClient.postDraft(failedDraft, isRetry: true)
 				}
 			}
 		}
@@ -247,7 +247,7 @@ extension TeaView {
 			)
 			
 			self.text = ""
-			messageClient.postDraft(draft)
+			messageClient.postDraft(draft, isRetry: false)
 			self.feedbackClient.medium()
 		}
 		
