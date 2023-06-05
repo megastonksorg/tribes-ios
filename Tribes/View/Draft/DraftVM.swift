@@ -34,12 +34,21 @@ extension DraftView {
 		@Published var isUploading: Bool = false
 		@Published var banner: BannerData?
 		
+		@Published var noteComposeVM: NoteComposeView.ViewModel = NoteComposeView.ViewModel()
+		
 		var canSendTea: Bool {
 			selectedRecipients.count > 0
 		}
 		
 		var isShowingCaption: Bool {
 			!caption.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+		}
+		
+		var isShowingRecipients: Bool {
+			switch mode {
+			case .media: return true
+			case .note: return noteComposeVM.isDoneTyping
+			}
 		}
 		
 		//Clients
@@ -71,6 +80,7 @@ extension DraftView {
 			self.keyboardClient.resignKeyboard()
 			self.content = nil
 			self.mode = .media
+			self.noteComposeVM = NoteComposeView.ViewModel()
 			self.caption = ""
 			self.isPlaying = true
 			if shouldResetPendingContent {

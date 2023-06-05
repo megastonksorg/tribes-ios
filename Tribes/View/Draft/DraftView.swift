@@ -62,9 +62,10 @@ struct DraftView: View {
 							}
 							.animation(.easeInOut.speed(1.0), value: yOffset)
 					}
+					.ignoresSafeArea(.keyboard)
 				}
 			case .note:
-				NoteComposeView(viewModel: NoteComposeView.ViewModel())
+				NoteComposeView(viewModel: viewModel.noteComposeVM)
 			}
 		}
 		.overlay(alignment: .topTrailing) {
@@ -81,7 +82,7 @@ struct DraftView: View {
 					}
 				)
 		}
-		.overlay(alignment: .bottom) {
+		.overlay(isShown: viewModel.isShowingRecipients, alignment: .bottom) {
 			Group {
 				if let directRecipient = viewModel.directRecipient {
 					SymmetricHStack(
@@ -118,7 +119,6 @@ struct DraftView: View {
 				}
 			}
 		}
-		.ignoresSafeArea(.keyboard)
 		.banner(data: self.$viewModel.banner)
 		.overlay(isShown: viewModel.isUploading) {
 			AppProgressView()

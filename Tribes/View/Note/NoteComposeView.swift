@@ -22,6 +22,8 @@ struct NoteComposeView: View {
 			.ignoresSafeArea()
 			.onAppear { self.focusedField = .text }
 			.onDisappear { self.focusedField = nil }
+			.onChange(of: self.focusedField) { viewModel.setFocusedField($0) }
+			.onChange(of: self.viewModel.focusField) { self.focusedField = $0 }
 			.overlay(
 				Color.clear
 					.pushOutFrame()
@@ -54,6 +56,7 @@ struct NoteComposeView: View {
 					Spacer()
 					backgroundSelector()
 						.padding(.bottom)
+						.opacity(viewModel.isDoneTyping ? 0.0 : 1.0)
 				}
 				.font(.system(size: SizeConstants.noteTextSize, weight: .bold, design: .rounded))
 			)

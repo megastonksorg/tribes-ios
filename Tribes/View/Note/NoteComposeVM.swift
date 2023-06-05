@@ -16,6 +16,7 @@ extension NoteComposeView {
 		
 		@Published var backgroundStyle: NoteBackgroundView.Style = NoteBackgroundView.Style.allCases.randomElement() ?? .green
 		@Published var text: String = ""
+		@Published var focusField: FocusField? = nil
 		
 		var isShowingTextHint: Bool {
 			text.isEmpty
@@ -25,9 +26,21 @@ extension NoteComposeView {
 			!text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
 		}
 		
+		var isDoneTyping: Bool {
+			focusField == nil && isTextValid
+		}
+		
+		func setFocusedField(_ field: FocusField?) {
+			self.focusField = field
+		}
+		
 		func setBackgroundStyle(style: NoteBackgroundView.Style) {
-			withAnimation(.easeInOut) {
-				self.backgroundStyle = style
+			if style == self.backgroundStyle {
+				self.focusField = nil
+			} else {
+				withAnimation(.easeInOut) {
+					self.backgroundStyle = style
+				}
 			}
 		}
 	}
