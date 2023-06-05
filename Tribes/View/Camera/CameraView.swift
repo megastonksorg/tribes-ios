@@ -72,7 +72,7 @@ struct CameraView: View {
 					},
 					leading: { EmptyView() },
 					trailing: {
-						Button(action: {}) {
+						Button(action: { viewModel.openNoteCompose() }) {
 							Image(systemName: "square.and.pencil.circle.fill")
 								.font(.system(size: 40))
 								.foregroundStyle(LinearGradient.camera)

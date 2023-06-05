@@ -15,6 +15,11 @@ extension DraftView {
 			case caption
 		}
 		
+		enum Mode {
+			case media
+			case note
+		}
+		
 		@Published var caption: String = ""
 		@Published var content: Message.Body.Content?
 		@Published var pendingContent: PendingContent?
@@ -22,6 +27,8 @@ extension DraftView {
 		@Published var allowedRecipients: Set<Tribe.ID> = []
 		@Published var selectedRecipients: IdentifiedArrayOf<Tribe> = []
 		@Published var recipients: IdentifiedArrayOf<Tribe> = []
+		
+		@Published var mode: Mode = .media
 		
 		@Published var isPlaying: Bool = true
 		@Published var isUploading: Bool = false
@@ -39,6 +46,7 @@ extension DraftView {
 		let feedbackClient: FeedbackClient = FeedbackClient.shared
 		let messageClient: MessageClient = MessageClient.shared
 		let pendingContentClient: PendingContentClient = PendingContentClient.shared
+		let keyboardClient: KeyboardClient = KeyboardClient.shared
 		
 		init(content: Message.Body.Content? = nil) {
 			self.content = content
@@ -55,8 +63,14 @@ extension DraftView {
 			self.pendingContent = self.pendingContentClient.set(content: content)
 		}
 		
+		func setMode(_ mode: Mode) {
+			self.mode = mode
+		}
+		
 		func resetContent(shouldResetPendingContent: Bool) {
+			self.keyboardClient.resignKeyboard()
 			self.content = nil
+			self.mode = .media
 			self.caption = ""
 			self.isPlaying = true
 			if shouldResetPendingContent {

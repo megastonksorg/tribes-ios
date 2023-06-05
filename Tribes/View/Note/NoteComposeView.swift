@@ -21,6 +21,7 @@ struct NoteComposeView: View {
 		NoteBackgroundView(style: viewModel.backgroundStyle)
 			.ignoresSafeArea()
 			.onAppear { self.focusedField = .text }
+			.onDisappear { self.focusedField = nil }
 			.overlay(
 				Color.clear
 					.pushOutFrame()

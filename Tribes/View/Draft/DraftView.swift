@@ -20,104 +20,111 @@ struct DraftView: View {
 	}
 	
 	var body: some View {
-		if let content = viewModel.content {
-			GeometryReader { proxy in
-				ContentView(content: content, isMuted: false, isPlaying: viewModel.isPlaying)
-					.frame(size: proxy.size)
-			}
-			.ignoresSafeArea()
-			.overlay(
-				Color.clear
-					.contentShape(Rectangle())
-					.frame(height: 400)
-					.onTapGesture {
-						if self.focusedField == .caption {
-							self.focusedField = nil
-						} else {
-							self.focusedField = .caption
-						}
+		Group {
+			switch viewModel.mode {
+			case .media:
+				if let content = viewModel.content {
+					GeometryReader { proxy in
+						ContentView(content: content, isMuted: false, isPlaying: viewModel.isPlaying)
+							.frame(size: proxy.size)
 					}
-			)
-			.overlay(alignment: .topTrailing) {
-				Color.gray.opacity(0.01)
-					.frame(dimension: 70)
-					.onTapGesture {
-						viewModel.resetContent(shouldResetPendingContent: true)
-					}
+					.ignoresSafeArea()
 					.overlay(
-						Button(action: { viewModel.resetContent(shouldResetPendingContent: true) }) {
-							Image(systemName: "x.circle.fill")
-								.font(.system(size: SizeConstants.navigationButtonSize))
-								.foregroundColor(Color.white)
-						}
-					)
-			}
-			.overlay(alignment: .bottom) {
-				let yOffset: CGFloat = {
-					if keyboardClient.height == 0 {
-						return SizeConstants.teaCaptionOffset
-					} else {
-						return keyboardClient.height - 35
-					}
-				}()
-				TextField("", text: $viewModel.caption.max(SizeConstants.captionLimit), axis: .vertical)
-					.styleForCaption()
-					.submitLabel(.done)
-					.focused($focusedField, equals: .caption)
-					.opacity(viewModel.isShowingCaption || self.focusedField == .caption ? 1.0 : 0.0)
-					.offset(y: -yOffset)
-					.onChange(of: viewModel.caption) { newValue in
-						guard let indexOfNewLine = newValue.firstIndex(of: "\n") else { return }
-						viewModel.caption.remove(at: indexOfNewLine)
-						self.focusedField = nil
-					}
-					.animation(.easeInOut.speed(1.0), value: yOffset)
-			}
-			.overlay(alignment: .bottom) {
-				Group {
-					if let directRecipient = viewModel.directRecipient {
-						SymmetricHStack(
-							content: {
-								tribeAvatar(tribe: directRecipient)
-							},
-							leading: { EmptyView() },
-							trailing: {
-								sendTeaButton()
-									.opacity(viewModel.canSendTea ? 1.0 : 0.0)
-							}
-						)
-					} else {
-						let spacing: CGFloat = 4
-						HStack(spacing: 0) {
-							ScrollView(.horizontal, showsIndicators: false) {
-								LazyHStack(spacing: 14) {
-									Spacer()
-										.frame(width: spacing)
-									ForEach(viewModel.recipients) {
-										tribeAvatar(tribe: $0)
-									}
-									if viewModel.canSendTea {
-										sendTeaButton()
-											.opacity(0)
-									}
+						Color.clear
+							.contentShape(Rectangle())
+							.frame(height: 400)
+							.onTapGesture {
+								if self.focusedField == .caption {
+									self.focusedField = nil
+								} else {
+									self.focusedField = .caption
 								}
 							}
-							.frame(maxHeight: 140)
-						}
-						.overlay(isShown: viewModel.canSendTea, alignment: .trailing) {
+					)
+					.overlay(alignment: .bottom) {
+						let yOffset: CGFloat = {
+							if keyboardClient.height == 0 {
+								return SizeConstants.teaCaptionOffset
+							} else {
+								return keyboardClient.height - 35
+							}
+						}()
+						TextField("", text: $viewModel.caption.max(SizeConstants.captionLimit), axis: .vertical)
+							.styleForCaption()
+							.submitLabel(.done)
+							.focused($focusedField, equals: .caption)
+							.opacity(viewModel.isShowingCaption || self.focusedField == .caption ? 1.0 : 0.0)
+							.offset(y: -yOffset)
+							.onChange(of: viewModel.caption) { newValue in
+								guard let indexOfNewLine = newValue.firstIndex(of: "\n") else { return }
+								viewModel.caption.remove(at: indexOfNewLine)
+								self.focusedField = nil
+							}
+							.animation(.easeInOut.speed(1.0), value: yOffset)
+					}
+				}
+			case .note:
+				NoteComposeView(viewModel: NoteComposeView.ViewModel())
+			}
+		}
+		.overlay(alignment: .topTrailing) {
+			Color.gray.opacity(0.01)
+				.frame(dimension: 70)
+				.onTapGesture {
+					viewModel.resetContent(shouldResetPendingContent: true)
+				}
+				.overlay(
+					Button(action: { viewModel.resetContent(shouldResetPendingContent: true) }) {
+						Image(systemName: "x.circle.fill")
+							.font(.system(size: SizeConstants.navigationButtonSize))
+							.foregroundColor(Color.white)
+					}
+				)
+		}
+		.overlay(alignment: .bottom) {
+			Group {
+				if let directRecipient = viewModel.directRecipient {
+					SymmetricHStack(
+						content: {
+							tribeAvatar(tribe: directRecipient)
+						},
+						leading: { EmptyView() },
+						trailing: {
 							sendTeaButton()
+								.opacity(viewModel.canSendTea ? 1.0 : 0.0)
 						}
+					)
+				} else {
+					let spacing: CGFloat = 4
+					HStack(spacing: 0) {
+						ScrollView(.horizontal, showsIndicators: false) {
+							LazyHStack(spacing: 14) {
+								Spacer()
+									.frame(width: spacing)
+								ForEach(viewModel.recipients) {
+									tribeAvatar(tribe: $0)
+								}
+								if viewModel.canSendTea {
+									sendTeaButton()
+										.opacity(0)
+								}
+							}
+						}
+						.frame(maxHeight: 140)
+					}
+					.overlay(isShown: viewModel.canSendTea, alignment: .trailing) {
+						sendTeaButton()
 					}
 				}
 			}
-			.ignoresSafeArea(.keyboard)
-			.banner(data: self.$viewModel.banner)
-			.overlay(isShown: viewModel.isUploading) {
-				AppProgressView()
-			}
-			.onAppear { viewModel.resetRecipients() }
-			.onDisappear { viewModel.didDisappear() }
 		}
+		.ignoresSafeArea(.keyboard)
+		.banner(data: self.$viewModel.banner)
+		.overlay(isShown: viewModel.isUploading) {
+			AppProgressView()
+		}
+		.onAppear { viewModel.resetRecipients() }
+		.onDisappear { viewModel.didDisappear() }
 	}
 	
 	@ViewBuilder

@@ -69,6 +69,11 @@ extension ComposeView {
 				.store(in: &cancellables)
 		}
 		
+		@objc func openNoteCompose() {
+			self.draftVM.setContent(content: .note("".unwrappedContentUrl))
+			self.draftVM.setMode(.note)
+		}
+		
 		private func addObservers() {
 			cameraVM
 				.objectWillChange
@@ -82,6 +87,13 @@ extension ComposeView {
 					self?.objectWillChange.send()
 				})
 				.store(in: &cancellables)
+			NotificationCenter
+				.default.addObserver(
+					self,
+					selector: #selector(openNoteCompose),
+					name: .openNoteCompose,
+					object: nil
+				)
 		}
 	}
 }
