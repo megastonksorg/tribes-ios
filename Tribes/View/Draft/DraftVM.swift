@@ -121,7 +121,7 @@ extension DraftView {
 		func sendTea() {
 			guard
 				let content = self.content,
-				let pendingContent = self.pendingContent
+				var pendingContent = self.pendingContent
 			else { return }
 			//Stop playing content when the upload starts
 			self.isPlaying = false
@@ -129,6 +129,15 @@ extension DraftView {
 			let caption: String? = {
 				if self.isShowingCaption {
 					return self.caption
+				} else if self.noteComposeVM.isTextValid {
+					//We update the Note information here for upload
+					self.pendingContentClient.remove(pendingContent: pendingContent)
+					if let newPendingContent = self.pendingContentClient.set(
+						content: .note(URL(string: "https:/tribesapp.ca?\(AppConstants.noteBackgroundKey)=\(noteComposeVM.backgroundStyle.rawValue)")!)
+					) {
+						pendingContent = newPendingContent
+					}
+					return self.noteComposeVM.text
 				} else {
 					return nil
 				}
