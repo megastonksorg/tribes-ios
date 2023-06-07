@@ -14,11 +14,12 @@ struct NoteContentView: View {
 	@State private var size: CGSize = .zero
 	
 	var body: some View {
+		let isSmallSize: Bool = size.height < 300
 		let textSize: CGFloat = {
-			if size.height > 200 {
-				return SizeConstants.noteTextSize
+			if isSmallSize {
+				return size.height * 0.035
 			} else {
-				return size.height * 0.04
+				return SizeConstants.noteTextSize
 			}
 		}()
 		NoteBackgroundView(style: style)
@@ -29,7 +30,7 @@ struct NoteContentView: View {
 					.font(.system(size: textSize, weight: .bold, design: .rounded))
 					.foregroundColor(Color.white)
 					.multilineTextAlignment(.center)
-					.padding(.horizontal)
+					.frame(maxWidth: self.size.width * 0.8)
 			)
 	}
 }
