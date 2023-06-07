@@ -201,7 +201,7 @@ import UIKit
 			postMessageModel.body = pendingContent.encryptedData.data.base64EncodedString()
 			postMessageCancellables[draft.id] = self.postMessage(draft: draft, model: postMessageModel)
 		case .note:
-			//Dont use the encrypted url here because the caption is the real encrypted content
+			//Don't use the encrypted url here because the caption is the real encrypted content
 			if case .note(let url) = pendingContent.uploadedContent {
 				postMessageModel.body = url.absoluteString
 				postMessageCancellables[draft.id] = self.postMessage(draft: draft, model: postMessageModel)

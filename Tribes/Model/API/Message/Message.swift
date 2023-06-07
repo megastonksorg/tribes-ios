@@ -201,6 +201,28 @@ extension Message {
 		message.body = .init(content: .text("Hey there, what's for dinner? Are we still going for Italian?"), caption: nil)
 		return message
 	}()
+	
+	static let noopDecryptedNote: Message = {
+		var message = Message(
+			id: "F",
+			context: nil,
+			decryptionKeys: [],
+			encryptedBody: Body(
+				content: .note(URL(string: "https://tribesapp.ca?\(AppConstants.noteBackgroundKey)=orange")!),
+				caption: "Hey there. When are we going for dinner"
+			),
+			senderId: UUID().uuidString,
+			reactions: [],
+			tag: .chat,
+			expires: nil,
+			timeStamp: Date.now
+		)
+		message.body = .init(
+			content: .note(URL(string: "https://tribesapp.ca?\(AppConstants.noteBackgroundKey)=orange")!),
+			caption: "Hey there. When are we going for dinner"
+		)
+		return message
+	}()
 }
 
 struct TribeMessage: Codable, Identifiable {
