@@ -27,7 +27,126 @@ struct TeaView: View {
 	}
 	
 	var body: some View {
-		GeometryReader { proxy in
+		VStack {
+			let yOffset: CGFloat = {
+				if keyboardClient.height == 0 {
+					return 0
+				} else {
+					return keyboardClient.height - 25
+				}
+			}()
+			header()
+				.overlay(alignment: .top) {
+					Color.black.opacity(0.4)
+						.blur(radius: 40)
+						.frame(height: 140)
+						.ignoresSafeArea(edges: .top)
+				}
+			Spacer()
+			HStack {
+				if !viewModel.tea.isEmpty && viewModel.currentTeaId != nil {
+					ZStack(alignment: .topLeading) {
+						Group {
+							Text("Message ")
+								.foregroundColor(Color.white)
+							+
+							Text(viewModel.tribe.name)
+								.foregroundColor(Color.app.tertiary)
+						}
+						.lineLimit(1)
+						.opacity(viewModel.isHintTextVisible ? 1.0 : 0.0)
+						TextField("", text: $viewModel.text.max(SizeConstants.textMessageLimit), axis: .vertical)
+							.tint(Color.white)
+							.lineLimit(1...4)
+							.foregroundColor(.white)
+							.submitLabel(.done)
+							.focused($focusedField, equals: .text)
+							.onChange(of: viewModel.text) { newValue in
+								guard let indexOfNewLine = newValue.firstIndex(of: "\n") else { return }
+								viewModel.text.remove(at: indexOfNewLine)
+								self.focusedField = nil
+								viewModel.sendMessage()
+							}
+					}
+					.font(Font.app.body)
+					.multilineTextAlignment(.leading)
+					.padding(.horizontal, 12)
+					.padding(.vertical, 14)
+					.background {
+						ZStack {
+							let cornerRadius: CGFloat = SizeConstants.textFieldCornerRadius
+							RoundedRectangle(cornerRadius: cornerRadius)
+								.fill(LinearGradient.dropShadow.opacity(0.5))
+							RoundedRectangle(cornerRadius: cornerRadius)
+								.stroke(Color.white, lineWidth: 1)
+						}
+					}
+					.dropShadow()
+					.dropShadow()
+				}
+				
+				Menu(content: {
+					Button(action: { viewModel.deleteMessage() }) {
+						Label("Delete", systemImage: "trash.circle.fill")
+							.font(Font.app.title)
+					}
+				}, label: {
+					Image(systemName: "ellipsis")
+						.font(Font.app.title)
+						.padding(4)
+						.padding(.vertical, 10)
+						.rotationEffect(.degrees(-90))
+				})
+				.foregroundColor(Color.white)
+				.dropShadow()
+				.dropShadow()
+				.opacity(viewModel.isAuthorOfCurrentTea ? 1.0 : 0.0)
+				.frame(height: 30)
+				
+				Spacer()
+				MessageBottomButton(style: .close) {
+					closeButtonAction()
+				}
+				.background {
+					Color.clear
+						.frame(dimension: 60)
+						.contentShape(Rectangle())
+						.onTapGesture {
+							closeButtonAction()
+						}
+				}
+			}
+			.offset(y: -yOffset)
+		}
+		.padding(.horizontal)
+		.background {
+			HStack(spacing: 10) {
+				Color.clear.pushOutFrame()
+					.allowsHitTesting(true)
+					.contentShape(Rectangle())
+					.onTapGesture {
+						viewModel.previousDraftOrTea()
+					}
+				
+				Color.clear.pushOutFrame()
+					.allowsHitTesting(true)
+					.contentShape(Rectangle())
+					.onTapGesture {
+						viewModel.nextDraftOrTea()
+					}
+			}
+			.overlay {
+				if let currentDraftId = viewModel.currentDraftId,
+				   let currentDraft = viewModel.drafts[id: currentDraftId] {
+					draftRetryButton(currentDraft: currentDraft)
+				}
+			}
+			.overlay(isShown: keyboardClient.height != 0) {
+				Color.black.opacity(0.4)
+					.ignoresSafeArea()
+			}
+		}
+		.background {
 			ZStack {
 				ForEach(viewModel.drafts) { draft in
 					let isPlaying: Bool = draft.id == viewModel.currentDraftId
@@ -63,134 +182,13 @@ struct TeaView: View {
 					emptyTeaView()
 				}
 			}
-			.frame(size: proxy.size)
+			.background(Color.app.primary)
+			.ignoresSafeArea(.keyboard)
 			.onChange(of: viewModel.currentPill) { _ in
 				self.currentPlaybackProgress = 0
 			}
 		}
-		.overlay(alignment: .top) {
-			Color.black.opacity(0.4)
-				.blur(radius: 40)
-				.frame(height: 140)
-				.ignoresSafeArea()
-		}
-		.background(Color.app.primary)
-		.overlay {
-			VStack {
-				let yOffset: CGFloat = {
-					if keyboardClient.height == 0 {
-						return 0
-					} else {
-						return keyboardClient.height - 25
-					}
-				}()
-				header()
-				Spacer()
-				HStack {
-					if !viewModel.tea.isEmpty && viewModel.currentTeaId != nil {
-						ZStack(alignment: .topLeading) {
-							Group {
-								Text("Message ")
-									.foregroundColor(Color.white)
-								+
-								Text(viewModel.tribe.name)
-									.foregroundColor(Color.app.tertiary)
-							}
-							.lineLimit(1)
-							.opacity(viewModel.isHintTextVisible ? 1.0 : 0.0)
-							TextField("", text: $viewModel.text.max(SizeConstants.textMessageLimit), axis: .vertical)
-								.tint(Color.white)
-								.lineLimit(1...4)
-								.foregroundColor(.white)
-								.submitLabel(.done)
-								.focused($focusedField, equals: .text)
-								.onChange(of: viewModel.text) { newValue in
-									guard let indexOfNewLine = newValue.firstIndex(of: "\n") else { return }
-									viewModel.text.remove(at: indexOfNewLine)
-									self.focusedField = nil
-									viewModel.sendMessage()
-								}
-						}
-						.font(Font.app.body)
-						.multilineTextAlignment(.leading)
-						.padding(.horizontal, 12)
-						.padding(.vertical, 14)
-						.background {
-							ZStack {
-								let cornerRadius: CGFloat = SizeConstants.textFieldCornerRadius
-								RoundedRectangle(cornerRadius: cornerRadius)
-									.fill(LinearGradient.dropShadow.opacity(0.5))
-								RoundedRectangle(cornerRadius: cornerRadius)
-									.stroke(Color.white, lineWidth: 1)
-							}
-						}
-						.dropShadow()
-						.dropShadow()
-					}
-					
-					Menu(content: {
-						Button(action: { viewModel.deleteMessage() }) {
-							Label("Delete", systemImage: "trash.circle.fill")
-								.font(Font.app.title)
-						}
-					}, label: {
-						Image(systemName: "ellipsis")
-							.font(Font.app.title)
-							.padding(4)
-							.padding(.vertical, 10)
-							.rotationEffect(.degrees(-90))
-					})
-					.foregroundColor(Color.white)
-					.dropShadow()
-					.dropShadow()
-					.opacity(viewModel.isAuthorOfCurrentTea ? 1.0 : 0.0)
-					.frame(height: 30)
-					
-					Spacer()
-					MessageBottomButton(style: .close) {
-						closeButtonAction()
-					}
-					.background {
-						Color.clear
-							.frame(dimension: 60)
-							.contentShape(Rectangle())
-							.onTapGesture {
-								closeButtonAction()
-							}
-					}
-				}
-				.offset(y: -yOffset)
-			}
-			.padding(.horizontal)
-			.background {
-				HStack(spacing: 10) {
-					Color.clear.pushOutFrame()
-						.allowsHitTesting(true)
-						.contentShape(Rectangle())
-						.onTapGesture {
-							viewModel.previousDraftOrTea()
-						}
-					
-					Color.clear.pushOutFrame()
-						.allowsHitTesting(true)
-						.contentShape(Rectangle())
-						.onTapGesture {
-							viewModel.nextDraftOrTea()
-						}
-				}
-				.overlay {
-					if let currentDraftId = viewModel.currentDraftId,
-					   let currentDraft = viewModel.drafts[id: currentDraftId] {
-						draftRetryButton(currentDraft: currentDraft)
-					}
-				}
-				.overlay(isShown: keyboardClient.height != 0) {
-					Color.black.opacity(0.4)
-						.ignoresSafeArea()
-				}
-			}
-			.ignoresSafeArea(.keyboard)
-		}
+		.ignoresSafeArea(.keyboard)
 		.onAppear { viewModel.didAppear() }
 	}
 	
