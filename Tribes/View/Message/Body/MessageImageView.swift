@@ -36,13 +36,6 @@ struct MessageImageView: View {
 					Image(uiImage: uiImage)
 						.resizable()
 						.scaledToFill()
-						.overlay(isShown: model.isShowingCaption) {
-							if let caption = model.message.body?.caption {
-								Text(caption)
-									.styleForCaption()
-									.offset(y: SizeConstants.teaCaptionOffset)
-							}
-						}
 				} else {
 					NoContentView(
 						isEncrypted: false,
@@ -54,6 +47,13 @@ struct MessageImageView: View {
 			}
 		}
 		.ignoresSafeArea()
+		.overlay(isShown: model.isShowingCaption) {
+			if let caption = model.message.body?.caption {
+				Text(caption)
+					.styleForCaption()
+					.offset(y: SizeConstants.teaCaptionOffset)
+			}
+		}
 		.task {
 			if uiImage == nil {
 				loadImage()
