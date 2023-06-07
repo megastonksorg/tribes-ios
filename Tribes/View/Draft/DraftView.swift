@@ -62,7 +62,6 @@ struct DraftView: View {
 							}
 							.animation(.easeInOut.speed(1.0), value: yOffset)
 					}
-					.ignoresSafeArea(.keyboard)
 				}
 			case .note:
 				NoteComposeView(viewModel: viewModel.noteComposeVM)
@@ -118,6 +117,10 @@ struct DraftView: View {
 					}
 				}
 			}
+		}
+		.if(viewModel.mode == .media) { view in
+			view
+				.ignoresSafeArea(.keyboard)
 		}
 		.banner(data: self.$viewModel.banner)
 		.overlay(isShown: viewModel.isUploading) {
