@@ -15,6 +15,11 @@ extension DraftView {
 			case caption
 		}
 		
+		enum Mode {
+			case media
+			case note
+		}
+		
 		@Published var caption: String = ""
 		@Published var content: Message.Body.Content?
 		@Published var pendingContent: PendingContent?
@@ -23,9 +28,13 @@ extension DraftView {
 		@Published var selectedRecipients: IdentifiedArrayOf<Tribe> = []
 		@Published var recipients: IdentifiedArrayOf<Tribe> = []
 		
+		@Published var mode: Mode = .media
+		
 		@Published var isPlaying: Bool = true
 		@Published var isUploading: Bool = false
 		@Published var banner: BannerData?
+		
+		@Published var noteComposeVM: NoteComposeView.ViewModel = NoteComposeView.ViewModel()
 		
 		var canSendTea: Bool {
 			selectedRecipients.count > 0
@@ -35,10 +44,18 @@ extension DraftView {
 			!caption.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
 		}
 		
+		var isShowingRecipients: Bool {
+			switch mode {
+			case .media: return true
+			case .note: return noteComposeVM.isDoneTyping
+			}
+		}
+		
 		//Clients
 		let feedbackClient: FeedbackClient = FeedbackClient.shared
 		let messageClient: MessageClient = MessageClient.shared
 		let pendingContentClient: PendingContentClient = PendingContentClient.shared
+		let keyboardClient: KeyboardClient = KeyboardClient.shared
 		
 		init(content: Message.Body.Content? = nil) {
 			self.content = content
@@ -55,8 +72,15 @@ extension DraftView {
 			self.pendingContent = self.pendingContentClient.set(content: content)
 		}
 		
+		func setMode(_ mode: Mode) {
+			self.mode = mode
+		}
+		
 		func resetContent(shouldResetPendingContent: Bool) {
+			self.keyboardClient.resignKeyboard()
 			self.content = nil
+			self.mode = .media
+			self.noteComposeVM = NoteComposeView.ViewModel()
 			self.caption = ""
 			self.isPlaying = true
 			if shouldResetPendingContent {
@@ -97,7 +121,7 @@ extension DraftView {
 		func sendTea() {
 			guard
 				let content = self.content,
-				let pendingContent = self.pendingContent
+				var pendingContent = self.pendingContent
 			else { return }
 			//Stop playing content when the upload starts
 			self.isPlaying = false
@@ -105,6 +129,15 @@ extension DraftView {
 			let caption: String? = {
 				if self.isShowingCaption {
 					return self.caption
+				} else if self.noteComposeVM.isTextValid {
+					//We update the Note information here for upload
+					self.pendingContentClient.remove(pendingContent: pendingContent)
+					if let newPendingContent = self.pendingContentClient.set(
+						content: .note(URL(string: "https:/tribesapp.ca?\(AppConstants.noteBackgroundKey)=\(noteComposeVM.backgroundStyle.rawValue)")!)
+					) {
+						pendingContent = newPendingContent
+					}
+					return self.noteComposeVM.text
 				} else {
 					return nil
 				}

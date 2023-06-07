@@ -12,6 +12,7 @@ extension Notification.Name {
 	static let captureClientDidGrantPermissionForPlaybackResumption = Notification.Name("captureClientDidGrantPermissionForPlaybackResumption")
 	static let toggleCompose = Notification.Name("toggleCompose")
 	static let openCompose = Notification.Name("openCompose")
+	static let openNoteCompose = Notification.Name("openNoteCompose")
 	static let pushStack = Notification.Name("pushStack")
 	static let popStack = Notification.Name("popStack")
 	static let popToRoot = Notification.Name("popToRoot")

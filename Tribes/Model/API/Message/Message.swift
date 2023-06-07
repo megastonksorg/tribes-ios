@@ -26,12 +26,14 @@ struct Message: Codable, Equatable, Identifiable {
 			case image(URL)
 			case imageData(Data)
 			case video(URL)
+			case note(URL)
 			case systemEvent(String)
 			
 			enum `Type`: String, Codable, Hashable {
 				case text
 				case image
 				case video
+				case note
 				case systemEvent
 			}
 			
@@ -40,6 +42,7 @@ struct Message: Codable, Equatable, Identifiable {
 				case .text: return .text
 				case .image, .imageData: return .image
 				case .video: return .video
+				case .note: return .note
 				case .systemEvent: return .systemEvent
 				}
 			}
@@ -49,6 +52,7 @@ struct Message: Codable, Equatable, Identifiable {
 				case .text: return .text
 				case .image, .imageData: return .image
 				case .video: return .video
+				case .note: return .note
 				case .systemEvent: return nil
 				}
 			}
@@ -195,6 +199,28 @@ extension Message {
 			timeStamp: Date.now
 		)
 		message.body = .init(content: .text("Hey there, what's for dinner? Are we still going for Italian?"), caption: nil)
+		return message
+	}()
+	
+	static let noopDecryptedNote: Message = {
+		var message = Message(
+			id: "F",
+			context: nil,
+			decryptionKeys: [],
+			encryptedBody: Body(
+				content: .note(URL(string: "https://tribesapp.ca?\(AppConstants.noteBackgroundKey)=orange")!),
+				caption: "Hey there. When are we going for dinner"
+			),
+			senderId: UUID().uuidString,
+			reactions: [],
+			tag: .chat,
+			expires: nil,
+			timeStamp: Date.now
+		)
+		message.body = .init(
+			content: .note(URL(string: "https://tribesapp.ca?\(AppConstants.noteBackgroundKey)=orange")!),
+			caption: "Hey there. When are we going for dinner"
+		)
 		return message
 	}()
 }

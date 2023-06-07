@@ -203,6 +203,12 @@ import UIKit
 		case .text:
 			postMessageModel.body = pendingContent.encryptedData.data.base64EncodedString()
 			postMessageCancellables[draft.id] = self.postMessage(draft: draft, model: postMessageModel)
+		case .note:
+			//Don't use the encrypted url here because the caption is the real encrypted content
+			if case .note(let url) = pendingContent.uploadedContent {
+				postMessageModel.body = url.absoluteString
+				postMessageCancellables[draft.id] = self.postMessage(draft: draft, model: postMessageModel)
+			}
 		case .imageData, .systemEvent:
 			self.tribesMessages[id: draft.tribeId]?.drafts.remove(id: draft.id)
 			
@@ -280,6 +286,9 @@ import UIKit
 				
 				let cachedVideoUrl = await self.cacheClient.set(cache: Cache(key: cacheKey, object: decryptedVideoData))
 				decryptedMessage.body = Message.Body(content: .video(cachedVideoUrl), caption: decryptedCaption)
+				updateMessageAndCache(decryptedMessage, tribeId: tribeId, wasReceived: wasReceived, force: force)
+			case .note(let url):
+				decryptedMessage.body = Message.Body(content: .note(url), caption: decryptedCaption)
 				updateMessageAndCache(decryptedMessage, tribeId: tribeId, wasReceived: wasReceived, force: force)
 			case .systemEvent(let eventText):
 				decryptedMessage.body = Message.Body(content: .systemEvent(eventText), caption: decryptedCaption)
@@ -477,6 +486,8 @@ import UIKit
 			return .video(messageResponse.body.unwrappedContentUrl)
 		case .systemEvent:
 			return .systemEvent(messageResponse.body)
+		case .note:
+			return .note(messageResponse.body.unwrappedContentUrl)
 		}
 	}
 	

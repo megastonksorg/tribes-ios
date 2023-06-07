@@ -45,6 +45,8 @@ struct PendingContent: Codable, Equatable, Identifiable {
 			case .video(let url):
 				guard let videoData = try? Data(contentsOf: url) else { return nil }
 				return self.encryptionClient.encrypt(videoData, symmetricKey: symmetricKey)
+			case .note(let url):
+				return self.encryptionClient.encrypt(Data(url.absoluteString.utf8), symmetricKey: symmetricKey)
 			case .image, .systemEvent: return nil
 			}
 		}()
@@ -56,11 +58,12 @@ struct PendingContent: Codable, Equatable, Identifiable {
 		 This is because we use the uploaded content to determine when a content is ready to be uploaded.
 		 Essentially, here we are saying that text is ready to be uploaded right away
 		 This is because it does not have any media that needs to be preflighted if you will.
+		 Same thing goes for notes
 		 */
 		let uploadedContent: Message.Body.Content? = {
 			switch content {
 			case .imageData, .video, .image, .systemEvent: return nil
-			case .text: return content
+			case .text, .note: return content
 			}
 		}()
 		
@@ -93,7 +96,7 @@ struct PendingContent: Codable, Equatable, Identifiable {
 			self.uploadCancellables[pendingContent.id] = uploadImage(pendingContent: pendingContent)
 		case .video:
 			self.uploadCancellables[pendingContent.id] = uploadVideo(pendingContent: pendingContent)
-		case .text, .image, .systemEvent:
+		case .text, .image, .note, .systemEvent:
 			return
 		}
 	}

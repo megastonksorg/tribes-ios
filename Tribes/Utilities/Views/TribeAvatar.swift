@@ -431,7 +431,7 @@ struct TribeAvatar: View {
 							switch lastChat.body?.content {
 							case .text(let textContent):
 								callOutIndicator(content: textContent, style: .regular)
-							case .image, .imageData, .video, .systemEvent, .none:
+							case .image, .imageData, .video, .note, .systemEvent, .none:
 								EmptyView()
 							}
 						}

@@ -21,7 +21,7 @@ extension Cache {
 		switch encryptedContent {
 		case .image(let url), .video(let url):
 			return SHA256.getHash(for: url)
-		case .text, .systemEvent, .imageData:
+		case .text, .systemEvent, .note, .imageData:
 			return nil
 		}
 	}

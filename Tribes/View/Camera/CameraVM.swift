@@ -194,6 +194,11 @@ extension CameraView {
 			self.previewImage = nil
 		}
 		
+		func openNoteCompose() {
+			self.feedbackClient.medium()
+			NotificationCenter.default.post(Notification(name: .openNoteCompose))
+		}
+		
 		@objc func stopVideoRecordingAndInvalidateTimer() {
 			self.captureClient.stopVideoRecording()
 			videoRecorderTimer?.invalidate()
