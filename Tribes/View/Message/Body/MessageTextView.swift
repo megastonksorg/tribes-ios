@@ -71,7 +71,6 @@ struct MessageTextView: View {
 											isShowingCaption: false,
 											isShowingIncomingAuthor: false
 										)
-										.scaledToFill()
 									}
 									.buttonStyle(.bright)
 								}
