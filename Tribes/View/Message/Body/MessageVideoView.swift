@@ -38,13 +38,6 @@ struct MessageVideoView: View {
 						.onPreferenceChange(PlaybackProgressKey.self) {
 							playbackProgress = $0
 						}
-						.overlay(isShown: model.isShowingCaption) {
-							if let caption = model.message.body?.caption {
-								Text(caption)
-									.styleForCaption()
-									.offset(y: SizeConstants.teaCaptionOffset)
-							}
-						}
 				} else {
 					NoContentView(
 						isEncrypted: false,
@@ -56,6 +49,13 @@ struct MessageVideoView: View {
 			}
 		}
 		.ignoresSafeArea()
+		.overlay(isShown: model.isShowingCaption) {
+			if let caption = model.message.body?.caption {
+				Text(caption)
+					.styleForCaption()
+					.offset(y: SizeConstants.teaCaptionOffset)
+			}
+		}
 		.task {
 			if url == nil {
 				loadVideo()
