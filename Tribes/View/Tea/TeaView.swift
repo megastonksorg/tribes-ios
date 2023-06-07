@@ -68,7 +68,6 @@ struct TeaView: View {
 				self.currentPlaybackProgress = 0
 			}
 		}
-		.ignoresSafeArea()
 		.overlay(alignment: .top) {
 			Color.black.opacity(0.4)
 				.blur(radius: 40)
