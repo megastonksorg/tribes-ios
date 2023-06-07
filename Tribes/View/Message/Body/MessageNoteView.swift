@@ -34,7 +34,6 @@ struct MessageNoteView: View {
 				}
 			}
 		}
-		.ignoresSafeArea()
 		.task {
 			if model.message.isEncrypted {
 				decryptOrLoadMessageContent()
