@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
 	let content: Message.Body.Content
+	let caption: String?
 	let isMuted: Bool
 	let isPlaying: Bool
 	
@@ -46,7 +47,7 @@ struct ContentView: View {
 						self.playbackProgress = $0
 					}
 			case .note(let url):
-				NoteContentView(url: url, content: "HEY")
+				NoteContentView(url: url, content: caption ?? "")
 			case .systemEvent(let eventString):
 				Text(eventString)
 			}
@@ -67,6 +68,7 @@ struct ContentView_Previews: PreviewProvider {
 	static var previews: some View {
 		ContentView(
 			content: .video(URL(string: "https://kingsleyokeke.blob.core.windows.net/videos/Untitled.mp4")!),
+			caption: "Hey there",
 			isMuted: false,
 			isPlaying: false
 		)
