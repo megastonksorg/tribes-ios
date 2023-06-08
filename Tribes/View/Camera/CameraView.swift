@@ -154,17 +154,17 @@ struct CameraView: View {
 			}
 			.overlay(alignment: .top) {
 				HStack {
-					Button(action: { viewModel.toggleFlash() }) {
-						Image(systemName: viewModel.isFlashOn ? "bolt.circle.fill" : "bolt.slash.circle")
-					}
-					.opacity(viewModel.isRecordingVideo ? 0.0 : 1.0)
-					
-					Spacer()
-					
 					Button(action: { viewModel.close() }) {
 						Image(systemName: "x.circle.fill")
 							.foregroundColor(Color.white)
 					}
+					
+					Spacer()
+					
+					Button(action: { viewModel.toggleFlash() }) {
+						Image(systemName: viewModel.isFlashOn ? "bolt.circle.fill" : "bolt.slash.circle")
+					}
+					.opacity(viewModel.isRecordingVideo ? 0.0 : 1.0)
 				}
 				.font(.system(size: SizeConstants.navigationButtonSize))
 				.foregroundColor(.white)
