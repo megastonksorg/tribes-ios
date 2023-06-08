@@ -78,6 +78,8 @@ struct DraftView: View {
 						Image(systemName: "x.circle.fill")
 							.font(.system(size: SizeConstants.navigationButtonSize))
 							.foregroundColor(Color.white)
+							.dropShadow()
+							.dropShadow()
 					}
 				)
 		}
