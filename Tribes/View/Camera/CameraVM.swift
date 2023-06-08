@@ -99,7 +99,10 @@ extension CameraView {
 			$selectedImage
 				.receive(on: DispatchQueue.main)
 				.sink(receiveValue: { [weak self] selectedImage in
-					self?.capturedImage = selectedImage?.resize(to: SizeConstants.imagePixelSize)
+					self?.capturedImage = selectedImage?
+						.scaled(toFit: SizeConstants.imagePixelSize)
+						.fillBackground(targetSize: SizeConstants.imagePixelSize, color: selectedImage?.averageColor ?? UIColor.lightGray)
+						.resizedTo(megaBytes: SizeConstants.imageMaxSizeInMb)
 				})
 				.store(in: &cancellables)
 		}
