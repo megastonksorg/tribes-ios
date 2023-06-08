@@ -35,12 +35,8 @@ extension NoteComposeView {
 		}
 		
 		func setBackgroundStyle(style: NoteBackgroundView.Style) {
-			if style == self.backgroundStyle {
-				self.focusField = nil
-			} else {
-				withAnimation(.easeInOut) {
-					self.backgroundStyle = style
-				}
+			withAnimation(.easeInOut) {
+				self.backgroundStyle = style
 			}
 		}
 	}

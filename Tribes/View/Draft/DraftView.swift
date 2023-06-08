@@ -67,7 +67,7 @@ struct DraftView: View {
 				NoteComposeView(viewModel: viewModel.noteComposeVM)
 			}
 		}
-		.overlay(alignment: .topTrailing) {
+		.overlay(alignment: .topLeading) {
 			Color.gray.opacity(0.01)
 				.frame(dimension: 70)
 				.onTapGesture {

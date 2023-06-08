@@ -155,10 +155,9 @@ struct AccountView: View {
 							.font(Font.app.title2)
 					}
 				} else {
-					Button(action: { viewModel.toggleSettings() }) {
-						Image(systemName: "gearshape.fill")
+					XButton {
+						dismiss()
 					}
-					.font(Font.app.title)
 				}
 				Spacer()
 				if isShowingSettings {
@@ -170,9 +169,10 @@ struct AccountView: View {
 					.disabled(!viewModel.isUpdateButtonEnabled)
 					.opacity(viewModel.isUpdateButtonEnabled ? 1.0 : 0.5)
 				} else {
-					XButton {
-						dismiss()
+					Button(action: { viewModel.toggleSettings() }) {
+						Image(systemName: "gearshape.fill")
 					}
+					.font(Font.app.title)
 				}
 			}
 			.frame(height: SizeConstants.navigationButtonSize)
