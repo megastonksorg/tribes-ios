@@ -76,11 +76,6 @@ struct NoteComposeView: View {
 							.overlay(isShown: style == viewModel.backgroundStyle) {
 								Circle()
 									.stroke(Color.white, lineWidth: 3)
-									.overlay(isShown: viewModel.isTextValid) {
-										Image(systemName: "arrow.forward")
-											.font(.system(size: 30, weight: .bold))
-											.foregroundColor(Color.white)
-									}
 							}
 					}
 					.buttonStyle(.insideScaling)
