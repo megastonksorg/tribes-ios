@@ -34,7 +34,12 @@ struct ImagePicker: UIViewControllerRepresentable {
 		}
 		
 		func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-			guard let provider = results.first?.itemProvider else { return }
+			guard let provider = results.first?.itemProvider else {
+				DispatchQueue.main.async {
+					picker.dismiss(animated: true)
+				}
+				return
+			}
 			if(provider.hasItemConformingToTypeIdentifier(UTType.image.identifier)) {
 				provider.loadInPlaceFileRepresentation(forTypeIdentifier: UTType.image.identifier) { url, _, error in
 					do {
@@ -52,9 +57,16 @@ struct ImagePicker: UIViewControllerRepresentable {
 					}
 				}
 			}
-			DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+			
+			#if targetEnvironment(simulator)
+			DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
 				picker.dismiss(animated: true)
 			}
+			#else
+			DispatchQueue.main.async {
+				picker.dismiss(animated: true)
+			}
+			#endif
 		}
 	}
 }
