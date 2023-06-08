@@ -70,7 +70,14 @@ struct CameraView: View {
 								}
 							}
 					},
-					leading: { EmptyView() },
+					leading: {
+						Button(action: { viewModel.setSheet(.imagePicker) }) {
+							Image(systemName: "photo.circle.fill")
+								.font(.system(size: 40))
+								.foregroundStyle(LinearGradient.camera)
+						}
+						.buttonStyle(.insideScaling)
+					},
 					trailing: {
 						Button(action: { viewModel.openNoteCompose() }) {
 							Image(systemName: "square.and.pencil.circle.fill")
@@ -157,12 +164,16 @@ struct CameraView: View {
 					Button(action: { viewModel.close() }) {
 						Image(systemName: "x.circle.fill")
 							.foregroundColor(Color.white)
+							.dropShadow()
+							.dropShadow()
 					}
 					
 					Spacer()
 					
 					Button(action: { viewModel.toggleFlash() }) {
 						Image(systemName: viewModel.isFlashOn ? "bolt.circle.fill" : "bolt.slash.circle")
+							.dropShadow()
+							.dropShadow()
 					}
 					.opacity(viewModel.isRecordingVideo ? 0.0 : 1.0)
 				}
@@ -170,6 +181,19 @@ struct CameraView: View {
 				.foregroundColor(.white)
 				.padding(.horizontal, 20)
 				.padding(.top)
+			}
+			.sheet(
+				isPresented: Binding(
+					get: { viewModel.sheet != nil },
+					set: { _ in viewModel.setSheet(nil) }
+				)
+			) {
+				switch viewModel.sheet {
+				case .imagePicker:
+					ImagePicker(image: $viewModel.selectedImage)
+				case .none:
+					EmptyView()
+				}
 			}
 		}
 		.onBecomingVisible { viewModel.didAppear() }

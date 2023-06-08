@@ -33,9 +33,12 @@ struct MessageImageView: View {
 					LoadingIndicator(speed: 0.4)
 						.frame(dimension: SizeConstants.loadingIndicatorSize)
 				} else if let uiImage = self.uiImage {
-					Image(uiImage: uiImage)
-						.resizable()
-						.scaledToFill()
+					Color.clear
+						.background(
+							Image(uiImage: uiImage)
+								.resizable()
+								.aspectRatio(contentMode: .fill)
+						)
 				} else {
 					NoContentView(
 						isEncrypted: false,

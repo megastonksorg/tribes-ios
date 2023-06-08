@@ -11,6 +11,10 @@ import SwiftUI
 
 extension CameraView {
 	@MainActor class ViewModel: ObservableObject {
+		enum Sheet: Equatable {
+			case imagePicker
+		}
+		
 		private (set) var captureClient: CaptureClient = CaptureClient()
 		
 		@Published var audioPermissionState: PermissionState
@@ -18,6 +22,8 @@ extension CameraView {
 		@Published var capturedImage: UIImage?
 		@Published var capturedVideo: URL?
 		@Published var previewImage: UIImage?
+		@Published var selectedImage: UIImage?
+		@Published var sheet: Sheet?
 		
 		var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 		
@@ -87,6 +93,16 @@ extension CameraView {
 					case .video(let url):
 						self?.capturedVideo = url
 					}
+				})
+				.store(in: &cancellables)
+			
+			$selectedImage
+				.receive(on: DispatchQueue.main)
+				.sink(receiveValue: { [weak self] selectedImage in
+					self?.capturedImage = selectedImage?
+						.scaled(toFit: SizeConstants.imagePixelSize)
+						.fillBackground(targetSize: SizeConstants.imagePixelSize, color: selectedImage?.averageColor ?? UIColor.lightGray)
+						.resizedTo(megaBytes: SizeConstants.imageMaxSizeInMb)
 				})
 				.store(in: &cancellables)
 		}
@@ -197,6 +213,10 @@ extension CameraView {
 		func openNoteCompose() {
 			self.feedbackClient.medium()
 			NotificationCenter.default.post(Notification(name: .openNoteCompose))
+		}
+		
+		func setSheet(_ sheet: Sheet?) {
+			self.sheet = sheet
 		}
 		
 		@objc func stopVideoRecordingAndInvalidateTimer() {

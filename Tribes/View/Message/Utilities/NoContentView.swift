@@ -13,6 +13,7 @@ struct NoContentView: View {
 	var body: some View {
 		RoundedRectangle(cornerRadius: SizeConstants.imageCornerRadius)
 			.fill(Color.black.opacity(0.4))
+			.ignoresSafeArea()
 			.overlay {
 				VStack {
 					Group {

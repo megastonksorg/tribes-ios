@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ImagePicker: UIViewControllerRepresentable {
 	@Binding var image: UIImage?
-
+	
 	func makeUIViewController(context: Context) -> PHPickerViewController {
 		var config = PHPickerConfiguration()
 		config.filter = .any(of: [.images, .livePhotos])
@@ -17,27 +17,29 @@ struct ImagePicker: UIViewControllerRepresentable {
 		picker.delegate = context.coordinator
 		return picker
 	}
-
+	
 	func updateUIViewController(_ uiViewController: PHPickerViewController, context: Context) {
-
+		
 	}
-
+	
 	func makeCoordinator() -> Coordinator {
 		Coordinator(self)
 	}
-
+	
 	class Coordinator: NSObject, PHPickerViewControllerDelegate {
 		let parent: ImagePicker
-
+		
 		init(_ parent: ImagePicker) {
 			self.parent = parent
 		}
-
+		
 		func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-			picker.dismiss(animated: true)
-			
-			guard let provider = results.first?.itemProvider else { return }
-
+			guard let provider = results.first?.itemProvider else {
+				DispatchQueue.main.async {
+					picker.dismiss(animated: true)
+				}
+				return
+			}
 			if(provider.hasItemConformingToTypeIdentifier(UTType.image.identifier)) {
 				provider.loadInPlaceFileRepresentation(forTypeIdentifier: UTType.image.identifier) { url, _, error in
 					do {
@@ -55,6 +57,16 @@ struct ImagePicker: UIViewControllerRepresentable {
 					}
 				}
 			}
+			
+			#if targetEnvironment(simulator)
+			DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+				picker.dismiss(animated: true)
+			}
+			#else
+			DispatchQueue.main.async {
+				picker.dismiss(animated: true)
+			}
+			#endif
 		}
 	}
 }
