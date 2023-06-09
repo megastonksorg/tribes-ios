@@ -71,12 +71,7 @@ struct CameraView: View {
 							}
 					},
 					leading: {
-						Button(action: { viewModel.setSheet(.imagePicker) }) {
-							Image(systemName: "photo.circle.fill")
-								.font(.system(size: 40))
-								.foregroundStyle(LinearGradient.camera)
-						}
-						.buttonStyle(.insideScaling)
+						EmptyView()
 					},
 					trailing: {
 						Button(action: { viewModel.openNoteCompose() }) {
