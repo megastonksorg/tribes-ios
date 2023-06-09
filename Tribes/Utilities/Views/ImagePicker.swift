@@ -58,15 +58,9 @@ struct ImagePicker: UIViewControllerRepresentable {
 				}
 			}
 			
-			#if targetEnvironment(simulator)
 			DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
 				picker.dismiss(animated: true)
 			}
-			#else
-			DispatchQueue.main.async {
-				picker.dismiss(animated: true)
-			}
-			#endif
 		}
 	}
 }
